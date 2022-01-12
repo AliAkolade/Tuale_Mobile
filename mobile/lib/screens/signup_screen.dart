@@ -876,7 +876,8 @@ class _InputPhoneState extends State<InputPhone> {
           accountSid:
               'AC9dc1570f1a5dc00f7a27e6008525c246', // replace with Account SID
           authToken:
-              'fe1ee4af12207ee9830ef0d46a9cb106', // replace with Auth Token
+              'XXXXXX', // replace with Auth Token Below
+          // 461d6ff2a79360c583c3cb7628b76620
           serviceSid:
               'VAb1899cf594ab102723a39403110cd491' // replace with Service SID
           );
