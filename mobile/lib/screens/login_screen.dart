@@ -163,7 +163,12 @@ class _LoginState extends State<Login> {
                             )
                           : ElevatedButton(
                               onPressed: () {
-                                login();
+                                //DISABLED FOR NOW
+                              //  login();
+                                 Navigator.push(
+          context,
+          PageTransition(
+              type: PageTransitionType.topToBottom, child: NavBar(index: 0)));
                               },
                               style: ElevatedButton.styleFrom(
                                   elevation: 0,
