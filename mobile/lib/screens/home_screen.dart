@@ -12,52 +12,60 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    // ignore: prefer_const_constructors
     return MaterialApp(
-
-      home: DefaultTabController(length: 
-      2, child:  Scaffold(
-        appBar: AppBar(
-       
-          actions:  const [
-             Icon(Icons.ac_unit, color: Colors.black) 
-          ],
-          backgroundColor: Colors.white,
-          elevation: 0,
-          bottom:  TabBar(
-            unselectedLabelColor: tualeBlueDark,
-            indicatorColor: tualeOrange,
-            indicatorWeight: 1.1,
-            labelColor: tualeOrange,
-            labelStyle: const TextStyle(
-            
-                         
-               fontFamily: 'Poppins',
-                fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              height: 1
-            ),
-            tabs: [
-            Tab(child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:const [
-              Text("Vibing",),
-              Icon(TualeIcons.vibing,
-              size: 15,
-              )
-            ],),),
-            Tab(text: "Curated",),
-            ],),
-        ) ,
-        body:  TabBarView(children: [
-            Vibing(),
-           const Icon(Icons.ac_unit)
-
-
-        ],)
-      ),),
-    );
+        debugShowCheckedModeBanner: false,
+        home: DefaultTabController(
+            length: 2,
+            child: Scaffold(
+                appBar: PreferredSize(
+                    preferredSize: const Size(double.infinity, kToolbarHeight),
+                    child: SafeArea(
+                        child: Column(children: [
+                      Padding(
+                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          child: Row(mainAxisSize: MainAxisSize.min, children: [
+                            InkWell(
+                                child: const Icon(Icons.refresh_rounded,
+                                    color: tualeBlueDark),
+                                onTap: () {}),
+                            const SizedBox(width: 10),
+                            Expanded(
+                                child: TabBar(
+                                    unselectedLabelColor: tualeBlueDark,
+                                    indicatorColor: tualeOrange,
+                                    indicatorWeight: 1.1,
+                                    labelColor: tualeOrange,
+                                    labelStyle: const TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        height: 1),
+                                    tabs: [
+                                  Tab(
+                                      child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: const [
+                                        Text("Vibing"),
+                                        Icon(TualeIcons.vibing, size: 15)
+                                      ])),
+                                  const Tab(text: "Curated")
+                                ])),
+                            const SizedBox(width: 10),
+                            InkWell(
+                                child: const Icon(TualeIcons.notificationbell,
+                                    color: tualeBlueDark),
+                                onTap: () {})
+                          ])),
+                      Container(
+                          height: 0.5,
+                          width: double.infinity,
+                          color: Colors.grey.shade400)
+                    ]))),
+                body: TabBarView(
+                  children: [Vibing(), const Icon(Icons.ac_unit)],
+                ))));
   }
 }
-
