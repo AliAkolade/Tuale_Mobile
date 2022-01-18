@@ -1,15 +1,23 @@
 // To parse this JSON data, do
 //
-//     final userPosts = userPostsFromJson(jsonString);
-
+//     final feed = feedFromJson(jsonString);
+import 'dart:convert';
+import 'dart:io';
+import 'dart:async';
+import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
+import "package:flutter/material.dart";
+import 'package:mobile/utils/userposts.dart';
+import 'dart:convert';
+import 'package:mobile/screens/getpost.dart';
 import 'dart:convert';
 
-UserPosts userPostsFromJson(String str) => UserPosts.fromJson(json.decode(str));
+Feed feedFromJson(String str) => Feed.fromJson(json.decode(str));
 
-String userPostsToJson(UserPosts data) => json.encode(data.toJson());
+String feedToJson(Feed data) => json.encode(data.toJson());
 
-class UserPosts {
-    UserPosts({
+class Feed {
+    Feed({
         this.success,
         this.posts,
     });
@@ -17,7 +25,7 @@ class UserPosts {
     bool? success;
     List<Post>? posts;
 
-    factory UserPosts.fromJson(Map<String, dynamic> json) => UserPosts(
+    factory Feed.fromJson(Map<String, dynamic> json) => Feed(
         success: json["success"],
         posts: List<Post>.from(json["posts"].map((x) => Post.fromJson(x))),
     );
