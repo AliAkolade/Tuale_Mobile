@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile/utils/constants.dart';
+import 'package:mobile/utils/tuale_icons.dart';
 
 class Leaderboard extends StatefulWidget {
   const Leaderboard({Key? key}) : super(key: key);
   @override
   State<Leaderboard> createState() => _LeaderboardState();
 }
-
+bool vibe = false;
 class _LeaderboardState extends State<Leaderboard> {
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class _LeaderboardState extends State<Leaderboard> {
       backgroundColor: Colors.white54,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 0,
+        elevation: 1,
         centerTitle: true,
         title: RichText(text: const TextSpan(
           text: "Tua",
@@ -48,7 +50,7 @@ class _LeaderboardState extends State<Leaderboard> {
                                 children: const [
                                 Spacer(flex: 2,),
                                 Text("User", style: TextStyle(
-
+      
               color: tualeBlueDark,  
                fontFamily: 'Poppins',
                 fontSize: 18,
@@ -58,7 +60,7 @@ class _LeaderboardState extends State<Leaderboard> {
             Spacer(flex: 3,),
                                 Text("Tuales Given", 
                                 style: TextStyle(
-
+      
               color: tualeBlueDark,  
                fontFamily: 'Poppins',
                 fontSize: 18,
@@ -70,7 +72,7 @@ class _LeaderboardState extends State<Leaderboard> {
                               ],),
                               Expanded(child: 
                               ListView.builder(
-                                itemCount: 4,
+                                itemCount: 8,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Container(
                                     child: Row(
@@ -78,27 +80,85 @@ class _LeaderboardState extends State<Leaderboard> {
                                       children:  [
                                  SizedBox(width: 15,),
                                     const  Text("1.", style: TextStyle(
-
+      
+              color: tualeBlueDark,  
+               fontFamily: 'Poppins',
+                fontSize: 17,
+                             
+                              height: 1
+            ),),
+           const Spacer(flex: 1,),
+           const Icon(TualeIcons.usericon, color: Colors.grey, size: 40,),
+           SizedBox(width: 5,),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:  [
+             const  Text("Enoke Lade", 
+              style: TextStyle(
+      
               color: tualeBlueDark,  
                fontFamily: 'Poppins',
                 fontSize: 15,
                              
-                              height: 1
-            ),),
-            Spacer(flex: 1,),
-           const Icon(Icons.account_circle, size: 30,),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-              Text("Enoke Lade"),
-              Text("@Streamy Girl")
+                             
+            ),
+              ),
+              Text("@Streamygirl_",
+              style: TextStyle(
+      
+              color: tualeBlueDark.withOpacity(0.5),  
+               fontFamily: 'Poppins',
+                fontSize: 12,
+                height: 1,
+                             
+                          
+            ),
+              )
             ],),
-            Spacer(flex: 6,),
-           const Text('1151'),
-           Spacer(flex: 2,),
-           Icon(Icons.account_box_outlined),
-           Spacer(flex: 2,)
-
+          const  Spacer(flex: 6,),
+           const Text('1151',
+           style: TextStyle(
+      
+              color: tualeBlueDark,  
+               fontFamily: 'Poppins',
+                fontSize: 18,
+                             
+                             
+            ),
+           ),
+           const Spacer(flex: 2,),
+             AnimatedCrossFade(
+                 duration: const Duration(milliseconds:100),
+                  crossFadeState: vibe ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                 secondChild: GestureDetector(
+                   onTap: () {
+                    
+                     setState(() {
+                     vibe = false;
+                    
+                     });
+                   },
+                   child:   Container(
+                  height: 30,
+                  width: 30,
+                  child: SvgPicture.asset("assets/icon/vibingUser.svg")),
+                 ) ,
+                 firstChild:  GestureDetector(
+                   onTap: (){
+                     setState(() {
+                       vibe = true;
+                     
+                     });
+                   },
+                   child:  Container(
+                  height: 30,
+                  width: 30,
+                  child: SvgPicture.asset("assets/icon/vibe.svg"))
+                 ) ,),
+               
+             
+          const  Spacer(flex: 2,)
+      
               
                                     ],),
                                     height: 80,
@@ -118,13 +178,13 @@ class _LeaderboardState extends State<Leaderboard> {
                               ),
                               
                               )
-
-
-
-        ],
-
       
-
+      
+      
+        ],
+      
+      
+      
       ),
     );
   }
