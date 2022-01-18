@@ -5,6 +5,7 @@ import 'package:mobile/screens/home_screen.dart';
 import 'package:mobile/screens/leaderboard_screen.dart';
 import 'package:mobile/screens/post_screen.dart';
 import 'package:mobile/screens/profile_screen.dart';
+import 'package:mobile/screens/vibe_screen_zoom.dart';
 import 'package:mobile/utils/constants.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -19,7 +20,7 @@ class _NavBarState extends State<NavBar> {
   late PersistentTabController _controller;
 
   List<Widget> _buildScreens() {
-    return const [Home(), Discover(), Post(), Leaderboard(), Profile()];
+    return  [Home(), Discover(), Post(), Leaderboard(), Profile()];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
