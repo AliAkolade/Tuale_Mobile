@@ -33,7 +33,8 @@ class _WelcomeState extends State<Welcome> {
                               fontFamily: 'Poppins',
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              height: 1)),
+                              height: 1)
+                              ),
                       const SizedBox(height: 10),
                       const Text(
                           'Welcome to Tuale,\n the fairest creator app in the world.',

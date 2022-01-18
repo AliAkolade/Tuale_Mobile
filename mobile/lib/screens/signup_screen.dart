@@ -875,7 +875,8 @@ class _InputPhoneState extends State<InputPhone> {
       _twilioPhoneVerify = TwilioPhoneVerify(
           accountSid:
               'AC9dc1570f1a5dc00f7a27e6008525c246', // replace with Account SID
-          authToken: 'XXXXXX', // replace with Auth Token Below
+          authToken:
+              'XXXXXX', // replace with Auth Token Below
           // 461d6ff2a79360c583c3cb7628b76620
           serviceSid:
               'VAb1899cf594ab102723a39403110cd491' // replace with Service SID
