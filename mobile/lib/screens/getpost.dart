@@ -22,7 +22,7 @@ var response = await dio.get("https://tuale-mobile-api.herokuapp.com/api/v1/post
     if (response.statusCode == 200) {
 
 
-  final Feed userpost = feedFromJson(response.data.toString());
+  final Feed userpost = feedFromJson(response.data);
     // ignore: avoid_print
     print (userpost.posts);
    // return userpost;   

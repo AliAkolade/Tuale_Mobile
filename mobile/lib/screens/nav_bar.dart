@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile/screens/discover_screen.dart';
+import 'package:mobile/screens/discover_screen_focus.dart';
 import 'package:mobile/screens/home_screen.dart';
 import 'package:mobile/screens/leaderboard_screen.dart';
 import 'package:mobile/screens/post_screen.dart';
