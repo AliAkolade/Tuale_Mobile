@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:mobile/screens/discover_screen_focus.dart';
 import 'package:page_transition/page_transition.dart';
 
-class starredPosts extends StatefulWidget {
-  const starredPosts({ Key? key }) : super(key: key);
+class tualedPosts extends StatefulWidget {
+  const tualedPosts({ Key? key }) : super(key: key);
 
   @override
-  _starredPostsState createState() => _starredPostsState();
+  _tualedPostsState createState() => _tualedPostsState();
 }
 
-class _starredPostsState extends State<starredPosts> {
+class _tualedPostsState extends State<tualedPosts> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return  Container(
       child: GridView.builder(
         itemCount: 9,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
