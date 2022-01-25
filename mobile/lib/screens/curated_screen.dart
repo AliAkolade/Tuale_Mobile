@@ -38,10 +38,12 @@ class _CuratedState extends State<Curated> {
       isLoading = true;
     });
 
+    // Get Token
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
 
+    // Get Posts
     Dio dio = Dio();
     dio.options.headers["Authorization"] = token;
     Response response =
@@ -62,8 +64,6 @@ class _CuratedState extends State<Curated> {
               noComment: postsResponses[i]['comments'].toList().length,
               username: postsResponses[i]['user']['username']));
         });
-        debugPrint('User AVI');
-        debugPrint(postsResponses[i]['user']['avatar']['url']);
       }
     }
 
@@ -464,6 +464,7 @@ more(context) {
   );
 }
 
+// Class for a Post
 class PostDetails {
   final String username;
   final String userProfilePic;
