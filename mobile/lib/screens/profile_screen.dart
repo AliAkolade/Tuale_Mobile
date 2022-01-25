@@ -20,13 +20,17 @@ class _ProfileState extends State<Profile> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+          
             bottom: PreferredSize(
-              preferredSize: Size(double.infinity, 315),
+              preferredSize: Size(double.infinity, 385),
               child: Container(
-                height: 315,
+                height: 385,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Spacer(),
+                    Spacer(
+                      flex: 3,
+                    ),
                     const SizedBox(
                       height: 90,
                       width: 90,
@@ -35,17 +39,21 @@ class _ProfileState extends State<Profile> {
                             AssetImage('assets/images/demo_profile.png'),
                       ),
                     ),
-                    Spacer(),
+                    Spacer(
+                      flex: 2,
+                    ),
                     const Text(
                       "@siphie_zo",
                       style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Poppins',
-                          fontSize: 15,
+                          fontSize: 13,
                           // fontWeight: FontWeight.bold,
                           height: 1),
                     ),
-                    Spacer(),
+                    Spacer(
+                      flex: 2,
+                    ),
                     const Text(
                       "Nairobi, Kenya",
                       style: TextStyle(
@@ -55,13 +63,13 @@ class _ProfileState extends State<Profile> {
                           height: 1),
                     ),
                     Spacer(
-                      flex: 2,
+                      flex: 4,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Spacer(
-                          flex: 3,
+                          flex: 4,
                         ),
                         Column(
                           children: const [
@@ -91,7 +99,7 @@ class _ProfileState extends State<Profile> {
                           child: VerticalDivider(
                             width: 10,
                             thickness: 1,
-                            color: Colors.grey.withOpacity(0.8),
+                            color: Colors.grey.withOpacity(0.2),
                           ),
                         ),
                         Spacer(),
@@ -123,7 +131,7 @@ class _ProfileState extends State<Profile> {
                           child: VerticalDivider(
                             width: 10,
                             thickness: 1,
-                            color: Colors.grey.withOpacity(0.5),
+                            color: Colors.grey.withOpacity(0.2),
                           ),
                         ),
                         Spacer(),
@@ -156,9 +164,16 @@ class _ProfileState extends State<Profile> {
                     const Spacer(
                       flex: 2,
                     ),
-                    const Text("Dark Skinned and I love it"),
+                    const Text(
+                      "Dark Skinned and I love it",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Poppins',
+                          fontSize: 15,
+                          height: 1),
+                    ),
                     const Spacer(
-                      flex: 3,
+                      flex: 4,
                     ),
                     ElevatedButton(
                         onPressed: () {
@@ -174,8 +189,8 @@ class _ProfileState extends State<Profile> {
                                     child: SingleChildScrollView(
                                       child: Column(
                                         children: [
-                                         TopBar(),
-                                         const ProfilePic(),
+                                          TopBar(),
+                                          const ProfilePic(),
                                           BioField(
                                             infoString: "Full Name",
                                             fieldHeight: 50,
@@ -196,9 +211,9 @@ class _ProfileState extends State<Profile> {
                                             infoString: "Bio",
                                             fieldHeight: 100,
                                           ),
-                                         const ChangePassBtn(),
-                                         const SaveBioBtn(),
-                                        const  SizedBox(height: 10)
+                                          const ChangePassBtn(),
+                                          const SaveBioBtn(),
+                                          const SizedBox(height: 10)
                                         ],
                                       ),
                                     )),
@@ -207,7 +222,7 @@ class _ProfileState extends State<Profile> {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(120, 50),
+                            minimumSize: const Size(145, 50),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10))),
                         child: const Text('Edit Profile',
@@ -218,9 +233,12 @@ class _ProfileState extends State<Profile> {
                                 fontSize: 15.5,
                                 fontWeight: FontWeight.bold,
                                 height: 1))),
+                    Spacer(
+                      flex: 3,
+                    ),
                     const TabBar(
                         unselectedLabelColor: Colors.grey,
-                        indicatorColor: tualeBlueDark,
+                        indicatorColor: Colors.transparent,
                         indicatorWeight: 1.1,
                         labelColor: tualeBlueDark,
                         labelStyle: TextStyle(
@@ -230,10 +248,23 @@ class _ProfileState extends State<Profile> {
                             height: 1),
                         tabs: [
                           Tab(
-                            icon: Icon(Icons.view_list_outlined),
+                            icon: Icon(
+                              Icons.view_list_outlined,
+                              size: 30,
+                            ),
                           ),
-                          Tab(icon: Icon(TualeIcons.star)),
+                          Tab(
+                              icon: Icon(
+                            TualeIcons.star,
+                            size: 32,
+                          )),
                         ]),
+                       SizedBox(
+                         height: 5,
+                         width: double.infinity,
+                         child: Divider(height: 1,
+                         color: Colors.grey.withOpacity(0.4),
+                         ),)
                   ],
                 ),
               ),
@@ -282,17 +313,13 @@ class SaveBioBtn extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {},
       style: ElevatedButton.styleFrom(
-          minimumSize:
-              const Size(130, 45),
-          shape: RoundedRectangleBorder(
-              borderRadius:
-                  BorderRadius.circular(
-                      10))),
+          minimumSize: const Size(130, 45),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
       child: const Text('Save',
           textAlign: TextAlign.center,
           style: TextStyle(
-              color: Color.fromRGBO(
-                  255, 255, 255, 1),
+              color: Color.fromRGBO(255, 255, 255, 1),
               fontFamily: 'Poppins',
               fontSize: 17,
               fontWeight: FontWeight.bold,
@@ -310,42 +337,50 @@ class ChangePassBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
         onPressed: () {
-          showDialog(context: context, builder: 
-          (BuildContext context) {
-            return Dialog(
-                 insetPadding:
-                                    const EdgeInsets.only(left: 30, right: 30),
-              child: Container(
-               // width: 200,
-                height: 400,
-                child: Column(children:  [
-                  TopBar(),
-                  BioField(infoString: "Current Password", fieldHeight: 50,),
-                     BioField(infoString: "New Password", fieldHeight: 50,),
-                        BioField(infoString: "Confirm Password", fieldHeight: 50,),
-                        SizedBox(height: 20,),
-                        SaveBioBtn()
-                ]),
-              ),
-            );
-          }
-          );
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Dialog(
+                  insetPadding: const EdgeInsets.only(left: 30, right: 30),
+                  child: Container(
+                    // width: 200,
+                    height: 400,
+                    child: Column(children: [
+                      TopBar(),
+                      BioField(
+                        infoString: "Current Password",
+                        fieldHeight: 50,
+                      ),
+                      BioField(
+                        infoString: "New Password",
+                        fieldHeight: 50,
+                      ),
+                      BioField(
+                        infoString: "Confirm Password",
+                        fieldHeight: 50,
+                      ),
+                     const SizedBox(
+                        height: 20,
+                      ),
+                      SaveBioBtn()
+                    ]),
+                  ),
+                );
+              });
         },
-        child: const Text(
-            "Change Password",
+        child: const Text("Change Password",
             style: TextStyle(
                 color: tualeBlueDark,
                 fontFamily: 'Poppins',
                 fontSize: 15.5,
-                fontWeight:
-                    FontWeight.bold,
+                fontWeight: FontWeight.bold,
                 height: 1)));
   }
 }
 
 class TopBar extends StatelessWidget {
- String? barText;
- TopBar({this.barText});
+  String? barText;
+  TopBar({this.barText});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -353,15 +388,16 @@ class TopBar extends StatelessWidget {
         top: 10,
         bottom: 15,
       ),
-      child: Row(mainAxisAlignment: MainAxisAlignment.center, children:  [
-      const  SizedBox(
+      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        const SizedBox(
           width: 20,
         ),
-       const Icon(Icons.arrow_back_rounded),
-      const  Spacer(
+        const Icon(Icons.arrow_back_rounded),
+        const Spacer(
           flex: 2,
         ),
-       Text(barText!   ,
+        Text(
+          barText!,
           style: const TextStyle(
               color: tualeBlueDark,
               fontFamily: 'Poppins',
@@ -369,7 +405,7 @@ class TopBar extends StatelessWidget {
               // fontWeight: FontWeight.bold,
               height: 1),
         ),
-       const Spacer(
+        const Spacer(
           flex: 3,
         ),
       ]),
