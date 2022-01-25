@@ -39,7 +39,9 @@ class _NavBarState extends State<NavBar> {
           activeColorPrimary: tualeOrange,
           inactiveColorPrimary: tualeBlueDark),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.add_circle),
+        icon: const Icon(Icons.add_circle,
+        size: 30,
+        ),
         title: ("Post"),
         activeColorPrimary: tualeOrange,
         inactiveColorPrimary: tualeBlueDark,
@@ -71,9 +73,11 @@ class _NavBarState extends State<NavBar> {
   Widget build(BuildContext context) {
     return PersistentTabView(
       context,
+    
       controller: _controller,
       screens: _buildScreens(),
       items: _navBarsItems(),
+  
       confineInSafeArea: true,
       backgroundColor: Colors.white, // Default is Colors.white.
       handleAndroidBackButtonPress: true, // Default is true.
@@ -100,7 +104,7 @@ class _NavBarState extends State<NavBar> {
         duration: Duration(milliseconds: 200),
       ),
       navBarStyle:
-          NavBarStyle.style6, // Choose the nav bar style with this property.
+          NavBarStyle.simple, // Choose the nav bar style with this property.
     );
   }
 }

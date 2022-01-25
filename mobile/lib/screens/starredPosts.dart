@@ -13,6 +13,7 @@ class _starredPostsState extends State<starredPosts> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(left: 10, right: 10, top: 10, ),
       child: GridView.builder(
         itemCount: 9,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -33,7 +34,7 @@ class _starredPostsState extends State<starredPosts> {
               height:100,
               width: 100,
                 decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(8),
                       gradient: const LinearGradient(
                         begin: AlignmentDirectional(0.5, 0.5),
                         end: AlignmentDirectional(0.5, 1.9),
@@ -42,11 +43,11 @@ class _starredPostsState extends State<starredPosts> {
               
             ),
             decoration:  BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(8),
               image: const DecorationImage(
                   fit: BoxFit.cover,
                 image: AssetImage("assets/images/Demo_Image.jpg"))),
-            margin: EdgeInsets.all(12),
+            margin: EdgeInsets.all(2),
           
             height: 100,
             width: 100,
