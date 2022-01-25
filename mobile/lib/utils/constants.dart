@@ -41,3 +41,5 @@ const String hostAPI = 'https://tuale-mobile-api.herokuapp.com/api/v1/';
 const String verifyUsernameAPI = 'verify/';
 const String registerUserAPI = 'register';
 const String loginUserAPI = 'login';
+const String getVibingPosts = 'posts/vibing?pageNumber=';
+const String getAllPosts = 'posts?pageNumber=';

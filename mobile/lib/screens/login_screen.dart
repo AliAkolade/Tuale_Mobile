@@ -9,6 +9,7 @@ import 'package:mobile/utils/constants.dart';
 import 'dart:math' as math;
 
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -41,6 +42,9 @@ class _LoginState extends State<Login> {
     var responseData = response.data;
     if (responseData['success'].toString() == 'true') {
       debugPrint('Login Successful');
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      prefs.setString('token', responseData['token'].toString());
       Navigator.push(
           context,
           PageTransition(
@@ -164,11 +168,12 @@ class _LoginState extends State<Login> {
                           : ElevatedButton(
                               onPressed: () {
                                 //DISABLED FOR NOW
-                              //  login();
-                                 Navigator.push(
-          context,
-          PageTransition(
-              type: PageTransitionType.topToBottom, child: NavBar(index: 0)));
+                                login();
+                                // Navigator.push(
+                                //     context,
+                                //     PageTransition(
+                                //         type: PageTransitionType.topToBottom,
+                                //         child: NavBar(index: 0)));
                               },
                               style: ElevatedButton.styleFrom(
                                   elevation: 0,
