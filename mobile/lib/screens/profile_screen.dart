@@ -20,15 +20,13 @@ class _ProfileState extends State<Profile> {
         length: 2,
         child: Scaffold(
           body: NestedScrollView(
-            body:   TabBarView(
-            children: [AllPosts(), starredPosts()],
-          ),
+        
             headerSliverBuilder: (context, isScrolled) {
               return [
                const SliverAppBar(
               //floating: true,
               pinned: true,
-            //  collapsedHeight: 100,
+             // collapsedHeight: 100,
               expandedHeight: 385,
              flexibleSpace: FlexibleSpaceBar(
                collapseMode: CollapseMode.none,
@@ -83,13 +81,17 @@ class _ProfileState extends State<Profile> {
                         )),
                       ]),
                 ),
-                pinned: true,
+                //pinned: true,
+                floating: true,
               ),
               
               
               ];
             
-            }
+            },
+            body:   TabBarView(
+            children: [AllPosts(), starredPosts()],
+          ),
           ),
          
         ),
@@ -108,6 +110,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get minExtent => _tabBar.preferredSize.height;
   @override
   double get maxExtent => _tabBar.preferredSize.height;
+
 
   @override
   Widget build(

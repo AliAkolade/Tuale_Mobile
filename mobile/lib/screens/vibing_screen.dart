@@ -27,13 +27,13 @@ class _VibingState extends State<Vibing> {
       itemBuilder: (BuildContext context, int index) {
         return Container(
           margin:
-              const EdgeInsets.only(bottom: 10, left: 30, right: 30, top: 40),
-          height: 480,
-          width: 200,
+              const EdgeInsets.only(bottom: 10, left: 15, right: 15, top: 40),
+          height: 560,
+          width: 400,
           decoration: BoxDecoration(
             image: const DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage("assets/images/Demo_Image.jpg")),
+                image: AssetImage("assets/images/demoPost.png")),
             color: Colors.black,
             borderRadius: BorderRadius.circular(15),
           ),
@@ -51,7 +51,7 @@ class _VibingState extends State<Vibing> {
                     //Add this CustomPaint widget to the Widget Tre                                //Add this CustomPaint widget to the Widget Tree
                     Align(
                       widthFactor: 5,
-                      alignment: Alignment(1.1, 0.5),
+                      alignment: Alignment(1.07, 0.6),
                       child: Container(
                         height: 350,
                         width: 100,
@@ -218,7 +218,7 @@ class _VibingState extends State<Vibing> {
                             child: Column(
                               children: [
                                 Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Container(
@@ -286,8 +286,8 @@ class _VibingState extends State<Vibing> {
                     )
                   ],
                 ),
-                height: 480,
-                width: 200,
+                height: 560,
+                width: 400,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     gradient: const LinearGradient(
@@ -304,6 +304,8 @@ class _VibingState extends State<Vibing> {
   }
 }
 
+
+//Custom painter for nice curvy  widget  
 //Copy this CustomPainter code to the Bottom of the File
 class RPSCustomPainter extends CustomPainter {
   @override

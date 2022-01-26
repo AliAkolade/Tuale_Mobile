@@ -18,9 +18,10 @@ class _HomeState extends State<Home> {
             length: 2,
             child: Scaffold(
                 appBar: PreferredSize(
-                    preferredSize: const Size(double.infinity, kToolbarHeight),
+                    preferredSize: const Size(double.infinity, kToolbarHeight+10),
                     child: SafeArea(
                         child: Column(children: [
+                          Spacer(flex: 5,),
                       Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
                           child: Row(mainAxisSize: MainAxisSize.min, children: [
