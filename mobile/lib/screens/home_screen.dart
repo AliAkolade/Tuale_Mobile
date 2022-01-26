@@ -1,7 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/screens/allPosts.dart';
+import 'package:mobile/screens/curated_screen.dart';
 import 'package:mobile/screens/vibing_screen.dart';
 import 'package:mobile/utils/constants.dart';
 import 'package:mobile/utils/tuale_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -9,12 +13,14 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
+
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: DefaultTabController(
+            initialIndex: 1,
             length: 2,
             child: Scaffold(
                 appBar: PreferredSize(
@@ -28,7 +34,10 @@ class _HomeState extends State<Home> {
                             InkWell(
                                 child: const Icon(Icons.refresh_rounded,
                                     color: tualeBlueDark),
-                                onTap: () {}),
+                                onTap: () {
+                                  Curated.loadPosts(context);
+                                  //Vibing.loadPosts(context);
+                                }),
                             const SizedBox(width: 10),
                             Expanded(
                                 child: TabBar(
@@ -65,8 +74,7 @@ class _HomeState extends State<Home> {
                           width: double.infinity,
                           color: Colors.grey.shade400)
                     ]))),
-                body: TabBarView(
-                  children: [Vibing(), const Icon(Icons.ac_unit)],
-                ))));
+                body: TabBarView(children: [Vibing(), Curated()]))));
   }
 }
+
