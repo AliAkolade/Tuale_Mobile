@@ -17,7 +17,7 @@ class _AllPostsState extends State<AllPosts> {
     return Container(
          margin: EdgeInsets.only(left: 10, right: 10, top: 10, ),
       child: GridView.builder(
-        itemCount: 9,
+        itemCount: 20,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         
