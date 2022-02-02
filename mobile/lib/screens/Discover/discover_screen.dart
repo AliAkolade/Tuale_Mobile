@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:mobile/screens/allScreen.dart';
-import 'package:mobile/screens/photosScreen.dart';
-import 'package:mobile/screens/textScreen.dart';
-import 'package:mobile/screens/videoScreen.dart';
-import 'package:mobile/utils/constants.dart';
-import 'package:mobile/utils/tuale_icons.dart';
+
+
+import 'package:mobile/screens/imports.dart';
+
 
 class Discover extends StatefulWidget {
   const Discover({Key? key}) : super(key: key);

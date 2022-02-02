@@ -1,19 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:mobile/screens/allPosts.dart';
-import 'package:mobile/screens/signup_screen.dart';
-import 'package:mobile/screens/starredPosts.dart';
-import 'package:mobile/utils/constants.dart';
-import 'package:mobile/utils/tuale_icons.dart';
-import 'package:page_transition/page_transition.dart';
 
-class Profile extends StatefulWidget {
+
+import 'package:mobile/screens/imports.dart';
+
+class userProfile extends StatefulWidget {
   bool? isUser = false;
 
-Profile({this.isUser});
-  State<Profile> createState() => _ProfileState();
+userProfile({this.isUser});
+  State<userProfile> createState() => _ProfileState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfileState extends State<userProfile> {
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +18,13 @@ class _ProfileState extends State<Profile> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-             
-            leading: Icon(Icons.arrow_back_rounded,
-            color: Colors.black,
+            leading: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(Icons.arrow_back_rounded,
+              color: Colors.black,
+              ),
             ),
             actions: [
               Icon(Icons.more_vert_rounded, 
@@ -49,7 +49,8 @@ class _ProfileState extends State<Profile> {
             headerSliverBuilder: (context, isScrolled) {
               return [
                 SliverPersistentHeader(
-                  delegate: _SliverAppBarDelegate(ProfileInfo()),
+                  delegate: _SliverAppBarDelegate(ProfileInfotwo
+                ()),
                   pinned: false,
                   //  floating: true,
                 ),
@@ -158,8 +159,9 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   }
 }
 
-class ProfileInfo extends StatelessWidget {
-  const ProfileInfo({
+class ProfileInfotwo extends StatelessWidget {
+  const ProfileInfotwo
+({
     Key? key,
   }) : super(key: key);
 
@@ -314,58 +316,60 @@ class ProfileInfo extends StatelessWidget {
             const Spacer(
               flex: 4,
             ),
-            ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Dialog(
-                        shape:  RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                        insetPadding:
-                            const EdgeInsets.only(left: 20, right: 20),
-                        child: Container(
-                            height: 690,
-                            // width: 1050,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  TopBar(barText: "Edit Profile"),
-                                  const ProfilePic(),
-                                  BioField(
-                                    infoString: "Full Name",
-                                    fieldHeight: 50,
-                                  ),
-                                  BioField(
-                                    infoString: "Username",
-                                    fieldHeight: 50,
-                                  ),
-                                  BioField(
-                                    infoString: "Bio",
-                                    fieldHeight: 100,
-                                  ),
-                                  const ChangePassBtn(),
-                                  const SaveBioBtn(),
-                                  const SizedBox(height: 10)
-                                ],
-                              ),
-                            )),
-                      );
-                    },
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(155, 50),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-                child: const Text('Edit Profile',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Color.fromRGBO(255, 255, 255, 1),
-                        fontFamily: 'Poppins',
-                        fontSize: 15.5,
-                        fontWeight: FontWeight.bold,
-                        height: 1))),
+           Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Spacer(
+                        flex: 2,
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.fade,
+                                    child: SignUp()));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: tualeBlueDark,
+                              minimumSize: const Size(150, 45),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                          child: const Text('Follow',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Color.fromRGBO(255, 255, 255, 1),
+                                  fontFamily: 'Poppins',
+                                  fontSize: 15.5,
+                                  fontWeight: FontWeight.bold,
+                                  height: 1))),
+                    const Spacer(),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.fade,
+                                    child: const SignUp()));
+                          },
+                          style: ElevatedButton.styleFrom(
+                              primary: const Color.fromRGBO(218, 65, 103, 1),
+                              minimumSize: const Size(150, 45),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                          child: const Text('Message',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Color.fromRGBO(255, 255, 255, 1),
+                                  fontFamily: 'Poppins',
+                                  fontSize: 15.5,
+                                  fontWeight: FontWeight.bold,
+                                  height: 1))),
+                     const Spacer(
+                        flex: 2,
+                      ),
+                    ],
+                  ),
             Spacer(
               flex: 3,
             ),
@@ -374,8 +378,9 @@ class ProfileInfo extends StatelessWidget {
   }
 }
 
-class SaveBioBtn extends StatelessWidget {
-  const SaveBioBtn({
+class SaveBioBtntwo extends StatelessWidget {
+  const SaveBioBtntwo
+({
     Key? key,
   }) : super(key: key);
 
@@ -399,8 +404,8 @@ class SaveBioBtn extends StatelessWidget {
   }
 }
 
-class ChangePassBtn extends StatelessWidget {
-  const ChangePassBtn({
+class ChangePassBtntwo extends StatelessWidget {
+  const ChangePassBtntwo({
     Key? key,
   }) : super(key: key);
 
@@ -412,32 +417,34 @@ class ChangePassBtn extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return Dialog(
-                     shape:  RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
                   insetPadding: const EdgeInsets.only(left: 30, right: 30),
                   child: Container(
                     // width: 200,
                     height: 400,
                     child: Column(children: [
-                      TopBar(
+                      TopBartwo(
                         barText: "Change Password",
                       ),
-                      BioField(
+                      BioFieldtwo
+                    (
                         infoString: "Current Password",
                         fieldHeight: 50,
                       ),
-                      BioField(
+                      BioFieldtwo
+                    (
                         infoString: "New Password",
                         fieldHeight: 50,
                       ),
-                      BioField(
+                      BioFieldtwo
+                    (
                         infoString: "Confirm Password",
                         fieldHeight: 50,
                       ),
                       const SizedBox(
                         height: 20,
                       ),
-                      SaveBioBtn()
+                      SaveBioBtntwo
+                    ()
                     ]),
                   ),
                 );
@@ -453,9 +460,9 @@ class ChangePassBtn extends StatelessWidget {
   }
 }
 
-class TopBar extends StatelessWidget {
+class TopBartwo extends StatelessWidget {
   String? barText;
-  TopBar({this.barText});
+  TopBartwo({this.barText});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -488,8 +495,8 @@ class TopBar extends StatelessWidget {
   }
 }
 
-class ProfilePic extends StatelessWidget {
-  const ProfilePic({
+class ProfilePictwo extends StatelessWidget {
+  const ProfilePictwo({
     Key? key,
   }) : super(key: key);
 
@@ -530,11 +537,12 @@ class ProfilePic extends StatelessWidget {
 }
 
 //
-class BioField extends StatelessWidget {
+class BioFieldtwo extends StatelessWidget {
   String? infoString;
   double? fieldHeight;
 
-  BioField({this.infoString, this.fieldHeight});
+  BioFieldtwo
+({this.infoString, this.fieldHeight});
   @override
   Widget build(BuildContext context) {
     return Padding(

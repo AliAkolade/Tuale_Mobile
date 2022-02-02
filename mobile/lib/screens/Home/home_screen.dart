@@ -1,12 +1,11 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:mobile/screens/allPosts.dart';
-import 'package:mobile/screens/curated_screen.dart';
-import 'package:mobile/screens/vibing_screen.dart';
-import 'package:mobile/utils/constants.dart';
-import 'package:mobile/utils/tuale_icons.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+
+
+
+
+
+
+import 'package:mobile/screens/imports.dart';
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
   @override

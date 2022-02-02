@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:mobile/utils/constants.dart';
-import 'package:mobile/utils/tuale_icons.dart';
 
-import 'vibing_screen.dart';
+
+import 'package:mobile/screens/imports.dart';
 
 
 class VibingZoom extends StatefulWidget {

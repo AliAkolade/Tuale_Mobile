@@ -1,6 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:mobile/screens/discover_screen_focus.dart';
-import 'package:page_transition/page_transition.dart';
+
+
+
+import 'package:mobile/screens/imports.dart';
+
+
 
 class tualedPosts extends StatefulWidget {
   const tualedPosts({ Key? key }) : super(key: key);

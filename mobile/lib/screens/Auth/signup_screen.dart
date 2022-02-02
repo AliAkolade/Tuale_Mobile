@@ -1,19 +1,11 @@
-import 'dart:async';
 
-import 'package:dio/dio.dart';
+
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/button_list.dart';
-import 'package:flutter_signin_button/button_view.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile/screens/welcome_screen.dart';
-import 'package:mobile/utils/constants.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:twilio_phone_verify/twilio_phone_verify.dart';
+import 'package:mobile/screens/imports.dart';
 
-import 'login_screen.dart';
+
+
 
 int viewNo = 0;
 String finalEmail = '';

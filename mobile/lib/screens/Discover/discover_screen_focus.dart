@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:mobile/utils/constants.dart';
-import 'package:mobile/utils/tuale_icons.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
+
+
+import 'package:mobile/screens/imports.dart';
 
 class discoverScreen extends StatefulWidget {
   int? index;

@@ -1,20 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mobile/main.dart';
-import 'package:mobile/screens/camera_screen.dart';
-import 'package:mobile/screens/discover_screen.dart';
-import 'package:mobile/screens/discover_screen_focus.dart';
-import 'package:mobile/screens/gallery_app.dart';
-import 'package:mobile/screens/home_screen.dart';
-import 'package:mobile/screens/leaderboard_screen.dart';
-import 'package:mobile/screens/no_navbar.dart';
-import 'package:mobile/screens/post_screen.dart';
-import 'package:mobile/screens/profile_screen.dart';
-import 'package:mobile/screens/user_Profile_Screen.dart';
-import 'package:mobile/screens/vibe_screen_zoom.dart';
-import 'package:mobile/utils/constants.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:provider/provider.dart';
+
+import 'imports.dart';
+
 
 class NavBar extends StatefulWidget {
   final int index;

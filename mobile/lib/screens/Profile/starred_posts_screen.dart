@@ -1,17 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:mobile/screens/discover_screen_focus.dart';
-import 'package:mobile/utils/constants.dart';
-import 'package:mobile/utils/tuale_icons.dart';
-import 'package:page_transition/page_transition.dart';
 
-class AllPosts extends StatefulWidget {
-  AllPosts({Key? key}) : super(key: key);
+
+import 'package:mobile/screens/imports.dart';
+
+
+class starredPosts extends StatefulWidget {
+  starredPosts({Key? key}) : super(key: key);
 
   @override
-  _AllPostsState createState() => _AllPostsState();
+  _starredPostsState createState() => _starredPostsState();
 }
 
-class _AllPostsState extends State<AllPosts> {
+class _starredPostsState extends State<starredPosts> {
   @override
   Widget build(BuildContext context) {
     return SliverGrid(
@@ -19,14 +18,10 @@ class _AllPostsState extends State<AllPosts> {
       //physics: NeverScrollableScrollPhysics(),
   
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-       // mainAxisExtent: 5,
       crossAxisCount: 3,
       
     ), delegate: SliverChildBuilderDelegate(
-      
       (BuildContext context, int index){
-    
-        
       return GestureDetector(
         onTap:  () {
             Navigator.push(
@@ -60,10 +55,7 @@ class _AllPostsState extends State<AllPosts> {
           width: 100,
         ),
       );
-    },
-      childCount: 10,
-       )
-    );
+    
+    }));
   
-  }
-}
+  }}

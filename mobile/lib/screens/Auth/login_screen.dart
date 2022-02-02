@@ -1,16 +1,8 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobile/main.dart';
-import 'package:mobile/screens/nav_bar.dart';
-import 'package:mobile/utils/constants.dart';
+
+import 'package:mobile/screens/imports.dart';
+
 import 'dart:math' as math;
 
-import 'package:page_transition/page_transition.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);

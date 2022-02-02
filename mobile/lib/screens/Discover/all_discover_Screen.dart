@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:mobile/screens/discover_screen_focus.dart';
-import 'package:mobile/screens/view_post.dart';
-import 'package:mobile/utils/constants.dart';
-import 'package:mobile/utils/tuale_icons.dart';
-import 'package:page_transition/page_transition.dart';
 
+
+
+import 'package:mobile/screens/imports.dart';
 class allScreen extends StatelessWidget {
   const allScreen({Key? key}) : super(key: key);
 

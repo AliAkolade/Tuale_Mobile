@@ -1,15 +1,10 @@
-import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
-import 'package:flutter/services.dart';
-import 'package:mobile/main.dart';
-import 'package:mobile/screens/gallery_app.dart';
-import 'package:mobile/screens/home_screen.dart';
-import 'package:mobile/screens/nav_bar.dart';
-import 'package:mobile/utils/constants.dart';
-import 'package:page_transition/page_transition.dart';
 
-import 'package:provider/provider.dart';
+
+
+
+
+import 'package:mobile/screens/imports.dart';
+
 
 class CameraApp extends StatefulWidget {
   @override
@@ -30,8 +25,7 @@ class _CameraAppState extends State<CameraApp> {
   void initState() {
     // cameras = await availableCameras();
     print(camera.cameras);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: [SystemUiOverlay.top]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack, overlays: []);
 
 //  controller = CameraController(camera.cameras![0],ResolutionPreset.ultraHigh);
 
@@ -66,30 +60,26 @@ class _CameraAppState extends State<CameraApp> {
   //     }
   //   }
   // }
-@override
-void deactivate() {
-
-  print("deactivate");
-super.deactivate();
-}
+  @override
+  void deactivate() {
+    print("deactivate");
+    super.deactivate();
+  }
 
   @override
   void dispose() {
     super.dispose();
     controller?.dispose();
     // Provider.of<camera>(context, listen: false).changeNav();
-    print("heyyyyy");
 
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack,
-        overlays: []);
-
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack, overlays: []);
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onDoubleTap: (){
-           Provider.of<camera>(context, listen: false).changeNav();
+      onDoubleTap: () {
+        Provider.of<camera>(context, listen: false).changeNav();
       },
       child: Scaffold(
         body: FutureBuilder(
@@ -100,7 +90,7 @@ super.deactivate();
               // final scale = 1 / (controller!.value.aspectRatio * mediaSize.aspectRatio);
               // If the Future is complete, display the preview.
               return SafeArea(
-                bottom: false,
+                //  bottom: false,
                 child: Stack(
                   children: [
                     //   ClipRect(
@@ -112,7 +102,7 @@ super.deactivate();
                     //         color: Colors.black,
                     //       ),     // CameraPreview(
                     //     //     controller!,
-                
+
                     //     //     ),
                     //      ),
                     //  ),
@@ -121,8 +111,8 @@ super.deactivate();
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children:  [
-                           const SizedBox(
+                          children: const [
+                            SizedBox(
                               width: 10,
                             ),
                             Icon(
@@ -133,13 +123,13 @@ super.deactivate();
                             Spacer(flex: 6),
                             Icon(
                               Icons.flash_on_outlined,
-                              color: Colors.white,
+                              color: Colors.black,
                               size: 25,
                             ),
                             Spacer(flex: 6),
                             Icon(
                               Icons.flip_camera_android_rounded,
-                              color: Colors.white,
+                              color: Colors.black,
                               size: 25,
                             ),
                             SizedBox(
@@ -150,19 +140,61 @@ super.deactivate();
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                //                         Navigator.push(
-                                // context,
-                                // PageTransition(
-                                //     type: PageTransitionType.topToBottom, child: gallery()));
-                              },
-                              child: const Icon(
-                                Icons.radio_button_off_rounded,
-                                color: Colors.white,
-                                size: 80,
-                              ),
+                            Spacer(),
+                            Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () async {
+                                    final permitted =
+                                        await PhotoManager.requestPermission();
+                                    if (!permitted) return;
+                                    showModalBottomSheet(
+
+                                      isScrollControlled:  true,
+                                        useRootNavigator: true,
+                                        context: context,
+                                        builder: (context) => Container(
+                                            height: MediaQuery.of(context).size.height * 0.80,
+                                         // color: Colors.black,
+                                          child: galleryScreen(),
+                                        ));
+                                  },
+                                  child: Icon(
+                                    Icons.image,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  "Gallery",
+                                )
+                              ],
                             ),
+                            Spacer(
+                              flex: 2,
+                            ),
+                            Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    //                         Navigator.push(
+                                    // context,
+                                    // PageTransition(
+                                    //     type: PageTransitionType.topToBottom, child: gallery()));
+                                  },
+                                  child: const Icon(
+                                    Icons.radio_button_off_rounded,
+                                    color: Colors.black,
+                                    size: 80,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                )
+                              ],
+                            ),
+                            Spacer(
+                              flex: 4,
+                            )
                           ],
                         )
                       ],

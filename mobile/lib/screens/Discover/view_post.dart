@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:mobile/screens/user_Profile_Screen.dart';
-import 'package:mobile/screens/vibe_screen_zoom.dart';
-import 'package:mobile/screens/vibing_screen.dart';
-import 'package:mobile/utils/constants.dart';
-import 'package:mobile/utils/tuale_icons.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
+
+
+
+import 'package:mobile/screens/imports.dart';
+
 
 class ViewPost extends StatefulWidget {
   int? index;

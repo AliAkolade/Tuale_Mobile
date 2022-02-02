@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:mobile/screens/imports.dart';
 
 class videoScreen extends StatelessWidget {
   const videoScreen({ Key? key }) : super(key: key);

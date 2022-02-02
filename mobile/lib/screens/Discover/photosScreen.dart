@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:mobile/screens/imports.dart';
+
 
 class photosScreen extends StatelessWidget {
   const photosScreen({ Key? key }) : super(key: key);

@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobile/screens/login_screen.dart';
-import 'package:mobile/screens/signup_screen.dart';
-import 'package:mobile/utils/constants.dart';
-import 'package:page_transition/page_transition.dart';
+
+
+import 'package:mobile/screens/imports.dart';
 
 class Welcome extends StatefulWidget {
   

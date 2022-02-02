@@ -1,14 +1,10 @@
+
+
+
+
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:mobile/screens/getpost.dart';
-import 'package:mobile/screens/vibe_screen_zoom.dart';
-import 'package:mobile/utils/constants.dart';
-
-import 'package:mobile/utils/tuale_icons.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile/screens/imports.dart';
 
 class Curated extends StatefulWidget {
   Curated({Key? key}) : super(key: globalCuratedState);
@@ -129,7 +125,7 @@ class _CuratedState extends State<Curated> {
                               child: CustomPaint(
                                 size: Size(
                                     100, (100 * 3.536842105263158).toDouble()),
-                                painter: RPSCustomPainter(),
+                                painter: CuratedLikeWidget(),
                                 child: Center(
                                   child: Column(
                                       mainAxisAlignment:
@@ -386,7 +382,7 @@ class _CuratedState extends State<Curated> {
   }
 }
 
-class RPSCustomPainter extends CustomPainter {
+class CuratedLikeWidget extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Path path_0 = Path();
@@ -440,28 +436,6 @@ class RPSCustomPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
   }
-}
-
-more(context) {
-  Widget okButton = TextButton(
-    child: const Text("OK"),
-    onPressed: () {},
-  );
-
-  AlertDialog alert = AlertDialog(
-    title: const Text("My title"),
-    content: const Text("This is my message."),
-    actions: [
-      okButton,
-    ],
-  );
-
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
 }
 
 // Class for a Post

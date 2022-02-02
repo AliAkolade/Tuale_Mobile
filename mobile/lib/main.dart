@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile/screens/welcome_screen.dart';
+import 'package:mobile/screens/Auth/welcome_screen.dart';
 import 'package:mobile/utils/constants.dart';
 import 'package:provider/provider.dart';
 

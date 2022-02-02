@@ -1,19 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:mobile/screens/allPosts.dart';
-import 'package:mobile/screens/signup_screen.dart';
-import 'package:mobile/screens/starredPosts.dart';
-import 'package:mobile/utils/constants.dart';
-import 'package:mobile/utils/tuale_icons.dart';
-import 'package:page_transition/page_transition.dart';
 
-class userProfile extends StatefulWidget {
+
+
+
+import 'package:mobile/screens/imports.dart';
+
+class Profile extends StatefulWidget {
   bool? isUser = false;
 
-userProfile({this.isUser});
-  State<userProfile> createState() => _ProfileState();
+Profile({this.isUser});
+  State<Profile> createState() => _ProfileState();
 }
 
-class _ProfileState extends State<userProfile> {
+class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +20,9 @@ class _ProfileState extends State<userProfile> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            leading: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Icon(Icons.arrow_back_rounded,
-              color: Colors.black,
-              ),
+             
+            leading: Icon(Icons.arrow_back_rounded,
+            color: Colors.black,
             ),
             actions: [
               Icon(Icons.more_vert_rounded, 
@@ -318,60 +312,58 @@ class ProfileInfo extends StatelessWidget {
             const Spacer(
               flex: 4,
             ),
-           Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Spacer(
-                        flex: 2,
-                      ),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.fade,
-                                    child: SignUp()));
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: tualeBlueDark,
-                              minimumSize: const Size(150, 45),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                          child: const Text('Follow',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                  fontFamily: 'Poppins',
-                                  fontSize: 15.5,
-                                  fontWeight: FontWeight.bold,
-                                  height: 1))),
-                    const Spacer(),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.fade,
-                                    child: const SignUp()));
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: const Color.fromRGBO(218, 65, 103, 1),
-                              minimumSize: const Size(150, 45),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                          child: const Text('Message',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                  fontFamily: 'Poppins',
-                                  fontSize: 15.5,
-                                  fontWeight: FontWeight.bold,
-                                  height: 1))),
-                     const Spacer(
-                        flex: 2,
-                      ),
-                    ],
-                  ),
+            ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                        shape:  RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                        insetPadding:
+                            const EdgeInsets.only(left: 20, right: 20),
+                        child: Container(
+                            height: 690,
+                            // width: 1050,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  TopBar(barText: "Edit Profile"),
+                                  const ProfilePic(),
+                                  BioField(
+                                    infoString: "Full Name",
+                                    fieldHeight: 50,
+                                  ),
+                                  BioField(
+                                    infoString: "Username",
+                                    fieldHeight: 50,
+                                  ),
+                                  BioField(
+                                    infoString: "Bio",
+                                    fieldHeight: 100,
+                                  ),
+                                  const ChangePassBtn(),
+                                  const SaveBioBtn(),
+                                  const SizedBox(height: 10)
+                                ],
+                              ),
+                            )),
+                      );
+                    },
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(155, 50),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                child: const Text('Edit Profile',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Color.fromRGBO(255, 255, 255, 1),
+                        fontFamily: 'Poppins',
+                        fontSize: 15.5,
+                        fontWeight: FontWeight.bold,
+                        height: 1))),
             Spacer(
               flex: 3,
             ),
@@ -418,6 +410,8 @@ class ChangePassBtn extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return Dialog(
+                     shape:  RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
                   insetPadding: const EdgeInsets.only(left: 30, right: 30),
                   child: Container(
                     // width: 200,

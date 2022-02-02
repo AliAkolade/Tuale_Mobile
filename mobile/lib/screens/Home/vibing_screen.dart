@@ -1,16 +1,9 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobile/screens/getpost.dart';
-import 'package:mobile/screens/user_Profile_Screen.dart';
-import 'package:mobile/screens/vibe_screen_zoom.dart';
-import 'package:mobile/utils/constants.dart';
 
-import 'package:mobile/utils/tuale_icons.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:provider/provider.dart';
+
+import 'package:mobile/screens/imports.dart';
+
 
 class Vibing extends StatefulWidget {
   Vibing({Key? key}) : super(key: key);

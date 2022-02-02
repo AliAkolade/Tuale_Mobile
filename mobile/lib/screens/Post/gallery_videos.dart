@@ -1,79 +1,71 @@
-import 'dart:io';
-import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
-import 'package:mobile/utils/constants.dart';
-import 'package:photo_manager/photo_manager.dart';
-import 'package:video_player/video_player.dart';
+import 'package:mobile/screens/imports.dart';
 
+// class gallery extends StatefulWidget {
+//   @override
 
-class gallery extends StatefulWidget {
+//   @override
+//   State<gallery> createState() => _galleryState();
+
+// }
+
+// class _galleryState extends State<gallery> {
+
+//   @override
+//   void initState() {
+//     super.initState();
+//        setState(() {
+
+//   // camera.hideNav = true;
+//   // print(camera.hideNav);
+//     });
+//   }
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Photo Manager Demo',
+//       home: Material(
+//         child: Center(
+//           child: Builder(
+//             builder: (context) {
+//               return RaisedButton(
+//                 onPressed: () async {
+//                   final permitted = await PhotoManager.requestPermission();
+//                   if (!permitted) return;
+//                   Navigator.of(context).push(
+//                     MaterialPageRoute(builder: (_) => Gallery()),
+//                   );
+//                 },
+//                 child: Text('Open Gallery'),
+//               );
+//             },
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+class GalleryVideo extends StatefulWidget {
   @override
-  
-  @override
-  State<gallery> createState() => _galleryState();
-
-
-  
+  _GalleryVideoState createState() => _GalleryVideoState();
 }
 
-class _galleryState extends State<gallery> {
-
-  @override
-  void initState() {
-    super.initState();
-       setState(() {
-   
-  // camera.hideNav = true;
-  // print(camera.hideNav);
-    });
-  }
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Photo Manager Demo',
-      home: Material(
-        child: Center(
-          child: Builder(
-            builder: (context) {
-              return RaisedButton(
-                onPressed: () async {
-                  final permitted = await PhotoManager.requestPermission();
-                  if (!permitted) return;
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => Gallery()),
-                  );
-                },
-                child: Text('Open Gallery'),
-              );
-            },
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class Gallery extends StatefulWidget {
-  @override
-  _GalleryState createState() => _GalleryState();
-}
-
-class _GalleryState extends State<Gallery> {
+class _GalleryVideoState extends State<GalleryVideo> {
   // This will hold all the assets we fetched
   List<AssetEntity> assets = [];
 
   @override
   void initState() {
     _fetchAssets();
- 
+
     super.initState();
   }
 
   _fetchAssets() async {
     // Set onlyAll to true, to fetch only the 'Recent' album
     // which contains all the photos/videos in the storage
-    final albums = await PhotoManager.getAssetPathList(onlyAll: true);
+    final albums = await PhotoManager.getAssetPathList(onlyAll: true, type: RequestType.video);
     final recentAlbum = albums.first;
 
     // Now that we got the album, fetch all the assets it contains
@@ -89,9 +81,6 @@ class _GalleryState extends State<Gallery> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Gallery'),
-      ),
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           // A grid view with 3 items per row
@@ -99,28 +88,23 @@ class _GalleryState extends State<Gallery> {
         ),
         itemCount: assets.length,
         itemBuilder: (_, index) {
-          return AssetThumbnail(asset: assets[index]);
+          return AssetThumbnailVideo(asset: assets[index]);
         },
       ),
     );
   }
 }
 
-class AssetThumbnail extends StatelessWidget {
+class AssetThumbnailVideo extends StatelessWidget {
+  final AssetEntity? asset;
 
-    final AssetEntity? asset;
-  
-
-   AssetThumbnail({
+  AssetThumbnailVideo({
     Key? key,
     @required this.asset,
   }) : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
-    
     // We're using a FutureBuilder since thumbData is a future
     return FutureBuilder<Uint8List?>(
       future: asset!.thumbData,
@@ -131,22 +115,23 @@ class AssetThumbnail extends StatelessWidget {
         // If there's data, display it as an image
         return InkWell(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) {
-                  if (asset!.type == AssetType.image) {
-                    // If this is an image, navigate to ImageScreen
-                    return ImageScreen(imageFile: asset!.file);
-                  } else {
-                    // if it's not, navigate to VideoScreen
-                    return VideoScreen(videoFile: asset!.file);
-                  }
-                },
-              ),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (_) {
+            //       if (asset!.type == AssetType.image) {
+            //         // If this is an image, navigate to ImageScreen
+            //         return ImageScreen(imageFile: asset!.file);
+            //       } else {
+            //         // if it's not, navigate to VideoScreen
+            //         return VideoScreen(videoFile: asset!.file);
+            //       }
+            //     },
+            //   ),
+            // );
           },
-          child: Stack(
+          child:
+           Stack(
             children: [
               // Wrap the image in a Positioned.fill to fill the space
               Positioned.fill(
@@ -171,30 +156,30 @@ class AssetThumbnail extends StatelessWidget {
   }
 }
 
-class ImageScreen extends StatelessWidget {
-  const ImageScreen({
-    Key? key,
-    @required this.imageFile,
-  }) : super(key: key);
+// class ImageScreen extends StatelessWidget {
+//   const ImageScreen({
+//     Key? key,
+//     @required this.imageFile,
+//   }) : super(key: key);
 
-  final Future<File?>? imageFile;
+//   final Future<File?>? imageFile;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.black,
-      alignment: Alignment.center,
-      child: FutureBuilder<File?>(
-        future: imageFile,
-        builder: (_, snapshot) {
-          final file = snapshot.data;
-          if (file == null) return Container();
-          return Image.file(file);
-        },
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       color: Colors.black,
+//       alignment: Alignment.center,
+//       child: FutureBuilder<File?>(
+//         future: imageFile,
+//         builder: (_, snapshot) {
+//           final file = snapshot.data;
+//           if (file == null) return Container();
+//           return Image.file(file);
+//         },
+//       ),
+//     );
+//   }
+// }
 
 class VideoScreen extends StatefulWidget {
   const VideoScreen({
@@ -269,4 +254,5 @@ class _VideoScreenState extends State<VideoScreen> {
           // If the video is not yet initialized, display a spinner
           : Center(child: CircularProgressIndicator()),
     );
-  }}
+  }
+}

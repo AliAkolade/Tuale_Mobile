@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:mobile/screens/imports.dart';
+
 
 class textScreen extends StatelessWidget {
   const textScreen({ Key? key }) : super(key: key);
