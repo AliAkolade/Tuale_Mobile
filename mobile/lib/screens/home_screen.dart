@@ -20,7 +20,7 @@ class _HomeState extends State<Home> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: DefaultTabController(
-            initialIndex: 1,
+            initialIndex: 0,
             length: 2,
             child: Scaffold(
                 appBar: PreferredSize(
@@ -72,7 +72,8 @@ class _HomeState extends State<Home> {
                       Container(
                           height: 0.5,
                           width: double.infinity,
-                          color: Colors.grey.shade400)
+                          color: Colors.grey.shade400),
+                          
                     ]))),
                 body: TabBarView(children: [Vibing(), Curated()]))));
   }

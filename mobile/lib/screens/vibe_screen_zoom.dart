@@ -22,6 +22,24 @@ class _VibingZoomState extends State<VibingZoom> {
          
           child: Stack(
                   children: [
+        Align(
+         // heightFactor: 1.0,
+         // widthFactor: 12.0,
+          alignment: Alignment(1.2, -1.05),
+          child: SizedBox(
+            height: 100,
+            width: 130,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(Icons.fullscreen_exit_rounded,
+              color: Colors.black,
+              size: 30,
+              ),
+            ),
+          ),
+        )   ,         
                                     //Add this CustomPaint widget to the Widget Tre                                //Add this CustomPaint widget to the Widget Tree
         Align(
         heightFactor: 1.9,
@@ -45,7 +63,7 @@ class _VibingZoomState extends State<VibingZoom> {
                   margin: const EdgeInsets.only(top: 12, bottom: 12),
                   child: Column(children:  [
                    AnimatedCrossFade(
-                     duration: const Duration(seconds: 1),
+                   duration: const Duration(milliseconds: 20 ),
                       crossFadeState: tualed ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                      secondChild: GestureDetector(
                        onTap: () {
@@ -55,7 +73,7 @@ class _VibingZoomState extends State<VibingZoom> {
                          });
                        },
                        child: const Icon(TualeIcons.tualeactive,
-                       color: tualeOrange,
+                       color: Colors.yellow,
                        size: 40,
                        ),
                      ) ,
@@ -83,7 +101,7 @@ class _VibingZoomState extends State<VibingZoom> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children:  [
                        AnimatedCrossFade(
-                     duration: const Duration(seconds: 1),
+                    duration: const Duration(milliseconds: 20 ),
                       crossFadeState: starred ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                      secondChild: GestureDetector(
                        onTap: () {
@@ -242,7 +260,7 @@ class _VibingZoomState extends State<VibingZoom> {
             color: Colors.amber,
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage("assets/images/Demo_Image.jpg"))),
+              image: AssetImage("assets/images/demoPost.png"))),
         ),
       ),
     );

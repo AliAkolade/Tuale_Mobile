@@ -4,6 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobile/main.dart';
 import 'package:mobile/screens/nav_bar.dart';
 import 'package:mobile/utils/constants.dart';
 import 'dart:math' as math;
@@ -18,6 +19,12 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  @override
+  void initState() {
+   
+    super.initState();
+  }
   // final email = TextEditingController(text: '');
   // final pass = TextEditingController(text: '');
   final email = TextEditingController(text: 'clintonali127@gmail.com');
@@ -48,7 +55,7 @@ class _LoginState extends State<Login> {
       Navigator.push(
           context,
           PageTransition(
-              type: PageTransitionType.topToBottom, child: NavBar(index: 0)));
+              type: PageTransitionType.topToBottom, child: NavBar(index: 0,)));
     } else {
       setState(() {
         message = responseData['message'];
@@ -59,6 +66,9 @@ class _LoginState extends State<Login> {
       isLoading = false;
     });
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -167,13 +177,13 @@ class _LoginState extends State<Login> {
                             )
                           : ElevatedButton(
                               onPressed: () {
-                                //DISABLED FOR NOW
-                                login();
-                                // Navigator.push(
-                                //     context,
-                                //     PageTransition(
-                                //         type: PageTransitionType.topToBottom,
-                                //         child: NavBar(index: 0)));
+                              // //DISABLED FOR NOW
+                              //  login();
+                                 Navigator.push(
+                                     context,
+                                     PageTransition(
+                                         type: PageTransitionType.topToBottom,
+                                         child: NavBar(index: 0)));
                               },
                               style: ElevatedButton.styleFrom(
                                   elevation: 0,

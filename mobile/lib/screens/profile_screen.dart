@@ -7,117 +7,149 @@ import 'package:mobile/utils/tuale_icons.dart';
 import 'package:page_transition/page_transition.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
-  @override
+  bool? isUser = false;
+
+Profile({this.isUser});
   State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
+
   @override
   Widget build(BuildContext context) {
     return Material(
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
+          appBar: AppBar(
+             
+            leading: Icon(Icons.arrow_back_rounded,
+            color: Colors.black,
+            ),
+            actions: [
+              Icon(Icons.more_vert_rounded, 
+              color: Colors.black,
+              )
+            ],
+            centerTitle: true,
+            elevation: 0,
+            backgroundColor: Colors.white,
+            title: const Text(
+              "Siphiwe Zola",
+              style: TextStyle(
+                  color: tualeBlueDark,
+                  fontFamily: 'Poppins',
+                  fontSize: 18,
+                  // fontWeight: FontWeight.bold,
+                  height: 1),
+            ),
+          ),
           body: NestedScrollView(
-        
+            physics: ClampingScrollPhysics(),
             headerSliverBuilder: (context, isScrolled) {
               return [
-               const SliverAppBar(
-              //floating: true,
-              pinned: true,
-             // collapsedHeight: 100,
-              expandedHeight: 385,
-             flexibleSpace: FlexibleSpaceBar(
-               collapseMode: CollapseMode.none,
-               background: ProfileInfo(),
-             ),
-              
-                backgroundColor: Colors.white,
-                elevation: 0,
-                centerTitle: true,
-                actions:  [
-                  Icon(
-                    Icons.more_vert_rounded,
-                    size: 25,
-                    color: Colors.black,
-                  )
-                ],
-                leading:  Icon(
-                  Icons.arrow_back_rounded,
-                  size: 25,
-                  color: Colors.black,
+                SliverPersistentHeader(
+                  delegate: _SliverAppBarDelegate(ProfileInfo()),
+                  pinned: false,
+                  //  floating: true,
                 ),
-                title:  Text(
-                  "Siphiwe Zola",
-                  style: TextStyle(
-                      color: tualeBlueDark,
-                      fontFamily: 'Poppins',
-                      fontSize: 18,
-                      // fontWeight: FontWeight.bold,
-                      height: 1),
-                ),
-              ),
-               SliverPersistentHeader(
-                delegate: _SliverAppBarDelegate(
-                 const TabBar(
-                      unselectedLabelColor: Colors.grey,
-                      indicatorColor: tualeBlueDark,
-                      indicatorWeight: 1.1,
-                      labelColor: tualeBlueDark,
-                      labelStyle: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                          // fontWeight: FontWeight.bold,
-                          height: 1),
-                      tabs: [
-                        Tab(
-                          icon: Icon(Icons.view_list_outlined,
-                          size: 35,
+                SliverOverlapAbsorber(
+                  handle:
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  sliver: SliverAppBar(
+                    //floating: true,
+                    pinned: true,
+                    // collapsedHeight: 100,
+                    expandedHeight: 10,
+                    flexibleSpace: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: const [
+                        TabBar(
+                            unselectedLabelColor: Colors.grey,
+                            indicatorColor: Colors.transparent,
+                            indicatorWeight: 1.1,
+                            labelColor: tualeBlueDark,
+                            labelStyle:  TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 16,
+                                // fontWeight: FontWeight.bold,
+                                height: 1),
+                            tabs: [
+                             const Tab(
+                                icon: Icon(
+                                  TualeIcons.allposts,
+                                  size: 30,
+                                ),
+                              ),
+                              Tab(
+                                  icon: Icon(
+                                TualeIcons.starredpost,
+                                size: 35,
+                               // color: Colors.grey.withOpacity(0.3),
+                              )),
+                            ]),
+                        SizedBox(
+                          height: 3,
+                          child: Divider(
+                            color: Colors.grey,
                           ),
-                        ),
-                        Tab(icon: Icon(TualeIcons.star,
-                            size: 35,
-                        )),
-                      ]),
+                        )
+                      ],
+                    ),
+                    backgroundColor: Colors.white,
+                  ),
                 ),
-                //pinned: true,
-                floating: true,
-              ),
-              
-              
               ];
-            
             },
-            body:   TabBarView(
-            children: [AllPosts(), starredPosts()],
+            body: TabBarView(children: [
+               Builder(builder: (context) {
+              return CustomScrollView(
+                
+                slivers: [
+                  SliverOverlapInjector(
+                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                          context)),
+                          AllPosts()
+                       
+               
+                ],
+              );
+            }),
+               Builder(builder: (context) {
+              return CustomScrollView(
+                
+                slivers: [
+                  SliverOverlapInjector(
+                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                          context)),
+                          AllPosts(), 
+                       
+               
+                ],
+              );
+            }),
+            ],)
           ),
-          ),
-         
         ),
       ),
     );
   }
 }
 
-
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate(this._tabBar);
 
-  final TabBar _tabBar;
+  final Widget _tabBar;
 
   @override
-  double get minExtent => _tabBar.preferredSize.height;
+  double get minExtent => 350;
   @override
-  double get maxExtent => _tabBar.preferredSize.height;
-
+  double get maxExtent => 350;
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return  Container(
-      child: _tabBar,
-    );
+    return _tabBar;
   }
 
   @override
@@ -125,7 +157,6 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     return false;
   }
 }
-
 
 class ProfileInfo extends StatelessWidget {
   const ProfileInfo({
@@ -135,223 +166,211 @@ class ProfileInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-    //  color: Colors.black,
-      height:380,
-      width: double.infinity,
-      child: Column(
-        children: [
+        color: Colors.white,
+        height: 350,
+        width: double.infinity,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 90,
+              width: 90,
+              child: CircleAvatar(
+                backgroundImage: AssetImage('assets/images/demo_profile.png'),
+              ),
+            ),
             const Spacer(
-                 flex: 20,
-               ),
-               const SizedBox(
-                 height: 90,
-                 width: 90,
-                 child: CircleAvatar(
-                   backgroundImage:
-                       AssetImage('assets/images/demo_profile.png'),
-                 ),
-               ),
-             const  Spacer(
-                 flex: 2,
-               ),
-               const Text(
-                 "@siphie_zo",
-                 style: TextStyle(
-                     color: Colors.black,
-                     fontFamily: 'Poppins',
-                     fontSize: 13,
-                     // fontWeight: FontWeight.bold,
-                     height: 1),
-               ),
-             const  Spacer(
-                 flex: 2,
-               ),
-               const Text(
-                 "Nairobi, Kenya",
-                 style: TextStyle(
-                     color: Colors.grey,
-                     fontFamily: 'Poppins',
-                     fontSize: 10,
-                     height: 1),
-               ),
-             const  Spacer(
-                 flex: 4,
-               ),
-               Row(
-                 mainAxisAlignment: MainAxisAlignment.center,
-                 children: [
-                   const Spacer(
-                     flex: 4,
-                   ),
-                   Column(
-                     children: const [
-                       Text(
-                         "2389",
-                         style: TextStyle(
-                             color: Colors.black,
-                             fontFamily: 'Poppins',
-                             fontSize: 18,
-                             fontWeight: FontWeight.bold,
-                             height: 1),
-                       ),
-                       Text(
-                         "Fans",
-                         style: TextStyle(
-                             color: Colors.black,
-                             fontFamily: 'Poppins',
-                             fontSize: 12,
-                             height: 1),
-                       ),
-                     ],
-                   ),
-                   Spacer(),
-                   SizedBox(
-                     height: 60,
-                     // width: 9,
-                     child: VerticalDivider(
-                       width: 10,
-                       thickness: 1,
-                       color: Colors.grey.withOpacity(0.2),
-                     ),
-                   ),
-                  const Spacer(),
-                   Column(
-                     children: const [
-                       Text(
-                         "67",
-                         style: TextStyle(
-                             color: Colors.black,
-                             fontFamily: 'Poppins',
-                             fontSize: 18,
-                             fontWeight: FontWeight.bold,
-                             height: 1),
-                       ),
-                       Text(
-                         "Friends",
-                         style: TextStyle(
-                             color: Colors.black,
-                             fontFamily: 'Poppins',
-                             fontSize: 12,
-                             height: 1),
-                       ),
-                     ],
-                   ),
-                   Spacer(),
-                   SizedBox(
-                     height: 60,
-                     // width: 9,
-                     child: VerticalDivider(
-                       width: 10,
-                       thickness: 1,
-                       color: Colors.grey.withOpacity(0.2),
-                     ),
-                   ),
-                   Spacer(),
-                   Column(
-                     children: const [
-                       Text(
-                         "35",
-                         style: TextStyle(
-                             color: Colors.black,
-                             fontFamily: 'Poppins',
-                             fontSize: 18,
-                             fontWeight: FontWeight.bold,
-                             height: 1),
-                       ),
-                       Text(
-                         "Tuales Given",
-                         style: TextStyle(
-                             color: Colors.black,
-                             fontFamily: 'Poppins',
-                             fontSize: 12,
-                             height: 1),
-                       ),
-                     ],
-                   ),
-                   const Spacer(
-                     flex: 3,
-                   ),
-                 ],
-               ),
-               const Spacer(
-                 flex: 2,
-               ),
-               const Text(
-                 "Dark Skinned and I love it",
-                 style: TextStyle(
-                     color: Colors.black,
-                     fontFamily: 'Poppins',
-                     fontSize: 15,
-                     height: 1),
-               ),
-               const Spacer(
-                 flex: 4,
-               ),
-               ElevatedButton(
-                   onPressed: () {
-                     showDialog(
-                       context: context,
-                       builder: (BuildContext context) {
-                         return Dialog(
-                           insetPadding:
-                               const EdgeInsets.only(left: 20, right: 20),
-                           child: Container(
-                               height: 1000,
-                               // width: 1050,
-                               child: SingleChildScrollView(
-                                 child: Column(
-                                   children: [
-                                     TopBar(),
-                                     const ProfilePic(),
-                                     BioField(
-                                       infoString: "Full Name",
-                                       fieldHeight: 50,
-                                     ),
-                                     BioField(
-                                       infoString: "Username",
-                                       fieldHeight: 50,
-                                     ),
-                                     BioField(
-                                       infoString: "Email",
-                                       fieldHeight: 50,
-                                     ),
-                                     BioField(
-                                       infoString: "Phone Number",
-                                       fieldHeight: 50,
-                                     ),
-                                     BioField(
-                                       infoString: "Bio",
-                                       fieldHeight: 100,
-                                     ),
-                                     const ChangePassBtn(),
-                                     const SaveBioBtn(),
-                                     const SizedBox(height: 10)
-                                   ],
-                                 ),
-                               )),
-                         );
-                       },
-                     );
-                   },
-                   style: ElevatedButton.styleFrom(
-                       minimumSize: const Size(145, 50),
-                       shape: RoundedRectangleBorder(
-                           borderRadius: BorderRadius.circular(10))),
-                   child: const Text('Edit Profile',
-                       textAlign: TextAlign.center,
-                       style: TextStyle(
-                           color: Color.fromRGBO(255, 255, 255, 1),
-                           fontFamily: 'Poppins',
-                           fontSize: 15.5,
-                           fontWeight: FontWeight.bold,
-                           height: 1))),
-               Spacer(
-                 flex: 3,
-               ),
-          
-        ],
-      )
-    );
+              flex: 2,
+            ),
+            const Text(
+              "@siphie_zo",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontFamily: 'Poppins',
+                  fontSize: 13,
+                  // fontWeight: FontWeight.bold,
+                  height: 1),
+            ),
+            const Spacer(
+              flex: 2,
+            ),
+            const Text(
+              "Nairobi, Kenya",
+              style: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: 'Poppins',
+                  fontSize: 10,
+                  height: 1),
+            ),
+            const Spacer(
+              flex: 4,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Spacer(
+                  flex: 4,
+                ),
+                Column(
+                  children: const [
+                    Text(
+                      "2389",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Poppins',
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          height: 1),
+                    ),
+                    Text(
+                      "Fans",
+                      style: TextStyle(
+                          color: Colors.black54,
+                          fontFamily: 'Poppins',
+                          fontSize: 12,
+                          height: 1),
+                    ),
+                  ],
+                ),
+                Spacer(),
+                SizedBox(
+                  height: 60,
+                  // width: 9,
+                  child: VerticalDivider(
+                    width: 10,
+                    thickness: 1,
+                    color: Colors.grey.withOpacity(0.2),
+                  ),
+                ),
+                const Spacer(),
+                Column(
+                  children: const [
+                    Text(
+                      "67",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Poppins',
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          height: 1),
+                    ),
+                    Text(
+                      "Friends",
+                      style: TextStyle(
+                          color: Colors.black54,
+                          fontFamily: 'Poppins',
+                          fontSize: 12,
+                          height: 1),
+                    ),
+                  ],
+                ),
+                Spacer(),
+                SizedBox(
+                  height: 60,
+                  // width: 9,
+                  child: VerticalDivider(
+                    width: 10,
+                    thickness: 1,
+                    color: Colors.grey.withOpacity(0.2),
+                  ),
+                ),
+                Spacer(),
+                Column(
+                  children: const [
+                    Text(
+                      "35",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Poppins',
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          height: 1),
+                    ),
+                    Text(
+                      "Tuales Given",
+                      style: TextStyle(
+                          color: Colors.black54,
+                          fontFamily: 'Poppins',
+                          fontSize: 12,
+                          height: 1),
+                    ),
+                  ],
+                ),
+                const Spacer(
+                  flex: 3,
+                ),
+              ],
+            ),
+            const Spacer(
+              flex: 2,
+            ),
+            const Text(
+              "Dark Skinned and I love it",
+              style: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  height: 1),
+            ),
+            const Spacer(
+              flex: 4,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                        shape:  RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                        insetPadding:
+                            const EdgeInsets.only(left: 20, right: 20),
+                        child: Container(
+                            height: 690,
+                            // width: 1050,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  TopBar(barText: "Edit Profile"),
+                                  const ProfilePic(),
+                                  BioField(
+                                    infoString: "Full Name",
+                                    fieldHeight: 50,
+                                  ),
+                                  BioField(
+                                    infoString: "Username",
+                                    fieldHeight: 50,
+                                  ),
+                                  BioField(
+                                    infoString: "Bio",
+                                    fieldHeight: 100,
+                                  ),
+                                  const ChangePassBtn(),
+                                  const SaveBioBtn(),
+                                  const SizedBox(height: 10)
+                                ],
+                              ),
+                            )),
+                      );
+                    },
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(155, 50),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                child: const Text('Edit Profile',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Color.fromRGBO(255, 255, 255, 1),
+                        fontFamily: 'Poppins',
+                        fontSize: 15.5,
+                        fontWeight: FontWeight.bold,
+                        height: 1))),
+            Spacer(
+              flex: 3,
+            ),
+          ],
+        ));
   }
 }
 
@@ -393,12 +412,16 @@ class ChangePassBtn extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return Dialog(
+                     shape:  RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
                   insetPadding: const EdgeInsets.only(left: 30, right: 30),
                   child: Container(
                     // width: 200,
                     height: 400,
                     child: Column(children: [
-                      TopBar(),
+                      TopBar(
+                        barText: "Change Password",
+                      ),
                       BioField(
                         infoString: "Current Password",
                         fieldHeight: 50,
@@ -411,7 +434,7 @@ class ChangePassBtn extends StatelessWidget {
                         infoString: "Confirm Password",
                         fieldHeight: 50,
                       ),
-                     const SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       SaveBioBtn()

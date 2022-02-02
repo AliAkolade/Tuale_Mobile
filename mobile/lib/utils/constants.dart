@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 const Color tualeBlueDark = Color.fromRGBO(8, 61, 119, 1);
@@ -43,3 +44,27 @@ const String registerUserAPI = 'register';
 const String loginUserAPI = 'login';
 const String getVibingPosts = 'posts/vibing?pageNumber=';
 const String getAllPosts = 'posts?pageNumber=';
+
+class camera extends ChangeNotifier  {
+
+ 
+static List<CameraDescription>? cameras;
+ bool hideNav = false;
+
+  
+  Future <void> getcamera()  async {
+     final camera = await availableCameras(); 
+     cameras = camera; 
+
+    print(cameras);
+
+
+  }
+ changeNav () {
+    hideNav = !hideNav;
+  
+    notifyListeners();
+  }
+
+
+}

@@ -24,37 +24,40 @@ class _DiscoverState extends State<Discover> {
            preferredSize:  Size(double.infinity, 103),
               child:  Column(
                 children:   [
-                  SizedBox(
-                    height: 42,
-                    width: 356,
-                    child: TextField(
-                      
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 2),
-                        prefixIcon: Icon(Icons.search_rounded),
-                        hintText: "Search",
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                          
-                            style: BorderStyle.none,
-                            color: Colors.grey.withOpacity(0.8)
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                          
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                          
-                            style: BorderStyle.none,
-                            color: Colors.grey.withOpacity(0.8)
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                          
-                        ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 13, right: 13),
+                    child: SizedBox(
+                      height: 42,
+                    width: double.infinity,
+                      child: TextField(
                         
-                        fillColor: Colors.grey.withOpacity(0.1),
-                        filled: true,
-                       
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 2),
+                          prefixIcon: Icon(Icons.search_rounded),
+                          hintText: "Search",
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                            
+                              style: BorderStyle.none,
+                              color: Colors.grey.withOpacity(0.8)
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                            
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                            
+                              style: BorderStyle.none,
+                              color: Colors.grey.withOpacity(0.8)
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                            
+                          ),
+                          
+                          fillColor: Colors.grey.withOpacity(0.1),
+                          filled: true,
+                         
+                        ),
                       ),
                     ),
                   ),

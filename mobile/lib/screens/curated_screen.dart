@@ -93,12 +93,12 @@ class _CuratedState extends State<Curated> {
 
               return Container(
                 margin: const EdgeInsets.only(
-                    bottom: 10, left: 30, right: 30, top: 40),
-                height: 480,
-                width: 200,
+                    bottom: 10, left: 15, right: 15, top: 20),
+                height: 545,
+                width: 400,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    fit: BoxFit.fitHeight,
+                    fit: BoxFit.cover,
                     image: Image.network(
                       posts[index].postMedia,
                       fit: BoxFit.fitHeight,
@@ -121,7 +121,7 @@ class _CuratedState extends State<Curated> {
                         children: [
                           Align(
                             widthFactor: 5,
-                            alignment: const Alignment(1.1, 0.5),
+                            alignment: const Alignment(1.07, 0.6),
                             child: SizedBox(
                               height: 350,
                               width: 100,
@@ -176,7 +176,7 @@ class _CuratedState extends State<Curated> {
                                                   ),
                                                 ),
                                               ),
-                                              Text("$tualCount",
+                                        Text(posts[index].noTuale.toString(),
                                                   style: const TextStyle(
                                                       color: Colors.white))
                                             ],
@@ -205,7 +205,7 @@ class _CuratedState extends State<Curated> {
                                                     : CrossFadeState.showFirst,
                                                 secondChild: GestureDetector(
                                                   onTap: () {
-                                                    Post().getPost();
+                                                   
                                                     setState(() {
                                                       starred = false;
                                                       starCount = 0;
@@ -231,7 +231,7 @@ class _CuratedState extends State<Curated> {
                                                   ),
                                                 ),
                                               ),
-                                              Text("$starCount",
+                                              Text(posts[index].noStar.toString(),
                                                   style: const TextStyle(
                                                       color: Colors.white))
                                             ],
@@ -247,14 +247,13 @@ class _CuratedState extends State<Curated> {
                                           margin: const EdgeInsets.only(
                                               top: 10, bottom: 10),
                                           child: Column(
-                                            children: const [
-                                              Icon(
+                                            children:  [
+                                            const  Icon(
                                                 TualeIcons.comment,
                                                 color: Colors.white,
                                                 size: 27,
                                               ),
-                                              Text(
-                                                "0",
+                                              Text(posts[index].noComment.toString() ,
                                                 style: TextStyle(
                                                     color: Colors.white),
                                               )
@@ -290,6 +289,7 @@ class _CuratedState extends State<Curated> {
                           //user post info
                           Column(
                             mainAxisAlignment: MainAxisAlignment.end,
+                            
                             children: [
                               Container(
                                   margin:
@@ -298,7 +298,7 @@ class _CuratedState extends State<Curated> {
                                     children: [
                                       Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                                            CrossAxisAlignment.center,
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
@@ -368,8 +368,8 @@ class _CuratedState extends State<Curated> {
                           )
                         ],
                       ),
-                      height: 480,
-                      width: 200,
+                      height: 545,
+                      width: 400,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           gradient: const LinearGradient(

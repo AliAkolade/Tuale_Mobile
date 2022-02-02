@@ -6,7 +6,8 @@ import 'package:mobile/utils/constants.dart';
 import 'package:page_transition/page_transition.dart';
 
 class Welcome extends StatefulWidget {
-  const Welcome({Key? key}) : super(key: key);
+  
+  const Welcome({Key? key,  }) : super(key: key);
   @override
   State<Welcome> createState() => _WelcomeState();
 }
