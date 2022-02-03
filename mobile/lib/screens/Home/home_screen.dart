@@ -1,10 +1,4 @@
 
-
-
-
-
-
-
 import 'package:mobile/screens/imports.dart';
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

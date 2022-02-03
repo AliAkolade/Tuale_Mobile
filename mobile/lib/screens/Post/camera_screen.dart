@@ -1,10 +1,4 @@
-
-
-
-
-
 import 'package:mobile/screens/imports.dart';
-
 
 class CameraApp extends StatefulWidget {
   @override
@@ -27,9 +21,10 @@ class _CameraAppState extends State<CameraApp> {
     print(camera.cameras);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack, overlays: []);
 
-//  controller = CameraController(camera.cameras![0],ResolutionPreset.ultraHigh);
+    // controller =
+    //     CameraController(camera.cameras![0], ResolutionPreset.ultraHigh);
 
-//  initalizedController = controller!.initialize();
+   // initalizedController = controller!.initialize();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       Provider.of<camera>(context, listen: false).changeNav();
     });
@@ -46,20 +41,21 @@ class _CameraAppState extends State<CameraApp> {
     super.initState();
   }
 
-  // @override
-  // void didChangeAppLifecycleState(AppLifecycleState state) {
-  //   // App state changed before we got the chance to initialize.
-  //   if (controller == null || !controller!.value.isInitialized) {
-  //     return;
-  //   }
-  //   if (state == AppLifecycleState.inactive) {
-  //     controller?.dispose();
-  //   } else if (state == AppLifecycleState.resumed) {
-  //     if (controller != null) {
-  //       // onNewCameraSelected(controller.description);
-  //     }
-  //   }
-  // }
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // App state changed before we got the chance to initialize.
+    if (controller == null || !controller!.value.isInitialized) {
+      return;
+    }
+    if (state == AppLifecycleState.inactive) {
+      controller?.dispose();
+    } else if (state == AppLifecycleState.resumed) {
+      if (controller != null) {
+        // onNewCameraSelected(controller.description);
+      }
+    }
+  }
+
   @override
   void deactivate() {
     print("deactivate");
@@ -71,8 +67,6 @@ class _CameraAppState extends State<CameraApp> {
     super.dispose();
     controller?.dispose();
     // Provider.of<camera>(context, listen: false).changeNav();
-
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack, overlays: []);
   }
 
   @override
@@ -86,26 +80,24 @@ class _CameraAppState extends State<CameraApp> {
           future: getHey(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              //    final mediaSize = MediaQuery.of(context).size;
-              // final scale = 1 / (controller!.value.aspectRatio * mediaSize.aspectRatio);
+              // final mediaSize = MediaQuery.of(context).size;
+              // final scale =
+              //     1 / (controller!.value.aspectRatio * mediaSize.aspectRatio);
               // If the Future is complete, display the preview.
               return SafeArea(
                 //  bottom: false,
                 child: Stack(
                   children: [
-                    //   ClipRect(
-                    //     clipper: _MediaSizeClipper(mediaSize),
-                    //     child: Transform.scale(
-                    //       scale: scale,
-                    //       alignment: Alignment.topCenter,
-                    //       child: Container(
-                    //         color: Colors.black,
-                    //       ),     // CameraPreview(
-                    //     //     controller!,
-
-                    //     //     ),
-                    //      ),
-                    //  ),
+                    // ClipRect(
+                    //   clipper: _MediaSizeClipper(mediaSize),
+                    //   child: Transform.scale(
+                    //     scale: scale,
+                    //     alignment: Alignment.topCenter,
+                    //     child: CameraPreview(
+                    //       controller!,
+                    //     ),
+                    //   ),
+                    // ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -117,19 +109,19 @@ class _CameraAppState extends State<CameraApp> {
                             ),
                             Icon(
                               Icons.arrow_back_rounded,
-                              color: Colors.black,
+                              color: Colors.white,
                               size: 25,
                             ),
                             Spacer(flex: 6),
                             Icon(
                               Icons.flash_on_outlined,
-                              color: Colors.black,
+                              color: Colors.white,
                               size: 25,
                             ),
                             Spacer(flex: 6),
                             Icon(
                               Icons.flip_camera_android_rounded,
-                              color: Colors.black,
+                              color: Colors.white,
                               size: 25,
                             ),
                             SizedBox(
@@ -148,20 +140,14 @@ class _CameraAppState extends State<CameraApp> {
                                     final permitted =
                                         await PhotoManager.requestPermission();
                                     if (!permitted) return;
-                                    showModalBottomSheet(
-
-                                      isScrollControlled:  true,
-                                        useRootNavigator: true,
-                                        context: context,
-                                        builder: (context) => Container(
-                                            height: MediaQuery.of(context).size.height * 0.80,
-                                         // color: Colors.black,
-                                          child: galleryScreen(),
-                                        ));
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return galleryScreen();
+                                    }));
                                   },
                                   child: Icon(
                                     Icons.image,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                   ),
                                 ),
                                 Text(
@@ -183,7 +169,7 @@ class _CameraAppState extends State<CameraApp> {
                                   },
                                   child: const Icon(
                                     Icons.radio_button_off_rounded,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     size: 80,
                                   ),
                                 ),

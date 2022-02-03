@@ -15,7 +15,7 @@ class _NavBarState extends State<NavBar> {
 
 
   List<Widget> _buildScreens() {
-    return  [Home(), Discover(), CameraApp(), Leaderboard(),Profile() ];
+    return  [Home(), Discover(), CameraApp(), Leaderboard(), Profile() ];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {

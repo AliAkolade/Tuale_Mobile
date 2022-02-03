@@ -312,58 +312,89 @@ class ProfileInfo extends StatelessWidget {
             const Spacer(
               flex: 4,
             ),
-            ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Dialog(
-                        shape:  RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                        insetPadding:
-                            const EdgeInsets.only(left: 20, right: 20),
-                        child: Container(
-                            height: 690,
-                            // width: 1050,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  TopBar(barText: "Edit Profile"),
-                                  const ProfilePic(),
-                                  BioField(
-                                    infoString: "Full Name",
-                                    fieldHeight: 50,
+            Row(
+           
+              children: [
+                  Spacer(flex: 3,),
+                ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            shape:  RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                            insetPadding:
+                                const EdgeInsets.only(left: 20, right: 20),
+                            child: Container(
+                                height: 690,
+                                // width: 1050,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      TopBar(barText: "Edit Profile"),
+                                      const ProfilePic(),
+                                      BioField(
+                                        infoString: "Full Name",
+                                        fieldHeight: 50,
+                                      ),
+                                      BioField(
+                                        infoString: "Username",
+                                        fieldHeight: 50,
+                                      ),
+                                      BioField(
+                                        infoString: "Bio",
+                                        fieldHeight: 100,
+                                      ),
+                                      const ChangePassBtn(),
+                                      const SaveBioBtn(),
+                                      const SizedBox(height: 10)
+                                    ],
                                   ),
-                                  BioField(
-                                    infoString: "Username",
-                                    fieldHeight: 50,
-                                  ),
-                                  BioField(
-                                    infoString: "Bio",
-                                    fieldHeight: 100,
-                                  ),
-                                  const ChangePassBtn(),
-                                  const SaveBioBtn(),
-                                  const SizedBox(height: 10)
-                                ],
-                              ),
-                            )),
+                                )),
+                          );
+                        },
                       );
                     },
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(155, 50),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-                child: const Text('Edit Profile',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Color.fromRGBO(255, 255, 255, 1),
-                        fontFamily: 'Poppins',
-                        fontSize: 15.5,
-                        fontWeight: FontWeight.bold,
-                        height: 1))),
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(155, 45),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                    child: const Text('Edit Profile',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Color.fromRGBO(255, 255, 255, 1),
+                            fontFamily: 'Poppins',
+                            fontSize: 15.5,
+                            fontWeight: FontWeight.bold,
+                            height: 1))),
+                              Spacer(flex: 3,),
+                              ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.fade,
+                                    child: SignUp()));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            
+                            primary: tualeOrange,
+                              minimumSize: const Size(155, 45),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                          child: const Text('Tuallet',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Color.fromRGBO(255, 255, 255, 1),
+                                  fontFamily: 'Poppins',
+                                  fontSize: 15.5,
+                                  fontWeight: FontWeight.bold,
+                                  height: 1))),
+                                   Spacer(flex: 3,)
+              ],
+             
+            ),
             Spacer(
               flex: 3,
             ),

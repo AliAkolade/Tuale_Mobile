@@ -56,6 +56,15 @@ export 'package:flutter/services.dart';
 
 
 
+//---------------------Models----------------------------------------
+export 'package:mobile/models/UserPostDetails.dart';
+
+
+
+
+
+
+
 
 
 

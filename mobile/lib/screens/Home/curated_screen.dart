@@ -1,8 +1,5 @@
-
-
-
-
-import 'dart:developer';
+//import 'dart:developer';
+import 'dart:math';
 
 import 'package:mobile/screens/imports.dart';
 
@@ -44,7 +41,7 @@ class _CuratedState extends State<Curated> {
     dio.options.headers["Authorization"] = token;
     Response response =
         await dio.get(hostAPI + getAllPosts + pageNo.toString());
-    log(response.data.toString());
+    //log(response.data.toString());
     var responseData = response.data;
     List postsResponses = responseData['posts'];
     if (responseData['success'].toString() == 'true') {
@@ -107,7 +104,9 @@ class _CuratedState extends State<Curated> {
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return VibingZoom();
+                      return VibingZoom(
+                        post: posts[index],
+                      );
                     }));
                   },
                   child: Hero(
@@ -172,7 +171,10 @@ class _CuratedState extends State<Curated> {
                                                   ),
                                                 ),
                                               ),
-                                        Text(posts[index].noTuale.toString(),
+                                              Text(
+                                                  posts[index]
+                                                      .noTuale
+                                                      .toString(),
                                                   style: const TextStyle(
                                                       color: Colors.white))
                                             ],
@@ -201,7 +203,6 @@ class _CuratedState extends State<Curated> {
                                                     : CrossFadeState.showFirst,
                                                 secondChild: GestureDetector(
                                                   onTap: () {
-                                                   
                                                     setState(() {
                                                       starred = false;
                                                       starCount = 0;
@@ -227,13 +228,208 @@ class _CuratedState extends State<Curated> {
                                                   ),
                                                 ),
                                               ),
-                                              Text(posts[index].noStar.toString(),
+                                              Text(
+                                                  posts[index]
+                                                      .noStar
+                                                      .toString(),
                                                   style: const TextStyle(
                                                       color: Colors.white))
                                             ],
                                           ),
                                         ),
-                                        Container(
+                                       GestureDetector(
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                            
+                                            shape: const RoundedRectangleBorder(
+                                              side: BorderSide(),
+                                              borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))
+                                            ),
+                                              useRootNavigator: true,
+                                              isScrollControlled: true,
+                                              enableDrag: true,
+                                              context: context,
+                                              builder: (context) => Padding(
+                                                padding:   EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                child: Container(
+                                                     height: MediaQuery.of(context).size.height * 0.55,
+                                                      padding: EdgeInsets.only(
+                                                          left: 15, right: 15, top: 15, ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment.start,
+                                                        children: [
+                                                          Text("Comments"),
+                                                          SizedBox(
+                                                            height: 300,
+                                                            child: ListView.builder(
+                                                              scrollDirection:
+                                                                  Axis.vertical,
+                                                              itemCount: 3,
+                                                              itemBuilder:
+                                                                  (BuildContext
+                                                                          context,
+                                                                      int index) {
+                                                                return Container(
+                                                                  //color: Colors.blue,
+                                                                  margin:
+                                                                      EdgeInsetsDirectional
+                                                                          .only(top: 15),
+                                                                  // color: Colors.black,
+                                                                  height: 100,
+                                                                  width: 100,
+                                                                  child: Row(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      const SizedBox(
+                                                                        height: 35,
+                                                                        width: 35,
+                                                                        child:
+                                                                            CircleAvatar(
+                                                                          backgroundImage:
+                                                                              AssetImage(
+                                                                                  'assets/images/demo_profile.png'),
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                          width: 10),
+                                                                      Column(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment
+                                                                                .start,
+                                                                        children: const [
+                                                                          Text(
+                                                                            "siphie_z0",
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Colors
+                                                                                  .black,
+                                                                              fontFamily:
+                                                                                  'Poppins',
+                                                                              fontSize:
+                                                                                  13,
+                                                                              fontWeight:
+                                                                                  FontWeight.bold,
+                                                                            ),
+                                                                          ),
+                                                                          FittedBox(
+                                                                              child:
+                                                                                  SizedBox(
+                                                                            height:
+                                                                                30,
+                                                                            width:
+                                                                                230,
+                                                                            child:
+                                                                                Text(
+                                                                              "Was I high when I said this? Lol. I do not even remember writing this.",
+                                                                              maxLines:
+                                                                                  3,
+                                                                              overflow:
+                                                                                  TextOverflow.ellipsis,
+                                                                            ),
+                                                                          )),
+                                                                          Text(
+                                                                            "Reply",
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Colors
+                                                                                  .black54,
+                                                                              fontFamily:
+                                                                                  'Poppins',
+                                                                              fontSize:
+                                                                                  14,
+                                                                            ),
+                                                                          )
+                                                                        ],
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                );
+                                                              },
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            height: 80,
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                              const  SizedBox(
+                                                                  height: 45,
+                                                                  width: 45,
+                                                                  child: CircleAvatar(
+                                                                    backgroundImage:
+                                                                        AssetImage(
+                                                                            'assets/images/demo_profile.png'),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                    width: 200,
+                                                                    height: 50,
+                                                                    child: TextField(
+                                                                      maxLines: 7,
+                                                                      decoration:
+                                                                          InputDecoration(
+                                                                            filled: true,
+                                                                            fillColor: Colors.grey.shade50,
+                                                                        contentPadding:
+                                                                            const EdgeInsets
+                                                                                    .fromLTRB(
+                                                                                5,
+                                                                                5,
+                                                                                5,
+                                                                                2),
+                                                                        enabledBorder:
+                                                                            OutlineInputBorder(
+                                                                          borderSide:  BorderSide(
+                                                                              style: BorderStyle
+                                                                                  .solid,
+                                                                              color: Colors
+                                                                                  .grey.shade300),
+                                                                          borderRadius:
+                                                                              BorderRadius
+                                                                                  .circular(7),
+                                                                        ),
+                                                                        focusedBorder:
+                                                                            OutlineInputBorder(
+                                                                          borderSide: const BorderSide(
+                                                                              style: BorderStyle
+                                                                                  .solid,
+                                                                              color: Colors
+                                                                                  .grey),
+                                                                          borderRadius:
+                                                                              BorderRadius
+                                                                                  .circular(7),
+                                                                        ),
+                                                                      ),
+                                                                    )),
+                                                                SizedBox(
+                                                                  height: 40,
+                                                                  width: 40,
+                                                                  child: CircleAvatar(
+                                                                      backgroundColor:
+                                                                          tualeBlueDark,
+                                                                      child: Transform.rotate(
+                                                                        angle: -pi/7,
+                                                                        child: const Icon(
+                                                                            Icons
+                                                                                .send,
+                                                                                color: Colors.white,
+                                                                                ),
+                                                                      )),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                              ));
+                                        },
+                                        child: Container(
                                           decoration: const BoxDecoration(
                                               boxShadow: [
                                                 BoxShadow(
@@ -243,19 +439,21 @@ class _CuratedState extends State<Curated> {
                                           margin: const EdgeInsets.only(
                                               top: 10, bottom: 10),
                                           child: Column(
-                                            children:  [
-                                            const  Icon(
+                                            children: const [
+                                              Icon(
                                                 TualeIcons.comment,
                                                 color: Colors.white,
                                                 size: 27,
                                               ),
-                                              Text(posts[index].noComment.toString() ,
-                                                style: TextStyle(
-                                                    color: Colors.white),
+                                              const Text(
+                                                "0",
+                                                style:
+                                                    TextStyle(color: Colors.white),
                                               )
                                             ],
                                           ),
                                         ),
+                                      ),
                                         Container(
                                           decoration: const BoxDecoration(
                                               boxShadow: [
@@ -285,58 +483,66 @@ class _CuratedState extends State<Curated> {
                           //user post info
                           Column(
                             mainAxisAlignment: MainAxisAlignment.end,
-                            
                             children: [
                               Container(
                                   margin:
                                       const EdgeInsets.fromLTRB(20, 20, 20, 20),
                                   child: Column(
                                     children: [
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            height: 50,
-                                            width: 50,
-                                            child: CircleAvatar(
-                                              backgroundImage: Image.network(
-                                                posts[index].userProfilePic,
-                                                fit: BoxFit.fitHeight,
-                                              ).image,
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return userProfile();
+                                          }));
+                                        },
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              height: 50,
+                                              width: 50,
+                                              child: CircleAvatar(
+                                                backgroundImage: Image.network(
+                                                  posts[index].userProfilePic,
+                                                  fit: BoxFit.fitHeight,
+                                                ).image,
+                                              ),
                                             ),
-                                          ),
-                                          const Spacer(
-                                            flex: 1,
-                                          ),
-                                          Text(
-                                            posts[index].username.toString(),
-                                            style: TextStyle(
-                                                color: Colors.white,
+                                            const Spacer(
+                                              flex: 1,
+                                            ),
+                                            Text(
+                                              posts[index].username.toString(),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  height: 1),
+                                            ),
+                                            const Spacer(
+                                              flex: 1,
+                                            ),
+                                            const Text(
+                                              "1 day ago",
+                                              style: TextStyle(
+                                                color: Colors.white70,
                                                 fontFamily: 'Poppins',
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                                height: 1),
-                                          ),
-                                          const Spacer(
-                                            flex: 1,
-                                          ),
-                                          const Text(
-                                            "1 day ago",
-                                            style: TextStyle(
-                                              color: Colors.white70,
-                                              fontFamily: 'Poppins',
-                                              fontSize: 10,
+                                                fontSize: 10,
 
-                                              //height: 1
+                                                //height: 1
+                                              ),
                                             ),
-                                          ),
-                                          const Spacer(
-                                            flex: 10,
-                                          ),
-                                        ],
+                                            const Spacer(
+                                              flex: 10,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       Row(
                                         mainAxisAlignment:
