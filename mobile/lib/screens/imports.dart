@@ -24,7 +24,9 @@ export 'package:mobile/screens/Profile/allPosts.dart';
 export 'package:mobile/main.dart';
 export 'package:mobile/screens/Post/gallery_home_screen.dart';
 export 'package:mobile/screens/Post/gallery_videos.dart';
-
+export 'package:mobile/screens/Profile/Tuallet/tuallet_home.dart';
+export 'package:mobile/screens/Profile/Tuallet/tp_balance_screen.dart';
+export 'package:mobile/screens/Profile/Tuallet/withdrawal_screen.dart';
 
 
 //-------------------------Packages-------------------------------------
@@ -60,8 +62,8 @@ export 'package:flutter/services.dart';
 export 'package:mobile/models/UserPostDetails.dart';
 
 
-
-
+//--------------------Api-----------------------------------------------
+export 'package:mobile/utils/Api.dart';
 
 
 

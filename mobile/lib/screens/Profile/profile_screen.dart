@@ -375,7 +375,7 @@ class ProfileInfo extends StatelessWidget {
                                 context,
                                 PageTransition(
                                     type: PageTransitionType.fade,
-                                    child: SignUp()));
+                                    child: TualletHome()));
                           },
                           style: ElevatedButton.styleFrom(
                             

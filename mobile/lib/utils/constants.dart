@@ -45,6 +45,7 @@ const String loginUserAPI = 'login';
 const String getVibingPosts = 'posts/vibing?pageNumber=';
 const String getAllPosts = 'posts?pageNumber=';
 const String userpost = 'profile/';
+const String currentuser = 'me';
 
 
 class camera extends ChangeNotifier  {

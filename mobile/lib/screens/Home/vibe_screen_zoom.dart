@@ -382,10 +382,20 @@ class _VibingZoomState extends State<VibingZoom> {
                         child: Column(children: [
                           GestureDetector(
                             onTap: () {
-                                      Navigator.push(context,
+                                      if(Api.currentUserId == widget.post!.id){
+                                              Navigator.push(context,
                                               MaterialPageRoute(
                                                   builder: (context) {
-                                            return userProfile();
+                                            return Profile();
+                                          }));
+
+                                          }
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return userProfile(
+                                              username: widget.post!.username.toString(),
+                                            );
                                           }));
                             },
                             child: Row(

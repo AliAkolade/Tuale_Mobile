@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/screens/Auth/welcome_screen.dart';
+import 'package:mobile/screens/imports.dart';
 import 'package:mobile/utils/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +10,7 @@ Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
     
     camera().getcamera();
+    Api().getCurrentUserId();
     
     SystemChrome.setSystemUIOverlayStyle( const SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.white, // navigation bar color

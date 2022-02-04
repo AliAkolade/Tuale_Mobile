@@ -24,6 +24,7 @@ class _VibingState extends State<Vibing> {
     super.initState();
   //  Api().getVibingPost();
     Api().getUserProfile("demilade211");
+    print(Api.currentUserId);
     
   }
 

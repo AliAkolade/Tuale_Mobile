@@ -1,11 +1,14 @@
 
 
+
 import 'package:mobile/screens/imports.dart';
+
 
 class userProfile extends StatefulWidget {
   bool? isUser = false;
+  String? username;
 
-userProfile({this.isUser});
+userProfile({this.isUser, this.username});
   State<userProfile> createState() => _ProfileState();
 }
 
@@ -16,121 +19,130 @@ class _ProfileState extends State<userProfile> {
     return Material(
       child: DefaultTabController(
         length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            leading: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Icon(Icons.arrow_back_rounded,
-              color: Colors.black,
-              ),
-            ),
-            actions: [
-              Icon(Icons.more_vert_rounded, 
-              color: Colors.black,
-              )
-            ],
-            centerTitle: true,
-            elevation: 0,
-            backgroundColor: Colors.white,
-            title: const Text(
-              "Siphiwe Zola",
-              style: TextStyle(
-                  color: tualeBlueDark,
-                  fontFamily: 'Poppins',
-                  fontSize: 18,
-                  // fontWeight: FontWeight.bold,
-                  height: 1),
-            ),
-          ),
-          body: NestedScrollView(
-            physics: ClampingScrollPhysics(),
-            headerSliverBuilder: (context, isScrolled) {
-              return [
-                SliverPersistentHeader(
-                  delegate: _SliverAppBarDelegate(ProfileInfotwo
-                ()),
-                  pinned: false,
-                  //  floating: true,
-                ),
-                SliverOverlapAbsorber(
-                  handle:
-                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                  sliver: SliverAppBar(
-                    //floating: true,
-                    pinned: true,
-                    // collapsedHeight: 100,
-                    expandedHeight: 10,
-                    flexibleSpace: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        TabBar(
-                            unselectedLabelColor: Colors.grey,
-                            indicatorColor: Colors.transparent,
-                            indicatorWeight: 1.1,
-                            labelColor: tualeBlueDark,
-                            labelStyle:  TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 16,
-                                // fontWeight: FontWeight.bold,
-                                height: 1),
-                            tabs: [
-                             const Tab(
-                                icon: Icon(
-                                  TualeIcons.allposts,
-                                  size: 30,
-                                ),
-                              ),
-                              Tab(
-                                  icon: Icon(
-                                TualeIcons.starredpost,
-                                size: 35,
-                               // color: Colors.grey.withOpacity(0.3),
-                              )),
-                            ]),
-                        SizedBox(
-                          height: 3,
-                          child: Divider(
-                            color: Colors.grey,
-                          ),
-                        )
-                      ],
-                    ),
-                    backgroundColor: Colors.white,
+        child: FutureBuilder<UserPostDetails?>(
+          future: Api().getUserProfile(widget.username!),
+          builder: (context, snapshot) {
+         if (snapshot.connectionState == ConnectionState.done && snapshot.hasData){
+              UserPostDetails?  userdetails = snapshot.data;
+            return Scaffold(
+              appBar: AppBar(
+                leading: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(Icons.arrow_back_rounded,
+                  color: Colors.black,
                   ),
                 ),
-              ];
-            },
-            body: TabBarView(children: [
-               Builder(builder: (context) {
-              return CustomScrollView(
-                
-                slivers: [
-                  SliverOverlapInjector(
-                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                          context)),
-                          AllPosts()
-                       
-               
+                actions: [
+                  Icon(Icons.more_vert_rounded, 
+                  color: Colors.black,
+                  )
                 ],
-              );
-            }),
-               Builder(builder: (context) {
-              return CustomScrollView(
-                
-                slivers: [
-                  SliverOverlapInjector(
-                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                          context)),
-                          AllPosts(), 
-                       
-               
-                ],
-              );
-            }),
-            ],)
-          ),
+                centerTitle: true,
+                elevation: 0,
+                backgroundColor: Colors.white,
+                title:  Text(
+                  userdetails!.name!,
+                  style: TextStyle(
+                      color: tualeBlueDark,
+                      fontFamily: 'Poppins',
+                      fontSize: 18,
+                      // fontWeight: FontWeight.bold,
+                      height: 1),
+                ),
+              ),
+              body: NestedScrollView(
+                physics: ClampingScrollPhysics(),
+                headerSliverBuilder: (context, isScrolled) {
+                  return [
+                    SliverPersistentHeader(
+                      delegate: _SliverAppBarDelegate(ProfileInfotwo
+                    (userdetails: userdetails,)),
+                      pinned: false,
+                      //  floating: true,
+                    ),
+                    SliverOverlapAbsorber(
+                      handle:
+                          NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                      sliver: SliverAppBar(
+                        //floating: true,
+                        pinned: true,
+                        // collapsedHeight: 100,
+                        expandedHeight: 10,
+                        flexibleSpace: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: const [
+                            TabBar(
+                                unselectedLabelColor: Colors.grey,
+                                indicatorColor: Colors.transparent,
+                                indicatorWeight: 1.1,
+                                labelColor: tualeBlueDark,
+                                labelStyle:  TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 16,
+                                    // fontWeight: FontWeight.bold,
+                                    height: 1),
+                                tabs: [
+                                 Tab(
+                                    icon: Icon(
+                                      TualeIcons.allposts,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  Tab(
+                                      icon: Icon(
+                                    TualeIcons.starredpost,
+                                    size: 35,
+                                   // color: Colors.grey.withOpacity(0.3),
+                                  )),
+                                ]),
+                            SizedBox(
+                              height: 3,
+                              child: Divider(
+                                color: Colors.grey,
+                              ),
+                            )
+                          ],
+                        ),
+                        backgroundColor: Colors.white,
+                      ),
+                    ),
+                  ];
+                },
+                body: TabBarView(children: [
+                   Builder(builder: (context) {
+                  return CustomScrollView(
+                    
+                    slivers: [
+                      SliverOverlapInjector(
+                          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                              context)),
+                              AllPosts()
+                           
+                   
+                    ],
+                  );
+                }),
+                   Builder(builder: (context) {
+                  return CustomScrollView(
+                    
+                    slivers: [
+                      SliverOverlapInjector(
+                          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                              context)),
+                              AllPosts(), 
+                           
+                   
+                    ],
+                  );
+                }),
+                ],)
+              ),
+            );
+         }
+         return Center(child: SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75)) ,);
+          }
         ),
       ),
     );
@@ -160,10 +172,9 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class ProfileInfotwo extends StatelessWidget {
-  const ProfileInfotwo
-({
-    Key? key,
-  }) : super(key: key);
+UserPostDetails? userdetails;
+
+ProfileInfotwo({@required this.userdetails});
 
   @override
   Widget build(BuildContext context) {
@@ -173,18 +184,18 @@ class ProfileInfotwo extends StatelessWidget {
         width: double.infinity,
         child: Column(
           children: [
-            const SizedBox(
+             SizedBox(
               height: 90,
               width: 90,
               child: CircleAvatar(
-                backgroundImage: AssetImage('assets/images/demo_profile.png'),
+                backgroundImage: NetworkImage(userdetails!.avatar!),
               ),
             ),
             const Spacer(
               flex: 2,
             ),
-            const Text(
-              "@siphie_zo",
+             Text(
+              userdetails!.username!,
               style: TextStyle(
                   color: Colors.black,
                   fontFamily: 'Poppins',
@@ -213,10 +224,10 @@ class ProfileInfotwo extends StatelessWidget {
                   flex: 4,
                 ),
                 Column(
-                  children: const [
+                  children:  [
                     Text(
-                      "2389",
-                      style: TextStyle(
+                      userdetails!.fans!,
+                      style:const TextStyle(
                           color: Colors.black,
                           fontFamily: 'Poppins',
                           fontSize: 18,
@@ -245,9 +256,9 @@ class ProfileInfotwo extends StatelessWidget {
                 ),
                 const Spacer(),
                 Column(
-                  children: const [
+                  children:  [
                     Text(
-                      "67",
+                      userdetails!.friends!,
                       style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Poppins',
@@ -277,10 +288,10 @@ class ProfileInfotwo extends StatelessWidget {
                 ),
                 Spacer(),
                 Column(
-                  children: const [
+                  children:  [
                     Text(
-                      "35",
-                      style: TextStyle(
+                      userdetails!.tualegiven!,
+                      style: const TextStyle(
                           color: Colors.black,
                           fontFamily: 'Poppins',
                           fontSize: 18,
@@ -350,7 +361,7 @@ class ProfileInfotwo extends StatelessWidget {
                                 context,
                                 PageTransition(
                                     type: PageTransitionType.fade,
-                                    child: const SignUp()));
+                                    child: const TualletHome()));
                           },
                           style: ElevatedButton.styleFrom(
                               primary: const Color.fromRGBO(218, 65, 103, 1),

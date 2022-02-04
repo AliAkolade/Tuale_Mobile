@@ -48,6 +48,7 @@ class _CuratedState extends State<Curated> {
       for (int i = 0; i < postsResponses.length; i++) {
         setState(() {
           posts.add(PostDetails(
+              id: postsResponses[i]["user"]["_id"],
               userProfilePic: postsResponses[i]['user']['avatar']['url'],
               time: postsResponses[i]['createdAt'],
               postMedia: postsResponses[i]['media']['url'],
@@ -491,10 +492,21 @@ class _CuratedState extends State<Curated> {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
+                                       
+                                          if(Api.currentUserId == posts[index].id){
+                                              Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return Profile();
+                                          }));
+
+                                          }
                                           Navigator.push(context,
                                               MaterialPageRoute(
                                                   builder: (context) {
-                                            return userProfile();
+                                            return userProfile(
+                                              username: posts[index].username.toString(),
+                                            );
                                           }));
                                         },
                                         child: Row(
@@ -646,6 +658,7 @@ class CuratedLikeWidget extends CustomPainter {
 
 // Class for a Post
 class PostDetails {
+  final String id;
   final String username;
   final String userProfilePic;
   final String time;
@@ -656,7 +669,9 @@ class PostDetails {
   final int noComment;
 
   const PostDetails(
-      {required this.userProfilePic,
+      {
+        required this.id,
+        required this.userProfilePic,
       required this.time,
       required this.postMedia,
       required this.postText,
