@@ -1,3 +1,4 @@
+import 'package:mobile/screens/Profile/Tuallet/price_withdrawal_screen.dart';
 import 'package:mobile/screens/imports.dart';
 
 
@@ -13,18 +14,19 @@ class WithdrawalScreen extends StatefulWidget {
 class _WithdrawalScreenState extends State<WithdrawalScreen> {
   List price = [
     {
-      6: "#500.00"
+      6: "500.00"
     },
      {
-      12: "#500.00"
+      12: "500.00"
     },
      {
-      26: "#500.00"
+      26: "500.00"
     },
      {
-      60: "#500.00"
+      60: "500.00"
     }
   ];
+  
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,7 +36,7 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
           decoration: BoxDecoration(
 
             border: Border(
-                 top: BorderSide(color: Colors.grey.withOpacity(0.3)),
+               //  top: BorderSide(color: Colors.grey.withOpacity(0.3)),
               bottom: BorderSide(color: Colors.grey.withOpacity(0.3))
             )
           ),
@@ -45,7 +47,7 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children:  [
-            Text("Balance",
+          const  Text("Balance",
             style: TextStyle(
               color: Colors.black,
               fontFamily: "Poppins",
@@ -53,47 +55,48 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
 
             ),
             ),
-              Text("#1,065",
+              Text(nairaSign+"1,065",
               style: TextStyle(
                 color: tualeBlueDark,
-                   fontFamily: 'Poppins',
+                  // fontFamily: 'Poppins',
                    fontWeight:FontWeight.bold,
                    fontSize: 30,
               ),
               ),
-              SizedBox(height: 30,),
+            const  SizedBox(height: 30,),
                  ElevatedButton(
                         onPressed: () {
                           Navigator.push(
                               context,
                               PageTransition(
                                   type: PageTransitionType.fade,
-                                  child: SignUp()));
+                                  child: PriceWithdrawalScreen()));
                         },
                         style: ElevatedButton.styleFrom(
                           primary: tualeBlueDark,
                             minimumSize: const Size(120, 45),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10))),
-                        child: Text("Withdraw Funds",
+                        child:  Text("Withdraw Funds",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Color.fromRGBO(255, 255, 255, 1),
                                 fontFamily: 'Poppins',
-                                fontSize: 16.5,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 18.sp,
+                              //  fontWeight: FontWeight.bold,
                                 height: 1))),
 
             ],
           ),
         ),
 
-       const Padding(
-          padding: const EdgeInsets.all(8.0),
+        Padding(
+          padding:  EdgeInsets.all(8.0),
           child: Text("Transaction History",
           style: TextStyle(
               color: Colors.grey,
-              fontSize: 18,
+              fontSize: 18.sp,
+                fontFamily: 'Poppins'
           ),
           ),
         ),
@@ -112,7 +115,7 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
               bottom: BorderSide(color: Colors.grey.withOpacity(0.3))
             )
           ),
-              padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
               width: MediaQuery.of(context).size.width,
              // color: Colors.black,
               height: 60,
@@ -122,18 +125,21 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
                 children: [
               Text("Withdrawal from tuallet",
               style: TextStyle(
-                fontSize: 17
+                fontSize: 17.5.sp,
+                  fontFamily: 'Poppins',
+                  color: Colors.black.withOpacity(0.8)
               ),
               ),
-           Spacer(flex: 5,),
-                  Text("${prices.values.toString().replaceAllMapped("(", (match) => '').replaceAllMapped(")", (match) => "")}",
-                style: const TextStyle(
-                  color: Colors.grey,
+         const  Spacer(flex: 5,),
+                  Text(nairaSign+"${prices.values.toString().replaceAllMapped("(", (match) => '').replaceAllMapped(")", (match) => "")}",
+                style:  TextStyle(
+                  color: Colors.black87.withOpacity(0.6),
                   fontWeight: FontWeight.w400,
-                  fontSize: 18,
+                  fontSize: 20.sp,
+                   // fontFamily: 'Poppins'
                 ),
                 ),
-                    Spacer(flex: 1,),
+                  const  Spacer(flex: 1,),
                   
                                   
                 ],

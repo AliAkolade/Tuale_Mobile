@@ -51,18 +51,18 @@ class _ViewPostState extends State<ViewPost> {
             backgroundColor: Colors.white,
             centerTitle: true,
             elevation: 1,
-            actions: const [
+            actions:  [
               Icon(TualeIcons.notificationbell, color: tualeBlueDark),
               SizedBox(
-                width: 10,
+                width: 10.w,
               )
             ],
-            title: const Text(
+            title:  Text(
               "Discover",
               style: TextStyle(
                   color: tualeBlueDark,
                   fontFamily: 'Poppins',
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                   height: 1),
             ),
@@ -77,8 +77,8 @@ class _ViewPostState extends State<ViewPost> {
                 return Container(
                   margin: const EdgeInsets.only(
                       bottom: 10, left: 15, right: 15, top: 20),
-                  height: 545,
-                  width: 400,
+                  height: 545.h,
+                  width: 400.w,
                   decoration: BoxDecoration(
                     image: const DecorationImage(
                         fit: BoxFit.cover,
@@ -103,8 +103,8 @@ class _ViewPostState extends State<ViewPost> {
                               widthFactor: 5,
                               alignment: Alignment(1.07, 0.6),
                               child: Container(
-                                height: 350,
-                                width: 100,
+                                height: 350.h,
+                                width: 100.w,
                                 // color: Colors.white,
                                 child: CustomPaint(
                                   size: Size(
@@ -154,10 +154,10 @@ class _ViewPostState extends State<ViewPost> {
                                                         tualCount = 1;
                                                       });
                                                     },
-                                                    child: const Icon(
+                                                    child:  Icon(
                                                       TualeIcons.tuale,
                                                       color: Colors.white,
-                                                      size: 40,
+                                                      size: 40.sp,
                                                     ),
                                                   ),
                                                 ),
@@ -198,10 +198,10 @@ class _ViewPostState extends State<ViewPost> {
                                                         starCount = 0;
                                                       });
                                                     },
-                                                    child: const Icon(
+                                                    child:  Icon(
                                                       TualeIcons.star,
                                                       color: tualeOrange,
-                                                      size: 33,
+                                                      size: 33.sp,
                                                     ),
                                                   ),
                                                   firstChild: GestureDetector(
@@ -211,10 +211,10 @@ class _ViewPostState extends State<ViewPost> {
                                                         starCount = 1;
                                                       });
                                                     },
-                                                    child: const Icon(
+                                                    child:  Icon(
                                                       TualeIcons.star,
                                                       color: Colors.white,
-                                                      size: 33,
+                                                      size: 33.sp,
                                                     ),
                                                   ),
                                                 ),
@@ -261,10 +261,10 @@ class _ViewPostState extends State<ViewPost> {
                                               onTap: () {
                                                 more(context);
                                               },
-                                              child: const Icon(
+                                              child:  Icon(
                                                 TualeIcons.elipsis,
                                                 color: Colors.white,
-                                                size: 23,
+                                                size: 23.sp,
                                               ),
                                             ),
                                           )
@@ -297,8 +297,8 @@ class _ViewPostState extends State<ViewPost> {
                                                 MainAxisAlignment.start,
                                             children: [
                                               Container(
-                                                height: 50,
-                                                width: 50,
+                                                height: 50.h,
+                                                width: 50.h,
                                                 child: const CircleAvatar(
                                                   backgroundImage: AssetImage(
                                                       "assets/images/demo_profile.png"),
@@ -307,24 +307,24 @@ class _ViewPostState extends State<ViewPost> {
                                               const Spacer(
                                                 flex: 1,
                                               ),
-                                              const Text(
+                                               Text(
                                                 "@Singe",
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontFamily: 'Poppins',
-                                                    fontSize: 18,
+                                                    fontSize: 18.sp,
                                                     fontWeight: FontWeight.bold,
                                                     height: 1),
                                               ),
                                               const Spacer(
                                                 flex: 1,
                                               ),
-                                              const Text(
+                                               Text(
                                                 "1 day ago",
                                                 style: TextStyle(
                                                   color: Colors.white70,
                                                   fontFamily: 'Poppins',
-                                                  fontSize: 10,
+                                                  fontSize: 10.sp,
 
                                                   //height: 1
                                                 ),
@@ -338,19 +338,19 @@ class _ViewPostState extends State<ViewPost> {
                                               child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
-                                            children: const [
+                                            children:  [
                                               Text(
                                                 "There is always a light bulb in your head.\n #ideas run the world.",
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                     color: Colors.white70,
                                                     // fontFamily: 'Poppins',
-                                                    fontSize: 14,
+                                                    fontSize: 14.sp,
                                                     height: 1),
                                               ),
                                               Icon(
                                                 Icons.volume_down_rounded,
-                                                size: 35,
+                                                size: 35.sp,
                                                 color: Colors.white,
                                               )
                                             ],
@@ -362,8 +362,8 @@ class _ViewPostState extends State<ViewPost> {
                             )
                           ],
                         ),
-                        height: 545,
-                        width: 400,
+                        height: 545.h,
+                        width: 400.w,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                             gradient: const LinearGradient(

@@ -2,6 +2,7 @@
 
 
 
+import 'package:mobile/screens/Profile/edit_profile.dart';
 import 'package:mobile/screens/imports.dart';
 
 class Profile extends StatefulWidget {
@@ -318,43 +319,11 @@ class ProfileInfo extends StatelessWidget {
                   Spacer(flex: 3,),
                 ElevatedButton(
                     onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Dialog(
-                            shape:  RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                            insetPadding:
-                                const EdgeInsets.only(left: 20, right: 20),
-                            child: Container(
-                                height: 690,
-                                // width: 1050,
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      TopBar(barText: "Edit Profile"),
-                                      const ProfilePic(),
-                                      BioField(
-                                        infoString: "Full Name",
-                                        fieldHeight: 50,
-                                      ),
-                                      BioField(
-                                        infoString: "Username",
-                                        fieldHeight: 50,
-                                      ),
-                                      BioField(
-                                        infoString: "Bio",
-                                        fieldHeight: 100,
-                                      ),
-                                      const ChangePassBtn(),
-                                      const SaveBioBtn(),
-                                      const SizedBox(height: 10)
-                                    ],
-                                  ),
-                                )),
-                          );
-                        },
-                      );
+                     Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.fade,
+                                    child: EditProfile()));
                     },
                     style: ElevatedButton.styleFrom(
                         minimumSize: const Size(155, 45),
@@ -411,7 +380,9 @@ class SaveBioBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pop(context);
+      },
       style: ElevatedButton.styleFrom(
           minimumSize: const Size(130, 45),
           shape:

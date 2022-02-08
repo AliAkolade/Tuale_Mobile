@@ -24,7 +24,7 @@ class _DiscoverState extends State<Discover> {
                   Padding(
                     padding: const EdgeInsets.only(left: 13, right: 13),
                     child: SizedBox(
-                      height: 42,
+                      height: 42.h,
                     width: double.infinity,
                       child: TextField(
                         
@@ -58,14 +58,14 @@ class _DiscoverState extends State<Discover> {
                       ),
                     ),
                   ),
-                const TabBar(
+                 TabBar(
                                               unselectedLabelColor: tualeBlueDark,
                                               indicatorColor: tualeOrange,
                                               indicatorWeight: 1.1,
                                               labelColor: tualeOrange,
                                               labelStyle:  TextStyle(
                                                   fontFamily: 'Poppins',
-                                                  fontSize: 16,
+                                                  fontSize: 16.sp,
                                                  // fontWeight: FontWeight.bold,
                                                   height: 1),
                                               tabs: [
@@ -81,15 +81,15 @@ class _DiscoverState extends State<Discover> {
             backgroundColor: Colors.white,
             centerTitle: true,
             elevation: 1,
-            actions: const [
+            actions:  [
               Icon(TualeIcons.notificationbell, color:tualeBlueDark ),
-              SizedBox(width: 10,)
+              SizedBox(width: 10.w,)
             ],
-            title: const Text("Discover",
+            title:  Text("Discover",
             style: TextStyle(
               color: tualeBlueDark,
                                             fontFamily: 'Poppins',
-                                            fontSize: 18,
+                                            fontSize: 18.sp,
                                             fontWeight: FontWeight.bold,
                                             height: 1),
             ),

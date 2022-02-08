@@ -1,18 +1,20 @@
 
 
 
+import 'package:mobile/screens/Profile/edit_profile.dart';
 import 'package:mobile/screens/imports.dart';
 
 
 class userProfile extends StatefulWidget {
-  bool? isUser = false;
+  bool? isUser;
   String? username;
 
 userProfile({this.isUser, this.username});
   State<userProfile> createState() => _ProfileState();
 }
-
+bool? isAccountOwner;
 class _ProfileState extends State<userProfile> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +26,12 @@ class _ProfileState extends State<userProfile> {
           builder: (context, snapshot) {
          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData){
               UserPostDetails?  userdetails = snapshot.data;
+
+              isAccountOwner = Api.currentUserId == userdetails!.id ? true : false ;
+            
             return Scaffold(
               appBar: AppBar(
-                leading: GestureDetector(
+                leading: widget.isUser! ? Container() : GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
                   },
@@ -183,20 +188,24 @@ ProfileInfotwo({@required this.userdetails});
         height: 350,
         width: double.infinity,
         child: Column(
+        //  crossAxisAlignment: CrossAxisAlignment.center,
+        //  mainAxisAlignment: MainAxisAlignment.center,
           children: [
-             SizedBox(
-              height: 90,
-              width: 90,
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(userdetails!.avatar!),
-              ),
+             Center(
+               child: SizedBox(
+                height: 90,
+                width: 90,
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(userdetails!.avatar!),
+                ),
             ),
+             ),
             const Spacer(
               flex: 2,
             ),
              Text(
-              userdetails!.username!,
-              style: TextStyle(
+             "@"+userdetails!.username!,
+              style: const TextStyle(
                   color: Colors.black,
                   fontFamily: 'Poppins',
                   fontSize: 13,
@@ -219,10 +228,9 @@ ProfileInfotwo({@required this.userdetails});
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Spacer(
-                  flex: 4,
-                ),
+             
                 Column(
                   children:  [
                     Text(
@@ -239,55 +247,55 @@ ProfileInfotwo({@required this.userdetails});
                       style: TextStyle(
                           color: Colors.black54,
                           fontFamily: 'Poppins',
-                          fontSize: 12,
+                          fontSize: 11,
                           height: 1),
                     ),
                   ],
                 ),
-                Spacer(),
-                SizedBox(
-                  height: 60,
-                  // width: 9,
-                  child: VerticalDivider(
-                    width: 10,
-                    thickness: 1,
-                    color: Colors.grey.withOpacity(0.2),
+           
+               // const Spacer(),
+
+                Container(
+               
+                 // height: 50,
+                  width: 100,
+                 margin: EdgeInsets.only(left: 20, right:20),
+                  padding: EdgeInsets.only(left: 8, right:8),
+                  decoration: BoxDecoration(
+                   //  color: Colors.black,
+                    border: Border(
+                 left: BorderSide(color: Colors.grey.withOpacity(0.3)),
+              right: BorderSide(color: Colors.grey.withOpacity(0.3))
+            )
+                  ),
+                  child: Column(
+                    children:  [
+                      Text(
+                        userdetails!.friends!,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Poppins',
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            height: 1),
+                      ),
+                      Text(
+                        "Friends",
+                        style: TextStyle(
+                            color: Colors.black54,
+                            fontFamily: 'Poppins',
+                            fontSize: 11,
+                            height: 1),
+                      ),
+                    ],
                   ),
                 ),
-                const Spacer(),
+               // Spacer(),
+             
+               // Spacer(),
                 Column(
-                  children:  [
-                    Text(
-                      userdetails!.friends!,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Poppins',
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          height: 1),
-                    ),
-                    Text(
-                      "Friends",
-                      style: TextStyle(
-                          color: Colors.black54,
-                          fontFamily: 'Poppins',
-                          fontSize: 12,
-                          height: 1),
-                    ),
-                  ],
-                ),
-                Spacer(),
-                SizedBox(
-                  height: 60,
-                  // width: 9,
-                  child: VerticalDivider(
-                    width: 10,
-                    thickness: 1,
-                    color: Colors.grey.withOpacity(0.2),
-                  ),
-                ),
-                Spacer(),
-                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                 // crossAxisAlignment: CrossAxisAlignment.start,
                   children:  [
                     Text(
                       userdetails!.tualegiven!,
@@ -299,38 +307,91 @@ ProfileInfotwo({@required this.userdetails});
                           height: 1),
                     ),
                     Text(
-                      "Tuales Given",
+                      "Tuales given",
                       style: TextStyle(
                           color: Colors.black54,
                           fontFamily: 'Poppins',
-                          fontSize: 12,
+                          fontSize: 11,
                           height: 1),
                     ),
+                  //  Spacer(flex: 3,)
                   ],
                 ),
-                const Spacer(
-                  flex: 3,
-                ),
+            
               ],
             ),
             const Spacer(
-              flex: 2,
+              flex: 3,
             ),
             const Text(
               "Dark Skinned and I love it",
               style: TextStyle(
-                  color: Colors.grey,
-                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                  fontFamily: 'Roboto',
                   fontSize: 14,
                   height: 1),
             ),
             const Spacer(
               flex: 4,
             ),
-           Row(
+           isAccountOwner! ?  
+             Row(
+           
+              children: [
+                  Spacer(flex: 3,),
+                ElevatedButton(
+                    onPressed: () {
+                     Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.fade,
+                                    child: EditProfile()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: tualeBlueDark,
+                        minimumSize: const Size(150, 45),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                    child: const Text('Edit Profile',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromRGBO(255, 255, 255, 1),
+                                  fontFamily: 'Poppins',
+                                  fontSize: 15.5,
+                            fontWeight: FontWeight.bold,
+                            height: 1))),
+                              Spacer(flex: 3,),
+                              ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.fade,
+                                    child: TualletHome()));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            
+                            primary: tualeOrange,
+                              minimumSize: const Size(150, 45),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                          child: const Text('Tuallet',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Color.fromRGBO(255, 255, 255, 1),
+                                  fontFamily: 'Poppins',
+                                  fontSize: 15.5,
+                                  fontWeight: FontWeight.bold,
+                                  height: 1))),
+                                   Spacer(flex: 3,)
+              ],
+             
+            )
+           
+          : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Spacer(
+                     const Spacer(
                         flex: 2,
                       ),
                       ElevatedButton(
@@ -346,13 +407,13 @@ ProfileInfotwo({@required this.userdetails});
                               minimumSize: const Size(150, 45),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10))),
-                          child: const Text('Follow',
+                          child: const Text('Vibe',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Color.fromRGBO(255, 255, 255, 1),
                                   fontFamily: 'Poppins',
                                   fontSize: 15.5,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w200,
                                   height: 1))),
                     const Spacer(),
                       ElevatedButton(
@@ -368,13 +429,13 @@ ProfileInfotwo({@required this.userdetails});
                               minimumSize: const Size(150, 45),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10))),
-                          child: const Text('Message',
+                          child: const Text('Chat',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Color.fromRGBO(255, 255, 255, 1),
                                   fontFamily: 'Poppins',
                                   fontSize: 15.5,
-                                  fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w200,
                                   height: 1))),
                      const Spacer(
                         flex: 2,

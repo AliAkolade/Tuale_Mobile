@@ -1,4 +1,5 @@
 
+import 'package:mobile/screens/Home/notifications.dart';
 import 'package:mobile/screens/imports.dart';
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class _HomeState extends State<Home> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: DefaultTabController(
-            initialIndex: 0,
+            initialIndex: 1,
             length: 2,
             child: Scaffold(
                 appBar: PreferredSize(
@@ -21,7 +22,7 @@ class _HomeState extends State<Home> {
                     child: SafeArea(
                         child: Column(children: [
                           Spacer(flex: 5,),
-                      Padding(
+                          Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
                           child: Row(mainAxisSize: MainAxisSize.min, children: [
                             InkWell(
@@ -60,7 +61,12 @@ class _HomeState extends State<Home> {
                             InkWell(
                                 child: const Icon(TualeIcons.notificationbell,
                                     color: tualeBlueDark),
-                                onTap: () {})
+                                onTap: () {
+                                   Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return Notifications();
+                                }));
+                                })
                           ])),
                       Container(
                           height: 0.5,

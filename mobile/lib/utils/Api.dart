@@ -6,6 +6,7 @@ class Api {
 
 
  static String? currentUserId;
+ static String? currentUserUsername;
   Future<List> getVibingPost() async {
     int pageNo = 1;
     List posts = [];
@@ -59,7 +60,7 @@ class Api {
 
     UserPostDetails info = UserPostDetails(
 
-      id:responseData['profile']['_id'].toString(), 
+      id:responseData['profile']['user']['_id'].toString(), 
       avatar: responseData['profile']['user']['avatar']['url'].toString(),
       name: responseData['profile']['user']['name'].toString(),
       username: responseData['profile']['user']['username'].toString(),
@@ -92,9 +93,12 @@ class Api {
     // log(response.data.toString());
     
    currentUserId = currentUser.data['user']["_id"].toString();
+   currentUserUsername = currentUser.data['user']["username"].toString();
 
 
-      return currentUserId;
+      return currentUserId; 
+    
+
 
   }
 

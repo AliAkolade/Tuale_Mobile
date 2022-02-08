@@ -88,8 +88,8 @@ class _CuratedState extends State<Curated> {
               return Container(
                 margin: const EdgeInsets.only(
                     bottom: 10, left: 15, right: 15, top: 20),
-                height: 545,
-                width: 400,
+                height: 645.h,
+                width: 400.w,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
@@ -117,10 +117,10 @@ class _CuratedState extends State<Curated> {
                         children: [
                           Align(
                             widthFactor: 5,
-                            alignment: const Alignment(1.07, 0.6),
+                            alignment: const Alignment(1.08, 0.6),
                             child: SizedBox(
-                              height: 350,
-                              width: 100,
+                              height: 350.h,
+                              width: 100.w,
                               // color: Colors.white,
                               child: CustomPaint(
                                 size: Size(
@@ -152,10 +152,10 @@ class _CuratedState extends State<Curated> {
                                                       tualCount = 0;
                                                     });
                                                   },
-                                                  child: const Icon(
+                                                  child:  Icon(
                                                     TualeIcons.tualeactive,
                                                     color: tualeOrange,
-                                                    size: 40,
+                                                    size: 40.sp,
                                                   ),
                                                 ),
                                                 firstChild: GestureDetector(
@@ -165,10 +165,10 @@ class _CuratedState extends State<Curated> {
                                                       tualCount = 1;
                                                     });
                                                   },
-                                                  child: const Icon(
+                                                  child:  Icon(
                                                     TualeIcons.tuale,
                                                     color: Colors.white,
-                                                    size: 40,
+                                                    size: 43.sp,
                                                   ),
                                                 ),
                                               ),
@@ -209,10 +209,10 @@ class _CuratedState extends State<Curated> {
                                                       starCount = 0;
                                                     });
                                                   },
-                                                  child: const Icon(
+                                                  child:  Icon(
                                                     TualeIcons.star,
                                                     color: tualeOrange,
-                                                    size: 33,
+                                                    size: 33.sp,
                                                   ),
                                                 ),
                                                 firstChild: GestureDetector(
@@ -222,10 +222,10 @@ class _CuratedState extends State<Curated> {
                                                       starCount = 1;
                                                     });
                                                   },
-                                                  child: const Icon(
+                                                  child:  Icon(
                                                     TualeIcons.star,
                                                     color: Colors.white,
-                                                    size: 33,
+                                                    size: 37.sp,
                                                   ),
                                                 ),
                                               ),
@@ -262,7 +262,7 @@ class _CuratedState extends State<Curated> {
                                                         children: [
                                                           Text("Comments"),
                                                           SizedBox(
-                                                            height: 300,
+                                                            height: 370.h,
                                                             child: ListView.builder(
                                                               scrollDirection:
                                                                   Axis.vertical,
@@ -272,10 +272,10 @@ class _CuratedState extends State<Curated> {
                                                                           context,
                                                                       int index) {
                                                                 return Container(
-                                                                  //color: Colors.blue,
+                                                               //   color: Colors.blue,
                                                                   margin:
                                                                       EdgeInsetsDirectional
-                                                                          .only(top: 15),
+                                                                          .only(top: 0),
                                                                   // color: Colors.black,
                                                                   height: 100,
                                                                   width: 100,
@@ -284,9 +284,9 @@ class _CuratedState extends State<Curated> {
                                                                         CrossAxisAlignment
                                                                             .start,
                                                                     children: [
-                                                                      const SizedBox(
-                                                                        height: 35,
-                                                                        width: 35,
+                                                                       SizedBox(
+                                                                        height: 35.h,
+                                                                        width: 35.h,
                                                                         child:
                                                                             CircleAvatar(
                                                                           backgroundImage:
@@ -300,7 +300,7 @@ class _CuratedState extends State<Curated> {
                                                                         crossAxisAlignment:
                                                                             CrossAxisAlignment
                                                                                 .start,
-                                                                        children: const [
+                                                                        children:  [
                                                                           Text(
                                                                             "siphie_z0",
                                                                             style:
@@ -310,39 +310,33 @@ class _CuratedState extends State<Curated> {
                                                                               fontFamily:
                                                                                   'Poppins',
                                                                               fontSize:
-                                                                                  13,
+                                                                                  13.sp,
                                                                               fontWeight:
                                                                                   FontWeight.bold,
                                                                             ),
                                                                           ),
                                                                           FittedBox(
+                                                                            child: SizedBox(
+                                                                              height:
+                                                                                58.h,
+                                                                              width:
+                                                                                250.w,
                                                                               child:
-                                                                                  SizedBox(
-                                                                            height:
-                                                                                30,
-                                                                            width:
-                                                                                230,
-                                                                            child:
                                                                                 Text(
-                                                                              "Was I high when I said this? Lol. I do not even remember writing this.",
+                                                                              "Was I high when I said this? Lol. I do not even remember writing this hfhfhhfhfhfhfhfhfhfhfhfhfhfhfhfhf.",
+                                                                        
                                                                               maxLines:
-                                                                                  3,
+                                                                                  6,
                                                                               overflow:
                                                                                   TextOverflow.ellipsis,
+                                                                                  style: TextStyle(
+
+                                                                                    fontSize: 15.sp
+                                                                                  ),
                                                                             ),
-                                                                          )),
-                                                                          Text(
-                                                                            "Reply",
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: Colors
-                                                                                  .black54,
-                                                                              fontFamily:
-                                                                                  'Poppins',
-                                                                              fontSize:
-                                                                                  14,
                                                                             ),
-                                                                          )
+                                                                          ),
+                                                                         
                                                                         ],
                                                                       )
                                                                     ],
@@ -358,9 +352,9 @@ class _CuratedState extends State<Curated> {
                                                                   MainAxisAlignment
                                                                       .spaceBetween,
                                                               children: [
-                                                              const  SizedBox(
-                                                                  height: 45,
-                                                                  width: 45,
+                                                                SizedBox(
+                                                                  height: 45.h,
+                                                                  width: 45.h,
                                                                   child: CircleAvatar(
                                                                     backgroundImage:
                                                                         AssetImage(
@@ -368,8 +362,8 @@ class _CuratedState extends State<Curated> {
                                                                   ),
                                                                 ),
                                                                 SizedBox(
-                                                                    width: 200,
-                                                                    height: 50,
+                                                                    width: 280.w,
+                                                                    height: 50.h,
                                                                     child: TextField(
                                                                       maxLines: 7,
                                                                       decoration:
@@ -408,8 +402,8 @@ class _CuratedState extends State<Curated> {
                                                                       ),
                                                                     )),
                                                                 SizedBox(
-                                                                  height: 40,
-                                                                  width: 40,
+                                                                  height: 43.h,
+                                                                  width: 43.h,
                                                                   child: CircleAvatar(
                                                                       backgroundColor:
                                                                           tualeBlueDark,
@@ -440,11 +434,11 @@ class _CuratedState extends State<Curated> {
                                           margin: const EdgeInsets.only(
                                               top: 10, bottom: 10),
                                           child: Column(
-                                            children: const [
+                                            children:  [
                                               Icon(
                                                 TualeIcons.comment,
                                                 color: Colors.white,
-                                                size: 27,
+                                                size: 29.sp,
                                               ),
                                               const Text(
                                                 "0",
@@ -468,10 +462,10 @@ class _CuratedState extends State<Curated> {
                                             onTap: () {
                                               more(context);
                                             },
-                                            child: const Icon(
+                                            child:  Icon(
                                               TualeIcons.elipsis,
                                               color: Colors.white,
-                                              size: 23,
+                                              size: 25.sp,
                                             ),
                                           ),
                                         )
@@ -493,21 +487,15 @@ class _CuratedState extends State<Curated> {
                                       GestureDetector(
                                         onTap: () {
                                        
-                                          if(Api.currentUserId == posts[index].id){
-                                              Navigator.push(context,
-                                              MaterialPageRoute(
-                                                  builder: (context) {
-                                            return Profile();
-                                          }));
-
-                                          }
-                                          Navigator.push(context,
+                                        Navigator.push(context,
                                               MaterialPageRoute(
                                                   builder: (context) {
                                             return userProfile(
+                                              isUser: false,
                                               username: posts[index].username.toString(),
                                             );
                                           }));
+                                        
                                         },
                                         child: Row(
                                           crossAxisAlignment:
@@ -516,8 +504,8 @@ class _CuratedState extends State<Curated> {
                                               MainAxisAlignment.start,
                                           children: [
                                             SizedBox(
-                                              height: 50,
-                                              width: 50,
+                                              height: 52.h,
+                                              width: 52.h,
                                               child: CircleAvatar(
                                                 backgroundImage: Image.network(
                                                   posts[index].userProfilePic,
@@ -529,7 +517,7 @@ class _CuratedState extends State<Curated> {
                                               flex: 1,
                                             ),
                                             Text(
-                                              posts[index].username.toString(),
+                                            "@"+posts[index].username.toString(),
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontFamily: 'Poppins',
@@ -540,12 +528,12 @@ class _CuratedState extends State<Curated> {
                                             const Spacer(
                                               flex: 1,
                                             ),
-                                            const Text(
+                                             Text(
                                               "1 day ago",
                                               style: TextStyle(
                                                 color: Colors.white70,
                                                 fontFamily: 'Poppins',
-                                                fontSize: 10,
+                                                fontSize: 12.sp,
 
                                                 //height: 1
                                               ),
@@ -566,7 +554,7 @@ class _CuratedState extends State<Curated> {
                                             style: TextStyle(
                                                 color: Colors.white70,
                                                 // fontFamily: 'Poppins',
-                                                fontSize: 14,
+                                                fontSize: 15.sp,
                                                 height: 1),
                                           ),
                                           Icon(
@@ -582,8 +570,8 @@ class _CuratedState extends State<Curated> {
                           )
                         ],
                       ),
-                      height: 545,
-                      width: 400,
+                      height: 645.h,
+                      width: 400.w,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           gradient: const LinearGradient(

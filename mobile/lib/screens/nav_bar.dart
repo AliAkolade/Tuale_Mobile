@@ -1,4 +1,6 @@
 
+
+
 import 'imports.dart';
 
 
@@ -15,7 +17,7 @@ class _NavBarState extends State<NavBar> {
 
 
   List<Widget> _buildScreens() {
-    return  [Home(), Discover(), CameraApp(), Leaderboard(), Profile() ];
+    return  [Home(), Discover(), PostTimeline(), Leaderboard(), userProfile(username: Api.currentUserUsername, isUser: true,) ];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -34,13 +36,17 @@ class _NavBarState extends State<NavBar> {
           inactiveColorPrimary: tualeBlueDark),
       PersistentBottomNavBarItem(
       iconSize: 40,
-      //contentPadding: 9,
-       icon: Icon(Icons.add),
-          title: ("Post"),
-          activeColorPrimary: tualeBlueDark,
-          activeColorSecondary: Colors.white,
-          inactiveColorPrimary: tualeBlueDark,
-          inactiveColorSecondary: tualeBlueDark,
+    //  contentPadding: 2,
+       icon: Padding(
+         padding:  EdgeInsets.only(bottom: 30),
+         child: Icon(Icons.add_circle,
+     
+         ),
+       ),
+       
+          title: ("."),
+         activeColorPrimary: tualeOrange,
+        inactiveColorPrimary: tualeBlueDark,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.leaderboard_rounded),
@@ -72,7 +78,7 @@ class _NavBarState extends State<NavBar> {
       builder: (context, cam, child) {
         return PersistentTabView(
           context,
-        
+      
           controller: _controller,
           screens: _buildScreens(),
           items: _navBarsItems(),
@@ -103,7 +109,7 @@ class _NavBarState extends State<NavBar> {
             duration: Duration(milliseconds: 200),
           ),
           navBarStyle:
-              NavBarStyle.style15, 
+              NavBarStyle.simple, 
        
         );
       }

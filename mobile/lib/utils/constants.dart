@@ -1,5 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:mobile/screens/imports.dart';
 
 const Color tualeBlueDark = Color.fromRGBO(8, 61, 119, 1);
 const Color tualeOrange = Color.fromRGBO(247, 135, 100, 1);
@@ -46,6 +48,9 @@ const String getVibingPosts = 'posts/vibing?pageNumber=';
 const String getAllPosts = 'posts?pageNumber=';
 const String userpost = 'profile/';
 const String currentuser = 'me';
+ var format = NumberFormat.simpleCurrency(locale: Platform.localeName, name: 'NGN');
+ var nairaSign = format.currencySymbol;
+  
 
 
 class camera extends ChangeNotifier  {

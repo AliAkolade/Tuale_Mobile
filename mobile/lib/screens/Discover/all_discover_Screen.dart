@@ -26,9 +26,11 @@ class allScreen extends StatelessWidget {
           },
           child: Container(
             child: Container(
-              height:100,
-              width: 120,
+            
+              height:100.h,
+              width: 120.w,
                 decoration: BoxDecoration(
+                  
                       borderRadius: BorderRadius.circular(5),
                       gradient: const LinearGradient(
                         begin: AlignmentDirectional(0.5, 0.5),
@@ -39,22 +41,22 @@ class allScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children: const [
+                  children:  [
                     Text("@marinadiamis", style: TextStyle(
                       color: Colors.white,
-                      fontSize: 8
+                      fontSize: 8.sp
                     ),),
                     Spacer(flex: 3,),
             
                     Icon(TualeIcons.tualeactive,
-                    size: 12,
+                    size: 12.sp,
                     color: tualeOrange,
             
                      ),
                       Spacer(),
                     Text("23", style: TextStyle(
                       color: Colors.white,
-                      fontSize: 11
+                      fontSize: 11.sp
                     ),),
                   ],
                 ),
@@ -67,8 +69,8 @@ class allScreen extends StatelessWidget {
                 image: AssetImage("assets/images/demoPost.png"))),
             margin: EdgeInsets.all(2),
           
-            height: 100,
-            width: 120,
+            height: 100.h,
+            width: 120.w,
           ),
         );
       }),

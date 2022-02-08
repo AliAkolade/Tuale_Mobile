@@ -44,8 +44,8 @@ class _discoverScreenState extends State<discoverScreen> {
             itemBuilder: (BuildContext context, int index) {
               return Container(
                 child: Container(
-                  height: 300,
-                  width: 100,
+                  height: 300.h,
+                  width: 100.w,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       gradient: const LinearGradient(
@@ -66,8 +66,8 @@ class _discoverScreenState extends State<discoverScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
-                                    height: 50,
-                                    width: 50,
+                                    height: 50.h,
+                                    width: 50.w,
                                     child: const CircleAvatar(
                                       backgroundImage: AssetImage(
                                           "assets/images/demo_profile.png"),
@@ -76,24 +76,24 @@ class _discoverScreenState extends State<discoverScreen> {
                                   const Spacer(
                                     flex: 1,
                                   ),
-                                  const Text(
+                                   Text(
                                     "@Singe",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'Poppins',
-                                        fontSize: 18,
+                                        fontSize: 18.sp,
                                         fontWeight: FontWeight.bold,
                                         height: 1),
                                   ),
                                   const Spacer(
                                     flex: 1,
                                   ),
-                                  const Text(
+                                   Text(
                                     "1 day ago",
                                     style: TextStyle(
                                         color: Colors.white70,
                                         fontFamily: 'Poppins',
-                                        fontSize: 10,
+                                        fontSize: 10.sp,
                                         height: 1),
                                   ),
                                   const Spacer(
@@ -103,20 +103,20 @@ class _discoverScreenState extends State<discoverScreen> {
                               ),
                               Container(
                                   // color: Colors.white70,
-                                  height: 50,
-                                  width: 950,
+                                  height: 50.h,
+                                  width: 950.w,
                                   child: Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    children: const [
+                                    children:  [
                                       Text(
                                         "There is always a light bulb in your head.\n #ideas run the world.",
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           color: Colors.white70,
                                           // fontFamily: 'Poppins',
-                                          fontSize: 15,
+                                          fontSize: 15.sp,
                                           height: 1,
                                         ),
                                       )
@@ -133,8 +133,8 @@ class _discoverScreenState extends State<discoverScreen> {
                         fit: BoxFit.cover,
                         image: AssetImage("assets/images/Demo_Image.jpg"))),
                 margin: EdgeInsets.all(12),
-                height: 350,
-                width: 100,
+                height: 350.h,
+                width: 100.w,
               );
             },
           ),

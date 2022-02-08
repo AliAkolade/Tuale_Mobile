@@ -382,29 +382,23 @@ class _VibingZoomState extends State<VibingZoom> {
                         child: Column(children: [
                           GestureDetector(
                             onTap: () {
-                                      if(Api.currentUserId == widget.post!.id){
-                                              Navigator.push(context,
-                                              MaterialPageRoute(
-                                                  builder: (context) {
-                                            return Profile();
-                                          }));
-
-                                          }
-                                          Navigator.push(context,
+                                      Navigator.push(context,
                                               MaterialPageRoute(
                                                   builder: (context) {
                                             return userProfile(
+                                              isUser: false,
                                               username: widget.post!.username.toString(),
                                             );
                                           }));
+                                      
                             },
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.start,
                             children:  [
                               Container(
-                                height: 50,
-                                width: 50,
+                                height: 50.h,
+                                width: 50.w,
                                 child: CircleAvatar(
                                   backgroundImage: NetworkImage(widget.post!.userProfilePic),
                                 ),
@@ -413,11 +407,11 @@ class _VibingZoomState extends State<VibingZoom> {
                                 flex: 1,
                               ),
                               Text(widget.post!.username, style:
-                                             const TextStyle(
+                                              TextStyle(
                                   
                                             color: Colors.white,  
                                              fontFamily: 'Poppins',
-                                              fontSize: 18,
+                                              fontSize: 18.sp,
                                     fontWeight: FontWeight.bold,
                                     height: 1
                                           ),
@@ -426,12 +420,12 @@ class _VibingZoomState extends State<VibingZoom> {
                                const Spacer(
                                 flex: 1,
                               ),
-                              const  Text("1 day ago", style:
+                                Text("1 day ago", style:
                                               TextStyle(
                                   
                                             color: Colors.white70,  
                                              fontFamily: 'Poppins',
-                                              fontSize: 10,
+                                              fontSize: 12.sp,
                                    
                                     height: 1
                                           ),
@@ -443,30 +437,31 @@ class _VibingZoomState extends State<VibingZoom> {
                             ],
                             ),
                           ),
+                          SizedBox(height: 10),
                           Container(
                            // color: Colors.white70,
-                          height: 50,
-                          width: 950,
+                          height: 55.h,
+                          width: 950.w,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children:   [
                              Text(widget.post!.postText,
                              overflow: TextOverflow.ellipsis,
-                             style:   const TextStyle(
+                             style:    TextStyle(
         
                   color: Colors.white70,  
                   // fontFamily: 'Poppins',
-                    fontSize: 15,
+                    fontSize: 15.sp,
                     height: 1, 
                                  
                 ),
                              ),
                              Spacer(),
-                              const Icon(
+                               Icon(
                         
                             Icons.volume_down_rounded,
-                               size: 35,
+                               size: 35.sp,
                                color: Colors.white,
                             
                             )

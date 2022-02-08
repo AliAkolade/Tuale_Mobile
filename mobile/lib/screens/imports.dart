@@ -12,7 +12,7 @@ export 'package:mobile/screens/Discover/photosScreen.dart';
 export 'package:mobile/screens/Discover/textScreen.dart';
 export 'package:mobile/screens/Discover/videoScreen.dart';
 export 'package:mobile/screens/Home/curated_screen.dart';
-export 'package:mobile/screens/Profile/profile_screen.dart';
+
 export 'package:mobile/screens/Profile/user_Profile_Screen.dart';
 export 'package:mobile/screens/Home/vibe_screen_zoom.dart';
 export 'package:mobile/screens/nav_bar.dart';
@@ -27,6 +27,7 @@ export 'package:mobile/screens/Post/gallery_videos.dart';
 export 'package:mobile/screens/Profile/Tuallet/tuallet_home.dart';
 export 'package:mobile/screens/Profile/Tuallet/tp_balance_screen.dart';
 export 'package:mobile/screens/Profile/Tuallet/withdrawal_screen.dart';
+export 'package:mobile/screens/Post/post_timeline_screen.dart';
 
 
 //-------------------------Packages-------------------------------------
@@ -45,7 +46,8 @@ export 'package:camera/camera.dart';
 export 'package:mobile/utils/tuale_icons.dart';
 export 'package:twilio_phone_verify/twilio_phone_verify.dart';
 export 'package:photo_manager/photo_manager.dart';
-
+export 'package:numeric_keyboard/numeric_keyboard.dart';
+export 'package:flutter_screenutil/flutter_screenutil.dart';
 //-----------------------Miscellaneous----------------------------------
 export 'package:mobile/utils/constants.dart';
 export 'package:flutter/material.dart';

@@ -29,6 +29,8 @@ class _LoginState extends State<Login> {
   bool isLoading = false;
 
   login() async {
+     Api().getCurrentUserId();
+   
     setState(() {
       isLoading = true;
       message = '';
