@@ -23,11 +23,13 @@ class TualeIcons {
 
   static const IconData tuale = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData vibing = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData allposts = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData elipsis = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData comment = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData tualeactive = IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData star = IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData usericon = IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData starredpost = IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData vibinguser = IconData(0xe80b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData notificationbell = IconData(0xe80c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
