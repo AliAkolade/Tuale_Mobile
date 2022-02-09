@@ -21,12 +21,12 @@ class _LeaderboardState extends State<Leaderboard> {
         elevation: 1,
         centerTitle: true,
         title: RichText(
-            text: const TextSpan(
+            text:  TextSpan(
                 text: "Tua",
                 style: TextStyle(
                     color: tualeOrange,
                     fontFamily: 'Poppins',
-                    fontSize: 18,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                     height: 1),
                 children: [
@@ -35,7 +35,7 @@ class _LeaderboardState extends State<Leaderboard> {
                 style: TextStyle(
                     color: tualeBlueDark,
                     fontFamily: 'Poppins',
-                    fontSize: 18,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                     height: 1),
               )
@@ -50,7 +50,7 @@ class _LeaderboardState extends State<Leaderboard> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
+              children:  [
                 Spacer(
                   flex: 3,
                 ),
@@ -59,7 +59,7 @@ class _LeaderboardState extends State<Leaderboard> {
                   style: TextStyle(
                       color: tualeBlueDark,
                       fontFamily: 'Poppins',
-                      fontSize: 15,
+                      fontSize: 17.sp,
                       height: 1),
                 ),
                 Spacer(
@@ -70,7 +70,7 @@ class _LeaderboardState extends State<Leaderboard> {
                   style: TextStyle(
                       color: tualeBlueDark,
                       fontFamily: 'Poppins',
-                      fontSize: 14,
+                      fontSize: 16.sp,
                       height: 1),
                 ),
                 Spacer(flex: 2,)
@@ -88,24 +88,24 @@ class _LeaderboardState extends State<Leaderboard> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                       const SizedBox(
-                          width: 15,
+                        SizedBox(
+                          width: 15.h,
                         ),
-                        const Text(
+                         Text(
                           "1.",
                           style: TextStyle(
                               color: tualeBlueDark,
                               fontFamily: 'Poppins',
-                              fontSize: 17,
+                              fontSize: 19.sp,
                               height: 1),
                         ),
                         const Spacer(
                           flex: 1,
                         ),
-                        const Icon(
+                         Icon(
                           TualeIcons.usericon,
                           color: Colors.grey,
-                          size: 40,
+                          size: 45.sp,
                         ),
                         SizedBox(
                           width: 5,
@@ -113,12 +113,12 @@ class _LeaderboardState extends State<Leaderboard> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
+                            Text(
                               "Enoke Lade",
                               style: TextStyle(
                                 color: tualeBlueDark,
                                 fontFamily: 'Poppins',
-                                fontSize: 15,
+                                fontSize: 20.sp,
                               ),
                             ),
                             Text(
@@ -126,7 +126,7 @@ class _LeaderboardState extends State<Leaderboard> {
                               style: TextStyle(
                                 color: tualeBlueDark.withOpacity(0.5),
                                 fontFamily: 'Poppins',
-                                fontSize: 12,
+                                fontSize: 14.sp,
                                 height: 1,
                               ),
                             )
@@ -135,12 +135,12 @@ class _LeaderboardState extends State<Leaderboard> {
                         const Spacer(
                           flex: 6,
                         ),
-                        const Text(
+                         Text(
                           '1151',
                           style: TextStyle(
                             color: tualeBlueDark,
                             fontFamily: 'Poppins',
-                            fontSize: 18,
+                            fontSize: 22.sp,
                           ),
                         ),
                         const Spacer(
@@ -158,8 +158,8 @@ class _LeaderboardState extends State<Leaderboard> {
                               });
                             },
                             child: Container(
-                                height: 30,
-                                width: 30,
+                                height: 33.h,
+                                width: 33.h,
                                 child: SvgPicture.asset(
                                     "assets/icon/vibingUser.svg")),
                           ),
@@ -170,8 +170,8 @@ class _LeaderboardState extends State<Leaderboard> {
                                 });
                               },
                               child: Container(
-                                  height: 30,
-                                  width: 30,
+                                  height: 33.h,
+                                  width: 33.h,
                                   child:
                                       SvgPicture.asset("assets/icon/vibe.svg"))),
                         ),
@@ -180,7 +180,7 @@ class _LeaderboardState extends State<Leaderboard> {
                         )
                       ],
                     ),
-                    height: 70,
+                    height: 74.h,
                     margin: const EdgeInsets.only(
                       bottom: 5,
                       top: 0,
@@ -199,7 +199,7 @@ class _LeaderboardState extends State<Leaderboard> {
                 },
               ),
             ),
-            SizedBox(height: 13,)
+            SizedBox(height: 13.h,)
           ],
         ),
       ),

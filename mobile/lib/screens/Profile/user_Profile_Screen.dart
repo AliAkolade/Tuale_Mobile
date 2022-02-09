@@ -48,7 +48,7 @@ class _ProfileState extends State<userProfile> {
                 elevation: 0,
                 backgroundColor: Colors.white,
                 title:  Text(
-                  userdetails!.name!,
+                  userdetails.name!,
                   style: TextStyle(
                       color: tualeBlueDark,
                       fontFamily: 'Poppins',

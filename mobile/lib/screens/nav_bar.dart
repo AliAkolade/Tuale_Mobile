@@ -1,6 +1,9 @@
 
 
 
+import 'package:mobile/models/currentUserdetails.dart';
+import 'package:mobile/screens/imports.dart';
+
 import 'imports.dart';
 
 
@@ -11,13 +14,15 @@ class NavBar extends StatefulWidget {
   @override
   State<NavBar> createState() => _NavBarState();
 }
+ 
 
 class _NavBarState extends State<NavBar> {
+
   late PersistentTabController _controller;
 
-
+   
   List<Widget> _buildScreens() {
-    return  [Home(), Discover(), PostTimeline(), Leaderboard(), userProfile(username: Api.currentUserUsername, isUser: true,) ];
+    return  [Home(), Discover(), PostTimeline(), Leaderboard(), userProfile(username: currentUsername, isUser: true,) ];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -66,6 +71,39 @@ class _NavBarState extends State<NavBar> {
   @override
   void initState() {
     super.initState();
+       Future getCurrentUserId () async{
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    // Get userdetails
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+ 
+    Response currentUser = await dio.get(hostAPI + currentuser );
+ 
+
+    // log(response.data.toString());
+    
+ //  currentUserId = currentUser.data['user']["_id"].toString();
+
+setState(() {
+
+     currentUsername = currentUser.data['user']["username"].toString();
+});
+
+
+ // CurrentUserDetails currentdetails = CurrentUserDetails(currentuserid: currentUserId, currentUserUsername: currentUserUsername, );
+ 
+
+  //    return currentUserId; 
+    
+
+
+  }
+    
+   getCurrentUserId();
+   Api().getCurrentUserId();
     setState(() {
       _controller = PersistentTabController(initialIndex: widget.index);
 

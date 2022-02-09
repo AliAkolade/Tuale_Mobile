@@ -1,16 +1,23 @@
 
 import 'package:mobile/screens/Home/notifications.dart';
 import 'package:mobile/screens/imports.dart';
+import 'package:mobile/screens/imports.dart';
+import 'package:mobile/utils/Api.dart';
 class Home extends StatefulWidget {
+  
   const Home({Key? key}) : super(key: key);
   @override
   State<Home> createState() => _HomeState();
+  
 }
 
 
 class _HomeState extends State<Home> {
+
+
   @override
   Widget build(BuildContext context) {
+   print(currentUsername);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: DefaultTabController(

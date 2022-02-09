@@ -10,6 +10,7 @@ Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
     
     camera().getcamera();
+  
    
     SystemChrome.setSystemUIOverlayStyle( const SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.white, // navigation bar color

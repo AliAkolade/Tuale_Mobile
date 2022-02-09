@@ -30,12 +30,12 @@ class _PostTimelineState extends State<PostTimeline> {
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.white,
-        title: const Text(
+        title:  Text(
           "Post to timeline",
           style: TextStyle(
               color: tualeBlueDark,
               fontFamily: 'Poppins',
-              fontSize: 18,
+              fontSize: 20.sp,
               // fontWeight: FontWeight.bold,
               height: 1),
         ),
@@ -51,8 +51,8 @@ class _PostTimelineState extends State<PostTimeline> {
                     top: BorderSide(color: Colors.grey.withOpacity(0.3)),
                     bottom: BorderSide(color: Colors.grey.withOpacity(0.9)))),
             child: SizedBox(
-              height: 300,
-              width: 300,
+              height: 300.h,
+              width: 300.h,
               child: Image(
                   fit: BoxFit.cover,
                   image: AssetImage("assets/images/demoPost.png")),
@@ -144,12 +144,12 @@ class _PostTimelineState extends State<PostTimeline> {
                     minimumSize: const Size(230, 45),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))),
-                child: const Text('Post',
+                child:  Text('Post',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Color.fromRGBO(255, 255, 255, 1),
                         fontFamily: 'Poppins',
-                        fontSize: 17,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                         height: 1))),
           )

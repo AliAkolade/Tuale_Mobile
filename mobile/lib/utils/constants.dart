@@ -48,6 +48,7 @@ const String getVibingPosts = 'posts/vibing?pageNumber=';
 const String getAllPosts = 'posts?pageNumber=';
 const String userpost = 'profile/';
 const String currentuser = 'me';
+ String currentUsername = '';
  var format = NumberFormat.simpleCurrency(locale: Platform.localeName, name: 'NGN');
  var nairaSign = format.currencySymbol;
   

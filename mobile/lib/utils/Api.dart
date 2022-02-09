@@ -1,12 +1,13 @@
 import 'dart:developer';
 
+import 'package:mobile/models/currentUserdetails.dart';
 import 'package:mobile/screens/imports.dart';
 
-class Api {
+class Api  {
 
 
  static String? currentUserId;
- static String? currentUserUsername;
+  static  String? currentUserUsername;
   Future<List> getVibingPost() async {
     int pageNo = 1;
     List posts = [];
@@ -89,14 +90,20 @@ class Api {
     dio.options.headers["Authorization"] = token;
  
     Response currentUser = await dio.get(hostAPI + currentuser );
+ 
 
     // log(response.data.toString());
     
    currentUserId = currentUser.data['user']["_id"].toString();
-   currentUserUsername = currentUser.data['user']["username"].toString();
 
+
+   currentUsername = currentUser.data['user']["username"].toString();
+
+  CurrentUserDetails currentdetails = CurrentUserDetails(currentuserid: currentUserId, currentUserUsername: currentUserUsername, );
+ 
 
       return currentUserId; 
+   
     
 
 

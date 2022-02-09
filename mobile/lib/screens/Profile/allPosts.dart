@@ -36,8 +36,8 @@ class _AllPostsState extends State<AllPosts> {
         },
         child: Container(
           child: Container(
-            height:100,
-            width: 100,
+            height:100.h,
+            width: 100.h,
               decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     gradient: const LinearGradient(
@@ -54,8 +54,8 @@ class _AllPostsState extends State<AllPosts> {
               image: AssetImage("assets/images/demoPost.png"))),
           margin: EdgeInsets.fromLTRB(2, 2, 2, 2),
         
-          height: 100,
-          width: 100,
+          height: 100.h,
+          width: 100.h,
         ),
       );
     },

@@ -29,7 +29,7 @@ class _LoginState extends State<Login> {
   bool isLoading = false;
 
   login() async {
-     Api().getCurrentUserId();
+ 
    
     setState(() {
       isLoading = true;
@@ -41,6 +41,9 @@ class _LoginState extends State<Login> {
         data: {"email": email.text.trim(), "password": pass.text.trim()});
     debugPrint(response.data.toString());
     var responseData = response.data;
+    
+
+
     if (responseData['success'].toString() == 'true') {
       debugPrint('Login Successful');
       Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
