@@ -71,7 +71,7 @@ class _NavBarState extends State<NavBar> {
   @override
   void initState() {
     super.initState();
-       Future getCurrentUserId () async{
+       Future getCurrentUserUsername () async{
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
@@ -97,12 +97,10 @@ setState(() {
  
 
   //    return currentUserId; 
-    
-
 
   }
-    
-   getCurrentUserId();
+    //getting logged in user name
+   getCurrentUserUsername();
    Api().getCurrentUserId();
     setState(() {
       _controller = PersistentTabController(initialIndex: widget.index);
@@ -154,3 +152,4 @@ setState(() {
     );
   }
 }
+

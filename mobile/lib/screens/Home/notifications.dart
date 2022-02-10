@@ -44,7 +44,7 @@ class _NotificationsState extends State<Notifications> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: EdgeInsets.only(left: 20, right: 20),
+            padding: EdgeInsets.only(left: 20, right: 8),
             //  color: Colors.black,
             height: 50,
             width: MediaQuery.of(context).size.width,
@@ -61,31 +61,40 @@ class _NotificationsState extends State<Notifications> {
                     children: <TextSpan>[
                       TextSpan(
                           text: 'just gave you a tuale',
-                          style:
-                              TextStyle(
-                                fontSize: 15.sp,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black.withOpacity(0.8))),
+                          style: TextStyle(
+                              fontSize: 15.sp,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black.withOpacity(0.8))),
                     ],
                   ),
+                ),
+                Spacer(),
+                Container(
+                  height: 40.h,
+                  width: 40.h,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage("assets/images/demoPost.png")),
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(1)),
                 )
               ],
             ),
           ),
           Container(
-            padding: EdgeInsets.only(left: 20, right: 10),
+            padding: EdgeInsets.only(left: 20, right: 8),
             //  color: Colors.black,
             height: 50,
             width: MediaQuery.of(context).size.width,
             child: Row(
-              
               children: [
                 RichText(
                   text: TextSpan(
                     text: '@tijani ',
                     style: TextStyle(
-                       fontSize: 15.sp,
+                        fontSize: 15.sp,
                         color: tualeBlueDark.withOpacity(0.7),
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.normal),
@@ -93,18 +102,26 @@ class _NotificationsState extends State<Notifications> {
                       TextSpan(
                           text: 'is vibing with you',
                           style:
-                          
-                              TextStyle(
-                              
-                                color: Colors.black.withOpacity(0.8))),
+                              TextStyle(color: Colors.black.withOpacity(0.8))),
                     ],
                   ),
+                ),
+                Spacer(),
+                Container(
+                  height: 40.h,
+                  width: 40.h,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage("assets/images/demoPost.png")),
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(1)),
                 )
               ],
             ),
           ),
           Container(
-            padding: EdgeInsets.only(left: 20, right: 10),
+            padding: EdgeInsets.only(left: 20, right: 8),
             //  color: Colors.black,
             height: 50,
             width: MediaQuery.of(context).size.width,
@@ -114,7 +131,7 @@ class _NotificationsState extends State<Notifications> {
                   text: TextSpan(
                     text: '@tijani ',
                     style: TextStyle(
-                      fontSize: 15.sp,
+                        fontSize: 15.sp,
                         color: tualeBlueDark.withOpacity(0.7),
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.normal),
@@ -125,6 +142,17 @@ class _NotificationsState extends State<Notifications> {
                               TextStyle(color: Colors.black.withOpacity(0.8))),
                     ],
                   ),
+                ),
+                Spacer(),
+                Container(
+                  height: 40.h,
+                  width: 40.h,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage("assets/images/demoPost.png")),
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(1)),
                 )
               ],
             ),
@@ -156,13 +184,14 @@ class _NotificationsState extends State<Notifications> {
                 ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                        minimumSize:  Size(55.w, 37.h),
+                        minimumSize: Size(55.w, 37.h),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                         Text('Vibe Back',
+                        Text('Vibe Back',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Color.fromRGBO(255, 255, 255, 1),
@@ -170,11 +199,13 @@ class _NotificationsState extends State<Notifications> {
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
                                 height: 1)),
-                                Container(
-                                  height: 25,
-                                  width: 25,
-                                  child:
-                                      SvgPicture.asset("assets/icon/vibe.svg"))
+                        Container(
+                            padding: EdgeInsets.only(
+                              bottom: 4,
+                            ),
+                            height: 25,
+                            width: 25,
+                            child: SvgPicture.asset("assets/icon/vibe.svg"))
                       ],
                     )),
               ],

@@ -68,6 +68,9 @@ class Api  {
       fans: responseData['fansLength'].toString(),
       tualegiven: responseData['givenTuales'].toString(),
       friends: responseData['friendsLength'].toString(),
+      tcBalance: responseData['profile']['user']['tcBalance'].toString(),
+      withdrawalBalance: responseData['profile']['user']['tcBalance'].toString(),
+      
     );
     
     // if (responseData['success'].toString() == 'true') {
@@ -95,11 +98,6 @@ class Api  {
     // log(response.data.toString());
     
    currentUserId = currentUser.data['user']["_id"].toString();
-
-
-   currentUsername = currentUser.data['user']["username"].toString();
-
-  CurrentUserDetails currentdetails = CurrentUserDetails(currentuserid: currentUserId, currentUserUsername: currentUserUsername, );
  
 
       return currentUserId; 

@@ -30,7 +30,7 @@ class _PostTimelineState extends State<PostTimeline> {
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.white,
-        title:  Text(
+        title: Text(
           "Post to timeline",
           style: TextStyle(
               color: tualeBlueDark,
@@ -59,7 +59,7 @@ class _PostTimelineState extends State<PostTimeline> {
             ),
           ),
           Container(
-              padding: EdgeInsets.fromLTRB(10, 40, 40, 5),
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
               height: MediaQuery.of(context).size.height * 0.23,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
@@ -71,20 +71,32 @@ class _PostTimelineState extends State<PostTimeline> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "It can be that happy things are happening around you but you cannot see it. Be mindful. #mindy",
-                    style: TextStyle(
-                        fontSize: 16.sp,
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black.withOpacity(0.8)),
+                  SizedBox(
+                    height: 100.h,
+                    width: ScreenUtil().screenWidth,
+                    child: TextField(
+                      maxLines: 7,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.fromLTRB(5, 5, 5, 2),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              style: BorderStyle.solid, color: Colors.grey),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              style: BorderStyle.solid, color: Colors.grey),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                    ),
                   ),
                   Row(
                     children: [
                       Container(
                         height: 32.h,
                         width: 150.w,
-                         margin: EdgeInsets.only(bottom: 20),
+                        margin: EdgeInsets.only(bottom: 20),
                         padding: const EdgeInsets.all(3.0),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4),
@@ -96,7 +108,9 @@ class _PostTimelineState extends State<PostTimeline> {
                               fontWeight: FontWeight.w400),
                         ),
                       ),
-                      SizedBox(width: 32.w,),
+                      SizedBox(
+                        width: 32.w,
+                      ),
                       Container(
                         height: 32.h,
                         width: 110.w,
@@ -135,7 +149,9 @@ class _PostTimelineState extends State<PostTimeline> {
                   Icon(Icons.arrow_forward)
                 ],
               )),
-          SizedBox(height: 20.h,),
+          SizedBox(
+            height: 20.h,
+          ),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: ElevatedButton(
@@ -144,7 +160,7 @@ class _PostTimelineState extends State<PostTimeline> {
                     minimumSize: const Size(230, 45),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))),
-                child:  Text('Post',
+                child: Text('Post',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Color.fromRGBO(255, 255, 255, 1),
