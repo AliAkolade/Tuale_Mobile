@@ -19,8 +19,12 @@ Future<void> main() async {
     statusBarColor: Colors.white, 
     statusBarIconBrightness: Brightness.dark// status bar color
   ));
-  runApp(ChangeNotifierProvider(
-        create: (context) => camera(),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider( create: (context) => camera(),),
+      ChangeNotifierProvider( create: (context) => Api())
+    ],
+       
     child: const MyApp()));
 }
 

@@ -10,12 +10,13 @@ class UserPostDetails {
   final String? tualegiven;
   final String? tcBalance;
   final String? withdrawalBalance;
+  final String? email;
 
   UserPostDetails(
-      {
+      {this.email,
         this.tcBalance,
-        this.withdrawalBalance,
-        this.id,
+      this.withdrawalBalance,
+      this.id,
       this.avatar,
       this.name,
       this.username,

@@ -3,8 +3,9 @@ import 'package:mobile/screens/imports.dart';
 class TualletHome extends StatefulWidget {
   String? tcBalance;
   String? withdrawalBalance;
+  String? email;
 
-  TualletHome({this.tcBalance, this.withdrawalBalance});
+  TualletHome({this.tcBalance, this.withdrawalBalance, this.email});
 
   @override
   _TualletHomeState createState() => _TualletHomeState();
@@ -54,7 +55,8 @@ class _TualletHomeState extends State<TualletHome> {
               tabs: [Tab(text: "TP Balance"), Tab(text: "Withdrawal")]),
         ),
         body: TabBarView(children: [TpBalanceScreen(
-          tcBalance: widget.tcBalance
+          tcBalance: widget.tcBalance,
+          email: widget.email
         ), WithdrawalScreen(
           withdrawalBalance: widget.withdrawalBalance
         )]),

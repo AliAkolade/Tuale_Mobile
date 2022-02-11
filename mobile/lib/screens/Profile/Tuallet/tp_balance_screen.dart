@@ -3,8 +3,9 @@ import 'package:mobile/screens/imports.dart';
 
 class TpBalanceScreen extends StatefulWidget {
   String? tcBalance;
+  String? email;
 
-  TpBalanceScreen({this.tcBalance});
+  TpBalanceScreen({this.tcBalance, this.email});
 
   @override
   _TpBalanceScreenState createState() => _TpBalanceScreenState();
@@ -12,34 +13,41 @@ class TpBalanceScreen extends StatefulWidget {
 
 class _TpBalanceScreenState extends State<TpBalanceScreen> {
   List price = [
-    {6: "500.00"},
-    {12: "500.00"},
-    {26: "500.00"},
-    {60: "500.00"}
+    {100: "1000"},
+    {300: "3000"},
+    {1000: "10000"},
+    {4000: "40000"}
   ];
   var publicKey = 'pk_test_77d5e7bc4e812411caf295fe4affe301dfecdff2';
   final plugin = PaystackPlugin();
 
-  _chargeCard() async {
+  _chargeCard(
+    String email,
+    String accessCode,
+    int amount,
+    String reference,
+  ) async {
     var charge = Charge()
-      ..amount = 10000 *
+      ..amount = amount *
           100 //the money should be in kobo hence the need to multiply the value by 100
-      ..reference = _getReference()
-      ..putCustomField('custom_id',
-          '846gey6w') //to pass extra parameters to be retrieved on the response from Paystack
-      ..email = 'tutorial@email.com';
+
+      ..accessCode = accessCode
+      ..email = email;
 
     CheckoutResponse response = await plugin.checkout(
       context,
-      method: CheckoutMethod.card,
+      method: CheckoutMethod.selectable,
       charge: charge,
     );
-      if (response.status == true) {
+    if (response.status == true) {
+      print(response);
+      final apiref = Provider.of<Api>(context, listen: false);
+      apiref.verifyTransaction(reference);
       //you can send some data from the response to an API or use webhook to record the payment on a database
-      _showMessage('Payment was successful!!!');
+      // print("Payment successful");
     } else {
       //the payment wasn't successsful or the user cancelled the payment
-      _showMessage('Payment Failed!!!');
+      print('Payment Failed!!!');
     }
   }
 
@@ -86,15 +94,17 @@ class _TpBalanceScreenState extends State<TpBalanceScreen> {
                     const SizedBox(
                       width: 10,
                     ),
-                    Text(
-                      widget.tcBalance!,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 27,
-                      ),
-                    )
+                   
+                       Text(
+                       widget.tcBalance!,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 27,
+                        ),
+                      )
+                    
                   ],
                 )
               ],
@@ -147,36 +157,45 @@ class _TpBalanceScreenState extends State<TpBalanceScreen> {
                         fontFamily: 'Poppins',
                       ),
                     ),
-                    Spacer(
+                    const Spacer(
                       flex: 3,
                     ),
                     Center(
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.fade,
-                                    child: SignUp()));
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: tualeBlueDark,
-                              minimumSize: const Size(100, 35),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                          child: Text(
-                              nairaSign +
-                                  prices.values
-                                      .toString()
-                                      .replaceAllMapped("(", (match) => '')
-                                      .replaceAllMapped(")", (match) => ""),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                  // fontFamily: 'Poppins',
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500,
-                                  height: 1))),
+                      child: Consumer<Api>(builder: (context, api, child) {
+                        return ElevatedButton(
+                            onPressed: () {
+                              api.test();
+                              // api
+                              //     .getAccessCode(prices.values
+                              //         .toString()
+                              //         .replaceAllMapped("(", (match) => '')
+                              //         .replaceAllMapped(")", (match) => ""))
+                              //     .then((value) => _chargeCard(
+                              //         widget.email!,
+                              //         value,
+                              //         int.parse(prices.values.elementAt(0)),
+                              //         api.reference!));
+                            },
+                            style: ElevatedButton.styleFrom(
+                                primary: tualeBlueDark,
+                                minimumSize: const Size(100, 35),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                            child: Text(
+                                nairaSign +
+                                    prices.values
+                                        .toString()
+                                        .replaceAllMapped("(", (match) => '')
+                                        .replaceAllMapped(")", (match) => "") +
+                                    ".00",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                    // fontFamily: 'Poppins',
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500,
+                                    height: 1)));
+                      }),
                     ),
                     Spacer(
                       flex: 1,
@@ -190,8 +209,4 @@ class _TpBalanceScreenState extends State<TpBalanceScreen> {
       ],
     );
   }
-
-  _getReference() {}
-
-  void _showMessage(String s) {}
 }

@@ -29,36 +29,34 @@ class _ProfileState extends State<userProfile> {
 
                 return Scaffold(
                   appBar: AppBar(
-                    leading: widget.isUser!
-                        ? Container()
-                        : GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Icon(
-                              Icons.arrow_back_rounded,
-                              color: Colors.black,
+                      leading: widget.isUser!
+                          ? Container()
+                          : GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Icon(
+                                Icons.arrow_back_rounded,
+                                color: Colors.black,
+                              ),
                             ),
-                          ),
-                    actions: [
-                      Icon(
-                        Icons.more_vert_rounded,
-                        color: Colors.black,
-                      )
-                    ],
-                    centerTitle: true,
-                    elevation: 0,
-                    backgroundColor: Colors.white,
-                    title: Text(
-                      userdetails.name!,
-                      style: TextStyle(
+                      actions: [
+                        Icon(
+                          Icons.more_vert_rounded,
+                          color: Colors.black,
+                        )
+                      ],
+                      centerTitle: true,
+                      elevation: 0,
+                      backgroundColor: Colors.white,
+                      title: Text(
+                        userdetails.name!,
+                        style: TextStyle(
                           color: tualeBlueDark,
                           fontFamily: 'Poppins',
-                          fontSize: 18,
-                          // fontWeight: FontWeight.bold,
-                          height: 1),
-                    ),
-                  ),
+                          fontSize: 18, // fontWeig
+                        ),
+                      )),
                   body: NestedScrollView(
                       physics: ClampingScrollPhysics(),
                       headerSliverBuilder: (context, isScrolled) {
@@ -369,9 +367,11 @@ class ProfileInfotwo extends StatelessWidget {
                                 context,
                                 PageTransition(
                                     type: PageTransitionType.fade,
-                                    child:  TualletHome(
+                                    child: TualletHome(
                                       tcBalance: userdetails!.tcBalance,
-                                      withdrawalBalance: userdetails!.withdrawalBalance,
+                                      withdrawalBalance:
+                                          userdetails!.withdrawalBalance,
+                                      email: userdetails!.email,
                                     )));
                           },
                           style: ElevatedButton.styleFrom(
@@ -436,9 +436,10 @@ class ProfileInfotwo extends StatelessWidget {
                                 context,
                                 PageTransition(
                                     type: PageTransitionType.fade,
-                                    child:  TualletHome(
+                                    child: TualletHome(
                                       tcBalance: userdetails!.tcBalance,
-                                      withdrawalBalance: userdetails!.withdrawalBalance,
+                                      withdrawalBalance:
+                                          userdetails!.withdrawalBalance,
                                     )));
                           },
                           style: ElevatedButton.styleFrom(
