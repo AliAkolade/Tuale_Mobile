@@ -22,9 +22,9 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
 
   @override
   Widget build(BuildContext context) {
-     ProfileController profileController = Get.put(ProfileController());
+     ProfileController profileController = Get.find<ProfileController>();
   
-    UserPostDetails userdetails = profileController.profileInfo.value;
+   
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -47,15 +47,17 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
               ),
            
                
-                   Text(
-                    nairaSign + userdetails.withdrawalBalance!,
-                    style: TextStyle(
-                      color: tualeBlueDark,
-                      // fontFamily: 'Poppins',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                    ),
-                                 ),
+                   Obx(() =>
+                     Text(
+                      nairaSign + profileController.profileInfo.value.withdrawalBalance!,
+                      style: TextStyle(
+                        color: tualeBlueDark,
+                        // fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                      ),
+                                   ),
+                   ),
                  
               
               const SizedBox(

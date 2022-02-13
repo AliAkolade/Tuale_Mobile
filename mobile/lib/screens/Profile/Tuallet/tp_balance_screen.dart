@@ -6,10 +6,7 @@ import 'package:mobile/screens/Profile/controllers/profileController.dart';
 import 'package:mobile/screens/imports.dart';
 
 class TpBalanceScreen extends StatefulWidget {
-  String? tcBalance;
-  String? email;
 
-  TpBalanceScreen({this.tcBalance, this.email});
 
   @override
   _TpBalanceScreenState createState() => _TpBalanceScreenState();
@@ -67,7 +64,7 @@ class _TpBalanceScreenState extends State<TpBalanceScreen> {
   Widget build(BuildContext context) {
     PaymentReqController paymentReq = Get.put(PaymentReqController());
 
-    UserPostDetails userdetails = profileController.profileInfo.value;
+   
      //profileController.isLoading.value
     //     ? Container():
     return Column(
@@ -108,15 +105,17 @@ class _TpBalanceScreenState extends State<TpBalanceScreen> {
                             width: 10,
                           ),
                          
-                             Text(
-                              userdetails.tcBalance!,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 27,
-                              ),
-                            ),
+                             Obx(() => 
+                                Text(
+                                profileController.profileInfo.value.tcBalance!,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 27,
+                                ),
+                                                         ),
+                             ),
                         
                         ],
                       )
@@ -175,41 +174,43 @@ class _TpBalanceScreenState extends State<TpBalanceScreen> {
                             flex: 3,
                           ),
                           Center(
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  paymentReq
-                                      .getAccessCode(prices.values
-                                          .toString()
-                                          .replaceAllMapped("(", (match) => '')
-                                          .replaceAllMapped(")", (match) => ""))
-                                      .then((value) => _chargeCard(
-                                          userdetails.email!,
-                                          value[0]!,
-                                          int.parse(prices.values.elementAt(0)),
-                                          value[1]!));
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    primary: tualeBlueDark,
-                                    minimumSize: const Size(100, 35),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10))),
-                                child: Text(
-                                    nairaSign +
-                                        prices.values
+                            child: 
+                               ElevatedButton(
+                                  onPressed: () {
+                                    paymentReq
+                                        .getAccessCode(prices.values
                                             .toString()
-                                            .replaceAllMapped(
-                                                "(", (match) => '')
-                                            .replaceAllMapped(
-                                                ")", (match) => "") +
-                                        ".00",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(255, 255, 255, 1),
-                                        // fontFamily: 'Poppins',
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w500,
-                                        height: 1))),
+                                            .replaceAllMapped("(", (match) => '')
+                                            .replaceAllMapped(")", (match) => ""))
+                                        .then((value) => _chargeCard(
+                                            profileController.profileInfo.value.email!,
+                                            value[0]!,
+                                            int.parse(prices.values.elementAt(0)),
+                                            value[1]!));
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      primary: tualeBlueDark,
+                                      minimumSize: const Size(100, 35),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10))),
+                                  child: Text(
+                                      nairaSign +
+                                          prices.values
+                                              .toString()
+                                              .replaceAllMapped(
+                                                  "(", (match) => '')
+                                              .replaceAllMapped(
+                                                  ")", (match) => "") +
+                                          ".00",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(255, 255, 255, 1),
+                                          // fontFamily: 'Poppins',
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w500,
+                                          height: 1))),
+                            
                           ),
                           Spacer(
                             flex: 1,

@@ -1,5 +1,6 @@
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
@@ -16,6 +17,7 @@ class userProfile extends StatefulWidget {
 }
 
 bool? isAccountOwner;
+  ProfileController profileController = Get.put(ProfileController());
 // final ProfileController profileController = ProfileController();
 // UserPostDetails userdetails = UserPostDetails();
 
@@ -27,134 +29,136 @@ class _ProfileState extends State<userProfile> {
 
   @override
   Widget build(BuildContext context) {
-    ProfileController profileController = Get.put(ProfileController());
+  
 
-    UserPostDetails userdetails = profileController.profileInfo.value;
     return Material(
       child: DefaultTabController(
           length: 2,
-           child: //profileController.isLoading.value
-          //     ? Container():
-           Scaffold(
-                  appBar: AppBar(
-                      leading: widget.isUser!
-                          ? Container()
-                          : GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Icon(
-                                Icons.arrow_back_rounded,
-                                color: Colors.black,
-                              ),
-                            ),
-                      actions: [
-                        Icon(
-                          Icons.more_vert_rounded,
-                          color: Colors.black,
-                        )
-                      ],
-                      centerTitle: true,
-                      elevation: 0,
-                      backgroundColor: Colors.white,
-                      title: 
-                 Text(
-                          userdetails.name!,
-                          style:const TextStyle(
-                            color: tualeBlueDark,
-                            fontFamily: 'Poppins',
-                            fontSize: 18, // fontWeig
-                          ),
-                        ),
-                      
-                      ),
-                  body: NestedScrollView(
-                      physics: ClampingScrollPhysics(),
-                      headerSliverBuilder: (context, isScrolled) {
-                        return [
-                          SliverPersistentHeader(
-                            delegate: _SliverAppBarDelegate(ProfileInfotwo(
-                              userdetails: userdetails,
-                            )),
-                            pinned: false,
-                            //  floating: true,
-                          ),
-                          SliverOverlapAbsorber(
-                            handle:
-                                NestedScrollView.sliverOverlapAbsorberHandleFor(
-                                    context),
-                            sliver: SliverAppBar(
-                              //floating: true,
-                              pinned: true,
-                              // collapsedHeight: 100,
-                              expandedHeight: 10,
-                              flexibleSpace: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
-                                  TabBar(
-                                      unselectedLabelColor: Colors.grey,
-                                      indicatorColor: Colors.transparent,
-                                      indicatorWeight: 1.1,
-                                      labelColor: tualeBlueDark,
-                                      labelStyle: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 16,
-                                          // fontWeight: FontWeight.bold,
-                                          height: 1),
-                                      tabs: [
-                                        Tab(
-                                          icon: Icon(
-                                            TualeIcons.allposts,
-                                            size: 30,
-                                          ),
-                                        ),
-                                        Tab(
-                                            icon: Icon(
-                                          TualeIcons.starredpost,
-                                          size: 35,
-                                          // color: Colors.grey.withOpacity(0.3),
-                                        )),
-                                      ]),
-                                  SizedBox(
-                                    height: 3,
-                                    child: Divider(
-                                      color: Colors.grey,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              backgroundColor: Colors.white,
-                            ),
-                          ),
-                        ];
+          child: //profileController.isLoading.value
+              //     ? Container():
+              Scaffold(
+            appBar: AppBar(
+              leading: widget.isUser!
+                  ? Container()
+                  : GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
                       },
-                      body: TabBarView(
-                        children: [
-                          Builder(builder: (context) {
-                            return CustomScrollView(
-                              slivers: [
-                                SliverOverlapInjector(
-                                    handle: NestedScrollView
-                                        .sliverOverlapAbsorberHandleFor(
-                                            context)),
-                                AllPosts()
-                              ],
-                            );
-                          }),
-                          Builder(builder: (context) {
-                            return CustomScrollView(
-                              slivers: [
-                                SliverOverlapInjector(
-                                    handle: NestedScrollView
-                                        .sliverOverlapAbsorberHandleFor(
-                                            context)),
-                                AllPosts(),
-                              ],
-                            );
-                          }),
-                        ],
+                      child: Icon(
+                        Icons.arrow_back_rounded,
+                        color: Colors.black,
+                      ),
+                    ),
+              actions: [
+                Icon(
+                  Icons.more_vert_rounded,
+                  color: Colors.black,
+                )
+              ],
+              centerTitle: true,
+              elevation: 0,
+              backgroundColor: Colors.white,
+              title:
+               
+                     Obx(() =>
+                        Text(
+
+                         
+                                       profileController.profileInfo.value.name!  ,
+                        style: TextStyle(
+                          color: tualeBlueDark,
+                          fontFamily: 'Poppins',
+                          fontSize: 18, // fontWeig
+                        ),
+                                     ),
+                     ),
+                 
+              
+            ),
+            body: NestedScrollView(
+                physics: ClampingScrollPhysics(),
+                headerSliverBuilder: (context, isScrolled) {
+                  return [
+                    SliverPersistentHeader(
+                      delegate: _SliverAppBarDelegate(ProfileInfotwo(
+                     
                       )),
+                      pinned: false,
+                      //  floating: true,
+                    ),
+                    SliverOverlapAbsorber(
+                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                          context),
+                      sliver: SliverAppBar(
+                        //floating: true,
+                        pinned: true,
+                        // collapsedHeight: 100,
+                        expandedHeight: 10,
+                        flexibleSpace: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: const [
+                            TabBar(
+                                unselectedLabelColor: Colors.grey,
+                                indicatorColor: Colors.transparent,
+                                indicatorWeight: 1.1,
+                                labelColor: tualeBlueDark,
+                                labelStyle: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 16,
+                                    // fontWeight: FontWeight.bold,
+                                    height: 1),
+                                tabs: [
+                                  Tab(
+                                    icon: Icon(
+                                      TualeIcons.allposts,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  Tab(
+                                      icon: Icon(
+                                    TualeIcons.starredpost,
+                                    size: 35,
+                                    // color: Colors.grey.withOpacity(0.3),
+                                  )),
+                                ]),
+                            SizedBox(
+                              height: 3,
+                              child: Divider(
+                                color: Colors.grey,
+                              ),
+                            )
+                          ],
+                        ),
+                        backgroundColor: Colors.white,
+                      ),
+                    ),
+                  ];
+                },
+                body: TabBarView(
+                  children: [
+                    Builder(builder: (context) {
+                      return CustomScrollView(
+                        slivers: [
+                          SliverOverlapInjector(
+                              handle: NestedScrollView
+                                  .sliverOverlapAbsorberHandleFor(context)),
+                          AllPosts()
+                        ],
+                      );
+                    }),
+                    Builder(builder: (context) {
+                      return CustomScrollView(
+                        slivers: [
+                          SliverOverlapInjector(
+                              handle: NestedScrollView
+                                  .sliverOverlapAbsorberHandleFor(context)),
+                          AllPosts(),
+                        ],
+                      );
+                    }),
+                  ],
                 )),
+          )),
     );
   }
 }
@@ -182,9 +186,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class ProfileInfotwo extends StatelessWidget {
-  UserPostDetails? userdetails;
 
-  ProfileInfotwo({@required this.userdetails});
 
   @override
   Widget build(BuildContext context) {
@@ -200,19 +202,19 @@ class ProfileInfotwo extends StatelessWidget {
               child: SizedBox(
                 height: 90,
                 width: 90,
-                child: 
+                child: Obx(() =>
                    CircleAvatar(
-                    backgroundImage: NetworkImage(userdetails!.avatar!),
+                    backgroundImage: NetworkImage(profileController.profileInfo.value.avatar! ),
                   ),
-                
+                ),
               ),
             ),
             const Spacer(
               flex: 2,
             ),
-            
+            Obx(() =>
                Text(
-                "@" + userdetails!.username!,
+                "@" + profileController.profileInfo.value.username!  ,
                 style: const TextStyle(
                     color: Colors.black,
                     fontFamily: 'Poppins',
@@ -220,7 +222,7 @@ class ProfileInfotwo extends StatelessWidget {
                     // fontWeight: FontWeight.bold,
                     height: 1),
               ),
-            
+            ),
             const Spacer(
               flex: 2,
             ),
@@ -241,9 +243,9 @@ class ProfileInfotwo extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    
+                    Obx(() =>
                        Text(
-                        userdetails!.fans!,
+                        profileController.profileInfo.value.fans!,
                         style: const TextStyle(
                             color: Colors.black,
                             fontFamily: 'Poppins',
@@ -251,7 +253,7 @@ class ProfileInfotwo extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             height: 1),
                       ),
-                  
+                    ),
                     Text(
                       "Fans",
                       style: TextStyle(
@@ -278,16 +280,16 @@ class ProfileInfotwo extends StatelessWidget {
                               BorderSide(color: Colors.grey.withOpacity(0.3)))),
                   child: Column(
                     children: [
-                      
+                      Obx(() =>
                          Text(
-                          userdetails!.friends!,
+                          profileController.profileInfo.value.friends!  ,
                           style: const TextStyle(
                               color: Colors.black,
                               fontFamily: 'Poppins',
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               height: 1),
-                        
+                        ),
                       ),
                       Text(
                         "Friends",
@@ -307,9 +309,9 @@ class ProfileInfotwo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    
-                      Text(
-                        userdetails!.tualegiven!,
+                    Obx(() =>
+                       Text(
+                        profileController.profileInfo.value.tualegiven!,
                         style: const TextStyle(
                             color: Colors.black,
                             fontFamily: 'Poppins',
@@ -317,7 +319,7 @@ class ProfileInfotwo extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             height: 1),
                       ),
-                    
+                    ),
 
                     Text(
                       "Tuales given",
@@ -383,10 +385,7 @@ class ProfileInfotwo extends StatelessWidget {
                                 PageTransition(
                                     type: PageTransitionType.fade,
                                     child: TualletHome(
-                                      tcBalance: userdetails!.tcBalance,
-                                      withdrawalBalance:
-                                          userdetails!.withdrawalBalance,
-                                      email: userdetails!.email,
+                                     
                                     )));
                           },
                           style: ElevatedButton.styleFrom(
@@ -452,9 +451,7 @@ class ProfileInfotwo extends StatelessWidget {
                                 PageTransition(
                                     type: PageTransitionType.fade,
                                     child: TualletHome(
-                                      tcBalance: userdetails!.tcBalance,
-                                      withdrawalBalance:
-                                          userdetails!.withdrawalBalance,
+                                  
                                     )));
                           },
                           style: ElevatedButton.styleFrom(

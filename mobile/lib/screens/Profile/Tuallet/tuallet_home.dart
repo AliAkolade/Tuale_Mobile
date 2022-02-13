@@ -55,8 +55,7 @@ class _TualletHomeState extends State<TualletHome> {
               tabs: [Tab(text: "TP Balance"), Tab(text: "Withdrawal")]),
         ),
         body: TabBarView(children: [TpBalanceScreen(
-          tcBalance: widget.tcBalance,
-          email: widget.email
+        
         ), WithdrawalScreen(
           withdrawalBalance: widget.withdrawalBalance
         )]),

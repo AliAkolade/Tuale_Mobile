@@ -5,16 +5,6 @@ import 'package:mobile/screens/imports.dart';
 class ProfileController extends GetxController {
   var isLoading = true.obs;
   var profileInfo = UserPostDetails(
-    id : "",
-   avatar: '',
-    name: "",
-    username: '',
-    fans: '',
-   friends: "",
-    tualegiven : "",
-   tcBalance : "",
-    withdrawalBalance : '',
-   email: ''
   ).obs;
   final Api _api = Api();
 
