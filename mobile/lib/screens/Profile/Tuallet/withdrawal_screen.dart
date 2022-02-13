@@ -1,4 +1,7 @@
+import 'package:get/get.dart';
 import 'package:mobile/screens/Profile/Tuallet/price_withdrawal_screen.dart';
+import 'package:mobile/screens/Profile/controllers/profileController.dart';
+
 import 'package:mobile/screens/imports.dart';
 
 class WithdrawalScreen extends StatefulWidget {
@@ -19,6 +22,9 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
 
   @override
   Widget build(BuildContext context) {
+     ProfileController profileController = Get.put(ProfileController());
+  
+    UserPostDetails userdetails = profileController.profileInfo.value;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -39,15 +45,19 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
                 style: TextStyle(
                     color: Colors.black, fontFamily: "Poppins", fontSize: 20),
               ),
-              Text(
-                nairaSign + widget.withdrawalBalance!,
-                style: TextStyle(
-                  color: tualeBlueDark,
-                  // fontFamily: 'Poppins',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                ),
-              ),
+           
+               
+                   Text(
+                    nairaSign + userdetails.withdrawalBalance!,
+                    style: TextStyle(
+                      color: tualeBlueDark,
+                      // fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                    ),
+                                 ),
+                 
+              
               const SizedBox(
                 height: 30,
               ),

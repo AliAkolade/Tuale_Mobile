@@ -1,4 +1,10 @@
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/instance_manager.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:mobile/screens/Profile/controllers/profileController.dart';
 import 'package:mobile/screens/Profile/edit_profile.dart';
+
 import 'package:mobile/screens/imports.dart';
 
 class userProfile extends StatefulWidget {
@@ -10,24 +16,26 @@ class userProfile extends StatefulWidget {
 }
 
 bool? isAccountOwner;
+// final ProfileController profileController = ProfileController();
+// UserPostDetails userdetails = UserPostDetails();
 
 class _ProfileState extends State<userProfile> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    ProfileController profileController = Get.put(ProfileController());
+
+    UserPostDetails userdetails = profileController.profileInfo.value;
     return Material(
       child: DefaultTabController(
-        length: 2,
-        child: FutureBuilder<UserPostDetails?>(
-            future: Api().getUserProfile(widget.username!),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData) {
-                UserPostDetails? userdetails = snapshot.data;
-
-                isAccountOwner =
-                    Api.currentUserId == userdetails!.id ? true : false;
-
-                return Scaffold(
+          length: 2,
+           child: //profileController.isLoading.value
+          //     ? Container():
+           Scaffold(
                   appBar: AppBar(
                       leading: widget.isUser!
                           ? Container()
@@ -49,14 +57,17 @@ class _ProfileState extends State<userProfile> {
                       centerTitle: true,
                       elevation: 0,
                       backgroundColor: Colors.white,
-                      title: Text(
-                        userdetails.name!,
-                        style: TextStyle(
-                          color: tualeBlueDark,
-                          fontFamily: 'Poppins',
-                          fontSize: 18, // fontWeig
+                      title: 
+                 Text(
+                          userdetails.name!,
+                          style:const TextStyle(
+                            color: tualeBlueDark,
+                            fontFamily: 'Poppins',
+                            fontSize: 18, // fontWeig
+                          ),
                         ),
-                      )),
+                      
+                      ),
                   body: NestedScrollView(
                       physics: ClampingScrollPhysics(),
                       headerSliverBuilder: (context, isScrolled) {
@@ -143,14 +154,7 @@ class _ProfileState extends State<userProfile> {
                           }),
                         ],
                       )),
-                );
-              }
-              return Center(
-                child:
-                    SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75)),
-              );
-            }),
-      ),
+                )),
     );
   }
 }
@@ -196,23 +200,27 @@ class ProfileInfotwo extends StatelessWidget {
               child: SizedBox(
                 height: 90,
                 width: 90,
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(userdetails!.avatar!),
-                ),
+                child: 
+                   CircleAvatar(
+                    backgroundImage: NetworkImage(userdetails!.avatar!),
+                  ),
+                
               ),
             ),
             const Spacer(
               flex: 2,
             ),
-            Text(
-              "@" + userdetails!.username!,
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'Poppins',
-                  fontSize: 13,
-                  // fontWeight: FontWeight.bold,
-                  height: 1),
-            ),
+            
+               Text(
+                "@" + userdetails!.username!,
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Poppins',
+                    fontSize: 13,
+                    // fontWeight: FontWeight.bold,
+                    height: 1),
+              ),
+            
             const Spacer(
               flex: 2,
             ),
@@ -233,15 +241,17 @@ class ProfileInfotwo extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    Text(
-                      userdetails!.fans!,
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Poppins',
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          height: 1),
-                    ),
+                    
+                       Text(
+                        userdetails!.fans!,
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Poppins',
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            height: 1),
+                      ),
+                  
                     Text(
                       "Fans",
                       style: TextStyle(
@@ -268,14 +278,16 @@ class ProfileInfotwo extends StatelessWidget {
                               BorderSide(color: Colors.grey.withOpacity(0.3)))),
                   child: Column(
                     children: [
-                      Text(
-                        userdetails!.friends!,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'Poppins',
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            height: 1),
+                      
+                         Text(
+                          userdetails!.friends!,
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Poppins',
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              height: 1),
+                        
                       ),
                       Text(
                         "Friends",
@@ -295,15 +307,18 @@ class ProfileInfotwo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      userdetails!.tualegiven!,
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Poppins',
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          height: 1),
-                    ),
+                    
+                      Text(
+                        userdetails!.tualegiven!,
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Poppins',
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            height: 1),
+                      ),
+                    
+
                     Text(
                       "Tuales given",
                       style: TextStyle(
@@ -331,7 +346,7 @@ class ProfileInfotwo extends StatelessWidget {
             const Spacer(
               flex: 4,
             ),
-            isAccountOwner!
+            true
                 ? Row(
                     children: [
                       Spacer(

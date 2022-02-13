@@ -1,10 +1,11 @@
 import 'dart:developer';
 
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mobile/models/currentUserdetails.dart';
 import 'package:mobile/models/searchData.dart';
 import 'package:mobile/screens/imports.dart';
 
-class Api extends ChangeNotifier {
+class Api {
   static String? currentUserId;
   static String? currentUserUsername;
 
@@ -103,7 +104,7 @@ class Api extends ChangeNotifier {
     return currentUserId;
   }
 
-  Future<String> getAccessCode(amount) async {
+  Future<List<String?>> getAccessCode(amount) async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
@@ -116,9 +117,9 @@ class Api extends ChangeNotifier {
 
     accessCode = response.data["access_code"];
     reference = response.data["reference"];
-    notifyListeners();
+    var req = [accessCode, reference];
 
-    return accessCode!;
+    return req;
   }
 
   Future verifyTransaction(String reference) async {
@@ -139,16 +140,6 @@ class Api extends ChangeNotifier {
     } else {
       print('error');
     }
-  }
-
-  Future<String> test() async {
-    var hey = "String";
-
-    //await Future.delayed(Duration(seconds: 20));
-
-    tcpoints = tcpoints! + '100';
-    notifyListeners();
-    return hey;
   }
 
   // Future<List> getSearchResults(searchItem) async {

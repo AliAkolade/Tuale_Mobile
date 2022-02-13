@@ -1,16 +1,16 @@
 //viewing user postdetails model
 
 class UserPostDetails {
-  final String? id;
-  final String? avatar;
-  final String? name;
-  final String? username;
-  final String? fans;
-  final String? friends;
-  final String? tualegiven;
-  final String? tcBalance;
-  final String? withdrawalBalance;
-  final String? email;
+   String? id;
+   String? avatar;
+   String? name;
+   String? username;
+   String? fans;
+   String? friends;
+   String? tualegiven;
+   String? tcBalance;
+   String? withdrawalBalance;
+   String? email;
 
   UserPostDetails(
       {this.email,
