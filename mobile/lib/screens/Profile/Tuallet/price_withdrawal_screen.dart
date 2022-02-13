@@ -1,3 +1,4 @@
+import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:mobile/screens/Profile/profile_screen.dart';
 import 'package:mobile/screens/imports.dart';
 
@@ -10,12 +11,16 @@ class PriceWithdrawalScreen extends StatefulWidget {
 
 class _PriceWithdrawalScreenState extends State<PriceWithdrawalScreen> {
   String? text = '';
+  int? amount;
   List price = [
     {6: "500.00"},
     {12: "500.00"},
     {26: "500.00"},
     {60: "500.00"}
   ];
+
+  
+
   _onKeyboardTap(String value) {
     setState(() {
       text = text! + value;
@@ -28,14 +33,15 @@ class _PriceWithdrawalScreenState extends State<PriceWithdrawalScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-         leading: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(Icons.arrow_back_rounded,
-                    color: Colors.black,
-                    ),
-                  ),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(
+            Icons.arrow_back_rounded,
+            color: Colors.black,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -43,10 +49,7 @@ class _PriceWithdrawalScreenState extends State<PriceWithdrawalScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              decoration: BoxDecoration(
-
-                border: Border()),
-            
+              decoration: BoxDecoration(border: Border()),
               height: MediaQuery.of(context).size.height * 0.2,
               width: MediaQuery.of(context).size.width,
               child: Column(
@@ -200,3 +203,5 @@ class _PriceWithdrawalScreenState extends State<PriceWithdrawalScreen> {
     );
   }
 }
+
+//My name is david and i'm acode destroyer  send me your codes let me delete them for you id dont think twoice before doing that

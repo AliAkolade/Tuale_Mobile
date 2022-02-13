@@ -48,6 +48,7 @@ export 'package:twilio_phone_verify/twilio_phone_verify.dart';
 export 'package:photo_manager/photo_manager.dart';
 export 'package:numeric_keyboard/numeric_keyboard.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 //-----------------------Miscellaneous----------------------------------
 export 'package:mobile/utils/constants.dart';
 export 'package:flutter/material.dart';
@@ -61,7 +62,7 @@ export 'package:flutter/services.dart';
 
 
 //---------------------Models----------------------------------------
-export 'package:mobile/models/UserPostDetails.dart';
+export 'package:mobile/screens/Profile/models/UserPostDetails.dart';
 
 
 //--------------------Api-----------------------------------------------

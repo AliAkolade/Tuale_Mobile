@@ -53,6 +53,8 @@ dependencies:
   provider: ^6.0.2
   numeric_keyboard: ^1.1.0
   flutter_screenutil: ^5.1.1
+  flutter_paystack: ^1.0.5+1
+  get: ^4.6.1
 
 
 flutter_icons:

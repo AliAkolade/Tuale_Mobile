@@ -1,13 +1,18 @@
 import 'dart:developer';
 
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mobile/models/currentUserdetails.dart';
+import 'package:mobile/models/searchData.dart';
 import 'package:mobile/screens/imports.dart';
 
-class Api  {
+class Api {
+  static String? currentUserId;
+  static String? currentUserUsername;
 
+  String? accessCode;
+  String? reference;
+  String? tcpoints = '10';
 
- static String? currentUserId;
-  static  String? currentUserUsername;
   Future<List> getVibingPost() async {
     int pageNo = 1;
     List posts = [];
@@ -35,7 +40,8 @@ class Api  {
             noTuale: postsResponses[i]['tuales'].toList().length,
             noStar: postsResponses[i]['stars'].toList().length,
             noComment: postsResponses[i]['comments'].toList().length,
-            username: postsResponses[i]['user']['username'], id: ''));
+            username: postsResponses[i]['user']['username'],
+            id: ''));
       }
     }
 
@@ -53,23 +59,23 @@ class Api  {
     dio.options.headers["Authorization"] = token;
     Response response = await dio.get(hostAPI + userpost + username);
 
-
     // log(response.data.toString());
     var responseData = response.data;
- 
-
 
     UserPostDetails info = UserPostDetails(
-
-      id:responseData['profile']['user']['_id'].toString(), 
+      id: responseData['profile']['user']['_id'].toString(),
       avatar: responseData['profile']['user']['avatar']['url'].toString(),
       name: responseData['profile']['user']['name'].toString(),
       username: responseData['profile']['user']['username'].toString(),
       fans: responseData['fansLength'].toString(),
       tualegiven: responseData['givenTuales'].toString(),
       friends: responseData['friendsLength'].toString(),
+      tcBalance: responseData['profile']['user']['tcBalance'].toString(),
+      withdrawalBalance:
+          responseData['profile']['user']['walletBalance'].toString(),
+      email: responseData['profile']['user']['email'].toString(),
     );
-    
+
     // if (responseData['success'].toString() == 'true') {
     //   for (int i = 0; i < postsResponses.length; i++) {
 
@@ -80,7 +86,7 @@ class Api  {
     return info;
   }
 
-    Future getCurrentUserId () async{
+  Future getCurrentUserId() async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
@@ -88,25 +94,74 @@ class Api  {
     // Get userdetails
     Dio dio = Dio();
     dio.options.headers["Authorization"] = token;
- 
-    Response currentUser = await dio.get(hostAPI + currentuser );
- 
+
+    Response currentUser = await dio.get(hostAPI + currentuser);
 
     // log(response.data.toString());
-    
-   currentUserId = currentUser.data['user']["_id"].toString();
 
+    currentUserId = currentUser.data['user']["_id"].toString();
 
-   currentUsername = currentUser.data['user']["username"].toString();
-
-  CurrentUserDetails currentdetails = CurrentUserDetails(currentuserid: currentUserId, currentUserUsername: currentUserUsername, );
- 
-
-      return currentUserId; 
-   
-    
-
-
+    return currentUserId;
   }
 
+  Future<List<String?>> getAccessCode(amount) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    // Get userdetails
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+
+    Response response = await dio.get(hostAPI + payment + amount);
+
+    accessCode = response.data["access_code"];
+    reference = response.data["reference"];
+    var req = [accessCode, reference];
+
+    return req;
+  }
+
+  Future verifyTransaction(String reference) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    // Get userdetails
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+
+    Response response =
+        await dio.put(hostAPI + verify, data: {'reference': reference});
+
+    if (response.statusCode == 200) {
+      // print(response.data);
+      print("Payment verified");
+    } else {
+      print('error');
+    }
+  }
+
+  // Future<List> getSearchResults(searchItem) async {
+  //   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  //   final SharedPreferences prefs = await _prefs;
+  //   String token = prefs.getString('token') ?? '';
+
+  //   // Get userdetails
+  //   Dio dio = Dio();
+  //   dio.options.headers["Authorization"] = token;
+
+  //   Response response = await dio.get(hostAPI + search + searchItem);
+  //   List responseData = response.data['results'];
+
+  //   // if (response.data['success'].toString() == 'true') {
+  //   //   for (var i = 0; i < responseData.length; i++) {
+  //   //     List<searchDataModel> searchResult;
+
+  //   //     searchResult.add(
+  //   //       P
+  //   //     );
+  //   //   }
+  //   // }
+  // }
 }

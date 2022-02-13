@@ -1,75 +1,94 @@
-
-
-
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
+import 'package:get/instance_manager.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:mobile/screens/Profile/controllers/profileController.dart';
 import 'package:mobile/screens/Profile/edit_profile.dart';
-import 'package:mobile/screens/imports.dart';
 
+import 'package:mobile/screens/imports.dart';
 
 class userProfile extends StatefulWidget {
   bool? isUser;
   String? username;
 
-userProfile({this.isUser, this.username});
+  userProfile({this.isUser, this.username});
   State<userProfile> createState() => _ProfileState();
 }
-bool? isAccountOwner;
-class _ProfileState extends State<userProfile> {
 
+bool? isAccountOwner;
+  ProfileController profileController = Get.put(ProfileController());
+// final ProfileController profileController = ProfileController();
+// UserPostDetails userdetails = UserPostDetails();
+
+class _ProfileState extends State<userProfile> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+  
+
     return Material(
       child: DefaultTabController(
-        length: 2,
-        child: FutureBuilder<UserPostDetails?>(
-          future: Api().getUserProfile(widget.username!),
-          builder: (context, snapshot) {
-         if (snapshot.connectionState == ConnectionState.done && snapshot.hasData){
-              UserPostDetails?  userdetails = snapshot.data;
+          length: 2,
+          child: //profileController.isLoading.value
+              //     ? Container():
+              Scaffold(
+            appBar: AppBar(
+              leading: widget.isUser!
+                  ? Container()
+                  : GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.arrow_back_rounded,
+                        color: Colors.black,
+                      ),
+                    ),
+              actions: [
+                Icon(
+                  Icons.more_vert_rounded,
+                  color: Colors.black,
+                )
+              ],
+              centerTitle: true,
+              elevation: 0,
+              backgroundColor: Colors.white,
+              title:
+               
+                     Obx(() =>
+                        Text(
 
-              isAccountOwner = Api.currentUserId == userdetails!.id ? true : false ;
-            
-            return Scaffold(
-              appBar: AppBar(
-                leading: widget.isUser! ? Container() : GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(Icons.arrow_back_rounded,
-                  color: Colors.black,
-                  ),
-                ),
-                actions: [
-                  Icon(Icons.more_vert_rounded, 
-                  color: Colors.black,
-                  )
-                ],
-                centerTitle: true,
-                elevation: 0,
-                backgroundColor: Colors.white,
-                title:  Text(
-                  userdetails.name!,
-                  style: TextStyle(
-                      color: tualeBlueDark,
-                      fontFamily: 'Poppins',
-                      fontSize: 18,
-                      // fontWeight: FontWeight.bold,
-                      height: 1),
-                ),
-              ),
-              body: NestedScrollView(
+                         
+                                       profileController.profileInfo.value.name!  ,
+                        style: TextStyle(
+                          color: tualeBlueDark,
+                          fontFamily: 'Poppins',
+                          fontSize: 18, // fontWeig
+                        ),
+                                     ),
+                     ),
+                 
+              
+            ),
+            body: NestedScrollView(
                 physics: ClampingScrollPhysics(),
                 headerSliverBuilder: (context, isScrolled) {
                   return [
                     SliverPersistentHeader(
-                      delegate: _SliverAppBarDelegate(ProfileInfotwo
-                    (userdetails: userdetails,)),
+                      delegate: _SliverAppBarDelegate(ProfileInfotwo(
+                     
+                      )),
                       pinned: false,
                       //  floating: true,
                     ),
                     SliverOverlapAbsorber(
-                      handle:
-                          NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                          context),
                       sliver: SliverAppBar(
                         //floating: true,
                         pinned: true,
@@ -83,13 +102,13 @@ class _ProfileState extends State<userProfile> {
                                 indicatorColor: Colors.transparent,
                                 indicatorWeight: 1.1,
                                 labelColor: tualeBlueDark,
-                                labelStyle:  TextStyle(
+                                labelStyle: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 16,
                                     // fontWeight: FontWeight.bold,
                                     height: 1),
                                 tabs: [
-                                 Tab(
+                                  Tab(
                                     icon: Icon(
                                       TualeIcons.allposts,
                                       size: 30,
@@ -99,7 +118,7 @@ class _ProfileState extends State<userProfile> {
                                       icon: Icon(
                                     TualeIcons.starredpost,
                                     size: 35,
-                                   // color: Colors.grey.withOpacity(0.3),
+                                    // color: Colors.grey.withOpacity(0.3),
                                   )),
                                 ]),
                             SizedBox(
@@ -115,41 +134,31 @@ class _ProfileState extends State<userProfile> {
                     ),
                   ];
                 },
-                body: TabBarView(children: [
-                   Builder(builder: (context) {
-                  return CustomScrollView(
-                    
-                    slivers: [
-                      SliverOverlapInjector(
-                          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                              context)),
-                              AllPosts()
-                           
-                   
-                    ],
-                  );
-                }),
-                   Builder(builder: (context) {
-                  return CustomScrollView(
-                    
-                    slivers: [
-                      SliverOverlapInjector(
-                          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                              context)),
-                              AllPosts(), 
-                           
-                   
-                    ],
-                  );
-                }),
-                ],)
-              ),
-            );
-         }
-         return Center(child: SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75)) ,);
-          }
-        ),
-      ),
+                body: TabBarView(
+                  children: [
+                    Builder(builder: (context) {
+                      return CustomScrollView(
+                        slivers: [
+                          SliverOverlapInjector(
+                              handle: NestedScrollView
+                                  .sliverOverlapAbsorberHandleFor(context)),
+                          AllPosts()
+                        ],
+                      );
+                    }),
+                    Builder(builder: (context) {
+                      return CustomScrollView(
+                        slivers: [
+                          SliverOverlapInjector(
+                              handle: NestedScrollView
+                                  .sliverOverlapAbsorberHandleFor(context)),
+                          AllPosts(),
+                        ],
+                      );
+                    }),
+                  ],
+                )),
+          )),
     );
   }
 }
@@ -177,9 +186,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class ProfileInfotwo extends StatelessWidget {
-UserPostDetails? userdetails;
 
-ProfileInfotwo({@required this.userdetails});
 
   @override
   Widget build(BuildContext context) {
@@ -188,29 +195,33 @@ ProfileInfotwo({@required this.userdetails});
         height: 350,
         width: double.infinity,
         child: Column(
-        //  crossAxisAlignment: CrossAxisAlignment.center,
-        //  mainAxisAlignment: MainAxisAlignment.center,
+          //  crossAxisAlignment: CrossAxisAlignment.center,
+          //  mainAxisAlignment: MainAxisAlignment.center,
           children: [
-             Center(
-               child: SizedBox(
+            Center(
+              child: SizedBox(
                 height: 90,
                 width: 90,
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(userdetails!.avatar!),
+                child: Obx(() =>
+                   CircleAvatar(
+                    backgroundImage: NetworkImage(profileController.profileInfo.value.avatar! ),
+                  ),
                 ),
+              ),
             ),
-             ),
             const Spacer(
               flex: 2,
             ),
-             Text(
-             "@"+userdetails!.username!,
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'Poppins',
-                  fontSize: 13,
-                  // fontWeight: FontWeight.bold,
-                  height: 1),
+            Obx(() =>
+               Text(
+                "@" + profileController.profileInfo.value.username!  ,
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Poppins',
+                    fontSize: 13,
+                    // fontWeight: FontWeight.bold,
+                    height: 1),
+              ),
             ),
             const Spacer(
               flex: 2,
@@ -230,17 +241,18 @@ ProfileInfotwo({@required this.userdetails});
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-             
                 Column(
-                  children:  [
-                    Text(
-                      userdetails!.fans!,
-                      style:const TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Poppins',
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          height: 1),
+                  children: [
+                    Obx(() =>
+                       Text(
+                        profileController.profileInfo.value.fans!,
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Poppins',
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            height: 1),
+                      ),
                     ),
                     Text(
                       "Fans",
@@ -252,32 +264,32 @@ ProfileInfotwo({@required this.userdetails});
                     ),
                   ],
                 ),
-           
-               // const Spacer(),
+
+                // const Spacer(),
 
                 Container(
-               
-                 // height: 50,
+                  // height: 50,
                   width: 100,
-                 margin: EdgeInsets.only(left: 20, right:20),
-                  padding: EdgeInsets.only(left: 8, right:8),
+                  margin: EdgeInsets.only(left: 20, right: 20),
+                  padding: EdgeInsets.only(left: 8, right: 8),
                   decoration: BoxDecoration(
-                   //  color: Colors.black,
-                    border: Border(
-                 left: BorderSide(color: Colors.grey.withOpacity(0.3)),
-              right: BorderSide(color: Colors.grey.withOpacity(0.3))
-            )
-                  ),
+                      //  color: Colors.black,
+                      border: Border(
+                          left: BorderSide(color: Colors.grey.withOpacity(0.3)),
+                          right:
+                              BorderSide(color: Colors.grey.withOpacity(0.3)))),
                   child: Column(
-                    children:  [
-                      Text(
-                        userdetails!.friends!,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'Poppins',
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            height: 1),
+                    children: [
+                      Obx(() =>
+                         Text(
+                          profileController.profileInfo.value.friends!  ,
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Poppins',
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              height: 1),
+                        ),
                       ),
                       Text(
                         "Friends",
@@ -290,22 +302,25 @@ ProfileInfotwo({@required this.userdetails});
                     ],
                   ),
                 ),
-               // Spacer(),
-             
-               // Spacer(),
+                // Spacer(),
+
+                // Spacer(),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                 // crossAxisAlignment: CrossAxisAlignment.start,
-                  children:  [
-                    Text(
-                      userdetails!.tualegiven!,
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Poppins',
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          height: 1),
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Obx(() =>
+                       Text(
+                        profileController.profileInfo.value.tualegiven!,
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Poppins',
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            height: 1),
+                      ),
                     ),
+
                     Text(
                       "Tuales given",
                       style: TextStyle(
@@ -314,10 +329,9 @@ ProfileInfotwo({@required this.userdetails});
                           fontSize: 11,
                           height: 1),
                     ),
-                  //  Spacer(flex: 3,)
+                    //  Spacer(flex: 3,)
                   ],
                 ),
-            
               ],
             ),
             const Spacer(
@@ -334,48 +348,26 @@ ProfileInfotwo({@required this.userdetails});
             const Spacer(
               flex: 4,
             ),
-           isAccountOwner! ?  
-             Row(
-           
-              children: [
-                  Spacer(flex: 3,),
-                ElevatedButton(
-                    onPressed: () {
-                     Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.fade,
-                                    child: EditProfile()));
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: tualeBlueDark,
-                        minimumSize: const Size(150, 45),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                    child: const Text('Edit Profile',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                                  fontFamily: 'Poppins',
-                                  fontSize: 15.5,
-                            fontWeight: FontWeight.bold,
-                            height: 1))),
-                              Spacer(flex: 3,),
-                              ElevatedButton(
+            true
+                ? Row(
+                    children: [
+                      Spacer(
+                        flex: 3,
+                      ),
+                      ElevatedButton(
                           onPressed: () {
                             Navigator.push(
                                 context,
                                 PageTransition(
                                     type: PageTransitionType.fade,
-                                    child: TualletHome()));
+                                    child: EditProfile()));
                           },
                           style: ElevatedButton.styleFrom(
-                            
-                            primary: tualeOrange,
+                              primary: tualeBlueDark,
                               minimumSize: const Size(150, 45),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10))),
-                          child: const Text('Tuallet',
+                          child: const Text('Edit Profile',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Color.fromRGBO(255, 255, 255, 1),
@@ -383,15 +375,51 @@ ProfileInfotwo({@required this.userdetails});
                                   fontSize: 15.5,
                                   fontWeight: FontWeight.bold,
                                   height: 1))),
-                                   Spacer(flex: 3,)
-              ],
-             
-            )
-           
-          : Row(
+                      Spacer(
+                        flex: 3,
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.fade,
+                                    child: TualletHome(
+                                     
+                                    )));
+                          },
+                          style: ElevatedButton.styleFrom(
+                              primary: tualeOrange,
+                              minimumSize: const Size(150, 45),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                          child: Row(children: [
+                            Text('Tuallet',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                    fontFamily: 'Poppins',
+                                    fontSize: 15.5,
+                                    fontWeight: FontWeight.bold,
+                                    height: 1)),
+                            SizedBox(
+                              width: 5.h,
+                            ),
+                            SizedBox(
+                                height: 30,
+                                width: 30,
+                                child: SvgPicture.asset(
+                                    'assets/vectors/tualletWallet.svg'))
+                          ])),
+                      Spacer(
+                        flex: 3,
+                      )
+                    ],
+                  )
+                : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                     const Spacer(
+                      const Spacer(
                         flex: 2,
                       ),
                       ElevatedButton(
@@ -403,7 +431,7 @@ ProfileInfotwo({@required this.userdetails});
                                     child: SignUp()));
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: tualeBlueDark,
+                              primary: tualeBlueDark,
                               minimumSize: const Size(150, 45),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10))),
@@ -415,14 +443,16 @@ ProfileInfotwo({@required this.userdetails});
                                   fontSize: 15.5,
                                   fontWeight: FontWeight.w200,
                                   height: 1))),
-                    const Spacer(),
+                      const Spacer(),
                       ElevatedButton(
                           onPressed: () {
                             Navigator.push(
                                 context,
                                 PageTransition(
                                     type: PageTransitionType.fade,
-                                    child: const TualletHome()));
+                                    child: TualletHome(
+                                  
+                                    )));
                           },
                           style: ElevatedButton.styleFrom(
                               primary: const Color.fromRGBO(218, 65, 103, 1),
@@ -435,9 +465,9 @@ ProfileInfotwo({@required this.userdetails});
                                   color: Color.fromRGBO(255, 255, 255, 1),
                                   fontFamily: 'Poppins',
                                   fontSize: 15.5,
-                                    fontWeight: FontWeight.w200,
+                                  fontWeight: FontWeight.w200,
                                   height: 1))),
-                     const Spacer(
+                      const Spacer(
                         flex: 2,
                       ),
                     ],
@@ -451,8 +481,7 @@ ProfileInfotwo({@required this.userdetails});
 }
 
 class SaveBioBtntwo extends StatelessWidget {
-  const SaveBioBtntwo
-({
+  const SaveBioBtntwo({
     Key? key,
   }) : super(key: key);
 
@@ -497,26 +526,22 @@ class ChangePassBtntwo extends StatelessWidget {
                       TopBartwo(
                         barText: "Change Password",
                       ),
-                      BioFieldtwo
-                    (
+                      BioFieldtwo(
                         infoString: "Current Password",
                         fieldHeight: 50,
                       ),
-                      BioFieldtwo
-                    (
+                      BioFieldtwo(
                         infoString: "New Password",
                         fieldHeight: 50,
                       ),
-                      BioFieldtwo
-                    (
+                      BioFieldtwo(
                         infoString: "Confirm Password",
                         fieldHeight: 50,
                       ),
                       const SizedBox(
                         height: 20,
                       ),
-                      SaveBioBtntwo
-                    ()
+                      SaveBioBtntwo()
                     ]),
                   ),
                 );
@@ -613,8 +638,7 @@ class BioFieldtwo extends StatelessWidget {
   String? infoString;
   double? fieldHeight;
 
-  BioFieldtwo
-({this.infoString, this.fieldHeight});
+  BioFieldtwo({this.infoString, this.fieldHeight});
   @override
   Widget build(BuildContext context) {
     return Padding(

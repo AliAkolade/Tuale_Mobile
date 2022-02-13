@@ -48,32 +48,29 @@ const String getVibingPosts = 'posts/vibing?pageNumber=';
 const String getAllPosts = 'posts?pageNumber=';
 const String userpost = 'profile/';
 const String currentuser = 'me';
- String currentUsername = '';
- var format = NumberFormat.simpleCurrency(locale: Platform.localeName, name: 'NGN');
- var nairaSign = format.currencySymbol;
-  
+const String payment = 'payment/';
+const String verify = 'payment/verify';
+const String search = 'search/';
+String currentUsername = '';
 
+var format =
+    NumberFormat.simpleCurrency(locale: Platform.localeName, name: 'NGN');
+var nairaSign = format.currencySymbol;
 
-class camera extends ChangeNotifier  {
+class camera extends ChangeNotifier {
+  static List<CameraDescription>? cameras;
+  bool hideNav = false;
 
- 
-static List<CameraDescription>? cameras;
- bool hideNav = false;
-
-  
-  Future <void> getcamera()  async {
-     final camera = await availableCameras(); 
-     cameras = camera; 
+  Future<void> getcamera() async {
+    final camera = await availableCameras();
+    cameras = camera;
 
     print(cameras);
-
-
   }
- changeNav () {
+
+  changeNav() {
     hideNav = !hideNav;
-  
+
     notifyListeners();
   }
-
-
 }

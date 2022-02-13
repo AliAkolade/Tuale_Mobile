@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/screens/Auth/welcome_screen.dart';
+
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/utils/constants.dart';
 import 'package:provider/provider.dart';
@@ -19,8 +20,12 @@ Future<void> main() async {
     statusBarColor: Colors.white, 
     statusBarIconBrightness: Brightness.dark// status bar color
   ));
-  runApp(ChangeNotifierProvider(
-        create: (context) => camera(),
+  runApp(
+    MultiProvider(
+    providers: [
+      ChangeNotifierProvider( create: (context) => camera()),
+    ],
+       
     child: const MyApp()));
 }
 
