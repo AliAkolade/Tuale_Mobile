@@ -1,3 +1,10 @@
+import 'dart:ui';
+
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:mobile/screens/Discover/controllers/searchController.dart';
 import 'package:mobile/screens/imports.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -8,6 +15,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+//  SearchController searchController = Get.put(SearchController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +28,13 @@ class _SearchScreenState extends State<SearchScreen> {
               height: 45.h,
               width: double.infinity,
               child: TextField(
-                onChanged: (value) {},
+                onChanged: (value) {
+                  if (value.isEmpty || value == "") {
+                    Get.find<SearchController>().isEmpty();
+                  } else {
+                    Get.find<SearchController>().getSearch(value);
+                  }
+                },
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 2),
                   prefixIcon: Icon(Icons.search_rounded),
@@ -47,8 +61,16 @@ class _SearchScreenState extends State<SearchScreen> {
         backgroundColor: Colors.white,
         centerTitle: true,
         elevation: 1,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(
+            Icons.arrow_back_rounded,
+            color: Colors.black,
+          ),
+        ),
         actions: [
-          Icon(TualeIcons.notificationbell, color: tualeBlueDark),
           SizedBox(
             width: 10.w,
           )
@@ -63,10 +85,104 @@ class _SearchScreenState extends State<SearchScreen> {
               height: 1),
         ),
       ),
-      body: Expanded(
-        child: Container(),
-      ),
+      body: GetBuilder<SearchController>(
+          autoRemove: false,
+          init: SearchController(),
+          builder: (searchController) {
+            return Padding(
+                padding: const EdgeInsets.only(top: 0),
+                child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: searchController.searchresult.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.topToBottom,
+                                  child: userProfile(
+                                      isUser: false,
+                                      username: searchController
+                                          .searchresult[index].usernames,
+                                      tag: "search")));
+                        },
+                        child: Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 60.h,
+                                width: 60.h,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.grey,
+                                  child: SizedBox(
+                                    height: 57.h,
+                                    width: 57.h,
+                                    child: CircleAvatar(
+                                      backgroundImage: Image.network(
+                                              searchController
+                                                  .searchresult[index].avatar!)
+                                          .image,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10.h,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 5),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  //  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                            searchController
+                                                .searchresult[index].name!,
+                                            style: TextStyle(
+                                                fontSize: 18.sp,
+                                                fontFamily: 'Poppins',
+                                                color: tualeBlueDark)),
+                                        searchController
+                                                .searchresult[index].isVerified!
+                                            ? Icon(
+                                                Icons.verified_rounded,
+                                                size: 20.sp,
+                                                color: Colors.blue,
+                                              )
+                                            : Container()
+                                      ],
+                                    ),
+                                    Text(
+                                      '@' +
+                                          searchController
+                                              .searchresult[index].usernames!,
+                                      style: TextStyle(color: tualeBlueDark),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Colors.grey.withOpacity(0.3)))),
+                          height: 100.h,
+                          padding: EdgeInsets.only(
+                            top: 15,
+                            bottom: 5,
+                            left: 15,
+                          ),
+                          width: ScreenUtil().screenWidth,
+                        ),
+                      );
+                    }));
+          }),
     );
-    
   }
 }

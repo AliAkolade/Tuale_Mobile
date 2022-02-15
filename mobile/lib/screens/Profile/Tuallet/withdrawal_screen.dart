@@ -22,7 +22,7 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
 
   @override
   Widget build(BuildContext context) {
-     ProfileController profileController = Get.find<ProfileController>();
+   ProfileController profileController = Get.put(ProfileController(),tag: "myprofile");
   
    
     return Column(

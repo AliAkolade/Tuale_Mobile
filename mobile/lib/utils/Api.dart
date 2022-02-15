@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mobile/models/currentUserdetails.dart';
 import 'package:mobile/models/searchData.dart';
+import 'package:mobile/screens/Discover/models/searchresultController.dart';
+import 'package:mobile/screens/Profile/models/UserPost.dart';
 import 'package:mobile/screens/imports.dart';
 
 class Api {
@@ -142,26 +144,61 @@ class Api {
     }
   }
 
-  // Future<List> getSearchResults(searchItem) async {
-  //   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  //   final SharedPreferences prefs = await _prefs;
-  //   String token = prefs.getString('token') ?? '';
+  Future<List<SearchResultModel>> getSearchResults(searchItem) async {
+    List<SearchResultModel> searchResult = [];
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
 
-  //   // Get userdetails
-  //   Dio dio = Dio();
-  //   dio.options.headers["Authorization"] = token;
+    // Get userdetails
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
 
-  //   Response response = await dio.get(hostAPI + search + searchItem);
-  //   List responseData = response.data['results'];
+    Response response = await dio.get(hostAPI + search + searchItem);
+    List responseData = response.data['results'];
 
-  //   // if (response.data['success'].toString() == 'true') {
-  //   //   for (var i = 0; i < responseData.length; i++) {
-  //   //     List<searchDataModel> searchResult;
+    if (response.data['success'].toString() == 'true') {
+      for (var i = 0; i < responseData.length; i++) {
+        searchResult.add(SearchResultModel(
+          avatar: responseData[i]['avatar']['url'],
+          name: responseData[i]['name'],
+          usernames: responseData[i]['username'],
+          isVerified: responseData[i]['isVerified'] == 'true' ? true : false,
+        ));
+      }
+    }
+    return searchResult;
+  }
 
-  //   //     searchResult.add(
-  //   //       P
-  //   //     );
-  //   //   }
-  //   // }
-  // }
+  Future<List<UserPost>> getUserProfilePosts(String username) async {
+    // Get Token
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    // Get userdetails
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+    Response response = await dio.get(hostAPI + profilepost + username);
+    List<UserPost> result = [];
+
+    // log(response.data.toString());
+    var responseData = response.data;
+    print(responseData);
+
+    if (response.data['success'].toString() == 'true') {
+      for (var i = 0; i < responseData['posts'].length; i++) {
+        result.add(UserPost(postUrl: responseData['posts'][i]['media']['url']));
+      }
+    }
+
+    // if (responseData['success'].toString() == 'true') {
+    //   for (int i = 0; i < postsResponses.length; i++) {
+
+    //   }
+
+    // }
+
+    return result;
+  }
 }

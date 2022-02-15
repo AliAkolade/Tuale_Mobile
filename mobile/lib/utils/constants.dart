@@ -47,10 +47,12 @@ const String loginUserAPI = 'login';
 const String getVibingPosts = 'posts/vibing?pageNumber=';
 const String getAllPosts = 'posts?pageNumber=';
 const String userpost = 'profile/';
+const String profilepost = 'profile/posts/';
 const String currentuser = 'me';
 const String payment = 'payment/';
 const String verify = 'payment/verify';
 const String search = 'search/';
+
 String currentUsername = '';
 
 var format =

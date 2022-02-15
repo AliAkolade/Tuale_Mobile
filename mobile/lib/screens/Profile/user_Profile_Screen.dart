@@ -1,9 +1,11 @@
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
+import 'package:mobile/screens/Profile/controllers/userPostsController.dart';
 import 'package:mobile/screens/Profile/edit_profile.dart';
 
 import 'package:mobile/screens/imports.dart';
@@ -11,26 +13,51 @@ import 'package:mobile/screens/imports.dart';
 class userProfile extends StatefulWidget {
   bool? isUser;
   String? username;
+  ProfileController? profileController;
+  String? tag;
 
-  userProfile({this.isUser, this.username});
+  userProfile({
+    this.isUser,
+    this.username,
+    this.tag,
+  });
   State<userProfile> createState() => _ProfileState();
 }
 
 bool? isAccountOwner;
-  ProfileController profileController = Get.put(ProfileController());
-// final ProfileController profileController = ProfileController();
+
+ProfileController profileController = ProfileController();
 // UserPostDetails userdetails = UserPostDetails();
 
-class _ProfileState extends State<userProfile> {
+class _ProfileState extends State<userProfile> with RouteAware {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+
+    Get.delete<ProfileController>(tag: widget.tag);
+  }
+
   @override
   void initState() {
     super.initState();
+
+    profileController = Get.put<ProfileController>(
+        ProfileController(controllerusername: widget.username!),
+        tag: widget.tag!);
+
+      Get.put(UserPostsController().getProfilePosts(widget.username!), tag: widget.tag);     
   }
 
   @override
   Widget build(BuildContext context) {
-  
-
+    // profileController.getProfileInfo(widget.username!);
     return Material(
       child: DefaultTabController(
           length: 2,
@@ -38,50 +65,49 @@ class _ProfileState extends State<userProfile> {
               //     ? Container():
               Scaffold(
             appBar: AppBar(
-              leading: widget.isUser!
-                  ? Container()
-                  : GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.arrow_back_rounded,
-                        color: Colors.black,
+                leading: widget.isUser!
+                    ? Container()
+                    : GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.arrow_back_rounded,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-              actions: [
-                Icon(
-                  Icons.more_vert_rounded,
-                  color: Colors.black,
-                )
-              ],
-              centerTitle: true,
-              elevation: 0,
-              backgroundColor: Colors.white,
-              title:
-               
-                     Obx(() =>
-                        Text(
-
-                         
-                                       profileController.profileInfo.value.name!  ,
+                actions: [
+                  Icon(
+                    Icons.more_vert_rounded,
+                    color: Colors.black,
+                  )
+                ],
+                centerTitle: true,
+                elevation: 0,
+                backgroundColor: Colors.white,
+                title: GetX<ProfileController>(
+                    init:
+                        ProfileController(controllerusername: widget.username),
+                    tag: widget.tag,
+                    builder: (context) {
+                      return Text(
+                        context.profileInfo.value.name!,
                         style: TextStyle(
                           color: tualeBlueDark,
                           fontFamily: 'Poppins',
                           fontSize: 18, // fontWeig
                         ),
-                                     ),
-                     ),
-                 
-              
-            ),
+                      );
+                    })),
             body: NestedScrollView(
                 physics: ClampingScrollPhysics(),
                 headerSliverBuilder: (context, isScrolled) {
                   return [
                     SliverPersistentHeader(
                       delegate: _SliverAppBarDelegate(ProfileInfotwo(
-                     
+                      username: widget.username,
+                      tag: widget.tag!,
+
                       )),
                       pinned: false,
                       //  floating: true,
@@ -96,7 +122,7 @@ class _ProfileState extends State<userProfile> {
                         expandedHeight: 10,
                         flexibleSpace: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
+                          children: [
                             TabBar(
                                 unselectedLabelColor: Colors.grey,
                                 indicatorColor: Colors.transparent,
@@ -121,12 +147,16 @@ class _ProfileState extends State<userProfile> {
                                     // color: Colors.grey.withOpacity(0.3),
                                   )),
                                 ]),
-                            SizedBox(
-                              height: 3,
-                              child: Divider(
-                                color: Colors.grey,
-                              ),
-                            )
+                            // GetBuilder<ProfileController>(
+                            //   init: ProfileController(),
+                            //  // dispose: ProfileController().delete(),
+                            //   builder: (context) {
+
+                            //     return Divider(
+                            //       color: context.color,
+                            //     );
+                            //   }
+                            // )
                           ],
                         ),
                         backgroundColor: Colors.white,
@@ -152,7 +182,10 @@ class _ProfileState extends State<userProfile> {
                           SliverOverlapInjector(
                               handle: NestedScrollView
                                   .sliverOverlapAbsorberHandleFor(context)),
-                          AllPosts(),
+                          AllPosts(
+                            username: widget.username,
+                            tag: widget.tag
+                          ),
                         ],
                       );
                     }),
@@ -186,7 +219,11 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class ProfileInfotwo extends StatelessWidget {
+  bool? isUser;
+  String? username;
+  String? tag;
 
+  ProfileInfotwo({this.isUser, this.username, this.tag});
 
   @override
   Widget build(BuildContext context) {
@@ -202,9 +239,10 @@ class ProfileInfotwo extends StatelessWidget {
               child: SizedBox(
                 height: 90,
                 width: 90,
-                child: Obx(() =>
-                   CircleAvatar(
-                    backgroundImage: NetworkImage(profileController.profileInfo.value.avatar! ),
+                child: Obx(
+                  () => CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        profileController.profileInfo.value.avatar!),
                   ),
                 ),
               ),
@@ -212,9 +250,9 @@ class ProfileInfotwo extends StatelessWidget {
             const Spacer(
               flex: 2,
             ),
-            Obx(() =>
-               Text(
-                "@" + profileController.profileInfo.value.username!  ,
+            Obx(
+              () => Text(
+                "@" + profileController.profileInfo.value.username!,
                 style: const TextStyle(
                     color: Colors.black,
                     fontFamily: 'Poppins',
@@ -243,8 +281,8 @@ class ProfileInfotwo extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    Obx(() =>
-                       Text(
+                    Obx(
+                      () => Text(
                         profileController.profileInfo.value.fans!,
                         style: const TextStyle(
                             color: Colors.black,
@@ -280,9 +318,10 @@ class ProfileInfotwo extends StatelessWidget {
                               BorderSide(color: Colors.grey.withOpacity(0.3)))),
                   child: Column(
                     children: [
-                      Obx(() =>
-                         Text(
-                          profileController.profileInfo.value.friends!  ,
+                      Obx(
+                        () => Text(
+                          //Get.find<ProfileController>().profileInfo.value.friends!,
+                          profileController.profileInfo.value.friends!,
                           style: const TextStyle(
                               color: Colors.black,
                               fontFamily: 'Poppins',
@@ -309,8 +348,9 @@ class ProfileInfotwo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Obx(() =>
-                       Text(
+                    Obx(
+                      () => Text(
+                        //Get.find<ProfileController>().profileInfo.value.tualegiven!,
                         profileController.profileInfo.value.tualegiven!,
                         style: const TextStyle(
                             color: Colors.black,
@@ -348,130 +388,133 @@ class ProfileInfotwo extends StatelessWidget {
             const Spacer(
               flex: 4,
             ),
-            true
-                ? Row(
-                    children: [
-                      Spacer(
-                        flex: 3,
-                      ),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.fade,
-                                    child: EditProfile()));
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: tualeBlueDark,
-                              minimumSize: const Size(150, 45),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                          child: const Text('Edit Profile',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                  fontFamily: 'Poppins',
-                                  fontSize: 15.5,
-                                  fontWeight: FontWeight.bold,
-                                  height: 1))),
-                      Spacer(
-                        flex: 3,
-                      ),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.fade,
-                                    child: TualletHome(
-                                     
-                                    )));
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: tualeOrange,
-                              minimumSize: const Size(150, 45),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                          child: Row(children: [
-                            Text('Tuallet',
+            Obx(() =>
+               Api.currentUserId ==
+                      Get.put(ProfileController(controllerusername: username),
+                              tag: tag)
+                          .profileInfo
+                          .value
+                          .id
+                  ?   Row(
+                      children: [
+                        Spacer(
+                          flex: 3,
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.fade,
+                                      child: EditProfile()));
+                            },
+                            style: ElevatedButton.styleFrom(
+                                primary: tualeBlueDark,
+                                minimumSize: const Size(150, 45),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                            child: const Text('Edit Profile',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Color.fromRGBO(255, 255, 255, 1),
                                     fontFamily: 'Poppins',
                                     fontSize: 15.5,
                                     fontWeight: FontWeight.bold,
-                                    height: 1)),
-                            SizedBox(
-                              width: 5.h,
-                            ),
-                            SizedBox(
-                                height: 30,
-                                width: 30,
-                                child: SvgPicture.asset(
-                                    'assets/vectors/tualletWallet.svg'))
-                          ])),
-                      Spacer(
-                        flex: 3,
-                      )
-                    ],
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Spacer(
-                        flex: 2,
-                      ),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.fade,
-                                    child: SignUp()));
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: tualeBlueDark,
-                              minimumSize: const Size(150, 45),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                          child: const Text('Vibe',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                  fontFamily: 'Poppins',
-                                  fontSize: 15.5,
-                                  fontWeight: FontWeight.w200,
-                                  height: 1))),
-                      const Spacer(),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.fade,
-                                    child: TualletHome(
-                                  
-                                    )));
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: const Color.fromRGBO(218, 65, 103, 1),
-                              minimumSize: const Size(150, 45),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                          child: const Text('Chat',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                  fontFamily: 'Poppins',
-                                  fontSize: 15.5,
-                                  fontWeight: FontWeight.w200,
-                                  height: 1))),
-                      const Spacer(
-                        flex: 2,
-                      ),
-                    ],
-                  ),
+                                    height: 1))),
+                        Spacer(
+                          flex: 3,
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.fade,
+                                      child: TualletHome()));
+                            },
+                            style: ElevatedButton.styleFrom(
+                                primary: tualeOrange,
+                                minimumSize: const Size(150, 45),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                            child: Row(children: [
+                              Text('Tuallet',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15.5,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1)),
+                              SizedBox(
+                                width: 5.h,
+                              ),
+                              SizedBox(
+                                  height: 30,
+                                  width: 30,
+                                  child: SvgPicture.asset(
+                                      'assets/vectors/tualletWallet.svg'))
+                            ])),
+                        Spacer(
+                          flex: 3,
+                        )
+                      ],
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Spacer(
+                          flex: 2,
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.fade,
+                                      child: SignUp()));
+                            },
+                            style: ElevatedButton.styleFrom(
+                                primary: tualeBlueDark,
+                                minimumSize: const Size(150, 45),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                            child: const Text('Vibe',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                    fontFamily: 'Poppins',
+                                    fontSize: 15.5,
+                                    fontWeight: FontWeight.w200,
+                                    height: 1))),
+                        const Spacer(),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.fade,
+                                      child: TualletHome()));
+                            },
+                            style: ElevatedButton.styleFrom(
+                                primary: const Color.fromRGBO(218, 65, 103, 1),
+                                minimumSize: const Size(150, 45),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                            child: const Text('Chat',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                    fontFamily: 'Poppins',
+                                    fontSize: 15.5,
+                                    fontWeight: FontWeight.w200,
+                                    height: 1))),
+                        const Spacer(
+                          flex: 2,
+                        ),
+                      ],
+                    ),
+            ),
             Spacer(
               flex: 3,
             ),

@@ -14,7 +14,7 @@ class UserPostDetails {
 
   UserPostDetails(
       {this.id = "",
-      this.avatar = '',
+      this.avatar = "https://res.cloudinary.com/indersingh/image/upload/v1593464618/App/user_mklcpl.png",
       this.name = "",
       this.username = '',
       this.fans = '',

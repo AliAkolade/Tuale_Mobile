@@ -1,6 +1,11 @@
 //import 'dart:developer';
 import 'dart:math';
 
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:mobile/screens/Discover/controllers/searchController.dart';
+import 'package:mobile/screens/Profile/controllers/profileController.dart';
+import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/imports.dart';
 
 class Curated extends StatefulWidget {
@@ -306,7 +311,7 @@ class _CuratedState extends State<Curated> {
                             itemCount: 3,
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
-                              //  color: Colors.blue,
+                                //  color: Colors.blue,
                                 margin: EdgeInsetsDirectional.only(top: 5),
                                 // color: Colors.black,
                                 height: 85.h,
@@ -445,11 +450,17 @@ class _CuratedState extends State<Curated> {
               children: [
                 GestureDetector(
                   onTap: () {
+                    // Get.put(ProfileController(
+                    //   controllerusername: posts[index].username.toString()
+                    // ))
+                    //     .getProfileInfo(posts[index].username.toString());
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return userProfile(
+                      return 
+                      userProfile(
                         isUser: false,
                         username: posts[index].username.toString(),
+                        tag: "yourprofile",
                       );
                     }));
                   },

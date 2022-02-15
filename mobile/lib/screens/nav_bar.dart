@@ -1,33 +1,42 @@
-
-
-
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:mobile/models/currentUserdetails.dart';
+import 'package:mobile/screens/Discover/searchPage.dart';
+import 'package:mobile/screens/Profile/controllers/profileController.dart';
 import 'package:mobile/screens/imports.dart';
 
 import 'imports.dart';
 
-
 class NavBar extends StatefulWidget {
   final int index;
 
-  const NavBar({Key? key, required this.index, }) : super(key: key);
+  const NavBar({
+    Key? key,
+    required this.index,
+  }) : super(key: key);
   @override
   State<NavBar> createState() => _NavBarState();
 }
- 
 
 class _NavBarState extends State<NavBar> {
-
   late PersistentTabController _controller;
 
-   
   List<Widget> _buildScreens() {
-    return  [Home(), Discover(), PostTimeline(), Leaderboard(), userProfile(username: currentUsername, isUser: true,) ];
+    return [
+      Home(),
+      SearchScreen(),
+      PostTimeline(),
+      Leaderboard(),
+      userProfile(
+        isUser: true,
+        username: currentUsername,
+        tag: "myprofile",
+      )
+    ];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
-      
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.home_rounded),
         title: ("Home"),
@@ -40,17 +49,17 @@ class _NavBarState extends State<NavBar> {
           activeColorPrimary: tualeOrange,
           inactiveColorPrimary: tualeBlueDark),
       PersistentBottomNavBarItem(
-      iconSize: 40,
-    //  contentPadding: 2,
-       icon: Padding(
-         padding:  EdgeInsets.only(bottom: 30),
-         child: Icon(Icons.add_circle,
-     
-         ),
-       ),
-       
-          title: ("."),
-         activeColorPrimary: tualeOrange,
+        iconSize: 40,
+        //  contentPadding: 2,
+        icon: Padding(
+          padding: EdgeInsets.only(bottom: 30),
+          child: Icon(
+            Icons.add_circle,
+          ),
+        ),
+
+        title: ("."),
+        activeColorPrimary: tualeOrange,
         inactiveColorPrimary: tualeBlueDark,
       ),
       PersistentBottomNavBarItem(
@@ -71,85 +80,76 @@ class _NavBarState extends State<NavBar> {
   @override
   void initState() {
     super.initState();
-       Future getCurrentUserUsername () async{
-    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-    final SharedPreferences prefs = await _prefs;
-    String token = prefs.getString('token') ?? '';
+    Future getCurrentUserUsername() async {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
 
-    // Get userdetails
-    Dio dio = Dio();
-    dio.options.headers["Authorization"] = token;
- 
-    Response currentUser = await dio.get(hostAPI + currentuser );
- 
+      // Get userdetails
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
 
-    // log(response.data.toString());
-    
- //  currentUserId = currentUser.data['user']["_id"].toString();
+      Response currentUser = await dio.get(hostAPI + currentuser);
 
-setState(() {
+      // log(response.data.toString());
 
-     currentUsername = currentUser.data['user']["username"].toString();
-});
+      //  currentUserId = currentUser.data['user']["_id"].toString();
 
+      setState(() {
+        currentUsername = currentUser.data['user']["username"].toString();
+      });
 
- // CurrentUserDetails currentdetails = CurrentUserDetails(currentuserid: currentUserId, currentUserUsername: currentUserUsername, );
- 
+      // CurrentUserDetails currentdetails = CurrentUserDetails(currentuserid: currentUserId, currentUserUsername: currentUserUsername, );
 
-  //    return currentUserId; 
+      //    return currentUserId;
+    }
 
-  }
     //getting logged in user name
-   getCurrentUserUsername();
-   Api().getCurrentUserId();
+    getCurrentUserUsername();
+    Api().getCurrentUserId();
     setState(() {
       _controller = PersistentTabController(initialIndex: widget.index);
-
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<camera>(
-      builder: (context, cam, child) {
-        return PersistentTabView(
-          context,
+    return Consumer<camera>(builder: (context, cam, child) {
+      return PersistentTabView(
+        context,
+
+        controller: _controller,
+        screens: _buildScreens(),
+        items: _navBarsItems(),
+        confineInSafeArea: true,
+        backgroundColor: Colors.white, // Default is Colors.white.
+        handleAndroidBackButtonPress: true, // Default is true.
+        resizeToAvoidBottomInset:
+            true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+        stateManagement: true, // Default is true.
+        hideNavigationBarWhenKeyboardShows: true,
+        hideNavigationBar: cam
+            .hideNav, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+        decoration: NavBarDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          colorBehindNavBar: Colors.white,
+        ),
+        popAllScreensOnTapOfSelectedTab: true,
+        popActionScreens: PopActionScreensType.all,
+        itemAnimationProperties: const ItemAnimationProperties(
+          // Navigation Bar's items animation properties.
+          duration: Duration(milliseconds: 200),
+          curve: Curves.ease,
+        ),
+        screenTransitionAnimation: const ScreenTransitionAnimation(
+          // Screen transition animation on change of selected tab.
+          animateTabTransition: true,
+          curve: Curves.ease,
+          duration: Duration(milliseconds: 200),
+        ),
+        navBarStyle: NavBarStyle.simple,
       
-          controller: _controller,
-          screens: _buildScreens(),
-          items: _navBarsItems(),
-          confineInSafeArea: true,
-          backgroundColor: Colors.white, // Default is Colors.white.
-          handleAndroidBackButtonPress: true, // Default is true.
-          resizeToAvoidBottomInset:
-              true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-          stateManagement: true, // Default is true.
-          hideNavigationBarWhenKeyboardShows:
-              true,
-          hideNavigationBar: cam.hideNav,     // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
-          decoration: NavBarDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            colorBehindNavBar: Colors.white,
-          ),
-          popAllScreensOnTapOfSelectedTab: true,
-          popActionScreens: PopActionScreensType.all,
-          itemAnimationProperties: const ItemAnimationProperties(
-            // Navigation Bar's items animation properties.
-            duration: Duration(milliseconds: 200),
-            curve: Curves.ease,
-          ),
-          screenTransitionAnimation: const ScreenTransitionAnimation(
-            // Screen transition animation on change of selected tab.
-            animateTabTransition: true,
-            curve: Curves.ease,
-            duration: Duration(milliseconds: 200),
-          ),
-          navBarStyle:
-              NavBarStyle.simple, 
-       
-        );
-      }
-    );
+      );
+    });
   }
 }
-

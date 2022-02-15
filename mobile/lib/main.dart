@@ -7,26 +7,22 @@ import 'package:mobile/screens/imports.dart';
 import 'package:mobile/utils/constants.dart';
 import 'package:provider/provider.dart';
 
+final RouteObserver<ModalRoute<void>> routeObserver =
+    RouteObserver<ModalRoute<void>>();
 Future<void> main() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    
-    camera().getcamera();
-  
-   
-    SystemChrome.setSystemUIOverlayStyle( const SystemUiOverlayStyle(
-    systemNavigationBarColor: Colors.white, // navigation bar color
-    systemNavigationBarIconBrightness: Brightness.dark,
+  WidgetsFlutterBinding.ensureInitialized();
 
-    statusBarColor: Colors.white, 
-    statusBarIconBrightness: Brightness.dark// status bar color
-  ));
-  runApp(
-    MultiProvider(
-    providers: [
-      ChangeNotifierProvider( create: (context) => camera()),
-    ],
-       
-    child: const MyApp()));
+  camera().getcamera();
+
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.white, // navigation bar color
+      systemNavigationBarIconBrightness: Brightness.dark,
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark // status bar color
+      ));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => camera()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -36,10 +32,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: Size(428, 926),
+        designSize: Size(428, 926),
         minTextAdapt: true,
-      builder: () {
-        return MaterialApp(
+        builder: () {
+          return MaterialApp(
+              navigatorObservers: [ routeObserver ],
             builder: (context, widget) {
               //add this line
               ScreenUtil.setContext(context);
@@ -49,12 +46,11 @@ class MyApp extends StatelessWidget {
                 child: widget!,
               );
             },
-          debugShowCheckedModeBanner:false,
-          title: 'Tuale',
-          theme: ThemeData(primarySwatch: Palette.tualeSwatchLight),
-          home: const Welcome(),
-        );
-      }
-    );
+            debugShowCheckedModeBanner: false,
+            title: 'Tuale',
+            theme: ThemeData(primarySwatch: Palette.tualeSwatchLight),
+            home: const Welcome(),
+          );
+        });
   }
 }
