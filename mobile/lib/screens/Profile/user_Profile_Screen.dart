@@ -7,6 +7,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
 import 'package:mobile/screens/Profile/controllers/userPostsController.dart';
 import 'package:mobile/screens/Profile/edit_profile.dart';
+import 'package:mobile/screens/Profile/starred_posts_screen.dart';
 
 import 'package:mobile/screens/imports.dart';
 
@@ -52,7 +53,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
         ProfileController(controllerusername: widget.username!),
         tag: widget.tag!);
 
-      Get.put(UserPostsController().getProfilePosts(widget.username!), tag: widget.tag);     
+//    Get.put(UserPostsController(username: widget.username), tag: widget.tag);
   }
 
   @override
@@ -105,9 +106,8 @@ class _ProfileState extends State<userProfile> with RouteAware {
                   return [
                     SliverPersistentHeader(
                       delegate: _SliverAppBarDelegate(ProfileInfotwo(
-                      username: widget.username,
-                      tag: widget.tag!,
-
+                        username: widget.username,
+                        tag: widget.tag!,
                       )),
                       pinned: false,
                       //  floating: true,
@@ -147,16 +147,13 @@ class _ProfileState extends State<userProfile> with RouteAware {
                                     // color: Colors.grey.withOpacity(0.3),
                                   )),
                                 ]),
-                            // GetBuilder<ProfileController>(
-                            //   init: ProfileController(),
-                            //  // dispose: ProfileController().delete(),
-                            //   builder: (context) {
-
-                            //     return Divider(
-                            //       color: context.color,
-                            //     );
-                            //   }
-                            // )
+                            SizedBox(
+                              height: 10.h,
+                              width: ScreenUtil().screenWidth,
+                              child: Divider(
+                                color: Colors.grey,
+                              ),
+                            )
                           ],
                         ),
                         backgroundColor: Colors.white,
@@ -172,7 +169,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                           SliverOverlapInjector(
                               handle: NestedScrollView
                                   .sliverOverlapAbsorberHandleFor(context)),
-                          AllPosts()
+                          AllPosts(username: widget.username, tag: widget.tag),
                         ],
                       );
                     }),
@@ -182,10 +179,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                           SliverOverlapInjector(
                               handle: NestedScrollView
                                   .sliverOverlapAbsorberHandleFor(context)),
-                          AllPosts(
-                            username: widget.username,
-                            tag: widget.tag
-                          ),
+                          starredPosts(username: widget.username, tag: widget.tag),
                         ],
                       );
                     }),
@@ -388,14 +382,14 @@ class ProfileInfotwo extends StatelessWidget {
             const Spacer(
               flex: 4,
             ),
-            Obx(() =>
-               Api.currentUserId ==
+            Obx(
+              () => Api.currentUserId ==
                       Get.put(ProfileController(controllerusername: username),
                               tag: tag)
                           .profileInfo
                           .value
                           .id
-                  ?   Row(
+                  ? Row(
                       children: [
                         Spacer(
                           flex: 3,

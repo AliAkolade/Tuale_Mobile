@@ -1,35 +1,34 @@
-
 import 'package:mobile/screens/Home/notifications.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/utils/Api.dart';
+
 class Home extends StatefulWidget {
-  
   const Home({Key? key}) : super(key: key);
   @override
   State<Home> createState() => _HomeState();
-  
 }
 
-
 class _HomeState extends State<Home> {
-
-
   @override
   Widget build(BuildContext context) {
-   print(currentUsername);
+    print(currentUsername);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: DefaultTabController(
             initialIndex: 1,
             length: 2,
             child: Scaffold(
+                backgroundColor: Colors.white,
                 appBar: PreferredSize(
-                    preferredSize: const Size(double.infinity, kToolbarHeight+10),
+                    preferredSize:
+                        const Size(double.infinity, kToolbarHeight + 10),
                     child: SafeArea(
                         child: Column(children: [
-                          Spacer(flex: 5,),
-                          Padding(
+                      Spacer(
+                        flex: 5,
+                      ),
+                      Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
                           child: Row(mainAxisSize: MainAxisSize.min, children: [
                             InkWell(
@@ -69,19 +68,17 @@ class _HomeState extends State<Home> {
                                 child: const Icon(TualeIcons.notificationbell,
                                     color: tualeBlueDark),
                                 onTap: () {
-                                   Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return Notifications();
-                                }));
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return Notifications();
+                                  }));
                                 })
                           ])),
                       Container(
                           height: 0.5,
                           width: double.infinity,
                           color: Colors.grey.shade400),
-                          
                     ]))),
                 body: TabBarView(children: [Vibing(), Curated()]))));
   }
 }
-

@@ -76,6 +76,7 @@ class Api {
       withdrawalBalance:
           responseData['profile']['user']['walletBalance'].toString(),
       email: responseData['profile']['user']['email'].toString(),
+      starredPosts: responseData['profile']['staredPosts'],
     );
 
     // if (responseData['success'].toString() == 'true') {
@@ -88,7 +89,7 @@ class Api {
     return info;
   }
 
-  Future getCurrentUserId() async {
+  Future<CurrentUserDetails> getCurrentUserId() async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
@@ -99,11 +100,20 @@ class Api {
 
     Response currentUser = await dio.get(hostAPI + currentuser);
 
-    // log(response.data.toString());
+    if (currentUser.statusCode == 200) {
+      CurrentUserDetails loggedUser = CurrentUserDetails(
+        currentuserid: currentUser.data['user']["_id"].toString(),
+        currentUserUsername: currentUser.data['user']["name"].toString(),
+        unreadNotifications:
+            currentUser.data['user']["name"].toString() == 'true'
+                ? true
+                : false,
+      );
 
-    currentUserId = currentUser.data['user']["_id"].toString();
+      return loggedUser;
+    }
 
-    return currentUserId;
+    return CurrentUserDetails();
   }
 
   Future<List<String?>> getAccessCode(amount) async {

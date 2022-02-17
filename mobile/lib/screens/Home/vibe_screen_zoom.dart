@@ -385,10 +385,11 @@ class _VibingZoomState extends State<VibingZoom> {
                                       Navigator.push(context,
                                               MaterialPageRoute(
                                                   builder: (context) {
-                                            return userProfile(
-                                              isUser: false,
-                                              username: widget.post!.username.toString(),
-                                            );
+                                            return  userProfile(
+                        isUser: false,
+                        username: widget.post!.username.toString(),
+                        tag: "yourprofile",
+                      );
                                           }));
                                       
                             },

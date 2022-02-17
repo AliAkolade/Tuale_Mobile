@@ -32,7 +32,7 @@ class _EditProfileState extends State<EditProfile> {
         elevation: 0,
         backgroundColor: Colors.white,
         title: const Text(
-          "Post to timeline",
+          "Edit Profile",
           style: TextStyle(
               color: tualeBlueDark,
               fontFamily: 'Poppins',
@@ -57,8 +57,9 @@ class _EditProfileState extends State<EditProfile> {
             fieldHeight: 100,
           ),
           const ChangePassBtn(),
-          SizedBox(height: 60.h),
+          SizedBox(height: 20.h),
           const SaveBioBtn(),
+          SizedBox(height: 60.h),
         ],
       ),
     );

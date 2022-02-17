@@ -11,6 +11,7 @@ class SearchController extends GetxController {
 
   void isEmpty() {
     searchresult = [];
+    print(searchresult);
     update();
   }
 

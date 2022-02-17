@@ -7,6 +7,14 @@ class UserPostsController extends GetxController {
   var posts = <UserPost>[].obs;
   var isLoading = true.obs;
   final Api _api = Api();
+  String? username;
+  UserPostsController({this.username});
+
+  @override
+  onInit() {
+    getProfilePosts(username!);
+    super.onInit();
+  }
 
   getProfilePosts(String username) async {
     try {
@@ -14,8 +22,8 @@ class UserPostsController extends GetxController {
     } catch (e) {
     } finally {
       isLoading.value = false;
-     print(posts);
-      update();
+      
+      // update();
     }
   }
 }

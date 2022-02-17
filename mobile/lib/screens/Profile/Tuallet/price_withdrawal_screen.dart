@@ -19,8 +19,6 @@ class _PriceWithdrawalScreenState extends State<PriceWithdrawalScreen> {
     {60: "500.00"}
   ];
 
-  
-
   _onKeyboardTap(String value) {
     setState(() {
       text = text! + value;
@@ -117,7 +115,7 @@ class _PriceWithdrawalScreenState extends State<PriceWithdrawalScreen> {
                   ]),
             ),
             SizedBox(
-              height: 100,
+              height: 100.h,
             ),
             Padding(
               padding: const EdgeInsets.only(
@@ -197,11 +195,12 @@ class _PriceWithdrawalScreenState extends State<PriceWithdrawalScreen> {
                           //  fontWeight: FontWeight.bold,
                           height: 1))),
             ),
+            SizedBox(
+              height: 40.h,
+            )
           ],
         ),
       ),
     );
   }
 }
-
-//My name is david and i'm acode destroyer  send me your codes let me delete them for you id dont think twoice before doing that
