@@ -52,7 +52,8 @@ class _ProfileState extends State<userProfile> with RouteAware {
         ProfileController(controllerusername: widget.username!),
         tag: widget.tag!);
 
-      Get.put(UserPostsController().getProfilePosts(widget.username!), tag: widget.tag);     
+    Get.put(UserPostsController().getProfilePosts(widget.username!),
+        tag: widget.tag);
   }
 
   @override
@@ -77,10 +78,22 @@ class _ProfileState extends State<userProfile> with RouteAware {
                         ),
                       ),
                 actions: [
-                  Icon(
-                    Icons.more_vert_rounded,
-                    color: Colors.black,
-                  )
+                  InkWell(
+                      onTap: () async {
+                        Future<SharedPreferences> _prefs =
+                            SharedPreferences.getInstance();
+                        final SharedPreferences prefs = await _prefs;
+
+                        prefs.setBool('isLoggedIn', false);
+                        pushNewScreen(context,
+                            screen: const Welcome(),
+                            withNavBar: false,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino);
+                      },
+                      child: Icon(Icons.logout, color: Colors.black
+                          // TODO - Add popup for settings and logout
+                          ))
                 ],
                 centerTitle: true,
                 elevation: 0,
@@ -105,9 +118,8 @@ class _ProfileState extends State<userProfile> with RouteAware {
                   return [
                     SliverPersistentHeader(
                       delegate: _SliverAppBarDelegate(ProfileInfotwo(
-                      username: widget.username,
-                      tag: widget.tag!,
-
+                        username: widget.username,
+                        tag: widget.tag!,
                       )),
                       pinned: false,
                       //  floating: true,
@@ -182,10 +194,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                           SliverOverlapInjector(
                               handle: NestedScrollView
                                   .sliverOverlapAbsorberHandleFor(context)),
-                          AllPosts(
-                            username: widget.username,
-                            tag: widget.tag
-                          ),
+                          AllPosts(username: widget.username, tag: widget.tag),
                         ],
                       );
                     }),
@@ -388,14 +397,14 @@ class ProfileInfotwo extends StatelessWidget {
             const Spacer(
               flex: 4,
             ),
-            Obx(() =>
-               Api.currentUserId ==
+            Obx(
+              () => Api.currentUserId ==
                       Get.put(ProfileController(controllerusername: username),
                               tag: tag)
                           .profileInfo
                           .value
                           .id
-                  ?   Row(
+                  ? Row(
                       children: [
                         Spacer(
                           flex: 3,

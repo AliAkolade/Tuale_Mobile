@@ -12,7 +12,13 @@ class Welcome extends StatefulWidget {
 class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+
+        onWillPop: () {
+          SystemNavigator.pop();
+          return true as Future<bool>;
+        },
+        child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
             child: Padding(
@@ -84,6 +90,6 @@ class _WelcomeState extends State<Welcome> {
                                   fontWeight: FontWeight.w600,
                                   height: 1))),
                       const SizedBox(height: 30)
-                    ]))));
+                    ])))));
   }
 }

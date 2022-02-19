@@ -22,12 +22,12 @@ class _ProfileState extends State<Profile> {
         child: Scaffold(
           appBar: AppBar(
              
-            leading: Icon(Icons.arrow_back_rounded,
+            leading: const Icon(Icons.arrow_back_rounded,
             color: Colors.black,
             ),
-            actions: [
+            actions: const [
               Icon(Icons.more_vert_rounded, 
-              color: Colors.black,
+              color: Colors.red,
               )
             ],
             centerTitle: true,
@@ -44,11 +44,11 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           body: NestedScrollView(
-            physics: ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             headerSliverBuilder: (context, isScrolled) {
               return [
                 SliverPersistentHeader(
-                  delegate: _SliverAppBarDelegate(ProfileInfo()),
+                  delegate: _SliverAppBarDelegate(const ProfileInfo()),
                   pinned: false,
                   //  floating: true,
                 ),
@@ -230,7 +230,7 @@ class ProfileInfo extends StatelessWidget {
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 SizedBox(
                   height: 60,
                   // width: 9,
@@ -262,7 +262,7 @@ class ProfileInfo extends StatelessWidget {
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 SizedBox(
                   height: 60,
                   // width: 9,
@@ -272,7 +272,7 @@ class ProfileInfo extends StatelessWidget {
                     color: Colors.grey.withOpacity(0.2),
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Column(
                   children: const [
                     Text(
@@ -316,14 +316,14 @@ class ProfileInfo extends StatelessWidget {
             Row(
            
               children: [
-                  Spacer(flex: 3,),
+                  const Spacer(flex: 3,),
                 ElevatedButton(
                     onPressed: () {
                      Navigator.push(
                                 context,
                                 PageTransition(
                                     type: PageTransitionType.fade,
-                                    child: EditProfile()));
+                                    child: const EditProfile()));
                     },
                     style: ElevatedButton.styleFrom(
                         minimumSize: const Size(155, 45),
@@ -337,7 +337,7 @@ class ProfileInfo extends StatelessWidget {
                             fontSize: 15.5,
                             fontWeight: FontWeight.bold,
                             height: 1))),
-                              Spacer(flex: 3,),
+                              const Spacer(flex: 3,),
                               ElevatedButton(
                           onPressed: () {
                             Navigator.push(
@@ -360,11 +360,11 @@ class ProfileInfo extends StatelessWidget {
                                   fontSize: 15.5,
                                   fontWeight: FontWeight.bold,
                                   height: 1))),
-                                   Spacer(flex: 3,)
+                                   const Spacer(flex: 3,)
               ],
              
             ),
-            Spacer(
+            const Spacer(
               flex: 3,
             ),
           ],
@@ -437,7 +437,7 @@ class ChangePassBtn extends StatelessWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      SaveBioBtn()
+                      const SaveBioBtn()
                     ]),
                   ),
                 );
