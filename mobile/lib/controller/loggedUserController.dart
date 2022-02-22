@@ -27,6 +27,7 @@ class LoggedUserController extends GetxController {
     } catch (e) {
       print(e);
     } finally {
+      print(loggedUser.value.currentuserid);
       //update(['user']);
     }
   }

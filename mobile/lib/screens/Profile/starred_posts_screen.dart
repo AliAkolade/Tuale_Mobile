@@ -3,6 +3,7 @@
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
 import 'package:mobile/screens/imports.dart';
 
@@ -41,7 +42,7 @@ class _starredPostsState extends State<starredPosts> {
     //       tag: widget.tag);
 
     return Obx(
-      () => Api.currentUserId != post.profileInfo.value.id! ? SliverToBoxAdapter(
+      () => Get.find<LoggedUserController>().loggedUser.value.currentuserid  != post.profileInfo.value.id! ? SliverToBoxAdapter(
                   child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

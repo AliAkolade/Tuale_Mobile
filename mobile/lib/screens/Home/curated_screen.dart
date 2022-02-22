@@ -3,7 +3,9 @@ import 'dart:math';
 
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Discover/controllers/searchController.dart';
+import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/imports.dart';
@@ -77,6 +79,7 @@ class _CuratedState extends State<Curated> {
   void initState() {
     super.initState();
     loadPosts(context);
+    Get.put(LoggedUserController());
   }
 
   @override
@@ -456,8 +459,7 @@ class _CuratedState extends State<Curated> {
                     //     .getProfileInfo(posts[index].username.toString());
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return 
-                      userProfile(
+                      return userProfile(
                         isUser: false,
                         username: posts[index].username.toString(),
                         tag: "yourprofile",
@@ -592,25 +594,25 @@ class CuratedLikeWidget extends CustomPainter {
 }
 
 // Class for a Post
-class PostDetails {
-  final String id;
-  final String username;
-  final String userProfilePic;
-  final String time;
-  final String postMedia;
-  final String postText;
-  final int noTuale;
-  final int noStar;
-  final int noComment;
+// class PostDetails {
+//   final String id;
+//   final String username;
+//   final String userProfilePic;
+//   final String time;
+//   final String postMedia;
+//   final String postText;
+//   final int noTuale;
+//   final int noStar;
+//   final int noComment;
 
-  const PostDetails(
-      {required this.id,
-      required this.userProfilePic,
-      required this.time,
-      required this.postMedia,
-      required this.postText,
-      required this.noTuale,
-      required this.noStar,
-      required this.noComment,
-      required this.username});
-}
+//   const PostDetails(
+//       {required this.id,
+//       required this.userProfilePic,
+//       required this.time,
+//       required this.postMedia,
+//       required this.postText,
+//       required this.noTuale,
+//       required this.noStar,
+//       required this.noComment,
+//       required this.username});
+// }

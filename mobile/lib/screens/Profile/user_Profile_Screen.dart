@@ -4,6 +4,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
 import 'package:mobile/screens/Profile/controllers/userPostsController.dart';
 import 'package:mobile/screens/Profile/edit_profile.dart';
@@ -383,7 +384,7 @@ class ProfileInfotwo extends StatelessWidget {
               flex: 4,
             ),
             Obx(
-              () => Api.currentUserId ==
+              () => Get.find<LoggedUserController>().loggedUser.value.currentuserid ==
                       Get.put(ProfileController(controllerusername: username),
                               tag: tag)
                           .profileInfo

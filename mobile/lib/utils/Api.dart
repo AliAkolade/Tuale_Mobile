@@ -2,8 +2,11 @@ import 'dart:developer';
 
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mobile/models/currentUserdetails.dart';
+import 'package:mobile/screens/Home/models/notificationsModel.dart';
 import 'package:mobile/models/searchData.dart';
 import 'package:mobile/screens/Discover/models/searchresultController.dart';
+import 'package:mobile/screens/Home/models/postsetails.dart';
+//import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/Profile/models/UserPost.dart';
 import 'package:mobile/screens/imports.dart';
 
@@ -103,7 +106,7 @@ class Api {
     if (currentUser.statusCode == 200) {
       CurrentUserDetails loggedUser = CurrentUserDetails(
         currentuserid: currentUser.data['user']["_id"].toString(),
-        currentUserUsername: currentUser.data['user']["name"].toString(),
+        currentUserUsername: currentUser.data['user']["username"].toString(),
         unreadNotifications:
             currentUser.data['user']["name"].toString() == 'true'
                 ? true
@@ -210,5 +213,72 @@ class Api {
     // }
 
     return result;
+  }
+
+  Future<List<NotificationModel>> getNotifications() async {
+    // Get Token
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    // Get userdetails
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+    Response response = await dio.get(hostAPI + notifications);
+    var responseData = response.data;
+    List<NotificationModel> notification = [];
+    print(responseData);
+    if (response.data['success'].toString() == 'true') {
+      for (var i = 0; i < responseData['notifications'].length; i++) {
+        print(i);
+        notification.add(NotificationModel(
+            type: responseData['notifications'][i]['type'],
+            username: responseData['notifications'][i]['user']['username'],
+            likedPost: responseData['notifications'][i]['type'] == 'newFan' ? "" :  responseData['notifications'][i]['post']['media']['url'] ,
+            mediaType: responseData['notifications'][i]['type'] == 'newFan' ? '' : responseData['notifications'][i]['post']['mediaType'] ,
+            id: responseData['notifications'][i]['type'] == 'newFan' ? '' : responseData['notifications'][i]['post']['_id'] 
+            
+            ));
+      }
+    }
+    print(notification.length);
+    return notification;
+  }
+
+  Future<PostDetails> getOnePost(String id) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+    PostDetails details = PostDetails(
+      noComment: 0,
+      noStar: 0,
+      noTuale: 0,
+      username: '',
+      id: "",
+      postText: '',
+      postMedia: '',
+      time: '',
+      userProfilePic: '',
+    );
+
+    // Get userdetails
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+    Response response = await dio.get(hostAPI + 'post/' + id);
+
+    if (response.statusCode == 200) {
+      var responseData = response.data;
+      PostDetails details = PostDetails(
+          userProfilePic: responseData['post']['user']['avatar']['url'],
+          time: responseData['post']['user']['createdAt'],
+          postMedia: responseData['post']['media']['url'],
+          postText: responseData['post']['caption'],
+          noTuale: responseData['post']['tuales'].toList().length,
+          noStar: responseData['post']['stars'].toList().length,
+          noComment: responseData['post']['comments'].toList().length,
+          username: responseData['post']['user']['username'],
+          id: responseData['post']['user']['_id']);
+    }
+    return details;
   }
 }

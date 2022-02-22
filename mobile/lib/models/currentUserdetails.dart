@@ -5,5 +5,5 @@ class CurrentUserDetails {
   String? currentUserUsername;
   bool? unreadNotifications;
 
-  CurrentUserDetails({this.currentuserid, this.currentUserUsername, this.unreadNotifications});
+  CurrentUserDetails({this.currentuserid = '', this.currentUserUsername = '', this.unreadNotifications = false});
 }

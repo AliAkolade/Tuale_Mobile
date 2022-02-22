@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/imports.dart';
 
 

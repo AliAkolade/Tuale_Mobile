@@ -1,15 +1,15 @@
 class PostDetails {
-  final String id;
-  final String username;
-  final String userProfilePic;
-  final String time;
-  final String postMedia;
-  final String postText;
-  final int noTuale;
-  final int noStar;
-  final int noComment;
+   String id;
+ String username;
+   String userProfilePic;
+   String time;
+   String postMedia;
+   String postText;
+   int noTuale;
+   int noStar;
+   int noComment;
 
-  const PostDetails(
+   PostDetails(
       {required this.id,
       required this.userProfilePic,
       required this.time,
