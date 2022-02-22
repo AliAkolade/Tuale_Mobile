@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:mobile/screens/Home/controllers/getOnePostController.dart';
 import 'package:mobile/screens/imports.dart';
@@ -14,21 +15,32 @@ class OnePost extends StatefulWidget {
   _OnePostState createState() => _OnePostState();
 }
 
+OnePostController post = OnePostController();
+
 class _OnePostState extends State<OnePost> {
   @override
   void initState() {
     super.initState();
-    Get.put(OnePostController()).getOnePost(widget.id!);
+    post = Get.put(OnePostController(id: widget.id));
+  }
+
+  @override
+  void dispose() {
+    Get.delete<OnePostController>();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Material(
-        child: GetBuilder<OnePostController>(
-            init: OnePostController(),
-            builder: (post) {
-              return Container(
+          child: Obx(
+        () => post.isLoading.value
+            ? Center(
+                child:
+                    SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75)),
+              )
+            : Container(
                 child: Stack(
                   children: [
                     Align(
@@ -110,7 +122,8 @@ class _OnePostState extends State<OnePost> {
                                           ),
                                         ),
                                         Text(
-                                            post.postdetails.noTuale.toString(),
+                                            post.postdetails.value.noTuale
+                                                .toString(),
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 14,
@@ -164,7 +177,9 @@ class _OnePostState extends State<OnePost> {
                                             ),
                                           ),
                                         ),
-                                        Text(post.postdetails.noStar.toString(),
+                                        Text(
+                                            post.postdetails.value.noStar
+                                                .toString(),
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 14,
@@ -453,7 +468,8 @@ class _OnePostState extends State<OnePost> {
                                         MaterialPageRoute(builder: (context) {
                                       return userProfile(
                                         isUser: false,
-                                        username: post.postdetails.username
+                                        username: post
+                                            .postdetails.value.username
                                             .toString(),
                                         tag: "yourprofile",
                                       );
@@ -468,15 +484,17 @@ class _OnePostState extends State<OnePost> {
                                         height: 50.h,
                                         width: 50.w,
                                         child: CircleAvatar(
-                                          backgroundImage: NetworkImage(
-                                              post.postdetails.userProfilePic),
+                                          backgroundImage: NetworkImage(post
+                                              .postdetails
+                                              .value
+                                              .userProfilePic),
                                         ),
                                       ),
                                       const Spacer(
                                         flex: 1,
                                       ),
                                       Text(
-                                        post.postdetails.username,
+                                        post.postdetails.value.username,
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontFamily: 'Poppins',
@@ -513,7 +531,7 @@ class _OnePostState extends State<OnePost> {
                                           MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          post.postdetails.postText,
+                                          post.postdetails.value.postText,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                             color: Colors.white70,
@@ -542,10 +560,9 @@ class _OnePostState extends State<OnePost> {
                     color: Colors.amber,
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(post.postdetails.postMedia))),
-              );
-            }),
-      ),
+                        image: NetworkImage(post.postdetails.value.postMedia))),
+              ),
+      )),
     );
   }
 }

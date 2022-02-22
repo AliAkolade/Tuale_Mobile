@@ -40,8 +40,10 @@ class _AllPostsState extends State<AllPosts> {
 
     return Obx(
       () => post.isLoading.value
-          ? SliverToBoxAdapter(child:Center(
-            child: SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75))))
+          ? SliverToBoxAdapter(
+              child: Center(
+                  child: SpinKitFadingCircle(
+                      color: tualeOrange.withOpacity(0.75))))
           : post.posts.length == 0
               ? SliverToBoxAdapter(
                   child: Column(
@@ -51,7 +53,7 @@ class _AllPostsState extends State<AllPosts> {
                     SizedBox(
                       height: 120.h,
                     ),
-                    Text("You haven't posted anything yet"),
+                    Text("No post"),
                   ],
                 ))
               : SliverPadding(

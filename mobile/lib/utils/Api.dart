@@ -234,11 +234,15 @@ class Api {
         notification.add(NotificationModel(
             type: responseData['notifications'][i]['type'],
             username: responseData['notifications'][i]['user']['username'],
-            likedPost: responseData['notifications'][i]['type'] == 'newFan' ? "" :  responseData['notifications'][i]['post']['media']['url'] ,
-            mediaType: responseData['notifications'][i]['type'] == 'newFan' ? '' : responseData['notifications'][i]['post']['mediaType'] ,
-            id: responseData['notifications'][i]['type'] == 'newFan' ? '' : responseData['notifications'][i]['post']['_id'] 
-            
-            ));
+            likedPost: responseData['notifications'][i]['type'] == 'newFan'
+                ? ""
+                : responseData['notifications'][i]['post']['media']['url'],
+            mediaType: responseData['notifications'][i]['type'] == 'newFan'
+                ? ''
+                : responseData['notifications'][i]['post']['mediaType'],
+            id: responseData['notifications'][i]['type'] == 'newFan'
+                ? ''
+                : responseData['notifications'][i]['post']['_id']));
       }
     }
     print(notification.length);
@@ -267,8 +271,9 @@ class Api {
     Response response = await dio.get(hostAPI + 'post/' + id);
 
     if (response.statusCode == 200) {
+      //  print(response.data);
       var responseData = response.data;
-      PostDetails details = PostDetails(
+      details = PostDetails(
           userProfilePic: responseData['post']['user']['avatar']['url'],
           time: responseData['post']['user']['createdAt'],
           postMedia: responseData['post']['media']['url'],
@@ -279,6 +284,19 @@ class Api {
           username: responseData['post']['user']['username'],
           id: responseData['post']['user']['_id']);
     }
+
     return details;
+  }
+
+  Future setNotificationToRead() async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+    Response response = await dio.post(hostAPI + notifications);
+
+    print(response.data);
   }
 }

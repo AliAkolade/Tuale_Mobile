@@ -1,3 +1,7 @@
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Home/notifications.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/imports.dart';
@@ -64,15 +68,39 @@ class _HomeState extends State<Home> {
                                   const Tab(text: "Curated")
                                 ])),
                             const SizedBox(width: 10),
-                            InkWell(
-                                child: const Icon(TualeIcons.notificationbell,
-                                    color: tualeBlueDark),
-                                onTap: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return Notifications();
-                                  }));
-                                })
+                            Obx(
+                              () => InkWell(
+                                  child: Stack(
+                                    children: [
+                                      const Icon(TualeIcons.notificationbell,
+                                          color: tualeBlueDark),
+                                      Get.put(LoggedUserController())
+                                              .loggedUser
+                                              .value
+                                              .unreadNotifications!
+                                          ? Container(
+                                              height: 12.h,
+                                              width: 12.h,
+                                              decoration: BoxDecoration(
+                                                  color: tualeOrange,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.r)),
+                                            )
+                                          : Container(),
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    Get.find<LoggedUserController>()
+                                        .loggedUser
+                                        .value
+                                        .unreadNotifications = false;
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return Notifications();
+                                    }));
+                                  }),
+                            )
                           ])),
                       Container(
                           height: 0.5,

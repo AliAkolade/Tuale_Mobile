@@ -18,6 +18,7 @@ class Notifications extends StatefulWidget {
 class _NotificationsState extends State<Notifications> {
   @override
   void initState() {
+    Api().setNotificationToRead();
     super.initState();
   }
 
@@ -72,17 +73,37 @@ class _NotificationsState extends State<Notifications> {
                           .notificationModel
                           .value;
                   return notifications[index].type == 'newTuale'
-                      ? newNotification(
-                          username: notifications[index].username,
-                          postUrl: notifications[index].likedPost,
-                          body: 'gave you a tuale',
-                          id: notifications[index].id)
-                      : notifications[index].type == 'newStarred'
-                          ? newNotification(
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return OnePost(
+                                id: notifications[index].id,
+                              );
+                            }));
+                          },
+                          child: newNotification(
                               username: notifications[index].username,
                               postUrl: notifications[index].likedPost,
-                              body: 'starred one of your post',
-                              id: notifications[index].id)
+                              body: 'gave you a tuale',
+                              id: notifications[index].id),
+                        )
+                      : notifications[index].type == 'newStarred'
+                          ? GestureDetector(
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return OnePost(
+                                    id: notifications[index].id,
+                                  );
+                                }));
+                              },
+                              child: newNotification(
+                                  username: notifications[index].username,
+                                  postUrl: notifications[index].likedPost,
+                                  body: 'starred one of your post',
+                                  id: notifications[index].id),
+                            )
                           : notifications[index].type == 'newComment'
                               ? GestureDetector(
                                   onTap: () {
@@ -100,20 +121,8 @@ class _NotificationsState extends State<Notifications> {
                                       id: notifications[index].id),
                                 )
                               : notifications[index].type == 'newFan'
-                                  ? Column(
-                                      children: [
-                                        newNotification(
-                                            username:
-                                                notifications[index].username,
-                                            postUrl:
-                                                notifications[index].likedPost,
-                                            body: 'is vibing with you',
-                                            id: notifications[index].id),
-                                        newFan(
-                                          username:
-                                              notifications[index].username,
-                                        )
-                                      ],
+                                  ? newFan(
+                                      username: notifications[index].username,
                                     )
                                   : Container();
 
@@ -131,7 +140,7 @@ class newFan extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 20, right: 8),
+      padding: EdgeInsets.only(left: 20, right: 4),
       //  color: Colors.black,
       height: 50,
       width: MediaQuery.of(context).size.width,
@@ -163,33 +172,37 @@ class newFan extends StatelessWidget {
               ],
             ),
           ),
-          ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                  minimumSize: Size(45.w, 39.h),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text('Vibe Back',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                          fontFamily: 'Poppins',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          height: 1)),
-                  Container(
-                      padding: EdgeInsets.only(
-                        bottom: 4,
-                      ),
-                      height: 25,
-                      width: 25,
-                      child: SvgPicture.asset("assets/icon/vibe.svg"))
-                ],
-              )),
+          SizedBox(
+            width: 114.w,
+            height: 36.h,
+            child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    minimumSize: Size(45.w, 39.h),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text('Vibe Back',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Color.fromRGBO(255, 255, 255, 1),
+                            fontFamily: 'Poppins',
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w600,
+                            height: 1)),
+                    Container(
+                        padding: EdgeInsets.only(
+                          bottom: 4,
+                        ),
+                        height: 20,
+                        width: 20,
+                        child: SvgPicture.asset("assets/icon/vibe.svg"))
+                  ],
+                )),
+          ),
         ],
       ),
     );
@@ -248,7 +261,7 @@ class newNotification extends StatelessWidget {
             width: 40.h,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    fit: BoxFit.contain, image: NetworkImage(postUrl!)),
+                    fit: BoxFit.cover, image: NetworkImage(postUrl!)),
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(1)),
           )
