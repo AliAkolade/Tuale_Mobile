@@ -52,7 +52,9 @@ const String currentuser = 'me';
 const String payment = 'payment/';
 const String verify = 'payment/verify';
 const String search = 'search/';
-
+const String notifications = 'notifications';
+const String vibing = 'vibe/';
+const String unvibing = 'unvibe/';
 String currentUsername = '';
 
 var format =

@@ -6,10 +6,12 @@ import 'package:mobile/screens/imports.dart';
 
 class ProfileController extends GetxController {
   var isLoading = true.obs;
+  var friends = 0.obs;
+  var fans = 0.obs;
   Color color = Colors.grey;
   var profileInfo = UserPostDetails().obs;
   final Api _api = Api();
-   String? controllerusername;
+  String? controllerusername;
 
   ProfileController({this.controllerusername});
 
@@ -33,6 +35,20 @@ class ProfileController extends GetxController {
     update();
   }
 
+  void vibeControll() {
+    friends.value + 1;
+  }
+  void fansAdd() {
+    fans.value + 1;
+  }
+  void vibeSub() {
+    friends.value - 1;
+
+  }
+  void fansSub() {
+    fans.value - 1;
+  }
+
   void getProfileInfo(String username) async {
     try {
       isLoading.value = true;
@@ -50,9 +66,10 @@ class ProfileController extends GetxController {
         profileInfo.withdrawalBalance = user.withdrawalBalance;
         profileInfo.email = user.email;
       });
+      friends.value = profileInfo.value.friends!;
+      fans.value = profileInfo.value.fans!;
 
       profileInfo.refresh();
-      
     } catch (e) {
       print(e);
     } finally {

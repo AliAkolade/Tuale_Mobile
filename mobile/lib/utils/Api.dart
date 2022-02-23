@@ -1,9 +1,16 @@
 import 'dart:developer';
 
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/models/currentUserdetails.dart';
+import 'package:mobile/screens/Home/models/notificationsModel.dart';
 import 'package:mobile/models/searchData.dart';
 import 'package:mobile/screens/Discover/models/searchresultController.dart';
+import 'package:mobile/screens/Home/models/postsetails.dart';
+import 'package:mobile/screens/Profile/controllers/profileController.dart';
+//import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/Profile/models/UserPost.dart';
 import 'package:mobile/screens/imports.dart';
 
@@ -69,13 +76,14 @@ class Api {
       avatar: responseData['profile']['user']['avatar']['url'].toString(),
       name: responseData['profile']['user']['name'].toString(),
       username: responseData['profile']['user']['username'].toString(),
-      fans: responseData['fansLength'].toString(),
+      fans: responseData['fansLength'],
       tualegiven: responseData['givenTuales'].toString(),
-      friends: responseData['friendsLength'].toString(),
+      friends: responseData['friendsLength'],
       tcBalance: responseData['profile']['user']['tcBalance'].toString(),
       withdrawalBalance:
           responseData['profile']['user']['walletBalance'].toString(),
       email: responseData['profile']['user']['email'].toString(),
+      starredPosts: responseData['profile']['staredPosts'],
     );
 
     // if (responseData['success'].toString() == 'true') {
@@ -88,7 +96,7 @@ class Api {
     return info;
   }
 
-  Future getCurrentUserId() async {
+  Future<CurrentUserDetails> getCurrentUserId() async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
@@ -99,11 +107,20 @@ class Api {
 
     Response currentUser = await dio.get(hostAPI + currentuser);
 
-    // log(response.data.toString());
+    if (currentUser.statusCode == 200) {
+      CurrentUserDetails loggedUser = CurrentUserDetails(
+          currentuserid: currentUser.data['user']["_id"].toString(),
+          currentUserUsername: currentUser.data['user']["username"].toString(),
+          unreadNotifications:
+              currentUser.data['user']["name"].toString() == 'true'
+                  ? true
+                  : false,
+          friends: currentUser.data['userFollowStats']["friends"]);
 
-    currentUserId = currentUser.data['user']["_id"].toString();
+      return loggedUser;
+    }
 
-    return currentUserId;
+    return CurrentUserDetails();
   }
 
   Future<List<String?>> getAccessCode(amount) async {
@@ -200,5 +217,127 @@ class Api {
     // }
 
     return result;
+  }
+
+  Future<List<NotificationModel>> getNotifications() async {
+    // Get Token
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    // Get userdetails
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+    Response response = await dio.get(hostAPI + notifications);
+    var responseData = response.data;
+    List<NotificationModel> notification = [];
+    print(responseData);
+    if (response.data['success'].toString() == 'true') {
+      for (var i = 0; i < responseData['notifications'].length; i++) {
+        print(i);
+        notification.add(NotificationModel(
+            type: responseData['notifications'][i]['type'],
+            username: responseData['notifications'][i]['user']['username'],
+            likedPost: responseData['notifications'][i]['type'] == 'newFan'
+                ? ""
+                : responseData['notifications'][i]['post']['media']['url'],
+            mediaType: responseData['notifications'][i]['type'] == 'newFan'
+                ? ''
+                : responseData['notifications'][i]['post']['mediaType'],
+            id: responseData['notifications'][i]['type'] == 'newFan'
+                ? ''
+                : responseData['notifications'][i]['post']['_id']));
+      }
+    }
+    print(notification.length);
+    return notification;
+  }
+
+  Future<PostDetails> getOnePost(String id) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+    PostDetails details = PostDetails(
+      noComment: 0,
+      noStar: 0,
+      noTuale: 0,
+      username: '',
+      id: "",
+      postText: '',
+      postMedia: '',
+      time: '',
+      userProfilePic: '',
+    );
+
+    // Get userdetails
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+    Response response = await dio.get(hostAPI + 'post/' + id);
+
+    if (response.statusCode == 200) {
+      //  print(response.data);
+      var responseData = response.data;
+      details = PostDetails(
+          userProfilePic: responseData['post']['user']['avatar']['url'],
+          time: responseData['post']['user']['createdAt'],
+          postMedia: responseData['post']['media']['url'],
+          postText: responseData['post']['caption'],
+          noTuale: responseData['post']['tuales'].toList().length,
+          noStar: responseData['post']['stars'].toList().length,
+          noComment: responseData['post']['comments'].toList().length,
+          username: responseData['post']['user']['username'],
+          id: responseData['post']['user']['_id']);
+    }
+
+    return details;
+  }
+
+  Future setNotificationToRead() async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+    Response response = await dio.post(hostAPI + vibing);
+
+    print(response.data);
+  }
+
+  Future vibeWithUser(String id, String username, String tag) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+    Response response = await dio.post(hostAPI + vibing + id);
+    if (response.statusCode == 200) {
+      Get.find<ProfileController>( tag: tag)
+              .getProfileInfo(username);
+      Get.find<LoggedUserController>().getLoggeduser();
+       Get.put<ProfileController>(
+        ProfileController(controllerusername: Get.find<LoggedUserController>().loggedUser.value.currentUserUsername! ),
+        tag: 'myprofile').getProfileInfo(Get.find<LoggedUserController>().loggedUser.value.currentUserUsername!);
+    }
+  }
+
+  Future unvibeWithUser(String id, String username, String tag) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+    Response response = await dio.put(hostAPI + unvibing + id);
+    if (response.statusCode == 200) {
+      Get.find<ProfileController>( tag: tag)
+              .getProfileInfo(username);
+      Get.find<LoggedUserController>().getLoggeduser();
+    Get.put<ProfileController>(
+        ProfileController(controllerusername: Get.find<LoggedUserController>().loggedUser.value.currentUserUsername! ),
+        tag: 'myprofile').getProfileInfo(Get.find<LoggedUserController>().loggedUser.value.currentUserUsername!);
+
+    }
   }
 }

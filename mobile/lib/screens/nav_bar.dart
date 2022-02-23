@@ -1,11 +1,20 @@
+import 'dart:math';
+
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mobile/controller/loggedUserController.dart';
+import 'package:mobile/screens/Home/controllers/notificationsController.dart';
 import 'package:mobile/models/currentUserdetails.dart';
 import 'package:mobile/screens/Discover/searchPage.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
 import 'package:mobile/screens/imports.dart';
-
+import 'package:image_picker/image_picker.dart';
 import 'imports.dart';
+
+//context for current scene
+BuildContext? selectedTabContext;
 
 class NavBar extends StatefulWidget {
   final int index;
@@ -27,10 +36,15 @@ class _NavBarState extends State<NavBar> {
       SearchScreen(),
       PostTimeline(),
       Leaderboard(),
-      userProfile(
-        isUser: true,
-        username: currentUsername,
-        tag: "myprofile",
+      Obx(
+        () => userProfile(
+          isUser: true,
+          username: Get.put(LoggedUserController())
+              .loggedUser
+              .value
+              .currentUserUsername,
+          tag: "myprofile",
+        ),
       )
     ];
   }
@@ -61,6 +75,9 @@ class _NavBarState extends State<NavBar> {
         title: ("."),
         activeColorPrimary: tualeOrange,
         inactiveColorPrimary: tualeBlueDark,
+        onPressed: (context) async {
+          await cameraSelect(selectedTabContext);
+        },
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.leaderboard_rounded),
@@ -73,40 +90,29 @@ class _NavBarState extends State<NavBar> {
         title: ("Profile"),
         activeColorPrimary: tualeOrange,
         inactiveColorPrimary: tualeBlueDark,
+        // onPressed: (context) {
+        //   Get.put(
+        //           ProfileController(
+        //               controllerusername: Get.put(LoggedUserController())
+        //                   .loggedUser
+        //                   .value
+        //                   .currentUserUsername),
+        //           tag: 'myprofile')
+        //       .getProfileInfo(Get.put(LoggedUserController())
+        //           .loggedUser
+        //           .value
+        //           .currentUserUsername!);
+
+        // }
       ),
     ];
   }
 
   @override
   void initState() {
-    super.initState();
-    Future getCurrentUserUsername() async {
-      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-      final SharedPreferences prefs = await _prefs;
-      String token = prefs.getString('token') ?? '';
+    Get.put(NotificationsController());
+    // Api().getNotifications;
 
-      // Get userdetails
-      Dio dio = Dio();
-      dio.options.headers["Authorization"] = token;
-
-      Response currentUser = await dio.get(hostAPI + currentuser);
-
-      // log(response.data.toString());
-
-      //  currentUserId = currentUser.data['user']["_id"].toString();
-
-      setState(() {
-        currentUsername = currentUser.data['user']["username"].toString();
-      });
-
-      // CurrentUserDetails currentdetails = CurrentUserDetails(currentuserid: currentUserId, currentUserUsername: currentUserUsername, );
-
-      //    return currentUserId;
-    }
-
-    //getting logged in user name
-    getCurrentUserUsername();
-    Api().getCurrentUserId();
     setState(() {
       _controller = PersistentTabController(initialIndex: widget.index);
     });
@@ -117,7 +123,9 @@ class _NavBarState extends State<NavBar> {
     return Consumer<camera>(builder: (context, cam, child) {
       return PersistentTabView(
         context,
-
+        selectedTabScreenContext: (context) {
+          selectedTabContext = context;
+        },
         controller: _controller,
         screens: _buildScreens(),
         items: _navBarsItems(),
@@ -148,8 +156,107 @@ class _NavBarState extends State<NavBar> {
           duration: Duration(milliseconds: 200),
         ),
         navBarStyle: NavBarStyle.simple,
-      
       );
     });
   }
+}
+
+Future pickMedia(ImageSource source, String type) async {
+  if (type == "Image") {
+    final image = await ImagePicker().pickImage(source: source);
+  } else {
+    final image = await ImagePicker().pickVideo(source: source);
+  }
+}
+
+Future cameraSelect(text) async {
+  showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+          side: BorderSide(),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+      useRootNavigator: true,
+      isScrollControlled: true,
+      enableDrag: true,
+      context: text!,
+      builder: (context) => Padding(
+            padding:
+                EdgeInsets.only(bottom: MediaQuery.of(text).viewInsets.bottom),
+            child: Container(
+              height: MediaQuery.of(text).size.height * 0.28,
+              padding: const EdgeInsets.only(
+                left: 15,
+                right: 15,
+                top: 15,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Create"),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        pickMedia(ImageSource.gallery, "Image");
+                      },
+                      child: Row(
+                        children: const [
+                          CircleAvatar(
+                            child: Icon(
+                              Icons.image,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text("Image from gallery"),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        pickMedia(ImageSource.gallery, "Video");
+                      },
+                      child: Row(
+                        children: const [
+                          CircleAvatar(
+                            child: Icon(
+                              Icons.video_library,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text("Video from gallery"),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: const [
+                        CircleAvatar(
+                          child: Icon(
+                            Icons.camera,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text("Image/Video from camera"),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ));
 }
