@@ -90,6 +90,20 @@ class _NavBarState extends State<NavBar> {
         title: ("Profile"),
         activeColorPrimary: tualeOrange,
         inactiveColorPrimary: tualeBlueDark,
+        // onPressed: (context) {
+        //   Get.put(
+        //           ProfileController(
+        //               controllerusername: Get.put(LoggedUserController())
+        //                   .loggedUser
+        //                   .value
+        //                   .currentUserUsername),
+        //           tag: 'myprofile')
+        //       .getProfileInfo(Get.put(LoggedUserController())
+        //           .loggedUser
+        //           .value
+        //           .currentUserUsername!);
+
+        // }
       ),
     ];
   }
@@ -97,7 +111,7 @@ class _NavBarState extends State<NavBar> {
   @override
   void initState() {
     Get.put(NotificationsController());
-   // Api().getNotifications;
+    // Api().getNotifications;
 
     setState(() {
       _controller = PersistentTabController(initialIndex: widget.index);

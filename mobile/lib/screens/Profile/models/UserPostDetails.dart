@@ -7,8 +7,8 @@ class UserPostDetails {
   String? avatar;
   String? name;
   String? username;
-  String? fans;
-  String? friends;
+  int? fans;
+  int? friends;
   String? tualegiven;
   String? tcBalance;
   String? withdrawalBalance;
@@ -21,8 +21,8 @@ class UserPostDetails {
       this.avatar = "https://res.cloudinary.com/indersingh/image/upload/v1593464618/App/user_mklcpl.png",
       this.name = "",
       this.username = '',
-      this.fans = '',
-      this.friends = "",
+      this.fans = 0,
+      this.friends = 0,
       this.tualegiven = "",
       this.tcBalance = "",
       this.withdrawalBalance = '',

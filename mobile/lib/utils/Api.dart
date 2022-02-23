@@ -1,11 +1,15 @@
 import 'dart:developer';
 
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/models/currentUserdetails.dart';
 import 'package:mobile/screens/Home/models/notificationsModel.dart';
 import 'package:mobile/models/searchData.dart';
 import 'package:mobile/screens/Discover/models/searchresultController.dart';
 import 'package:mobile/screens/Home/models/postsetails.dart';
+import 'package:mobile/screens/Profile/controllers/profileController.dart';
 //import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/Profile/models/UserPost.dart';
 import 'package:mobile/screens/imports.dart';
@@ -72,9 +76,9 @@ class Api {
       avatar: responseData['profile']['user']['avatar']['url'].toString(),
       name: responseData['profile']['user']['name'].toString(),
       username: responseData['profile']['user']['username'].toString(),
-      fans: responseData['fansLength'].toString(),
+      fans: responseData['fansLength'],
       tualegiven: responseData['givenTuales'].toString(),
-      friends: responseData['friendsLength'].toString(),
+      friends: responseData['friendsLength'],
       tcBalance: responseData['profile']['user']['tcBalance'].toString(),
       withdrawalBalance:
           responseData['profile']['user']['walletBalance'].toString(),
@@ -105,13 +109,13 @@ class Api {
 
     if (currentUser.statusCode == 200) {
       CurrentUserDetails loggedUser = CurrentUserDetails(
-        currentuserid: currentUser.data['user']["_id"].toString(),
-        currentUserUsername: currentUser.data['user']["username"].toString(),
-        unreadNotifications:
-            currentUser.data['user']["name"].toString() == 'true'
-                ? true
-                : false,
-      );
+          currentuserid: currentUser.data['user']["_id"].toString(),
+          currentUserUsername: currentUser.data['user']["username"].toString(),
+          unreadNotifications:
+              currentUser.data['user']["name"].toString() == 'true'
+                  ? true
+                  : false,
+          friends: currentUser.data['userFollowStats']["friends"]);
 
       return loggedUser;
     }
@@ -295,8 +299,45 @@ class Api {
 
     Dio dio = Dio();
     dio.options.headers["Authorization"] = token;
-    Response response = await dio.post(hostAPI + notifications);
+    Response response = await dio.post(hostAPI + vibing);
 
     print(response.data);
+  }
+
+  Future vibeWithUser(String id, String username, String tag) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+    Response response = await dio.post(hostAPI + vibing + id);
+    if (response.statusCode == 200) {
+      Get.find<ProfileController>( tag: tag)
+              .getProfileInfo(username);
+      Get.find<LoggedUserController>().getLoggeduser();
+       Get.put<ProfileController>(
+        ProfileController(controllerusername: Get.find<LoggedUserController>().loggedUser.value.currentUserUsername! ),
+        tag: 'myprofile').getProfileInfo(Get.find<LoggedUserController>().loggedUser.value.currentUserUsername!);
+    }
+  }
+
+  Future unvibeWithUser(String id, String username, String tag) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+    Response response = await dio.put(hostAPI + unvibing + id);
+    if (response.statusCode == 200) {
+      Get.find<ProfileController>( tag: tag)
+              .getProfileInfo(username);
+      Get.find<LoggedUserController>().getLoggeduser();
+    Get.put<ProfileController>(
+        ProfileController(controllerusername: Get.find<LoggedUserController>().loggedUser.value.currentUserUsername! ),
+        tag: 'myprofile').getProfileInfo(Get.find<LoggedUserController>().loggedUser.value.currentUserUsername!);
+
+    }
   }
 }

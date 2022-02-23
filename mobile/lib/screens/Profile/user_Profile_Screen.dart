@@ -180,7 +180,8 @@ class _ProfileState extends State<userProfile> with RouteAware {
                           SliverOverlapInjector(
                               handle: NestedScrollView
                                   .sliverOverlapAbsorberHandleFor(context)),
-                          starredPosts(username: widget.username, tag: widget.tag),
+                          starredPosts(
+                              username: widget.username, tag: widget.tag),
                         ],
                       );
                     }),
@@ -245,17 +246,21 @@ class ProfileInfotwo extends StatelessWidget {
             const Spacer(
               flex: 2,
             ),
-            Obx(
-              () => Text(
-                "@" + profileController.profileInfo.value.username!,
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'Poppins',
-                    fontSize: 13,
-                    // fontWeight: FontWeight.bold,
-                    height: 1),
-              ),
-            ),
+            GetX<ProfileController>(
+                init: ProfileController(controllerusername: username),
+                tag: tag,
+                builder: (text) {
+                  return Text(
+                    //Get.find<ProfileController>().profileInfo.value.friends!,
+                    "@" + text.profileInfo.value.username!,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Poppins',
+                      fontSize: 14.sp,
+                      //fontWeight: FontWeight.bold,
+                    ),
+                  );
+                }),
             const Spacer(
               flex: 2,
             ),
@@ -276,17 +281,21 @@ class ProfileInfotwo extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    Obx(
-                      () => Text(
-                        profileController.profileInfo.value.fans!,
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'Poppins',
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            height: 1),
-                      ),
-                    ),
+                    GetX<ProfileController>(
+                        init: ProfileController(controllerusername: username),
+                        tag: tag,
+                        builder: (text) {
+                          return Text(
+                            //Get.find<ProfileController>().profileInfo.value.friends!,
+                            text.profileInfo.value.fans.toString(),
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Poppins',
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                height: 1),
+                          );
+                        }),
                     Text(
                       "Fans",
                       style: TextStyle(
@@ -313,18 +322,21 @@ class ProfileInfotwo extends StatelessWidget {
                               BorderSide(color: Colors.grey.withOpacity(0.3)))),
                   child: Column(
                     children: [
-                      Obx(
-                        () => Text(
-                          //Get.find<ProfileController>().profileInfo.value.friends!,
-                          profileController.profileInfo.value.friends!,
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'Poppins',
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              height: 1),
-                        ),
-                      ),
+                      GetX<ProfileController>(
+                          init: ProfileController(controllerusername: username),
+                          tag: tag,
+                          builder: (text) {
+                            return Text(
+                              //Get.find<ProfileController>().profileInfo.value.friends!,
+                              text.profileInfo.value.friends.toString(),
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Poppins',
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  height: 1),
+                            );
+                          }),
                       Text(
                         "Friends",
                         style: TextStyle(
@@ -343,18 +355,21 @@ class ProfileInfotwo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Obx(
-                      () => Text(
-                        //Get.find<ProfileController>().profileInfo.value.tualegiven!,
-                        profileController.profileInfo.value.tualegiven!,
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'Poppins',
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            height: 1),
-                      ),
-                    ),
+                    GetX<ProfileController>(
+                        init: ProfileController(controllerusername: username),
+                        tag: tag,
+                        builder: (text) {
+                          return Text(
+                            //Get.find<ProfileController>().profileInfo.value.friends!,
+                            text.profileInfo.value.tualegiven.toString(),
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Poppins',
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                height: 1),
+                          );
+                        }),
 
                     Text(
                       "Tuales given",
@@ -384,7 +399,10 @@ class ProfileInfotwo extends StatelessWidget {
               flex: 4,
             ),
             Obx(
-              () => Get.find<LoggedUserController>().loggedUser.value.currentuserid ==
+              () => Get.find<LoggedUserController>()
+                          .loggedUser
+                          .value
+                          .currentuserid ==
                       Get.put(ProfileController(controllerusername: username),
                               tag: tag)
                           .profileInfo
@@ -455,59 +473,15 @@ class ProfileInfotwo extends StatelessWidget {
                         )
                       ],
                     )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Spacer(
-                          flex: 2,
-                        ),
-                        ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      type: PageTransitionType.fade,
-                                      child: SignUp()));
-                            },
-                            style: ElevatedButton.styleFrom(
-                                primary: tualeBlueDark,
-                                minimumSize: const Size(150, 45),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                            child: const Text('Vibe',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color.fromRGBO(255, 255, 255, 1),
-                                    fontFamily: 'Poppins',
-                                    fontSize: 15.5,
-                                    fontWeight: FontWeight.w200,
-                                    height: 1))),
-                        const Spacer(),
-                        ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      type: PageTransitionType.fade,
-                                      child: TualletHome()));
-                            },
-                            style: ElevatedButton.styleFrom(
-                                primary: const Color.fromRGBO(218, 65, 103, 1),
-                                minimumSize: const Size(150, 45),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                            child: const Text('Chat',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color.fromRGBO(255, 255, 255, 1),
-                                    fontFamily: 'Poppins',
-                                    fontSize: 15.5,
-                                    fontWeight: FontWeight.w200,
-                                    height: 1))),
-                        const Spacer(
-                          flex: 2,
-                        ),
-                      ],
+                  : profileButton(
+                      username: username,
+                      tag: tag,
+                      userId: Get.put(
+                              ProfileController(controllerusername: username),
+                              tag: tag)
+                          .profileInfo
+                          .value
+                          .id,
                     ),
             ),
             Spacer(
@@ -515,6 +489,88 @@ class ProfileInfotwo extends StatelessWidget {
             ),
           ],
         ));
+  }
+}
+
+class profileButton extends StatelessWidget {
+  String? username;
+  String? tag;
+  String? userId;
+  profileButton({this.username, this.tag, this.userId});
+  @override
+  Widget build(BuildContext context) {
+    bool isFollowing() {
+      bool followed = false;
+      for (var i
+          in Get.find<LoggedUserController>().loggedUser.value.friends!) {
+        // print(i['user']);
+        if (Get.put(ProfileController(controllerusername: username), tag: tag!)
+                .profileInfo
+                .value
+                .id! ==
+            i["user"]) {
+          followed = true;
+          break;
+        } else {
+          followed = false;
+          
+        }
+      }
+      // print(followed);
+      // print(Get.find<LoggedUserController>().loggedUser.value.friends!);
+      // print(Get.put(ProfileController(controllerusername: username), tag: tag!)
+      //     .profileInfo
+      //     .value
+      //     .id!);
+      return followed;
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Spacer(
+          flex: 2,
+        ),
+        ElevatedButton(
+            onPressed: () {
+              isFollowing()
+                  ? Api().unvibeWithUser(userId!, username!, tag!)
+                  : Api().vibeWithUser(userId!, username!, tag!);
+            },
+            style: ElevatedButton.styleFrom(
+                primary: tualeBlueDark,
+                minimumSize: const Size(150, 45),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))),
+            child: Text(isFollowing() ? 'Vibing' : 'vibe',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 1),
+                    fontFamily: 'Poppins',
+                    fontSize: 15.5,
+                    fontWeight: FontWeight.w200,
+                    height: 1))),
+        const Spacer(),
+        ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+                primary: const Color.fromRGBO(218, 65, 103, 1),
+                minimumSize: const Size(150, 45),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))),
+            child: const Text('Chat',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 1),
+                    fontFamily: 'Poppins',
+                    fontSize: 15.5,
+                    fontWeight: FontWeight.w200,
+                    height: 1))),
+        const Spacer(
+          flex: 2,
+        ),
+      ],
+    );
   }
 }
 
