@@ -79,9 +79,23 @@ class _ProfileState extends State<userProfile> with RouteAware {
                         ),
                       ),
                 actions: [
-                  Icon(
-                    Icons.more_vert_rounded,
-                    color: Colors.black,
+                  IconButton(
+                    icon: Icon(
+                      Icons.logout,
+                      color: Colors.black,
+                    ),
+                    onPressed: () async {
+                      Future<SharedPreferences> _prefs =
+                          SharedPreferences.getInstance();
+                      final SharedPreferences prefs = await _prefs;
+
+                      prefs.setBool('isLoggedIn', false);
+                      pushNewScreen(context,
+                          screen: const Welcome(),
+                          withNavBar: false,
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino);
+                    },
                   )
                 ],
                 centerTitle: true,
@@ -513,7 +527,6 @@ class profileButton extends StatelessWidget {
           break;
         } else {
           followed = false;
-          
         }
       }
       // print(followed);

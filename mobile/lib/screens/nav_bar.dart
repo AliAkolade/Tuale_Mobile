@@ -17,9 +17,9 @@ import 'imports.dart';
 BuildContext? selectedTabContext;
 
 class NavBar extends StatefulWidget {
-  final int index;
+  int index;
 
-  const NavBar({
+  NavBar({
     Key? key,
     required this.index,
   }) : super(key: key);

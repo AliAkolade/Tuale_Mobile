@@ -1,8 +1,6 @@
-
 import 'package:mobile/screens/imports.dart';
 
 import 'dart:math' as math;
-
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -11,12 +9,11 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
   @override
   void initState() {
-   
     super.initState();
   }
+
   // final email = TextEditingController(text: '');
   // final pass = TextEditingController(text: '');
   final email = TextEditingController(text: 'clintonali127@gmail.com');
@@ -29,8 +26,6 @@ class _LoginState extends State<Login> {
   bool isLoading = false;
 
   login() async {
- 
-   
     setState(() {
       isLoading = true;
       message = '';
@@ -41,18 +36,21 @@ class _LoginState extends State<Login> {
         data: {"email": email.text.trim(), "password": pass.text.trim()});
     debugPrint(response.data.toString());
     var responseData = response.data;
-    
-
 
     if (responseData['success'].toString() == 'true') {
       debugPrint('Login Successful');
       Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       final SharedPreferences prefs = await _prefs;
       prefs.setString('token', responseData['token'].toString());
+
+      prefs.setBool('isLoggedIn', true);
+      prefs.setString('username', email.text.trim());
+      prefs.setString('password', pass.text.trim());
+
       Navigator.push(
           context,
           PageTransition(
-              type: PageTransitionType.topToBottom, child: NavBar(index: 0,)));
+              type: PageTransitionType.topToBottom, child: NavBar(index: 0)));
     } else {
       setState(() {
         message = responseData['message'];
@@ -63,9 +61,6 @@ class _LoginState extends State<Login> {
       isLoading = false;
     });
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -174,8 +169,8 @@ class _LoginState extends State<Login> {
                             )
                           : ElevatedButton(
                               onPressed: () {
-                              // //DISABLED FOR NOW
-                               login();
+                                // //DISABLED FOR NOW
+                                login();
                                 //  Navigator.push(
                                 //      context,
                                 //      PageTransition(
