@@ -50,9 +50,9 @@ class _ProfileState extends State<userProfile> with RouteAware {
   void initState() {
     super.initState();
 
-    profileController = Get.put<ProfileController>(
-        ProfileController(controllerusername: widget.username!),
-        tag: widget.tag!);
+    // profileController = Get.put<ProfileController>(
+    //     ProfileController(controllerusername: widget.username!),
+    //     tag: widget.tag!);
 
 //    Get.put(UserPostsController(username: widget.username), tag: widget.tag);
   }
