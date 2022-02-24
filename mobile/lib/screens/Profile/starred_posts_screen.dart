@@ -105,7 +105,7 @@ class _starredPostsState extends State<starredPosts> {
                                     image: DecorationImage(
                                         fit: BoxFit.cover,
                                         image: NetworkImage(
-                                            text.profileInfo.value.starredPosts![index].postUrl!))),
+                                            text.profileInfo.value.starredPosts![index]))),
                                 margin: EdgeInsets.fromLTRB(2, 2, 2, 2),
                                 height: 100.h,
                                 width: 100.h,
