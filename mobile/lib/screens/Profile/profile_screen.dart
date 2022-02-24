@@ -27,7 +27,7 @@ class _ProfileState extends State<Profile> {
             ),
             actions: const [
               Icon(Icons.more_vert_rounded, 
-              color: Colors.red,
+              color: Colors.black,
               )
             ],
             centerTitle: true,
