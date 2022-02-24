@@ -91,8 +91,8 @@ class _CuratedState extends State<Curated> {
             itemCount: posts.length,
             itemBuilder: (BuildContext context, int index) {
               bool tualed = false;
-              int tualCount = 0;
-              int starCount = 0;
+              int tualCount = posts[index].noTuale;
+              int starCount = posts[index].noStar;
               bool starred = false;
 
               return Container(
