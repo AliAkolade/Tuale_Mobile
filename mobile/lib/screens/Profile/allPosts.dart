@@ -47,7 +47,7 @@ class _AllPostsState extends State<AllPosts> {
                 child: Center(
                     child:
                         SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75))))
-            : post.posts.length == 0
+            : text.posts.length == 0
                 ? SliverToBoxAdapter(
                     child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

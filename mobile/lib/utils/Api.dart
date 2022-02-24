@@ -70,6 +70,7 @@ class Api {
 
     // log(response.data.toString());
     var responseData = response.data;
+    print(responseData);
 
     UserPostDetails info = UserPostDetails(
       id: responseData['profile']['user']['_id'].toString(),
@@ -201,7 +202,7 @@ class Api {
 
     // log(response.data.toString());
     var responseData = response.data;
-    print(responseData);
+  //  print(responseData);
 
     if (response.data['success'].toString() == 'true') {
       for (var i = 0; i < responseData['posts'].length; i++) {
@@ -231,10 +232,10 @@ class Api {
     Response response = await dio.get(hostAPI + notifications);
     var responseData = response.data;
     List<NotificationModel> notification = [];
-    print(responseData);
+  //  print(responseData);
     if (response.data['success'].toString() == 'true') {
       for (var i = 0; i < responseData['notifications'].length; i++) {
-        print(i);
+     //   print(i);
         notification.add(NotificationModel(
             type: responseData['notifications'][i]['type'],
             username: responseData['notifications'][i]['user']['username'],
@@ -249,7 +250,7 @@ class Api {
                 : responseData['notifications'][i]['post']['_id']));
       }
     }
-    print(notification.length);
+   // print(notification.length);
     return notification;
   }
 
@@ -301,7 +302,7 @@ class Api {
     dio.options.headers["Authorization"] = token;
     Response response = await dio.post(hostAPI + vibing);
 
-    print(response.data);
+   // print(response.data);
   }
 
   Future vibeWithUser(String id, String username, String tag) async {
@@ -313,12 +314,19 @@ class Api {
     dio.options.headers["Authorization"] = token;
     Response response = await dio.post(hostAPI + vibing + id);
     if (response.statusCode == 200) {
-      Get.find<ProfileController>( tag: tag)
-              .getProfileInfo(username);
+      Get.find<ProfileController>(tag: tag).getProfileInfo(username);
       Get.find<LoggedUserController>().getLoggeduser();
-       Get.put<ProfileController>(
-        ProfileController(controllerusername: Get.find<LoggedUserController>().loggedUser.value.currentUserUsername! ),
-        tag: 'myprofile').getProfileInfo(Get.find<LoggedUserController>().loggedUser.value.currentUserUsername!);
+      Get.put<ProfileController>(
+              ProfileController(
+                  controllerusername: Get.find<LoggedUserController>()
+                      .loggedUser
+                      .value
+                      .currentUserUsername!),
+              tag: 'myprofile')
+          .getProfileInfo(Get.find<LoggedUserController>()
+              .loggedUser
+              .value
+              .currentUserUsername!);
     }
   }
 
@@ -331,13 +339,19 @@ class Api {
     dio.options.headers["Authorization"] = token;
     Response response = await dio.put(hostAPI + unvibing + id);
     if (response.statusCode == 200) {
-      Get.find<ProfileController>( tag: tag)
-              .getProfileInfo(username);
+      Get.find<ProfileController>(tag: tag).getProfileInfo(username);
       Get.find<LoggedUserController>().getLoggeduser();
-    Get.put<ProfileController>(
-        ProfileController(controllerusername: Get.find<LoggedUserController>().loggedUser.value.currentUserUsername! ),
-        tag: 'myprofile').getProfileInfo(Get.find<LoggedUserController>().loggedUser.value.currentUserUsername!);
-
+      Get.put<ProfileController>(
+              ProfileController(
+                  controllerusername: Get.find<LoggedUserController>()
+                      .loggedUser
+                      .value
+                      .currentUserUsername!),
+              tag: 'myprofile')
+          .getProfileInfo(Get.find<LoggedUserController>()
+              .loggedUser
+              .value
+              .currentUserUsername!);
     }
   }
 }
