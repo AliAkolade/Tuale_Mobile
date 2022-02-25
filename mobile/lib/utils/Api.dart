@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:get/get_core/src/get_main.dart';
@@ -25,11 +26,14 @@ class Api {
   Future<List> getVibingPost() async {
     int pageNo = 1;
     List posts = [];
+    var userId =  Get.find<LoggedUserController>().loggedUser.value.currentuserid;
 
     // Get Token
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
+
+
 
     // Get Posts
     Dio dio = Dio();
@@ -41,6 +45,9 @@ class Api {
     List postsResponses = responseData['posts'];
     if (responseData['success'].toString() == 'true') {
       for (int i = 0; i < postsResponses.length; i++) {
+        bool tempGivingTuale = await checkGivingTuale(postsResponses[i]['tuales']);
+        debugPrint("userID : $userId -> givingTuale : $tempGivingTuale");
+
         posts.add(PostDetails(
             userProfilePic: postsResponses[i]['user']['avatar']['url'],
             time: postsResponses[i]['createdAt'],
@@ -50,7 +57,10 @@ class Api {
             noStar: postsResponses[i]['stars'].toList().length,
             noComment: postsResponses[i]['comments'].toList().length,
             username: postsResponses[i]['user']['username'],
-            id: ''));
+            id: postsResponses[i]['_id'],
+            tuales: postsResponses[i]['tuales'],
+            givingTuale: tempGivingTuale
+        ));
       }
     }
 
@@ -268,6 +278,8 @@ class Api {
       postMedia: '',
       time: '',
       userProfilePic: '',
+      tuales: [],
+      givingTuale: false
     );
 
     // Get userdetails
@@ -287,7 +299,10 @@ class Api {
           noStar: responseData['post']['stars'].toList().length,
           noComment: responseData['post']['comments'].toList().length,
           username: responseData['post']['user']['username'],
-          id: responseData['post']['user']['_id']);
+          id: responseData['post']['user']['_id'],
+          tuales: responseData['post']['tuales'],
+          givingTuale: false
+      );
     }
 
     return details;
@@ -352,6 +367,44 @@ class Api {
               .loggedUser
               .value
               .currentUserUsername!);
+    }
+  }
+
+  addTuale(String id) async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio.post(hostAPI + 'post/tuale/' + id);
+      var responseData = response.data;
+      if (response.statusCode == 200) {
+        return [responseData["success"],responseData["message"]];
+      }
+    } catch (e) {
+      return [false,"Something got wrong"];
+    }
+    return [false,"Oh why??"];
+  }
+
+  checkGivingTuale(tuales) {
+    // return true if user already give tuale
+    var userId =  Get.find<LoggedUserController>().loggedUser.value.currentuserid;
+    if(tuales.length == 0 ) {
+      debugPrint('test1');
+      return false;
+    }
+    else{
+      if (tuales.any((item) => item["user"] ==  userId)) {
+        return true;
+      }
+      return false;
+      /*for (int i = 0; i < tuales.length; i++) {
+        if(userId  == tuales[i]["user"]) return true;
+        return false;
+      }*/
     }
   }
 }

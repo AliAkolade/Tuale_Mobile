@@ -57,7 +57,7 @@ class _CuratedState extends State<Curated> {
         setState(() {
           print(currentUsername);
           posts.add(PostDetails(
-              id: postsResponses[i]["user"]["_id"],
+              id: postsResponses[i]["_id"],
               userProfilePic: postsResponses[i]['user']['avatar']['url'],
               time: postsResponses[i]['createdAt'],
               postMedia: postsResponses[i]['media']['url'],
@@ -65,7 +65,10 @@ class _CuratedState extends State<Curated> {
               noTuale: postsResponses[i]['tuales'].toList().length,
               noStar: postsResponses[i]['stars'].toList().length,
               noComment: postsResponses[i]['comments'].toList().length,
-              username: postsResponses[i]['user']['username']));
+              username: postsResponses[i]['user']['username'],
+              tuales: postsResponses[i]['tuales'],
+              givingTuale: false
+          ));
         });
       }
     }

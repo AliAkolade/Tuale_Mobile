@@ -85,6 +85,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                       color: Colors.black,
                     ),
                     onPressed: () async {
+                      Get.deleteAll();
                       Future<SharedPreferences> _prefs =
                           SharedPreferences.getInstance();
                       final SharedPreferences prefs = await _prefs;
@@ -163,7 +164,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                                   )),
                                 ]),
                             SizedBox(
-                              height: 10.h,
+                              height: 1, // TODO : don't have 10.h
                               width: ScreenUtil().screenWidth,
                               child: Divider(
                                 color: Colors.grey,
