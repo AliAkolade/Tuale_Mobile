@@ -39,7 +39,7 @@ class Api {
     dio.options.headers["Authorization"] = token;
     Response response =
         await dio.get(hostAPI + getVibingPosts + pageNo.toString());
-    log(response.data.toString());
+  //  log(response.data.toString());
     var responseData = response.data;
     List postsResponses = responseData['posts'];
     if (responseData['success'].toString() == 'true') {
@@ -56,6 +56,50 @@ class Api {
             username: postsResponses[i]['user']['username'],
             id: postsResponses[i]['_id'],
             tuales: postsResponses[i]['tuales'],
+            isTualed: checkGivingTuale(postsResponses[i]['tuales'])
+            
+        ));
+      }
+    }
+
+    return posts;
+  }
+
+  Future<List> getCuratedPost() async {
+    int pageNo = 1;
+    List posts = [];
+
+    // Get Token
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+
+
+    // Get Posts
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+    Response response =
+        await dio.get(hostAPI + getAllPosts + pageNo.toString());
+  //  log(response.data.toString());
+    var responseData = response.data;
+    List postsResponses = responseData['posts'];
+    if (responseData['success'].toString() == 'true') {
+      for (int i = 0; i < postsResponses.length; i++) {
+
+        posts.add(PostDetails(
+            userProfilePic: postsResponses[i]['user']['avatar']['url'],
+            time: postsResponses[i]['createdAt'],
+            postMedia: postsResponses[i]['media']['url'],
+            postText: postsResponses[i]['caption'],
+            noTuale: postsResponses[i]['tuales'].toList().length,
+            noStar: postsResponses[i]['stars'].toList().length,
+            noComment: postsResponses[i]['comments'].toList().length,
+            username: postsResponses[i]['user']['username'],
+            id: postsResponses[i]['_id'],
+            tuales: postsResponses[i]['tuales'],
+            isTualed: checkGivingTuale(postsResponses[i]['tuales'])
+            
         ));
       }
     }
@@ -281,7 +325,9 @@ class Api {
       postMedia: '',
       time: '',
       userProfilePic: '',
-      tuales: []
+      tuales: [],
+      
+    isTualed: false,
     );
 
     // Get userdetails
@@ -302,7 +348,8 @@ class Api {
           noComment: responseData['post']['comments'].toList().length,
           username: responseData['post']['user']['username'],
           id: responseData['post']['user']['_id'],
-          tuales: responseData['post']['tuales']
+          tuales: responseData['post']['tuales'],
+            isTualed: checkGivingTuale(responseData['post']['tuales'])
       );
     }
 

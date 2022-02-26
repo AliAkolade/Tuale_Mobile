@@ -35,59 +35,58 @@ class _CuratedState extends State<Curated> {
   int pageNo = 1;
   //List posts = [];
 
-  loadPosts(BuildContext context) async {
-    setState(() {
-      isLoading = true;
-    });
+  // loadPosts(BuildContext context) async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
 
-    // Get Token
-    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-    final SharedPreferences prefs = await _prefs;
-    String token = prefs.getString('token') ?? '';
+  //   // Get Token
+  //   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  //   final SharedPreferences prefs = await _prefs;
+  //   String token = prefs.getString('token') ?? '';
 
-    // Get Posts
-    Dio dio = Dio();
-    dio.options.headers["Authorization"] = token;
-    Response response =
-        await dio.get(hostAPI + getAllPosts + pageNo.toString());
-    //log(response.data.toString());
-    Response currentUser = await dio.get(hostAPI + currentuser);
-    var responseData = response.data;
-    List postsResponses = responseData['posts'];
-    if (responseData['success'].toString() == 'true') {
-      for (int i = 0; i < postsResponses.length; i++) {
+  //   // Get Posts
+  //   Dio dio = Dio();
+  //   dio.options.headers["Authorization"] = token;
+  //   Response response =
+  //       await dio.get(hostAPI + getAllPosts + pageNo.toString());
+  //   //log(response.data.toString());
+  //   Response currentUser = await dio.get(hostAPI + currentuser);
+  //   var responseData = response.data;
+  //   List postsResponses = responseData['posts'];
+  //   if (responseData['success'].toString() == 'true') {
+  //     for (int i = 0; i < postsResponses.length; i++) {
 
+  //       // if (mounted)
+  //       //   setState(() {
+  //       //     print(currentUsername);
+  //       //     posts.add(PostDetails(
+  //       //         id: postsResponses[i]["user"]["_id"],
+  //       //         userProfilePic: postsResponses[i]['user']['avatar']['url'],
+  //       //         time: postsResponses[i]['createdAt'],
+  //       //         postMedia: postsResponses[i]['media']['url'],
+  //       //         postText: postsResponses[i]['caption'],
+  //       //         noTuale: postsResponses[i]['tuales'].toList().length,
+  //       //         noStar: postsResponses[i]['stars'].toList().length,
+  //       //         noComment: postsResponses[i]['comments'].toList().length,
+  //       //         username: postsResponses[i]['user']['username']));
+  //       //   });
 
-        // if (mounted)
-        //   setState(() {
-        //     print(currentUsername);
-        //     posts.add(PostDetails(
-        //         id: postsResponses[i]["user"]["_id"],
-        //         userProfilePic: postsResponses[i]['user']['avatar']['url'],
-        //         time: postsResponses[i]['createdAt'],
-        //         postMedia: postsResponses[i]['media']['url'],
-        //         postText: postsResponses[i]['caption'],
-        //         noTuale: postsResponses[i]['tuales'].toList().length,
-        //         noStar: postsResponses[i]['stars'].toList().length,
-        //         noComment: postsResponses[i]['comments'].toList().length,
-        //         username: postsResponses[i]['user']['username']));
-        //   });
-
-      }
-    }
-    if (mounted) {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
+  //     }
+  //   }
+  //   if (mounted) {
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //   }
+  // }
 
   CuratedPostController control = CuratedPostController();
   @override
   void initState() {
     super.initState();
     control = Get.put(CuratedPostController());
-    loadPosts(context);
+
     Get.put(LoggedUserController());
   }
 
@@ -98,7 +97,6 @@ class _CuratedState extends State<Curated> {
         //Api().getVibingPost(),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-    
             // List posts = snapshot.data;
             List posts = control.curatedPost.value;
             return ListView.builder(
@@ -215,15 +213,27 @@ class _CuratedState extends State<Curated> {
                     children: [
                       AnimatedCrossFade(
                         duration: const Duration(seconds: 1),
-                        crossFadeState: tualed
+                        crossFadeState: posts[index].isTualed
                             ? CrossFadeState.showSecond
                             : CrossFadeState.showFirst,
                         secondChild: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              tualed = false;
-                              tualCount = 0;
-                            });
+                          onTap: () async {
+                            // debugPrint("tuales : ${widget.post?.tuales}");
+                            // debugPrint("testme : $alreadyGiveTuale");
+
+                            if (posts[index].isTualed) {
+                              //"61e327db86dcaee74311fa14"
+                              debugPrint("User already give a tuale");
+                            } else {
+                              var result =
+                                  await Api().addTuale(posts[index].id ?? " ");
+                              if (result[0]) {
+                                control.getCuratedPosts();
+                              } else {
+                                // TODO : display message
+                                debugPrint(result[1]);
+                              }
+                            }
                           },
                           child: Icon(
                             TualeIcons.tualeactive,
@@ -232,11 +242,20 @@ class _CuratedState extends State<Curated> {
                           ),
                         ),
                         firstChild: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              tualed = true;
-                              tualCount = 1;
-                            });
+                          onTap: () async {
+                           if (posts[index].isTualed) {
+                              //"61e327db86dcaee74311fa14"
+                              debugPrint("User already give a tuale");
+                            } else {
+                              var result =
+                                  await Api().addTuale(posts[index].id ?? " ");
+                              if (result[0]) {
+                                control.getCuratedPosts();
+                              } else {
+                                // TODO : display message
+                                debugPrint(result[1]);
+                              }
+                            }
                           },
                           child: Icon(
                             TualeIcons.tuale,

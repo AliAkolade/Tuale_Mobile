@@ -8,7 +8,7 @@ class CuratedPostController extends GetxController {
 
   Future getCuratedPosts() async {
     try {
-  curatedPost.value = await _api.getVibingPost();
+  curatedPost.value = await _api.getCuratedPost();
    print(curatedPost.value[0]);
       
     } catch (e) {
