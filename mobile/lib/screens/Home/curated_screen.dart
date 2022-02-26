@@ -66,8 +66,7 @@ class _CuratedState extends State<Curated> {
               noStar: postsResponses[i]['stars'].toList().length,
               noComment: postsResponses[i]['comments'].toList().length,
               username: postsResponses[i]['user']['username'],
-              tuales: postsResponses[i]['tuales'],
-              givingTuale: false
+              tuales: postsResponses[i]['tuales']
           ));
         });
       }

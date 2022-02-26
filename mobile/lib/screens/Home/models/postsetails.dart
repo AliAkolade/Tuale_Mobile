@@ -9,7 +9,6 @@ class PostDetails {
   int noStar;
   int noComment;
   List tuales;
-  bool givingTuale;
 
   PostDetails({
     required this.id,
@@ -22,6 +21,5 @@ class PostDetails {
     required this.noComment,
     required this.username,
     required this.tuales,
-    required this.givingTuale,
   });
 }

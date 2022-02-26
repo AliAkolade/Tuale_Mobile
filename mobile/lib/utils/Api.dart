@@ -26,7 +26,6 @@ class Api {
   Future<List> getVibingPost() async {
     int pageNo = 1;
     List posts = [];
-    var userId =  Get.find<LoggedUserController>().loggedUser.value.currentuserid;
 
     // Get Token
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -45,8 +44,6 @@ class Api {
     List postsResponses = responseData['posts'];
     if (responseData['success'].toString() == 'true') {
       for (int i = 0; i < postsResponses.length; i++) {
-        bool tempGivingTuale = await checkGivingTuale(postsResponses[i]['tuales']);
-        debugPrint("userID : $userId -> givingTuale : $tempGivingTuale");
 
         posts.add(PostDetails(
             userProfilePic: postsResponses[i]['user']['avatar']['url'],
@@ -59,7 +56,6 @@ class Api {
             username: postsResponses[i]['user']['username'],
             id: postsResponses[i]['_id'],
             tuales: postsResponses[i]['tuales'],
-            givingTuale: tempGivingTuale
         ));
       }
     }
@@ -278,8 +274,7 @@ class Api {
       postMedia: '',
       time: '',
       userProfilePic: '',
-      tuales: [],
-      givingTuale: false
+      tuales: []
     );
 
     // Get userdetails
@@ -300,8 +295,7 @@ class Api {
           noComment: responseData['post']['comments'].toList().length,
           username: responseData['post']['user']['username'],
           id: responseData['post']['user']['_id'],
-          tuales: responseData['post']['tuales'],
-          givingTuale: false
+          tuales: responseData['post']['tuales']
       );
     }
 
@@ -379,6 +373,44 @@ class Api {
       Dio dio = Dio();
       dio.options.headers["Authorization"] = token;
       Response response = await dio.post(hostAPI + 'post/tuale/' + id);
+      var responseData = response.data;
+      if (response.statusCode == 200) {
+        return [responseData["success"],responseData["message"]];
+      }
+    } catch (e) {
+      return [false,"Something got wrong"];
+    }
+    return [false,"Oh why??"];
+  }
+
+  startPost(String id) async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio.post(hostAPI + 'post/star/' + id);
+      var responseData = response.data;
+      if (response.statusCode == 200) {
+        return [responseData["success"],responseData["message"]];
+      }
+    } catch (e) {
+      return [false,"Something got wrong"];
+    }
+    return [false,"Oh why??"];
+  }
+
+  unStartPost(String id) async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio.put(hostAPI + 'post/unstar/' + id);
       var responseData = response.data;
       if (response.statusCode == 200) {
         return [responseData["success"],responseData["message"]];

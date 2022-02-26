@@ -152,11 +152,18 @@ class _VibingZoomState extends State<VibingZoom> {
                                         ? CrossFadeState.showSecond
                                         : CrossFadeState.showFirst,
                                     secondChild: GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          starred = false;
-                                          starCount = 0;
-                                        });
+                                      onTap: () async {
+                                        var result = await Api().unStartPost(widget.post?.id ?? " ");
+                                        if(result[0]) {
+                                          setState(() {
+                                            starred = false;
+                                            starCount = starCount-1;
+                                          });
+                                          debugPrint(result[1]);
+                                        }else{
+                                          // TODO : display message
+                                          debugPrint(result[1]);
+                                        }
                                       },
                                       child: const Icon(
                                         TualeIcons.star,
@@ -165,11 +172,18 @@ class _VibingZoomState extends State<VibingZoom> {
                                       ),
                                     ),
                                     firstChild: GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          starred = true;
-                                          starCount = 1;
-                                        });
+                                      onTap: () async {
+                                        var result = await Api().startPost(widget.post?.id ?? " ");
+                                        if(result[0]) {
+                                          setState(() {
+                                            starred = true;
+                                            starCount = widget.post!.noStar+1;
+                                          });
+                                          debugPrint(result[1]);
+                                        }else{
+                                          // TODO : display message
+                                          debugPrint(result[1]);
+                                        }
                                       },
                                       child: const Icon(
                                         TualeIcons.star,
@@ -178,7 +192,7 @@ class _VibingZoomState extends State<VibingZoom> {
                                       ),
                                     ),
                                   ),
-                                  Text(widget.post!.noStar.toString(),
+                                  Text(starCount.toString(),
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 14,
