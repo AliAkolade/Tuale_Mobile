@@ -280,15 +280,24 @@ class _CuratedState extends State<Curated> {
                     children: [
                       AnimatedCrossFade(
                         duration: const Duration(seconds: 1),
-                        crossFadeState: starred
+                        crossFadeState: posts[index].isStared
                             ? CrossFadeState.showSecond
                             : CrossFadeState.showFirst,
                         secondChild: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              starred = false;
-                              starCount = 0;
-                            });
+                          onTap: () async {
+                            if(posts[index].isStared){
+                              var result = await Api().unStartPost(posts[index].id ?? " ");
+                              if(result[0]) {
+                                control.getCuratedPosts();
+                                debugPrint(result[1]);
+                              }
+                              else{
+                                // TODO : display message
+                                debugPrint(result[1]);
+                              }
+                            }else{
+                              debugPrint("User already unstar a post");
+                            }
                           },
                           child: Icon(
                             TualeIcons.star,
@@ -297,11 +306,19 @@ class _CuratedState extends State<Curated> {
                           ),
                         ),
                         firstChild: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              starred = true;
-                              starCount = 1;
-                            });
+                          onTap: () async {
+                            if(posts[index].isStared){
+                              debugPrint("User already star a post");
+                            }else{
+                              var result = await Api().startPost(posts[index].id?? " ");
+                              if(result[0]) {
+                                debugPrint(result[1]);
+                                control.getCuratedPosts();
+                              }else{
+                                // TODO : display message
+                                debugPrint(result[1]);
+                              }
+                            }
                           },
                           child: Icon(
                             TualeIcons.star,

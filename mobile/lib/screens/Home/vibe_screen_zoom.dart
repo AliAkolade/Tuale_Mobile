@@ -1,7 +1,10 @@
 import 'dart:math';
 
+import 'package:get/get.dart';
 import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/imports.dart';
+
+import 'controllers/getCuratedPost.dart';
 
 class VibingZoom extends StatefulWidget {
   int? index;
@@ -81,51 +84,56 @@ class _VibingZoomState extends State<VibingZoom> {
                               child: Column(
                                 children: [
                                   AnimatedCrossFade(
-                                    duration: const Duration(milliseconds: 20),
-                                    crossFadeState: alreadyGiveTuale
+                                    duration: const Duration(seconds: 1),
+                                    crossFadeState: widget.post!.isTualed
                                         ? CrossFadeState.showSecond
                                         : CrossFadeState.showFirst,
                                     secondChild: GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          tualed = false;
-                                          tualCount = 0;
-                                        });
-                                      },
-                                      child: const Icon(
-                                        TualeIcons.tualeactive,
-                                        color: Colors.yellow,
-                                        size: 40,
-                                      ),
-                                    ),
-                                    firstChild: GestureDetector(
                                       onTap: () async {
-                                        // Send tuale to actor
-                                        debugPrint("tuales : ${widget.post?.tuales}");
-                                        debugPrint("testme : $alreadyGiveTuale");
+                                        // debugPrint("tuales : ${widget.post?.tuales}");
+                                        // debugPrint("testme : $alreadyGiveTuale");
 
-                                        if(alreadyGiveTuale) {
+                                        if (widget.post!.isTualed) {
                                           //"61e327db86dcaee74311fa14"
                                           debugPrint("User already give a tuale");
-                                        }else{
-                                          var result = await Api().addTuale(widget.post?.id ?? " ");
-                                          if(result[0]) {
-                                            setState(() {
-                                              //tualed = true;
-                                              alreadyGiveTuale = true;
-                                              tualCount = 1;
-                                            });
-                                            debugPrint(result[1]);
-                                          }else{
+                                        } else {
+                                          var result =
+                                          await Api().addTuale(widget.post!.id);
+                                          if (result[0]) {
+                                            Get.find<CuratedPostController>().getCuratedPosts();
+                                          } else {
                                             // TODO : display message
                                             debugPrint(result[1]);
                                           }
                                         }
                                       },
-                                      child: const Icon(
+                                      child: Icon(
+                                        TualeIcons.tualeactive,
+                                        color: tualeOrange,
+                                        size: 40.sp,
+                                      ),
+                                    ),
+                                    firstChild: GestureDetector(
+                                      onTap: () async {
+                                        if (widget.post!.isTualed) {
+                                          //"61e327db86dcaee74311fa14"
+                                          debugPrint("User already give a tuale");
+                                        } else {
+                                          var result =
+                                          await Api().addTuale(widget.post!.id);
+                                          if (result[0]) {
+                                            debugPrint(result[1]);
+                                            Get.find<CuratedPostController>().getCuratedPosts();
+                                          } else {
+                                            // TODO : display message
+                                            debugPrint(result[1]);
+                                          }
+                                        }
+                                      },
+                                      child: Icon(
                                         TualeIcons.tuale,
                                         color: Colors.white,
-                                        size: 40,
+                                        size: 43.sp,
                                       ),
                                     ),
                                   ),
