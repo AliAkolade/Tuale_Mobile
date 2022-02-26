@@ -9,7 +9,9 @@ class PostDetails {
   int noStar;
   int noComment;
   List tuales;
+  List stars;
   bool isTualed;
+  bool isStared;
 
   PostDetails({
     required this.id,
@@ -22,6 +24,8 @@ class PostDetails {
     required this.noComment,
     required this.username,
     required this.tuales,
-    required this.isTualed
+    required this.stars,
+    required this.isTualed,
+    required this.isStared
   });
 }

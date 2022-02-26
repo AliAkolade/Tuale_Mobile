@@ -56,8 +56,9 @@ class Api {
             username: postsResponses[i]['user']['username'],
             id: postsResponses[i]['_id'],
             tuales: postsResponses[i]['tuales'],
-            isTualed: checkGivingTuale(postsResponses[i]['tuales'])
-            
+            stars: postsResponses[i]['stars'],
+            isTualed: checkGivingTuale(postsResponses[i]['tuales']),
+            isStared: checkGivingStar(postsResponses[i]['stars'])
         ));
       }
     }
@@ -98,7 +99,9 @@ class Api {
             username: postsResponses[i]['user']['username'],
             id: postsResponses[i]['_id'],
             tuales: postsResponses[i]['tuales'],
-            isTualed: checkGivingTuale(postsResponses[i]['tuales'])
+            stars: postsResponses[i]['stars'],
+            isTualed: checkGivingTuale(postsResponses[i]['tuales']),
+            isStared:  checkGivingStar(postsResponses[i]['stars']),
             
         ));
       }
@@ -326,8 +329,9 @@ class Api {
       time: '',
       userProfilePic: '',
       tuales: [],
-      
-    isTualed: false,
+      stars: [],
+      isTualed: false,
+      isStared: false
     );
 
     // Get userdetails
@@ -349,7 +353,9 @@ class Api {
           username: responseData['post']['user']['username'],
           id: responseData['post']['user']['_id'],
           tuales: responseData['post']['tuales'],
-            isTualed: checkGivingTuale(responseData['post']['tuales'])
+          stars: responseData['post']['stars'],
+          isTualed: checkGivingTuale(responseData['post']['tuales']),
+          isStared: checkGivingStar(responseData['post']['stars'])
       );
     }
 
@@ -479,7 +485,7 @@ class Api {
     // return true if user already give tuale
     var userId =  Get.find<LoggedUserController>().loggedUser.value.currentuserid;
     if(tuales.length == 0 ) {
-      debugPrint('test1');
+      debugPrint('test1  : $tuales');
       return false;
     }
     else{
@@ -491,6 +497,21 @@ class Api {
         if(userId  == tuales[i]["user"]) return true;
         return false;
       }*/
+    }
+  }
+
+  checkGivingStar(stars) {
+    // return true if user already give star
+    var userId =  Get.find<LoggedUserController>().loggedUser.value.currentuserid;
+    if(stars.length == 0 ) {
+      debugPrint('star-test');
+      return false;
+    }
+    else{
+      if (stars.any((item) => item["user"] ==  userId)) {
+        return true;
+      }
+      return false;
     }
   }
 }

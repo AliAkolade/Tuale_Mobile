@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:get/get.dart';
+import 'package:mobile/screens/Home/controllers/getVibedPost.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/utils/Api.dart';
 
@@ -16,29 +18,32 @@ int starCount = 0;
 bool starred = false;
 
 class _VibingState extends State<Vibing> {
+
+  VibedPostController control = VibedPostController();
   @override
   void initState() {
     super.initState();
     //  Api().getVibingPost();
     Api().getUserProfile("demilade211");
+    control = Get.put(VibedPostController());
     print(Api.currentUserId);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List>(
-        future: Api().getVibingPost(),
+    return FutureBuilder(
+        future: control.getVibedPosts(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-           List posts = snapshot.data ;
+           List posts = control.vibePost.value;
           if (snapshot.connectionState == ConnectionState.done) {
-            print(snapshot.data.length);
+            print(control.vibePost.value.length);
 
-            if (snapshot.data.length == 0) {
+            if (control.vibePost.value.length == 0) {
               return Center(
                   child: Text("You haven't vibed with anyone yet :) "));
             }
             return ListView.builder(
-              itemCount: snapshot.data.length,
+              itemCount: control.vibePost.value.length,
               itemBuilder: (BuildContext context, int index) {
               
                 bool tualed = false;
@@ -46,61 +51,74 @@ class _VibingState extends State<Vibing> {
                 int starCount = 0;
                 bool starred = false;
 
-                return Container(
-                  //container for main image
-                  margin: EdgeInsets.only(
-                      bottom: 10, left: 15, right: 15, top: 15.h),
-                  height: 645.h,
-                  width: 400.w,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: Image.network(
-                        posts[index].postMedia,
-                        fit: BoxFit.fitHeight,
-                      ).image,
-                    ),
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return VibingZoom(
-                          post: posts[index],
-                        );
-                      }));
-                    },
-                    child: Hero(
-                      tag: "hero$index",
-                      child: Container(
-                        //Container for bottom gradient on image
-                        child: Stack(
-                          children: [
-                            Align(
-                              widthFactor: 5,
-                              alignment: const Alignment(1.08, 0.6),
-                              child: sideBar(tualed, tualCount, index, starred,
-                                 posts, starCount, context, ),
-                            ),
-
-                            //user post info
-                            userInfo(context, index, posts)
-                          ],
+                return Obx(
+                    () => Container(
+                      //container for main image
+                      margin: EdgeInsets.only(
+                          bottom: 10, left: 15, right: 15, top: 15.h),
+                      height: 645.h,
+                      width: 400.w,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: Image.network(
+                            Get.find<VibedPostController>()
+                                .vibePost
+                                .value[index]
+                                .postMedia,
+                            fit: BoxFit.fitHeight,
+                          ).image,
                         ),
-                        height: 645.h,
-                        width: 400.w,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            gradient: const LinearGradient(
-                              begin: AlignmentDirectional(0.5, 0.5),
-                              end: AlignmentDirectional(0.5, 1.4),
-                              colors: [Colors.transparent, Colors.black87],
-                            )),
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                                return VibingZoom(
+                                  post: Get.find<VibedPostController>()
+                                      .vibePost
+                                      .value[index],
+                                );
+                              }));
+                        },
+                        child: Hero(
+                          tag: "hero$index",
+                          child: Container(
+                            //Container for bottom gradient on image
+                            child: Stack(
+                              children: [
+                                Align(
+                                  widthFactor: 5,
+                                  alignment: const Alignment(1.08, 0.6),
+                                  child: Obx(
+                                    () => sideBar(tualed, tualCount, index, starred, starCount, context,
+                                        Get.find<VibedPostController>()
+                                            .vibePost
+                                            .value),
+                                  ),
+                                ),
+
+                                //user post info
+                                Obx(()=> userInfo(context, index, Get.find<VibedPostController>()
+                                    .vibePost
+                                    .value))
+                              ],
+                            ),
+                            height: 645.h,
+                            width: 400.w,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                gradient: const LinearGradient(
+                                  begin: AlignmentDirectional(0.5, 0.5),
+                                  end: AlignmentDirectional(0.5, 1.4),
+                                  colors: [Colors.transparent, Colors.black87],
+                                )),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
                 );
               },
             );
@@ -118,8 +136,8 @@ class _VibingState extends State<Vibing> {
 
         
   }
-    SizedBox sideBar(bool tualed, int tualCount, int index, bool starred, List posts,
-      int starCount, BuildContext context) {
+    SizedBox sideBar(bool tualed, int tualCount, int index, bool starred,
+      int starCount, BuildContext context, List posts) {
     return SizedBox(
       height: 400.h,
       width: 100.w,
@@ -139,15 +157,27 @@ class _VibingState extends State<Vibing> {
                     children: [
                       AnimatedCrossFade(
                         duration: const Duration(seconds: 1),
-                        crossFadeState: tualed
+                        crossFadeState: posts[index].isTualed
                             ? CrossFadeState.showSecond
                             : CrossFadeState.showFirst,
                         secondChild: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              tualed = false;
-                              tualCount = 0;
-                            });
+                          onTap: () async {
+                            // debugPrint("tuales : ${widget.post?.tuales}");
+                            // debugPrint("testme : $alreadyGiveTuale");
+
+                            if (posts[index].isTualed) {
+                              //"61e327db86dcaee74311fa14"
+                              debugPrint("User already give a tuale");
+                            } else {
+                              var result =
+                              await Api().addTuale(posts[index].id ?? " ");
+                              if (result[0]) {
+                                control.getVibedPosts();
+                              } else {
+                                // TODO : display message
+                                debugPrint(result[1]);
+                              }
+                            }
                           },
                           child: Icon(
                             TualeIcons.tualeactive,
@@ -156,11 +186,20 @@ class _VibingState extends State<Vibing> {
                           ),
                         ),
                         firstChild: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              tualed = true;
-                              tualCount = 1;
-                            });
+                          onTap: () async {
+                            if (posts[index].isTualed) {
+                              //"61e327db86dcaee74311fa14"
+                              debugPrint("User already give a tuale");
+                            } else {
+                              var result =
+                              await Api().addTuale(posts[index].id ?? " ");
+                              if (result[0]) {
+                                control.getVibedPosts();
+                              } else {
+                                // TODO : display message
+                                debugPrint(result[1]);
+                              }
+                            }
                           },
                           child: Icon(
                             TualeIcons.tuale,
@@ -185,15 +224,24 @@ class _VibingState extends State<Vibing> {
                     children: [
                       AnimatedCrossFade(
                         duration: const Duration(seconds: 1),
-                        crossFadeState: starred
+                        crossFadeState: posts[index].isStared
                             ? CrossFadeState.showSecond
                             : CrossFadeState.showFirst,
                         secondChild: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              starred = false;
-                              starCount = 0;
-                            });
+                          onTap: () async {
+                            if(posts[index].isStared){
+                              var result = await Api().unStartPost(posts[index].id ?? " ");
+                              if(result[0]) {
+                                control.getVibedPosts();
+                                debugPrint(result[1]);
+                              }
+                              else{
+                                // TODO : display message
+                                debugPrint(result[1]);
+                              }
+                            }else{
+                              debugPrint("User already unstar a post");
+                            }
                           },
                           child: Icon(
                             TualeIcons.star,
@@ -202,11 +250,19 @@ class _VibingState extends State<Vibing> {
                           ),
                         ),
                         firstChild: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              starred = true;
-                              starCount = 1;
-                            });
+                          onTap: () async {
+                            if(posts[index].isStared){
+                              debugPrint("User already star a post");
+                            }else{
+                              var result = await Api().startPost(posts[index].id?? " ");
+                              if(result[0]) {
+                                debugPrint(result[1]);
+                                control.getVibedPosts();
+                              }else{
+                                // TODO : display message
+                                debugPrint(result[1]);
+                              }
+                            }
                           },
                           child: Icon(
                             TualeIcons.star,

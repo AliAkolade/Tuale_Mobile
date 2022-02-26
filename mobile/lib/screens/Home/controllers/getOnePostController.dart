@@ -18,7 +18,9 @@ class OnePostController extends GetxController {
     time: '',
     userProfilePic: '',
     tuales: [],
-    isTualed: false
+    stars: [],
+    isTualed: false,
+    isStared: false
   ).obs;
   final Api _api = Api();
   var isLoading = true.obs;
