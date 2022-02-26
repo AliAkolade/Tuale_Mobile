@@ -29,7 +29,7 @@ class _VibingState extends State<Vibing> {
     return FutureBuilder<List>(
         future: Api().getVibingPost(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-           List posts = snapshot.data;
+           List posts = snapshot.data ;
           if (snapshot.connectionState == ConnectionState.done) {
             print(snapshot.data.length);
 

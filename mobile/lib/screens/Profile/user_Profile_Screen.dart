@@ -79,6 +79,8 @@ class _ProfileState extends State<userProfile> with RouteAware {
                         ),
                       ),
                 actions: [
+
+
                   widget.isUser!
                       ? IconButton(
                           icon: const Icon(
@@ -100,6 +102,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                           },
                         )
                       : Container(),
+
                 ],
                 centerTitle: true,
                 elevation: 0,
@@ -166,7 +169,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                                   )),
                                 ]),
                             SizedBox(
-                              height: 10.h,
+                              height: 1, // TODO : don't have 10.h
                               width: ScreenUtil().screenWidth,
                               child: const Divider(
                                 color: Colors.grey,

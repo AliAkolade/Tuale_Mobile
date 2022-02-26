@@ -56,6 +56,8 @@ class _CuratedState extends State<Curated> {
     List postsResponses = responseData['posts'];
     if (responseData['success'].toString() == 'true') {
       for (int i = 0; i < postsResponses.length; i++) {
+
+
         // if (mounted)
         //   setState(() {
         //     print(currentUsername);
@@ -70,6 +72,7 @@ class _CuratedState extends State<Curated> {
         //         noComment: postsResponses[i]['comments'].toList().length,
         //         username: postsResponses[i]['user']['username']));
         //   });
+
       }
     }
     if (mounted) {

@@ -55,6 +55,7 @@ const String search = 'search/';
 const String notifications = 'notifications';
 const String vibing = 'vibe/';
 const String unvibing = 'unvibe/';
+const String addTuale = 'post/tuale/';
 String currentUsername = '';
 
 var format =

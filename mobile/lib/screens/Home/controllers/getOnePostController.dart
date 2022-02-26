@@ -17,6 +17,7 @@ class OnePostController extends GetxController {
     postMedia: '',
     time: '',
     userProfilePic: '',
+    tuales: []
   ).obs;
   final Api _api = Api();
   var isLoading = true.obs;
