@@ -73,31 +73,36 @@ class _ProfileState extends State<userProfile> with RouteAware {
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child: Icon(
+                        child:  const Icon(
                           Icons.arrow_back_rounded,
                           color: Colors.black,
                         ),
                       ),
                 actions: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.logout,
-                      color: Colors.black,
-                    ),
-                    onPressed: () async {
-                      Get.deleteAll();
-                      Future<SharedPreferences> _prefs =
-                          SharedPreferences.getInstance();
-                      final SharedPreferences prefs = await _prefs;
 
-                      prefs.setBool('isLoggedIn', false);
-                      pushNewScreen(context,
-                          screen: const Welcome(),
-                          withNavBar: false,
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino);
-                    },
-                  )
+
+                  widget.isUser!
+                      ? IconButton(
+                          icon: const Icon(
+                            Icons.logout,
+                            color: Colors.black,
+                          ),
+                          onPressed: () async {
+                            Get.deleteAll();
+                            Future<SharedPreferences> _prefs =
+                                SharedPreferences.getInstance();
+                            final SharedPreferences prefs = await _prefs;
+
+                            prefs.setBool('isLoggedIn', false);
+                            pushNewScreen(context,
+                                screen: const Welcome(),
+                                withNavBar: false,
+                                pageTransitionAnimation:
+                                    PageTransitionAnimation.cupertino);
+                          },
+                        )
+                      : Container(),
+
                 ],
                 centerTitle: true,
                 elevation: 0,
@@ -105,11 +110,11 @@ class _ProfileState extends State<userProfile> with RouteAware {
                 title: GetX<ProfileController>(
                     init:
                         ProfileController(controllerusername: widget.username),
-                    tag: widget.tag,
+                    tag: widget.tag,  
                     builder: (context) {
                       return Text(
                         context.profileInfo.value.name!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: tualeBlueDark,
                           fontFamily: 'Poppins',
                           fontSize: 18, // fontWeig
@@ -139,7 +144,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                         flexibleSpace: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            TabBar(
+                           const TabBar(
                                 unselectedLabelColor: Colors.grey,
                                 indicatorColor: Colors.transparent,
                                 indicatorWeight: 1.1,
@@ -166,7 +171,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                             SizedBox(
                               height: 1, // TODO : don't have 10.h
                               width: ScreenUtil().screenWidth,
-                              child: Divider(
+                              child: const Divider(
                                 color: Colors.grey,
                               ),
                             )
@@ -180,13 +185,13 @@ class _ProfileState extends State<userProfile> with RouteAware {
                 body: TabBarView(
                   children: [
                     Builder(builder: (context) {
-                      return CustomScrollView(
+                      return CustomScrollView (
                         slivers: [
                           SliverOverlapInjector(
                               handle: NestedScrollView
                                   .sliverOverlapAbsorberHandleFor(context)),
                           AllPosts(username: widget.username, tag: widget.tag),
-                        ],
+                        ], 
                       );
                     }),
                     Builder(builder: (context) {
@@ -352,7 +357,7 @@ class ProfileInfotwo extends StatelessWidget {
                                   height: 1),
                             );
                           }),
-                      Text(
+                    const Text(
                         "Friends",
                         style: TextStyle(
                             color: Colors.black54,

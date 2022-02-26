@@ -38,13 +38,15 @@ class ProfileController extends GetxController {
   void vibeControll() {
     friends.value + 1;
   }
+
   void fansAdd() {
     fans.value + 1;
   }
+
   void vibeSub() {
     friends.value - 1;
-
   }
+
   void fansSub() {
     fans.value - 1;
   }
@@ -65,9 +67,11 @@ class ProfileController extends GetxController {
         profileInfo.tcBalance = user.tcBalance;
         profileInfo.withdrawalBalance = user.withdrawalBalance;
         profileInfo.email = user.email;
+        profileInfo.starredPosts = user.starredPosts;
       });
       friends.value = profileInfo.value.friends!;
       fans.value = profileInfo.value.fans!;
+      // print(profileInfo.value.starredPosts);
 
       profileInfo.refresh();
     } catch (e) {

@@ -7,7 +7,7 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/models/currentUserdetails.dart';
 import 'package:mobile/screens/Home/models/notificationsModel.dart';
-import 'package:mobile/models/searchData.dart';
+
 import 'package:mobile/screens/Discover/models/searchresultController.dart';
 import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
@@ -73,11 +73,18 @@ class Api {
     Dio dio = Dio();
     dio.options.headers["Authorization"] = token;
     Response response = await dio.get(hostAPI + userpost + username);
-
+    List starredPost = [];
     // log(response.data.toString());
     var responseData = response.data;
     print(responseData);
+    List getList() {
+      for (var i in responseData['profile']['staredPosts']) {
+        starredPost.add(i['post']['media']['url']);
+      }
+      return starredPost;
+    }
 
+    getList();
     UserPostDetails info = UserPostDetails(
       id: responseData['profile']['user']['_id'].toString(),
       avatar: responseData['profile']['user']['avatar']['url'].toString(),
@@ -90,7 +97,7 @@ class Api {
       withdrawalBalance:
           responseData['profile']['user']['walletBalance'].toString(),
       email: responseData['profile']['user']['email'].toString(),
-      starredPosts: responseData['profile']['staredPosts'],
+      starredPosts: getList(),
     );
 
     // if (responseData['success'].toString() == 'true') {
@@ -99,7 +106,7 @@ class Api {
     //   }
 
     // }
-
+    print(info.starredPosts);
     return info;
   }
 
@@ -208,7 +215,7 @@ class Api {
 
     // log(response.data.toString());
     var responseData = response.data;
-  //  print(responseData);
+    //  print(responseData);
 
     if (response.data['success'].toString() == 'true') {
       for (var i = 0; i < responseData['posts'].length; i++) {
@@ -238,10 +245,10 @@ class Api {
     Response response = await dio.get(hostAPI + notifications);
     var responseData = response.data;
     List<NotificationModel> notification = [];
-  //  print(responseData);
+    //  print(responseData);
     if (response.data['success'].toString() == 'true') {
       for (var i = 0; i < responseData['notifications'].length; i++) {
-     //   print(i);
+        //   print(i);
         notification.add(NotificationModel(
             type: responseData['notifications'][i]['type'],
             username: responseData['notifications'][i]['user']['username'],
@@ -256,7 +263,7 @@ class Api {
                 : responseData['notifications'][i]['post']['_id']));
       }
     }
-   // print(notification.length);
+    // print(notification.length);
     return notification;
   }
 
@@ -311,7 +318,7 @@ class Api {
     dio.options.headers["Authorization"] = token;
     Response response = await dio.post(hostAPI + vibing);
 
-   // print(response.data);
+    // print(response.data);
   }
 
   Future vibeWithUser(String id, String username, String tag) async {

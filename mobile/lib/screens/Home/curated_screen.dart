@@ -1,27 +1,29 @@
 //import 'dart:developer';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Discover/controllers/searchController.dart';
+import 'package:mobile/screens/Home/controllers/getCuratedPost.dart';
 import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/imports.dart';
 
 class Curated extends StatefulWidget {
-  Curated({Key? key}) : super(key: globalCuratedState);
+  GlobalKey<_CuratedState> globalCuratedState = GlobalKey<_CuratedState>();
 
-  static loadPosts(BuildContext context) {
-    globalCuratedState.currentState!.loadPosts(context);
-  }
+//  Curated({Key? key}) : super(key: globalCuratedState);
 
-  static final GlobalKey<_CuratedState> globalCuratedState =
-      GlobalKey<_CuratedState>();
+  //  loadPosts(BuildContext context) {
+  //   globalCuratedState.currentState!.loadPosts(context);
+  // }
 
   Widget build(BuildContext context) {
-    return Curated(key: globalCuratedState);
+    return Curated();
   }
 
   @override
@@ -31,7 +33,7 @@ class Curated extends StatefulWidget {
 class _CuratedState extends State<Curated> {
   bool isLoading = true;
   int pageNo = 1;
-  List posts = [];
+  //List posts = [];
 
   loadPosts(BuildContext context) async {
     setState(() {
@@ -54,111 +56,146 @@ class _CuratedState extends State<Curated> {
     List postsResponses = responseData['posts'];
     if (responseData['success'].toString() == 'true') {
       for (int i = 0; i < postsResponses.length; i++) {
-        setState(() {
-          print(currentUsername);
-          posts.add(PostDetails(
-              id: postsResponses[i]["_id"],
-              userProfilePic: postsResponses[i]['user']['avatar']['url'],
-              time: postsResponses[i]['createdAt'],
-              postMedia: postsResponses[i]['media']['url'],
-              postText: postsResponses[i]['caption'],
-              noTuale: postsResponses[i]['tuales'].toList().length,
-              noStar: postsResponses[i]['stars'].toList().length,
-              noComment: postsResponses[i]['comments'].toList().length,
-              username: postsResponses[i]['user']['username'],
-              tuales: postsResponses[i]['tuales']
-          ));
-        });
+
+
+        // if (mounted)
+        //   setState(() {
+        //     print(currentUsername);
+        //     posts.add(PostDetails(
+        //         id: postsResponses[i]["user"]["_id"],
+        //         userProfilePic: postsResponses[i]['user']['avatar']['url'],
+        //         time: postsResponses[i]['createdAt'],
+        //         postMedia: postsResponses[i]['media']['url'],
+        //         postText: postsResponses[i]['caption'],
+        //         noTuale: postsResponses[i]['tuales'].toList().length,
+        //         noStar: postsResponses[i]['stars'].toList().length,
+        //         noComment: postsResponses[i]['comments'].toList().length,
+        //         username: postsResponses[i]['user']['username']));
+        //   });
+
       }
     }
-
-    setState(() {
-      isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
+  CuratedPostController control = CuratedPostController();
   @override
   void initState() {
     super.initState();
+    control = Get.put(CuratedPostController());
     loadPosts(context);
     Get.put(LoggedUserController());
   }
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? Center(
-            child: SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75)))
-        : ListView.builder(
-            itemCount: posts.length,
-            itemBuilder: (BuildContext context, int index) {
-              bool tualed = false;
-              int tualCount = posts[index].noTuale;
-              int starCount = posts[index].noStar;
-              bool starred = false;
-
-              return Container(
-                //container for main image
-                margin:
-                    EdgeInsets.only(bottom: 10, left: 15, right: 15, top: 15.h),
-                height: 645.h,
-                width: 400.w,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: Image.network(
-                      posts[index].postMedia,
-                      fit: BoxFit.fitHeight,
-                    ).image,
-                  ),
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return VibingZoom(
-                        post: posts[index],
-                      );
-                    }));
-                  },
-                  child: Hero(
-                    tag: "hero$index",
-                    child: Container(
-                      //Container for bottom gradient on image
-                      child: Stack(
-                        children: [
-                          Align(
-                            widthFactor: 5,
-                            alignment: const Alignment(1.08, 0.6),
-                            child: sideBar(tualed, tualCount, index, starred,
-                                starCount, context),
-                          ),
-
-                          //user post info
-                          userInfo(context, index)
-                        ],
+    return FutureBuilder(
+        future: control.getCuratedPosts(),
+        //Api().getVibingPost(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+    
+            // List posts = snapshot.data;
+            List posts = control.curatedPost.value;
+            return ListView.builder(
+              itemCount: control.curatedPost.value.length,
+              itemBuilder: (BuildContext context, int index) {
+                bool tualed = false;
+                int tualCount = posts[index].noTuale;
+                int starCount = posts[index].noStar;
+                bool starred = false;
+                return Obx(
+                  () => Container(
+                    //container for main image
+                    margin: EdgeInsets.only(
+                        bottom: 10, left: 15, right: 15, top: 15.h),
+                    height: 645.h,
+                    width: 400.w,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: Image.network(
+                          Get.find<CuratedPostController>()
+                              .curatedPost
+                              .value[index]
+                              .postMedia,
+                          fit: BoxFit.fitHeight,
+                        ).image,
                       ),
-                      height: 645.h,
-                      width: 400.w,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          gradient: const LinearGradient(
-                            begin: AlignmentDirectional(0.5, 0.5),
-                            end: AlignmentDirectional(0.5, 1.4),
-                            colors: [Colors.transparent, Colors.black87],
-                          )),
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return VibingZoom(
+                            post: Get.find<CuratedPostController>()
+                                .curatedPost
+                                .value[index],
+                          );
+                        }));
+                      },
+                      child: Hero(
+                        tag: "hero$index",
+                        child: Container(
+                          //Container for bottom gradient on image
+                          child: Stack(
+                            children: [
+                              Align(
+                                widthFactor: 5,
+                                alignment: const Alignment(1.08, 0.6),
+                                child: Obx(
+                                  () => sideBar(
+                                      tualed,
+                                      tualCount,
+                                      index,
+                                      starred,
+                                      starCount,
+                                      context,
+                                      Get.find<CuratedPostController>()
+                                          .curatedPost
+                                          .value),
+                                ),
+                              ),
+
+                              //user post info
+                              Obx(() => userInfo(
+                                  context,
+                                  index,
+                                  Get.find<CuratedPostController>()
+                                      .curatedPost
+                                      .value))
+                            ],
+                          ),
+                          height: 645.h,
+                          width: 400.w,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              gradient: const LinearGradient(
+                                begin: AlignmentDirectional(0.5, 0.5),
+                                end: AlignmentDirectional(0.5, 1.4),
+                                colors: [Colors.transparent, Colors.black87],
+                              )),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-          );
+                );
+              },
+            );
+          }
+          return Center(
+              child: SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75)));
+        });
   }
 
   SizedBox sideBar(bool tualed, int tualCount, int index, bool starred,
-      int starCount, BuildContext context) {
+      int starCount, BuildContext context, List posts) {
     return SizedBox(
       height: 400.h,
       width: 100.w,
@@ -445,7 +482,7 @@ class _CuratedState extends State<Curated> {
     );
   }
 
-  Column userInfo(BuildContext context, int index) {
+  Column userInfo(BuildContext context, int index, List posts) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [

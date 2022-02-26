@@ -17,7 +17,7 @@ class UserPostDetails {
 
   UserPostDetails(
       {this.id = "",
-      this.starredPosts = const[],
+      this.starredPosts,
       this.avatar = "https://res.cloudinary.com/indersingh/image/upload/v1593464618/App/user_mklcpl.png",
       this.name = "",
       this.username = '',
