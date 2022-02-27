@@ -58,7 +58,8 @@ class Api {
             tuales: postsResponses[i]['tuales'],
             stars: postsResponses[i]['stars'],
             isTualed: checkGivingTuale(postsResponses[i]['tuales']),
-            isStared: checkGivingStar(postsResponses[i]['stars'])
+            isStared: checkGivingStar(postsResponses[i]['stars']),
+            mediaType: postsResponses[i]['mediaType']
         ));
       }
     }
@@ -102,7 +103,7 @@ class Api {
             stars: postsResponses[i]['stars'],
             isTualed: checkGivingTuale(postsResponses[i]['tuales']),
             isStared:  checkGivingStar(postsResponses[i]['stars']),
-            
+            mediaType: postsResponses[i]['mediaType']
         ));
       }
     }
@@ -331,7 +332,8 @@ class Api {
       tuales: [],
       stars: [],
       isTualed: false,
-      isStared: false
+      isStared: false,
+      mediaType: ''
     );
 
     // Get userdetails
@@ -355,7 +357,8 @@ class Api {
           tuales: responseData['post']['tuales'],
           stars: responseData['post']['stars'],
           isTualed: checkGivingTuale(responseData['post']['tuales']),
-          isStared: checkGivingStar(responseData['post']['stars'])
+          isStared: checkGivingStar(responseData['post']['stars']),
+          mediaType: responseData['post']['mediaType']
       );
     }
 
