@@ -139,7 +139,7 @@ class _CuratedState extends State<Curated> {
                               )
                           ),
                         ),
-                        Positioned(
+                        /*Positioned(
                             bottom: 0,
                             left: 0,
                             right: 0,
@@ -198,7 +198,7 @@ class _CuratedState extends State<Curated> {
                                 ),
                               ),
                             )
-                        )
+                        )*/
                       ],
                     ),
                   ) :

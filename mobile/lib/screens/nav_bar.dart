@@ -30,6 +30,8 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   late PersistentTabController _controller;
 
+  late File assetFile;
+
   List<Widget> _buildScreens() {
     return [
       Home(),
@@ -165,7 +167,11 @@ Future pickMedia(ImageSource source, String type) async {
   if (type == "Image") {
     final image = await ImagePicker().pickImage(source: source);
   } else {
-    final image = await ImagePicker().pickVideo(source: source);
+    final video = await ImagePicker().pickVideo(source: source);
+    var path = File(video!.path);
+    debugPrint("Video : $path");
+    // TODO : make request to save in db
+    //debugPrint("result : ${video}");
   }
 }
 
