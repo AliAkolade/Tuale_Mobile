@@ -112,7 +112,7 @@ class _CuratedState extends State<Curated> {
                   () => Get.find<CuratedPostController>()
                       .curatedPost
                       .value[index]
-                      .mediaType != "image"  ?
+                      .mediaType != "image" ?
                   // Display video
                   Container(
                     height: 645.h,
@@ -139,7 +139,7 @@ class _CuratedState extends State<Curated> {
                               )
                           ),
                         ),
-                        /*Positioned(
+                        Positioned(
                             bottom: 0,
                             left: 0,
                             right: 0,
@@ -198,7 +198,7 @@ class _CuratedState extends State<Curated> {
                                 ),
                               ),
                             )
-                        )*/
+                        )
                       ],
                     ),
                   ) :
@@ -704,11 +704,11 @@ class _CuratedState extends State<Curated> {
                           fontSize: 15.sp,
                           height: 1),
                     ),
-                    Icon(
+                    /*Icon(
                       Icons.volume_down_rounded,
                       size: 35,
                       color: Colors.white,
-                    )
+                    )*/
                   ],
                 ),
               ],

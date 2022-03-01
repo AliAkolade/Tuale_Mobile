@@ -5,8 +5,9 @@ import 'package:chewie/chewie.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   String videoUrl;
+  bool enablePlayBtn;
 
-  VideoPlayerScreen({Key? key, required this.videoUrl}) : super(key: key);
+  VideoPlayerScreen({Key? key, required this.videoUrl, this.enablePlayBtn=false}) : super(key: key);
 
   @override
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
@@ -86,7 +87,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 )*/
               },
             ),
-            Visibility(
+            if(widget.enablePlayBtn)
+              Visibility(
               visible: displayParams,
               child: Align(
                 alignment: Alignment.center,
