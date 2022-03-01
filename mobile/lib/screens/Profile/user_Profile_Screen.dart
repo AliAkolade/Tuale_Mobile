@@ -73,14 +73,12 @@ class _ProfileState extends State<userProfile> with RouteAware {
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child:  const Icon(
+                        child: const Icon(
                           Icons.arrow_back_rounded,
                           color: Colors.black,
                         ),
                       ),
                 actions: [
-
-
                   widget.isUser!
                       ? IconButton(
                           icon: const Icon(
@@ -88,7 +86,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                             color: Colors.black,
                           ),
                           onPressed: () async {
-                            Get.deleteAll();
+                        
                             Future<SharedPreferences> _prefs =
                                 SharedPreferences.getInstance();
                             final SharedPreferences prefs = await _prefs;
@@ -102,7 +100,6 @@ class _ProfileState extends State<userProfile> with RouteAware {
                           },
                         )
                       : Container(),
-
                 ],
                 centerTitle: true,
                 elevation: 0,
@@ -110,7 +107,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                 title: GetX<ProfileController>(
                     init:
                         ProfileController(controllerusername: widget.username),
-                    tag: widget.tag,  
+                    tag: widget.tag,
                     builder: (context) {
                       return Text(
                         context.profileInfo.value.name!,
@@ -144,7 +141,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                         flexibleSpace: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                           const TabBar(
+                            const TabBar(
                                 unselectedLabelColor: Colors.grey,
                                 indicatorColor: Colors.transparent,
                                 indicatorWeight: 1.1,
@@ -185,13 +182,13 @@ class _ProfileState extends State<userProfile> with RouteAware {
                 body: TabBarView(
                   children: [
                     Builder(builder: (context) {
-                      return CustomScrollView (
+                      return CustomScrollView(
                         slivers: [
                           SliverOverlapInjector(
                               handle: NestedScrollView
                                   .sliverOverlapAbsorberHandleFor(context)),
                           AllPosts(username: widget.username, tag: widget.tag),
-                        ], 
+                        ],
                       );
                     }),
                     Builder(builder: (context) {
@@ -357,7 +354,7 @@ class ProfileInfotwo extends StatelessWidget {
                                   height: 1),
                             );
                           }),
-                    const Text(
+                      const Text(
                         "Friends",
                         style: TextStyle(
                             color: Colors.black54,
@@ -557,7 +554,7 @@ class profileButton extends StatelessWidget {
                   : Api().vibeWithUser(userId!, username!, tag!);
             },
             style: ElevatedButton.styleFrom(
-                primary: tualeBlueDark,
+                primary: isFollowing() ? tualeOrange : tualeBlueDark,
                 minimumSize: const Size(150, 45),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10))),
