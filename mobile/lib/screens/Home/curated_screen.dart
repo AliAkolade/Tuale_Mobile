@@ -629,7 +629,7 @@ class _CuratedState extends State<Curated> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Container(
-            margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+            margin: const EdgeInsets.fromLTRB(20, 20, 20, 58),
             child: Column(
               children: [
                 GestureDetector(
@@ -652,8 +652,8 @@ class _CuratedState extends State<Curated> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: 52.h,
-                        width: 52.h,
+                        height: 48.h,
+                        width: 48.h,
                         child: CircleAvatar(
                           backgroundImage: Image.network(
                             posts[index].userProfilePic,
@@ -692,6 +692,7 @@ class _CuratedState extends State<Curated> {
                     ],
                   ),
                 ),
+                SizedBox(height: 8,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -699,9 +700,9 @@ class _CuratedState extends State<Curated> {
                       posts[index].postText.toString(),
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          color: Colors.white70,
+                          color: Colors.white,
                           // fontFamily: 'Poppins',
-                          fontSize: 15.sp,
+                          fontSize: 11.sp,
                           height: 1),
                     ),
                     /*Icon(
