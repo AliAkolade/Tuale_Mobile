@@ -454,7 +454,6 @@ class _VibingZoomState extends State<VibingZoom> {
                   ),
                 ),
               ),
-
               //user post info
               Column(
                 mainAxisAlignment: MainAxisAlignment.end,

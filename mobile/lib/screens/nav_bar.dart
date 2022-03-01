@@ -30,13 +30,11 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   late PersistentTabController _controller;
 
-  late File assetFile;
-
   List<Widget> _buildScreens() {
     return [
       Home(),
       SearchScreen(),
-      PostTimeline(),
+      PostTimeline(fileContent: File(""), filePath: "",mediaType: "image",),
       Leaderboard(),
       Obx(
         () => userProfile(
@@ -164,14 +162,25 @@ class _NavBarState extends State<NavBar> {
 }
 
 Future pickMedia(ImageSource source, String type) async {
-  if (type == "Image") {
-    final image = await ImagePicker().pickImage(source: source);
+  final XFile? asset;
+  File file;
+  String filePath;
+  if (type == "image") {
+    asset = await ImagePicker().pickImage(source: source);
+    if(asset != null) {
+      file = File(asset.path);
+      filePath = asset.path;
+      debugPrint("imgUrl  : $file");
+      return [file,filePath];
+    }
   } else {
-    final video = await ImagePicker().pickVideo(source: source);
-    var path = File(video!.path);
-    debugPrint("Video : $path");
-    // TODO : make request to save in db
-    //debugPrint("result : ${video}");
+    asset = await ImagePicker().pickVideo(source: source);
+    if(asset != null) {
+      file = File(asset.path);
+      filePath = asset.path;
+      debugPrint("videoUrl  : $file");
+      return [file,filePath];
+    }
   }
 }
 
@@ -203,8 +212,26 @@ Future cameraSelect(text) async {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
-                      onTap: () {
-                        pickMedia(ImageSource.gallery, "Image");
+                      onTap: () async {
+                        var response = await pickMedia(ImageSource.gallery, "image");
+                        if(response != null){
+                          File fileContent = response[0];
+                          String filePath = response[1];
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return PostTimeline(
+                                  fileContent: fileContent,
+                                  filePath: filePath,
+                                  mediaType: "image",
+                                );
+                              },
+                            ),
+                          );
+                        }else{
+                          debugPrint("User cancel uploading");
+                        }
                       },
                       child: Row(
                         children: const [
@@ -225,8 +252,26 @@ Future cameraSelect(text) async {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
-                      onTap: () {
-                        pickMedia(ImageSource.gallery, "Video");
+                      onTap: () async {
+                        var response = await pickMedia(ImageSource.gallery, "video");
+                        if(response != null) {
+                          File fileContent = response[0];
+                          String filePath = response[1];
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return PostTimeline(
+                                  fileContent: fileContent,
+                                  filePath: filePath,
+                                  mediaType: "video",
+                                );
+                              },
+                            ),
+                          );
+                        }else{
+                          debugPrint("User cancel uploading");
+                        }
                       },
                       child: Row(
                         children: const [

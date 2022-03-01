@@ -481,14 +481,41 @@ class Api {
     } catch (e) {
       return [false,"Something got wrong"];
     }
-    return [false,"Oh why??"];
+    return [false,"Something got wrong"];
+  }
+
+  makeNewPost(String mediaType, String publicId, String url, String description) async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio.post(hostAPI + 'post/create',
+        data: {
+          'mediaType': mediaType,
+          'media': {
+            'public_id': publicId,
+            'url': url
+          },
+          'caption': description
+        }
+      );
+      var responseData = response.data;
+      debugPrint("responseData : $responseData");
+      if (response.statusCode == 200) {
+        return [responseData["success"],"Your post has been added"];
+      }
+    } catch (e) {
+      return [false,"Something got wrong"];
+    }
   }
 
   checkGivingTuale(tuales) {
     // return true if user already give tuale
     var userId =  Get.find<LoggedUserController>().loggedUser.value.currentuserid;
     if(tuales.length == 0 ) {
-      debugPrint('test1  : $tuales');
       return false;
     }
     else{
@@ -507,7 +534,6 @@ class Api {
     // return true if user already give star
     var userId =  Get.find<LoggedUserController>().loggedUser.value.currentuserid;
     if(stars.length == 0 ) {
-      debugPrint('star-test');
       return false;
     }
     else{
