@@ -69,6 +69,8 @@ class _PostTimelineState extends State<PostTimeline> {
         }
       );
 
+      debugPrint("Cloudres : "+response.toString());
+
       if(response.secureUrl  != "") {
         String publicId = response.publicId;
         String url = response.secureUrl;

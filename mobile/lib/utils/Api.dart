@@ -512,6 +512,60 @@ class Api {
     }
   }
 
+  updateUserProfil(String username, String fullname, String bio, String publicId, String url) async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio.post(hostAPI + 'profile/update',
+          data: {
+            'username': username,
+            'fullname': fullname,
+            'bio': bio,
+            'avatar': {
+              'public_id': publicId,
+              'url': url
+            },
+          }
+      );
+      var responseData = response.data;
+      debugPrint("responseData : $responseData");
+      if (response.statusCode == 200) {
+        return [responseData["success"],"Your post has been updated"];
+      }
+    } catch (e) {
+      return [false,"Something got wrong"];
+    }
+  }
+
+  updateUserPwd(String currentPwd, String newPwd) async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio.post(hostAPI + 'profile/password/update',
+          data: {
+            'currentPassword': currentPwd,
+            'newPassword': newPwd,
+          }
+      );
+      var responseData = response.data;
+      debugPrint("responseData : $responseData");
+      if (response.statusCode == 200) {
+        return [responseData["success"],"Your post has been updated"];
+      }
+    } catch (e) {
+      return [false,"Something got wrong"];
+    }
+  }
+
+
   checkGivingTuale(tuales) {
     // return true if user already give tuale
     var userId =  Get.find<LoggedUserController>().loggedUser.value.currentuserid;

@@ -1,19 +1,16 @@
-
-
-
-
+import 'package:image_picker/image_picker.dart';
 import 'package:mobile/screens/Profile/edit_profile.dart';
 import 'package:mobile/screens/imports.dart';
 
 class Profile extends StatefulWidget {
   bool? isUser = false;
 
-Profile({this.isUser});
+  Profile({this.isUser});
+
   State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
-
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -21,13 +18,14 @@ class _ProfileState extends State<Profile> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-             
-            leading: const Icon(Icons.arrow_back_rounded,
-            color: Colors.black,
+            leading: const Icon(
+              Icons.arrow_back_rounded,
+              color: Colors.black,
             ),
             actions: const [
-              Icon(Icons.more_vert_rounded, 
-              color: Colors.black,
+              Icon(
+                Icons.more_vert_rounded,
+                color: Colors.black,
               )
             ],
             centerTitle: true,
@@ -44,91 +42,88 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           body: NestedScrollView(
-            physics: const ClampingScrollPhysics(),
-            headerSliverBuilder: (context, isScrolled) {
-              return [
-                SliverPersistentHeader(
-                  delegate: _SliverAppBarDelegate(const ProfileInfo()),
-                  pinned: false,
-                  //  floating: true,
-                ),
-                SliverOverlapAbsorber(
-                  handle:
-                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                  sliver: SliverAppBar(
-                    //floating: true,
-                    pinned: true,
-                    // collapsedHeight: 100,
-                    expandedHeight: 10,
-                    flexibleSpace: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        TabBar(
-                            unselectedLabelColor: Colors.grey,
-                            indicatorColor: Colors.transparent,
-                            indicatorWeight: 1.1,
-                            labelColor: tualeBlueDark,
-                            labelStyle:  TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 16,
-                                // fontWeight: FontWeight.bold,
-                                height: 1),
-                            tabs: [
-                             const Tab(
-                                icon: Icon(
-                                  TualeIcons.allposts,
-                                  size: 30,
-                                ),
-                              ),
-                              Tab(
-                                  icon: Icon(
-                                TualeIcons.starredpost,
-                                size: 35,
-                               // color: Colors.grey.withOpacity(0.3),
-                              )),
-                            ]),
-                        SizedBox(
-                          height: 3,
-                          child: Divider(
-                            color: Colors.grey,
-                          ),
-                        )
-                      ],
-                    ),
-                    backgroundColor: Colors.white,
+              physics: const ClampingScrollPhysics(),
+              headerSliverBuilder: (context, isScrolled) {
+                return [
+                  SliverPersistentHeader(
+                    delegate: _SliverAppBarDelegate(const ProfileInfo()),
+                    pinned: false,
+                    //  floating: true,
                   ),
-                ),
-              ];
-            },
-            body: TabBarView(children: [
-               Builder(builder: (context) {
-              return CustomScrollView(
-                
-                slivers: [
-                  SliverOverlapInjector(
-                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                          context)),
-                          AllPosts()
-                       
-               
+                  SliverOverlapAbsorber(
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context),
+                    sliver: SliverAppBar(
+                      //floating: true,
+                      pinned: true,
+                      // collapsedHeight: 100,
+                      expandedHeight: 10,
+                      flexibleSpace: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: const [
+                          TabBar(
+                              unselectedLabelColor: Colors.grey,
+                              indicatorColor: Colors.transparent,
+                              indicatorWeight: 1.1,
+                              labelColor: tualeBlueDark,
+                              labelStyle: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 16,
+                                  // fontWeight: FontWeight.bold,
+                                  height: 1),
+                              tabs: [
+                                const Tab(
+                                  icon: Icon(
+                                    TualeIcons.allposts,
+                                    size: 30,
+                                  ),
+                                ),
+                                Tab(
+                                    icon: Icon(
+                                  TualeIcons.starredpost,
+                                  size: 35,
+                                  // color: Colors.grey.withOpacity(0.3),
+                                )),
+                              ]),
+                          SizedBox(
+                            height: 3,
+                            child: Divider(
+                              color: Colors.grey,
+                            ),
+                          )
+                        ],
+                      ),
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
+                ];
+              },
+              body: TabBarView(
+                children: [
+                  Builder(builder: (context) {
+                    return CustomScrollView(
+                      slivers: [
+                        SliverOverlapInjector(
+                            handle:
+                                NestedScrollView.sliverOverlapAbsorberHandleFor(
+                                    context)),
+                        AllPosts()
+                      ],
+                    );
+                  }),
+                  Builder(builder: (context) {
+                    return CustomScrollView(
+                      slivers: [
+                        SliverOverlapInjector(
+                            handle:
+                                NestedScrollView.sliverOverlapAbsorberHandleFor(
+                                    context)),
+                        AllPosts(),
+                      ],
+                    );
+                  }),
                 ],
-              );
-            }),
-               Builder(builder: (context) {
-              return CustomScrollView(
-                
-                slivers: [
-                  SliverOverlapInjector(
-                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                          context)),
-                          AllPosts(), 
-                       
-               
-                ],
-              );
-            }),
-            ],)
-          ),
+              )),
         ),
       ),
     );
@@ -142,6 +137,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   double get minExtent => 350;
+
   @override
   double get maxExtent => 350;
 
@@ -314,16 +310,17 @@ class ProfileInfo extends StatelessWidget {
               flex: 4,
             ),
             Row(
-           
               children: [
-                  const Spacer(flex: 3,),
+                const Spacer(
+                  flex: 3,
+                ),
                 ElevatedButton(
                     onPressed: () {
-                     Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.fade,
-                                    child: const EditProfile()));
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.fade,
+                              child: const EditProfile()));
                     },
                     style: ElevatedButton.styleFrom(
                         minimumSize: const Size(155, 45),
@@ -337,32 +334,34 @@ class ProfileInfo extends StatelessWidget {
                             fontSize: 15.5,
                             fontWeight: FontWeight.bold,
                             height: 1))),
-                              const Spacer(flex: 3,),
-                              ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.fade,
-                                    child: TualletHome()));
-                          },
-                          style: ElevatedButton.styleFrom(
-                            
-                            primary: tualeOrange,
-                              minimumSize: const Size(155, 45),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                          child: const Text('Tuallet',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                  fontFamily: 'Poppins',
-                                  fontSize: 15.5,
-                                  fontWeight: FontWeight.bold,
-                                  height: 1))),
-                                   const Spacer(flex: 3,)
+                const Spacer(
+                  flex: 3,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.fade,
+                              child: TualletHome()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                        primary: tualeOrange,
+                        minimumSize: const Size(155, 45),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                    child: const Text('Tuallet',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Color.fromRGBO(255, 255, 255, 1),
+                            fontFamily: 'Poppins',
+                            fontSize: 15.5,
+                            fontWeight: FontWeight.bold,
+                            height: 1))),
+                const Spacer(
+                  flex: 3,
+                )
               ],
-             
             ),
             const Spacer(
               flex: 3,
@@ -373,16 +372,16 @@ class ProfileInfo extends StatelessWidget {
 }
 
 class SaveBioBtn extends StatelessWidget {
-  const SaveBioBtn({
-    Key? key,
-  }) : super(key: key);
+
+  VoidCallback onPress;
+  SaveBioBtn({
+    required this.onPress,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        Navigator.pop(context);
-      },
+      onPressed: onPress,
       style: ElevatedButton.styleFrom(
           minimumSize: const Size(130, 45),
           shape:
@@ -400,7 +399,10 @@ class SaveBioBtn extends StatelessWidget {
 }
 
 class ChangePassBtn extends StatelessWidget {
-  const ChangePassBtn({
+  TextEditingController currentPwd = TextEditingController();
+  TextEditingController newPwd= TextEditingController();
+  TextEditingController cNewPwd= TextEditingController();
+  ChangePassBtn({
     Key? key,
   }) : super(key: key);
 
@@ -412,8 +414,8 @@ class ChangePassBtn extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return Dialog(
-                     shape:  RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
                   insetPadding: const EdgeInsets.only(left: 30, right: 30),
                   child: Container(
                     // width: 200,
@@ -425,19 +427,36 @@ class ChangePassBtn extends StatelessWidget {
                       BioField(
                         infoString: "Current Password",
                         fieldHeight: 50,
+                        txtController: currentPwd,
                       ),
                       BioField(
                         infoString: "New Password",
                         fieldHeight: 50,
+                        txtController: newPwd,
                       ),
                       BioField(
                         infoString: "Confirm Password",
                         fieldHeight: 50,
+                        txtController: cNewPwd,
                       ),
                       const SizedBox(
                         height: 20,
                       ),
-                      const SaveBioBtn()
+                      SaveBioBtn(
+                        onPress: () async {
+                          // TODO : call Api
+                          if(newPwd.text == cNewPwd.text){
+                            var res = await Api().updateUserPwd(currentPwd.text,newPwd.text);
+                            if(res[0]){
+                              debugPrint(res[1]);
+                            }else{
+                              debugPrint(res[1]);
+                            }
+                          }else{
+                            debugPrint("NewPwd and ConfirmPwd are different");
+                          }
+                        },
+                      ),
                     ]),
                   ),
                 );
@@ -455,7 +474,9 @@ class ChangePassBtn extends StatelessWidget {
 
 class TopBar extends StatelessWidget {
   String? barText;
+
   TopBar({this.barText});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -488,53 +509,14 @@ class TopBar extends StatelessWidget {
   }
 }
 
-class ProfilePic extends StatelessWidget {
-  const ProfilePic({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 160,
-      width: 160,
-      child: Stack(
-        children: [
-          const SizedBox(
-            height: 160,
-            width: 160,
-            child: CircleAvatar(
-              backgroundImage: AssetImage("assets/images/demo_profile.png"),
-            ),
-          ),
-          Align(
-            widthFactor: 4.0,
-            heightFactor: 7,
-            alignment: Alignment.bottomRight,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: tualeBlueDark,
-                  borderRadius: BorderRadius.circular(30)),
-              height: 38,
-              width: 38,
-              child: const Icon(
-                Icons.camera_alt_rounded,
-                color: Colors.white,
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
 //
 class BioField extends StatelessWidget {
   String? infoString;
   double? fieldHeight;
+  TextEditingController? txtController;
 
-  BioField({this.infoString, this.fieldHeight});
+  BioField({this.infoString, this.fieldHeight, this.txtController});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -549,6 +531,7 @@ class BioField extends StatelessWidget {
             width: 350,
             child: TextField(
               maxLines: 7,
+              controller: txtController,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.fromLTRB(5, 5, 5, 2),
                 enabledBorder: OutlineInputBorder(
