@@ -172,6 +172,8 @@ class Api {
     if (currentUser.statusCode == 200) {
       CurrentUserDetails loggedUser = CurrentUserDetails(
           currentuserid: currentUser.data['user']["_id"].toString(),
+          currentuserAvatar: currentUser.data['user']["avatar"]["url"].toString(),
+          currentuserName: currentUser.data['user']["name"].toString(),
           currentUserUsername: currentUser.data['user']["username"].toString(),
           unreadNotifications:
               currentUser.data['user']["name"].toString() == 'true'
@@ -520,7 +522,7 @@ class Api {
 
       Dio dio = Dio();
       dio.options.headers["Authorization"] = token;
-      Response response = await dio.post(hostAPI + 'profile/update',
+      Response response = await dio.put(hostAPI + 'profile/update',
           data: {
             'username': username,
             'fullname': fullname,
@@ -534,7 +536,7 @@ class Api {
       var responseData = response.data;
       debugPrint("responseData : $responseData");
       if (response.statusCode == 200) {
-        return [responseData["success"],"Your post has been updated"];
+        return [responseData["success"],responseData["message"]];
       }
     } catch (e) {
       return [false,"Something got wrong"];

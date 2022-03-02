@@ -1,6 +1,8 @@
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Profile/profile_screen.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -16,7 +18,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController fullname = TextEditingController();
   TextEditingController username = TextEditingController();
   TextEditingController bio = TextEditingController();
-  String profilImg = "https://i.pinimg.com/originals/7a/e7/06/7ae706d977ccd25285c9fe7f424e247d.jpg";
+  String profilImg = "";
   File fileContent = File("");
   String filePath = "";
   final cloudinary = CloudinaryPublic('demilade211', 'Tuale-Ogunbanwo', cache: false);
@@ -25,10 +27,18 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     // TODO: implement initState
+    var currentUsr  = Get.find<LoggedUserController>().loggedUser.value;
+
+    //debugPrint("TextName : ${currentUsr.currentuserAvatar!}");
+
     setState(() {
-      fullname.text = "Fabrice";
-      username.text = "Fabio";
-      bio.text = "Everything gonna be fine";
+      fullname.text = currentUsr.currentuserName! != "" ?
+      currentUsr.currentuserName! : "";
+      username.text = currentUsr.currentUserUsername! != "" ?
+      currentUsr.currentUserUsername!  : "";
+      bio.text = "";
+      profilImg = currentUsr.currentuserAvatar! != "" ?
+      currentUsr.currentuserAvatar! : "https://i.pinimg.com/originals/7a/e7/06/7ae706d977ccd25285c9fe7f424e247d.jpg";
     });
     super.initState();
   }
@@ -68,7 +78,8 @@ class _EditProfileState extends State<EditProfile> {
           onProgress: (count, total){
           }
       );
-      if(response.secureUrl  != ""){
+      debugPrint("➡️ Img has been saved in Cloud : ${response.secureUrl}");
+      if(response.secureUrl  != "") {
         String publicId = response.publicId;
         String url = response.secureUrl;
 
@@ -82,6 +93,7 @@ class _EditProfileState extends State<EditProfile> {
         if(result[0]) {
           debugPrint(result[1]);
           // TODO : Everything pass
+          // TODO : refresh currentUserInformations
           Navigator.pop(context);
         }else{
           debugPrint("Err : "+result[1]);
@@ -131,80 +143,83 @@ class _EditProfileState extends State<EditProfile> {
         ),
       ),
       body: Center(
-        child: Column(
-          children: [
-            // ProfilPic
-            GestureDetector(
-              child: SizedBox(
-                height: 160,
-                width: 160,
-                child: Stack(
-                  children: [
-                    SizedBox(
-                      height: 160,
-                      width: 160,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(300.0),
-                        child: filePath == "" ?
-                        Image.network(profilImg,fit: BoxFit.cover,):
-                        Image.file(fileContent, fit: BoxFit.cover,),
-                      )
-                    ),
-                    Align(
-                      widthFactor: 4.0,
-                      heightFactor: 7,
-                      alignment: Alignment.bottomRight,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: tualeBlueDark,
-                            borderRadius: BorderRadius.circular(30)),
-                        height: 38,
-                        width: 38,
-                        child: const Icon(
-                          Icons.camera_alt_rounded,
-                          color: Colors.white,
-                        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // ProfilPic
+              GestureDetector(
+                child: Container(
+                  height: 160,
+                  width: 160,
+                  padding: const EdgeInsets.all(5),
+                  child: Stack(
+                    children: [
+                      SizedBox(
+                        height: 160,
+                        width: 160,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(300.0),
+                          child: filePath == "" ?
+                          Image.network(profilImg,fit: BoxFit.cover,):
+                          Image.file(fileContent, fit: BoxFit.cover,),
+                        )
                       ),
-                    )
-                  ],
+                      Align(
+                        widthFactor: 4.0,
+                        heightFactor: 7,
+                        alignment: Alignment.bottomRight,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: tualeBlueDark,
+                              borderRadius: BorderRadius.circular(30)),
+                          height: 38,
+                          width: 38,
+                          child: const Icon(
+                            Icons.camera_alt_rounded,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
+                onTap: () async {
+                  var res = await uploadPicture();
+                  if(res != null){
+                    setState(() {
+                      fileContent = res[0];
+                      filePath = res[1];
+                    });
+                  }
+                },
               ),
-              onTap: () async {
-                var res = await uploadPicture();
-                if(res != null){
-                  setState(() {
-                    fileContent = res[0];
-                    filePath = res[1];
-                  });
-                }
-              },
-            ),
-            BioField(
-              infoString: "Full Name",
-              fieldHeight: 50,
-              txtController: fullname,
-            ),
-            BioField(
-              infoString: "Username",
-              fieldHeight: 50,
-              txtController: username,
-            ),
-            BioField(
-              infoString: "Bio",
-              fieldHeight: 100,
-              txtController: bio,
-            ),
-            ChangePassBtn(),
-            SizedBox(height: 20.h),
-            SaveBioBtn(
-              onPress: () {
-                // TODO : save in cloudinary && call Api
-                updateProfil();
-                //Navigator.pop(context);
-              },
-            ),
-            SizedBox(height: 60.h),
-          ],
+              BioField(
+                infoString: "Full Name",
+                fieldHeight: 50,
+                txtController: fullname,
+              ),
+              BioField(
+                infoString: "Username",
+                fieldHeight: 50,
+                txtController: username,
+              ),
+              BioField(
+                infoString: "Bio",
+                fieldHeight: 100,
+                txtController: bio,
+              ),
+              ChangePassBtn(),
+              SizedBox(height: 20.h),
+              SaveBioBtn(
+                onPress: () {
+                  // TODO : save in cloudinary && call Api
+                  updateProfil();
+                  //Navigator.pop(context);
+                },
+              ),
+              SizedBox(height: 60.h),
+            ],
+          ),
         ),
       ),
     );
