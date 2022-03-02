@@ -417,47 +417,49 @@ class ChangePassBtn extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   insetPadding: const EdgeInsets.only(left: 30, right: 30),
-                  child: Container(
+                  child: SizedBox(
                     // width: 200,
                     height: 400,
-                    child: Column(children: [
-                      TopBar(
-                        barText: "Change Password",
-                      ),
-                      BioField(
-                        infoString: "Current Password",
-                        fieldHeight: 50,
-                        txtController: currentPwd,
-                      ),
-                      BioField(
-                        infoString: "New Password",
-                        fieldHeight: 50,
-                        txtController: newPwd,
-                      ),
-                      BioField(
-                        infoString: "Confirm Password",
-                        fieldHeight: 50,
-                        txtController: cNewPwd,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SaveBioBtn(
-                        onPress: () async {
-                          // TODO : call Api
-                          if(newPwd.text == cNewPwd.text){
-                            var res = await Api().updateUserPwd(currentPwd.text,newPwd.text);
-                            if(res[0]){
-                              debugPrint(res[1]);
+                    child: SingleChildScrollView(
+                      child: Column(children: [
+                        TopBar(
+                          barText: "Change Password",
+                        ),
+                        BioField(
+                          infoString: "Current Password",
+                          fieldHeight: 50,
+                          txtController: currentPwd,
+                        ),
+                        BioField(
+                          infoString: "New Password",
+                          fieldHeight: 50,
+                          txtController: newPwd,
+                        ),
+                        BioField(
+                          infoString: "Confirm Password",
+                          fieldHeight: 50,
+                          txtController: cNewPwd,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        SaveBioBtn(
+                          onPress: () async {
+                            // TODO : call Api
+                            if(newPwd.text == cNewPwd.text){
+                              var res = await Api().updateUserPwd(currentPwd.text,newPwd.text);
+                              if(res[0]){
+                                debugPrint(res[1]);
+                              }else{
+                                debugPrint(res[1]);
+                              }
                             }else{
-                              debugPrint(res[1]);
+                              debugPrint("NewPwd and ConfirmPwd are different");
                             }
-                          }else{
-                            debugPrint("NewPwd and ConfirmPwd are different");
-                          }
-                        },
-                      ),
-                    ]),
+                          },
+                        ),
+                      ]),
+                    ),
                   ),
                 );
               });

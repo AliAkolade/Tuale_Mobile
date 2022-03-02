@@ -172,8 +172,10 @@ class Api {
     if (currentUser.statusCode == 200) {
       CurrentUserDetails loggedUser = CurrentUserDetails(
           currentuserid: currentUser.data['user']["_id"].toString(),
-          currentuserAvatar: currentUser.data['user']["avatar"]["url"].toString(),
+          currentuserAvatarUrl: currentUser.data['user']["avatar"]["url"].toString(),
+          currentuserAvatarPublicId: currentUser.data['user']["avatar"]["public_id"].toString(),
           currentuserName: currentUser.data['user']["name"].toString(),
+          currentuserBio: currentUser.data["bio"].toString(),
           currentUserUsername: currentUser.data['user']["username"].toString(),
           unreadNotifications:
               currentUser.data['user']["name"].toString() == 'true'
@@ -525,7 +527,7 @@ class Api {
       Response response = await dio.put(hostAPI + 'profile/update',
           data: {
             'username': username,
-            'fullname': fullname,
+            'name': fullname,
             'bio': bio,
             'avatar': {
               'public_id': publicId,

@@ -19,8 +19,10 @@ class LoggedUserController extends GetxController {
 
       loggedUser.update((loggedUser) {
         loggedUser!.currentUserUsername = user.currentUserUsername;
-        loggedUser.currentuserAvatar = user.currentuserAvatar;
+        loggedUser.currentuserAvatarUrl = user.currentuserAvatarUrl;
+        loggedUser.currentuserAvatarPublicId = user.currentuserAvatarPublicId;
         loggedUser.currentuserName = user.currentuserName;
+        loggedUser.currentuserBio = user.currentuserBio;
         loggedUser.currentuserid = user.currentuserid;
         loggedUser.unreadNotifications = user.unreadNotifications;
         loggedUser.friends = user.friends;

@@ -144,6 +144,9 @@ class _CuratedState extends State<Curated> {
                             left: 0,
                             right: 0,
                             child: GestureDetector(
+                              onDoubleTap: (){
+                                debugPrint("User double tap");
+                              },
                               onTap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {

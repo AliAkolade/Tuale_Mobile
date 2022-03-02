@@ -19,6 +19,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController username = TextEditingController();
   TextEditingController bio = TextEditingController();
   String profilImg = "";
+  String profilImgProfilId = "";
   File fileContent = File("");
   String filePath = "";
   final cloudinary = CloudinaryPublic('demilade211', 'Tuale-Ogunbanwo', cache: false);
@@ -36,9 +37,10 @@ class _EditProfileState extends State<EditProfile> {
       currentUsr.currentuserName! : "";
       username.text = currentUsr.currentUserUsername! != "" ?
       currentUsr.currentUserUsername!  : "";
-      bio.text = "";
-      profilImg = currentUsr.currentuserAvatar! != "" ?
-      currentUsr.currentuserAvatar! : "https://i.pinimg.com/originals/7a/e7/06/7ae706d977ccd25285c9fe7f424e247d.jpg";
+      bio.text = currentUsr.currentuserBio!;
+      profilImgProfilId = currentUsr.currentuserAvatarPublicId!;
+      profilImg = currentUsr.currentuserAvatarUrl! != "" ?
+      currentUsr.currentuserAvatarUrl! : "https://i.pinimg.com/originals/7a/e7/06/7ae706d977ccd25285c9fe7f424e247d.jpg";
     });
     super.initState();
   }
@@ -53,6 +55,26 @@ class _EditProfileState extends State<EditProfile> {
       filePath = asset.path;
       debugPrint("imgUrl  : $file");
       return [file,filePath];
+    }
+  }
+
+
+  updateProfilApi(String publicId, String url) async{
+
+    var result = await Api().updateUserProfil(
+        username.text,
+        fullname.text,
+        bio.text,
+        publicId,
+        url
+    );
+    if(result[0]) {
+      debugPrint(result[1]);
+      // TODO : Everything pass
+      // TODO : refresh currentUserInformations
+      //Navigator.pop(context);
+    }else{
+      debugPrint("Err : "+result[1]);
     }
   }
 
@@ -73,35 +95,30 @@ class _EditProfileState extends State<EditProfile> {
           themeData: Theme.of(context)
               .copyWith(accentColor: Colors.black38),
           overlayColor: const Color(0x99E8EAF6));
-      CloudinaryResponse response = await cloudinary.uploadFile(
-          CloudinaryFile.fromFile(filePath,folder: "Tuale profile pictures", resourceType: CloudinaryResourceType.Image),
-          onProgress: (count, total){
-          }
-      );
-      debugPrint("➡️ Img has been saved in Cloud : ${response.secureUrl}");
-      if(response.secureUrl  != "") {
-        String publicId = response.publicId;
-        String url = response.secureUrl;
 
-        var result = await Api().updateUserProfil(
-            username.text,
-            fullname.text,
-            bio.text,
-            publicId,
-            url
+      if(filePath.trim() != ""){
+        CloudinaryResponse response = await cloudinary.uploadFile(
+            CloudinaryFile.fromFile(filePath,folder: "Tuale profile pictures", resourceType: CloudinaryResourceType.Image),
+            onProgress: (count, total){
+            }
         );
-        if(result[0]) {
-          debugPrint(result[1]);
-          // TODO : Everything pass
-          // TODO : refresh currentUserInformations
-          Navigator.pop(context);
-        }else{
-          debugPrint("Err : "+result[1]);
+        debugPrint("➡️ Img has been saved in Cloud : ${response.secureUrl}");
+        if(response.secureUrl  != "") {
+          String publicId = response.publicId;
+          String url = response.secureUrl;
+          await updateProfilApi(publicId,url);
+          Loader.hide();
         }
+        else{
+          Loader.hide();
+          debugPrint("Something went wrong, retry");
+        }
+      }
+      else{
+        String publicId = profilImgProfilId;
+        String url = profilImg;
+        await updateProfilApi(publicId,url);
         Loader.hide();
-      } else{
-        Loader.hide();
-        debugPrint("Something went wrong, retry");
       }
     }
     on CloudinaryException catch (e) {
