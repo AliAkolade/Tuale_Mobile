@@ -59,7 +59,7 @@ class _starredPostsState extends State<starredPosts> {
                         Text("No post"),
                       ],
                     ))
-                  : SliverPadding(
+                  : Get.find<LoggedUserController>().loggedUser.value.currentuserid == text.profileInfo.value.id ? SliverPadding(
                       padding: const EdgeInsets.only(left: 5, right: 5),
                       sliver: SliverGrid(
 
@@ -110,7 +110,17 @@ class _starredPostsState extends State<starredPosts> {
                             childCount:
                                 text.profileInfo.value.starredPosts!.length,
                           )),
-                    );
+                    ) : SliverToBoxAdapter(
+                      child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 120.h,
+                        ),
+                        Text("You aren't authorized to view this page"),
+                      ],
+                    )); 
         });
   }
 }

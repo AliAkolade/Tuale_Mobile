@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:mobile/screens/Auth/welcome_screen.dart';
 
 import 'package:mobile/screens/imports.dart';
@@ -29,9 +30,7 @@ Future<void> main() async {
         systemNavigationBarIconBrightness: Brightness.dark,
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
-    runApp(MultiProvider(
-        providers: [ChangeNotifierProvider(create: (context) => camera())],
-        child: MyApp(isLoggedIn: prefs.getBool('isLoggedIn') ?? false)));
+    runApp(MyApp(isLoggedIn: prefs.getBool('isLoggedIn') ?? false));
   } catch (err) {
     /// setMockInitialValues initiates shared preference
     /// Adds app-name
@@ -50,9 +49,7 @@ Future<void> main() async {
         systemNavigationBarIconBrightness: Brightness.dark,
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
-    runApp(MultiProvider(
-        providers: [ChangeNotifierProvider(create: (context) => camera())],
-        child: MyApp(isLoggedIn: prefs.getBool('isLoggedIn') ?? false)));
+    runApp(MyApp(isLoggedIn: prefs.getBool('isLoggedIn') ?? false));
   }
 }
 
@@ -80,7 +77,7 @@ class _MyAppState extends State<MyApp> {
                 designSize: const Size(428, 926),
                 minTextAdapt: true,
                 builder: () {
-                  return MaterialApp(
+                  return GetMaterialApp(
                       navigatorObservers: [routeObserver],
                       builder: (context, widget) {
                         ScreenUtil.setContext(context);

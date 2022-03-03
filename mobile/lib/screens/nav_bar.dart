@@ -39,7 +39,7 @@ class _NavBarState extends State<NavBar> {
       Obx(
         () => userProfile(
           isUser: true,
-          username: Get.put(LoggedUserController())
+          username: Get.find<LoggedUserController>()
               .loggedUser
               .value
               .currentUserUsername,
@@ -111,6 +111,7 @@ class _NavBarState extends State<NavBar> {
   @override
   void initState() {
     Get.put(NotificationsController());
+    Get.put(LoggedUserController());
     // Api().getNotifications;
 
     setState(() {
@@ -120,7 +121,6 @@ class _NavBarState extends State<NavBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<camera>(builder: (context, cam, child) {
       return PersistentTabView(
         context,
         selectedTabScreenContext: (context) {
@@ -136,8 +136,7 @@ class _NavBarState extends State<NavBar> {
             true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
         stateManagement: true, // Default is true.
         hideNavigationBarWhenKeyboardShows: true,
-        hideNavigationBar: cam
-            .hideNav, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+        hideNavigationBar: false, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
         decoration: NavBarDecoration(
           borderRadius: BorderRadius.circular(10.0),
           colorBehindNavBar: Colors.white,
@@ -157,7 +156,8 @@ class _NavBarState extends State<NavBar> {
         ),
         navBarStyle: NavBarStyle.simple,
       );
-    });
+    
+  
   }
 }
 
