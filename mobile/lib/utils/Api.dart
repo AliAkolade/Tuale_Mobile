@@ -509,7 +509,8 @@ class Api {
       var responseData = response.data;
       debugPrint("responseData : $responseData");
       if (response.statusCode == 200) {
-        return [responseData["success"],"Your post has been added"];
+        if(responseData["success"]) return [responseData["success"],"Your post has been added"];
+        if(responseData["success"]) return [responseData["success"],responseData["message"]];
       }
     } catch (e) {
       return [false,"Something got wrong"];

@@ -34,6 +34,7 @@ class Curated extends StatefulWidget {
 class _CuratedState extends State<Curated> {
   bool isLoading = true;
   int pageNo = 1;
+  bool displayTualeAnimation = false;
   //List posts = [];
 
   // loadPosts(BuildContext context) async {
@@ -229,11 +230,37 @@ class _CuratedState extends State<Curated> {
                             ),
                           ),
                         ),
+                        // Give tuale when user double tap
+                        Visibility(
+                          visible: displayTualeAnimation,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Icon(
+                              TualeIcons.tuale,
+                              color: Colors.yellow,
+                              size: 100.sp,
+                            ),
+                          ),
+                        ),
                         Positioned(
                             bottom: 0,
                             left: 0,
                             right: 0,
                             child: GestureDetector(
+                              onDoubleTap: (){
+                                debugPrint("User double tap");
+                                // TODO : make api request
+                                /*setState(() {
+                                  displayTualeAnimation =  true;
+                                });
+                                Future.delayed(
+                                  const Duration(seconds: 1), (){
+                                    setState(() {
+                                      displayTualeAnimation =  false;
+                                    });
+                                  }
+                                );*/
+                              },
                               onTap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
