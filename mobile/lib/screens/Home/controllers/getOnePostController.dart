@@ -22,7 +22,7 @@ class OnePostController extends GetxController {
     isTualed: false,
     isStared: false,
 
-    mediaType: ''
+    mediaType: '',
 
     comment: [],
   ).obs;

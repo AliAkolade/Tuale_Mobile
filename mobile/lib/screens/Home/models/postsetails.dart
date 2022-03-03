@@ -12,7 +12,7 @@ class PostDetails {
   List stars;
   bool isTualed;
   bool isStared;
-
+  String mediaType;
   List? comment;
 
   PostDetails(
@@ -29,6 +29,6 @@ class PostDetails {
       required this.stars,
       required this.isTualed,
       required this.isStared,
+      required this.mediaType,
       required this.comment});
-
 }

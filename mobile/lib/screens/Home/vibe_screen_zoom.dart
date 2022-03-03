@@ -38,10 +38,10 @@ class _VibingZoomState extends State<VibingZoom> {
     return SafeArea(
       child: Material(
         child: Container(
-          child: widget.post?.mediaType != "image" ?
+          child: widget.post?[widget.index!].mediaType != "image" ?
           Stack(
             children: [
-              VideoPlayerScreen(videoUrl: widget.post!.postMedia,enablePlayBtn: true,),
+              VideoPlayerScreen(videoUrl: widget.post![widget.index!].postMedia,enablePlayBtn: true,),
               // Back button
               Align(
                 alignment: const Alignment(1.2, -1.05),
@@ -87,7 +87,7 @@ class _VibingZoomState extends State<VibingZoom> {
                                 children: [
                                   AnimatedCrossFade(
                                     duration: const Duration(seconds: 1),
-                                    crossFadeState: widget.post!.isTualed
+                                    crossFadeState: widget.post![widget.index!].isTualed
                                         ? CrossFadeState.showSecond
                                         : CrossFadeState.showFirst,
                                     secondChild: GestureDetector(
@@ -95,12 +95,12 @@ class _VibingZoomState extends State<VibingZoom> {
                                         // debugPrint("tuales : ${widget.post?.tuales}");
                                         // debugPrint("testme : $alreadyGiveTuale");
 
-                                        if (widget.post!.isTualed) {
+                                        if (widget.post![widget.index!].isTualed) {
                                           //"61e327db86dcaee74311fa14"
                                           debugPrint("User already give a tuale");
                                         } else {
                                           var result =
-                                          await Api().addTuale(widget.post!.id);
+                                          await Api().addTuale(widget.post![widget.index!].id);
                                           if (result[0]) {
                                             Get.find<CuratedPostController>().getCuratedPosts();
                                           } else {
@@ -117,12 +117,12 @@ class _VibingZoomState extends State<VibingZoom> {
                                     ),
                                     firstChild: GestureDetector(
                                       onTap: () async {
-                                        if (widget.post!.isTualed) {
+                                        if (widget.post![widget.index!].isTualed) {
                                           //"61e327db86dcaee74311fa14"
                                           debugPrint("User already give a tuale");
                                         } else {
                                           var result =
-                                          await Api().addTuale(widget.post!.id);
+                                          await Api().addTuale(widget.post![widget.index!].id);
                                           if (result[0]) {
                                             debugPrint(result[1]);
                                             Get.find<CuratedPostController>().getCuratedPosts();
@@ -139,7 +139,7 @@ class _VibingZoomState extends State<VibingZoom> {
                                       ),
                                     ),
                                   ),
-                                  Text(widget.post!.noTuale.toString(),
+                                  Text(widget.post![widget.index!].noTuale.toString(),
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 14,
@@ -163,7 +163,7 @@ class _VibingZoomState extends State<VibingZoom> {
                                         : CrossFadeState.showFirst,
                                     secondChild: GestureDetector(
                                       onTap: () async {
-                                        var result = await Api().unStartPost(widget.post?.id ?? " ");
+                                        var result = await Api().unStartPost(widget.post?[widget.index!].id ?? " ");
                                         if(result[0]) {
                                           setState(() {
                                             starred = false;
@@ -183,11 +183,11 @@ class _VibingZoomState extends State<VibingZoom> {
                                     ),
                                     firstChild: GestureDetector(
                                       onTap: () async {
-                                        var result = await Api().startPost(widget.post?.id ?? " ");
+                                        var result = await Api().startPost(widget.post?[widget.index!].id ?? " ");
                                         if(result[0]) {
                                           setState(() {
                                             starred = true;
-                                            starCount = widget.post!.noStar+1;
+                                            starCount = widget.post![widget.index!].noStar+1;
                                           });
                                           debugPrint(result[1]);
                                         }else{
