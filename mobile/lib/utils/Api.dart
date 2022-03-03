@@ -65,8 +65,8 @@ class Api {
     return posts;
   }
 
-  Future<List> getCuratedPost() async {
-    int pageNo = 1;
+  Future<List> getCuratedPost(int pageNo) async {
+   // int pageNo = 2;
     List posts = [];
 
     // Get Token

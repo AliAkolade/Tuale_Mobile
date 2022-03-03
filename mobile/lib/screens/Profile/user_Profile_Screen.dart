@@ -49,12 +49,6 @@ class _ProfileState extends State<userProfile> with RouteAware {
   @override
   void initState() {
     super.initState();
-
-    // profileController = Get.put<ProfileController>(
-    //     ProfileController(controllerusername: widget.username!),
-    //     tag: widget.tag!);
-
-//    Get.put(UserPostsController(username: widget.username), tag: widget.tag);
   }
 
   @override
@@ -86,17 +80,24 @@ class _ProfileState extends State<userProfile> with RouteAware {
                             color: Colors.black,
                           ),
                           onPressed: () async {
-                        
+                            Get.deleteAll();
                             Future<SharedPreferences> _prefs =
                                 SharedPreferences.getInstance();
                             final SharedPreferences prefs = await _prefs;
 
                             prefs.setBool('isLoggedIn', false);
+                            // Navigator.of(context).pushAndRemoveUntil(
+                            //     MaterialPageRoute(
+                            //         builder: (context) => Welcome()),
+                            //     (Route<dynamic> route) => false);
                             pushNewScreen(context,
-                                screen: const Welcome(),
+                                screen: Welcome() ,
                                 withNavBar: false,
                                 pageTransitionAnimation:
                                     PageTransitionAnimation.cupertino);
+                                     runApp(MyApp(
+                                       isLoggedIn: false,
+                                     ));
                           },
                         )
                       : Container(),

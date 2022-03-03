@@ -1,3 +1,7 @@
+
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/state_manager.dart';
+import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/imports.dart';
 
 import 'dart:math' as math;
@@ -46,6 +50,7 @@ class _LoginState extends State<Login> {
       prefs.setBool('isLoggedIn', true);
       prefs.setString('username', email.text.trim());
       prefs.setString('password', pass.text.trim());
+   
 
       Navigator.push(
           context,

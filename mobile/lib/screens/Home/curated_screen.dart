@@ -4,7 +4,9 @@ import 'dart:ui';
 
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Discover/controllers/searchController.dart';
 import 'package:mobile/screens/Home/controllers/getCuratedPost.dart';
@@ -12,8 +14,6 @@ import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/imports.dart';
-
-final myController = TextEditingController();
 
 class Curated extends StatefulWidget {
   GlobalKey<_CuratedState> globalCuratedState = GlobalKey<_CuratedState>();
@@ -33,60 +33,12 @@ class Curated extends StatefulWidget {
 }
 
 class _CuratedState extends State<Curated> {
+  final scrollController = ScrollController();
   bool isLoading = true;
   int pageNo = 1;
-  //List posts = [];
-
-  // loadPosts(BuildContext context) async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-
-  //   // Get Token
-  //   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  //   final SharedPreferences prefs = await _prefs;
-  //   String token = prefs.getString('token') ?? '';
-
-  //   // Get Posts
-  //   Dio dio = Dio();
-  //   dio.options.headers["Authorization"] = token;
-  //   Response response =
-  //       await dio.get(hostAPI + getAllPosts + pageNo.toString());
-  //   //log(response.data.toString());
-  //   Response currentUser = await dio.get(hostAPI + currentuser);
-  //   var responseData = response.data;
-  //   List postsResponses = responseData['posts'];
-  //   if (responseData['success'].toString() == 'true') {
-  //     for (int i = 0; i < postsResponses.length; i++) {
-
-  //       // if (mounted)
-  //       //   setState(() {
-  //       //     print(currentUsername);
-  //       //     posts.add(PostDetails(
-  //       //         id: postsResponses[i]["user"]["_id"],
-  //       //         userProfilePic: postsResponses[i]['user']['avatar']['url'],
-  //       //         time: postsResponses[i]['createdAt'],
-  //       //         postMedia: postsResponses[i]['media']['url'],
-  //       //         postText: postsResponses[i]['caption'],
-  //       //         noTuale: postsResponses[i]['tuales'].toList().length,
-  //       //         noStar: postsResponses[i]['stars'].toList().length,
-  //       //         noComment: postsResponses[i]['comments'].toList().length,
-  //       //         username: postsResponses[i]['user']['username']));
-  //       //   });
-
-  //     }
-  //   }
-  //   if (mounted) {
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //   }
-  // }
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
-    myController.dispose();
     super.dispose();
   }
 
@@ -94,323 +46,376 @@ class _CuratedState extends State<Curated> {
   @override
   void initState() {
     super.initState();
-    control = Get.put(CuratedPostController());
+     Get.put(CuratedPostController());
+    scrollController.addListener(scrollPosition);
 
-    Get.put(LoggedUserController());
+    //  Get.put(LoggedUserController());
+  }
+
+  void scrollPosition() {
+    if (scrollController.position.atEdge) {
+      final isTop = scrollController.position.pixels == 0;
+      if (isTop) {
+        print("at the top");
+      } else {
+        print("at tbe bottom");
+        Get.find<CuratedPostController>().getMoreCuratedPosts();
+      }
+    }
+    ;
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: control.getCuratedPosts(),
-        //Api().getVibingPost(),
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            // List posts = snapshot.data;
-            List posts = control.curatedPost.value;
-            return ListView.builder(
-              itemCount: control.curatedPost.value.length,
-              itemBuilder: (BuildContext context, int index) {
-                bool tualed = false;
-                int tualCount = posts[index].noTuale;
-                int starCount = posts[index].noStar;
-                bool starred = false;
-                return Obx(
-                  () => Container(
-                    //container for main image
-                    margin: EdgeInsets.only(
-                        bottom: 10, left: 15, right: 15, top: 15.h),
-                    height: 645.h,
-                    width: 400.w,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: Image.network(
-                          Get.find<CuratedPostController>()
-                              .curatedPost
-                              .value[index]
-                              .postMedia,
-                          fit: BoxFit.fitHeight,
-                        ).image,
-                      ),
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return Obx(
-                            () => VibingZoom(
-                              post: Get.find<CuratedPostController>()
-                                  .curatedPost
-                                  .value,
-                              index: index,
-                            ),
-                          );
-                        }));
-                      },
-                      child: Hero(
-                        tag: "hero$index",
-                        child: Container(
-                          //Container for bottom gradient on image
-                          child: Stack(
-                            children: [
-                              Align(
-                                widthFactor: 5,
-                                alignment: const Alignment(1.08, 0.6),
-                                child: Obx(
-                                  () => sideBar(
-                                      tualed,
-                                      tualCount,
-                                      index,
-                                      starred,
-                                      starCount,
-                                      context,
-                                      Get.find<CuratedPostController>()
-                                          .curatedPost
-                                          .value),
-                                ),
-                              ),
+        return FutureBuilder(
+            future: control.getCuratedPosts(),
+            //Api().getVibingPost(),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                // List posts = snapshot.data;
 
-                              //user post info
-                              Obx(() => userInfo(
-                                  context,
-                                  index,
+                return GetBuilder<CuratedPostController>(
+                  init: CuratedPostController(),
+                  builder: (control) {
+                    return ListView.builder(
+                      controller: scrollController,
+                      key: PageStorageKey<String>('curate'),
+                      itemCount: control.curatedPost.value.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        List posts = control.curatedPost.value;
+                        bool tualed = false;
+                        int tualCount = posts[index].noTuale;
+                        int starCount = posts[index].noStar;
+                        bool starred = false;
+                        return Obx(
+                          () => Container(
+                            //container for main image
+                            margin: EdgeInsets.only(
+                                bottom: 10, left: 15, right: 15, top: 15.h),
+                            height: 645.h,
+                            width: 400.w,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: Image.network(
                                   Get.find<CuratedPostController>()
                                       .curatedPost
-                                      .value))
-                            ],
-                          ),
-                          height: 645.h,
-                          width: 400.w,
-                          decoration: BoxDecoration(
+                                      .value[index]
+                                      .postMedia,
+                                  fit: BoxFit.fitHeight,
+                                ).image,
+                              ),
+                              color: Colors.black,
                               borderRadius: BorderRadius.circular(15),
-                              gradient: const LinearGradient(
-                                begin: AlignmentDirectional(0.5, 0.5),
-                                end: AlignmentDirectional(0.5, 1.4),
-                                colors: [Colors.transparent, Colors.black87],
-                              )),
-                        ),
-                      ),
-                    ),
-                  ),
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return Obx(
+                                    () => VibingZoom(
+                                      post: Get.find<CuratedPostController>()
+                                          .curatedPost
+                                          .value,
+                                      index: index,
+                                    ),
+                                  );
+                                }));
+                              },
+                              child: Hero(
+                                tag: "hero$index",
+                                child: Container(
+                                  //Container for bottom gradient on image
+                                  child: Stack(
+                                    children: [
+                                      Align(
+                                        widthFactor: 5,
+                                        alignment: const Alignment(1.08, 0.6),
+                                        child: Obx(
+                                          () => sideBar(
+                                              index,
+                                              context,
+                                              Get.find<CuratedPostController>()
+                                                  .curatedPost
+                                                  .value),
+                                        ),
+                                      ),
+
+                                      //user post info
+                                      Obx(() => userInfo(
+                                          context,
+                                          index,
+                                          Get.find<CuratedPostController>()
+                                              .curatedPost
+                                              .value))
+                                    ],
+                                  ),
+                                  height: 645.h,
+                                  width: 400.w,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      gradient: const LinearGradient(
+                                        begin: AlignmentDirectional(0.5, 0.5),
+                                        end: AlignmentDirectional(0.5, 1.4),
+                                        colors: [Colors.transparent, Colors.black87],
+                                      )),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }
                 );
-              },
-            );
-          }
-          return Center(
-              child: SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75)));
-        });
+              }
+              return Center(
+                  child: SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75)));
+            });
+      
+    
   }
 
-  SizedBox sideBar(bool tualed, int tualCount, int index, bool starred,
-      int starCount, BuildContext context, List posts) {
-    return SizedBox(
-      height: 400.h,
-      width: 100.w,
-      // color: Colors.white,
-      child: CustomPaint(
-        size: Size(100, (100 * 3.536842105263158).toDouble()),
-        painter: CuratedLikeWidget(),
-        child: Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center,
+  Widget sideBar(int index, BuildContext context, List posts) {
+    int noStars = posts[index].noStar;
+    bool isStarred = posts[index].isStared;
 
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  // decoration: const BoxDecoration(boxShadow:  [BoxShadow(color: Colors.grey, blurRadius: 50)]),
-                  margin: const EdgeInsets.only(top: 12, bottom: 12),
-                  child: Column(
-                    children: [
-                      AnimatedCrossFade(
-                        duration: const Duration(milliseconds: 1),
-                        crossFadeState: posts[index].isTualed
-                            ? CrossFadeState.showSecond
-                            : CrossFadeState.showFirst,
-                        secondChild: GestureDetector(
-                          onTap: () async {
-                            // debugPrint("tuales : ${widget.post?.tuales}");
-                            // debugPrint("testme : $alreadyGiveTuale");
+    int noTuales = posts[index].noTuale;
+    bool isTualed = posts[index].isTualed;
 
-                            if (posts[index].isTualed) {
-                              //"61e327db86dcaee74311fa14"
-                              debugPrint("User already give a tuale");
-                            } else {
-                              var result =
-                                  await Api().addTuale(posts[index].id ?? " ");
-                              if (result[0]) {
-                                control.getCuratedPosts();
+    return StatefulBuilder(builder: (context, setState) {
+      return SizedBox(
+        height: 400.h,
+        width: 100.w,
+        // color: Colors.white,
+        child: CustomPaint(
+          size: Size(100, (100 * 3.536842105263158).toDouble()),
+          painter: CuratedLikeWidget(),
+          child: Center(
+            child: Column(mainAxisAlignment: MainAxisAlignment.center,
+
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    // decoration: const BoxDecoration(boxShadow:  [BoxShadow(color: Colors.grey, blurRadius: 50)]),
+                    margin: const EdgeInsets.only(top: 12, bottom: 12),
+                    child: Column(
+                      children: [
+                        AnimatedCrossFade(
+                          duration: const Duration(milliseconds: 20),
+                          crossFadeState: isTualed
+                              ? CrossFadeState.showSecond
+                              : CrossFadeState.showFirst,
+                          secondChild: GestureDetector(
+                            onTap: () async {
+                              // debugPrint("tuales : ${widget.post?.tuales}");
+                              // debugPrint("testme : $alreadyGiveTuale");
+
+                              if (posts[index].isTualed) {
+                                //"61e327db86dcaee74311fa14"
+                                debugPrint("User already give a tuale");
                               } else {
-                                // TODO : display message
-                                debugPrint(result[1]);
+                                // var result = await Api()
+                                //     .addTuale(posts[index].id ?? " ");
+                                // if (result[0]) {
+                                //   control.getCuratedPosts();
+                                // } else {
+                                //   // TODO : display message
+                                //   debugPrint(result[1]);
+                                // }
                               }
-                            }
-                          },
-                          child: Icon(
-                            TualeIcons.tualeactive,
-                            color: tualeOrange,
-                            size: 40.sp,
+                            },
+                            child: Icon(
+                              TualeIcons.tualeactive,
+                              color: Colors.yellow,
+                              size: 40.sp,
+                            ),
+                          ),
+                          firstChild: GestureDetector(
+                            onTap: () async {
+                              if (posts[index].isTualed) {
+                                //"61e327db86dcaee74311fa14"
+                                debugPrint("User already give a tuale");
+                              } else {
+                                setState(() {
+                                  isTualed = true;
+                                  noTuales = noTuales + 1;
+                                });
+                                var result = await Api()
+                                    .addTuale(posts[index].id ?? " ");
+                                if (result[0]) {
+                                  control.getCuratedPosts();
+                                } else {
+                                  setState(() {
+                                    isTualed = false;
+                                    noTuales = noTuales - 1;
+                                  });
+                                  debugPrint(result[1]);
+                                }
+                              }
+                            },
+                            child: Icon(
+                              TualeIcons.tuale,
+                              color: Colors.white,
+                              size: 43.sp,
+                            ),
                           ),
                         ),
-                        firstChild: GestureDetector(
-                          onTap: () async {
-                            if (posts[index].isTualed) {
-                              //"61e327db86dcaee74311fa14"
-                              debugPrint("User already give a tuale");
-                            } else {
-                              var result =
-                                  await Api().addTuale(posts[index].id ?? " ");
-                              if (result[0]) {
-                                control.getCuratedPosts();
-                              } else {
-                                // TODO : display message
-                                debugPrint(result[1]);
-                              }
-                            }
-                          },
-                          child: Icon(
-                            TualeIcons.tuale,
-                            color: Colors.white,
-                            size: 43.sp,
-                          ),
-                        ),
-                      ),
-                      Text(posts[index].noTuale.toString(),
-                          style: const TextStyle(color: Colors.white))
-                    ],
-                  ),
-                ),
-                Container(
-                  decoration: const BoxDecoration(boxShadow: [
-                    BoxShadow(color: Colors.grey, blurRadius: 40)
-                  ]),
-                  margin: const EdgeInsets.only(top: 8, bottom: 12),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      AnimatedCrossFade(
-                        duration: const Duration(milliseconds: 1),
-                        crossFadeState: posts[index].isStared
-                            ? CrossFadeState.showSecond
-                            : CrossFadeState.showFirst,
-                        secondChild: GestureDetector(
-                          onTap: () async {
-                            if (posts[index].isStared) {
-                              var result = await Api()
-                                  .unStartPost(posts[index].id ?? " ");
-                              if (result[0]) {
-                                control.getCuratedPosts();
-                                debugPrint(result[1]);
-                              } else {
-                                // TODO : display message
-                                debugPrint(result[1]);
-                              }
-                            } else {
-                              debugPrint("User already unstar a post");
-                            }
-                          },
-                          child: Icon(
-                            TualeIcons.star,
-                            color: tualeOrange,
-                            size: 33.sp,
-                          ),
-                        ),
-                        firstChild: GestureDetector(
-                          onTap: () async {
-                            if (posts[index].isStared) {
-                              debugPrint("User already star a post");
-                            } else {
-                              var result =
-                                  await Api().startPost(posts[index].id ?? " ");
-                              if (result[0]) {
-                                debugPrint(result[1]);
-                                control.getCuratedPosts();
-                              } else {
-                                // TODO : display message
-                                debugPrint(result[1]);
-                              }
-                            }
-                          },
-                          child: Icon(
-                            TualeIcons.star,
-                            color: Colors.white,
-                            size: 37.sp,
-                          ),
-                        ),
-                      ),
-                      Text(posts[index].noStar.toString(),
-                          style: const TextStyle(color: Colors.white))
-                    ],
-                  ),
-                ),
-                commentSectionModal(context, index),
-                Container(
-                  decoration: const BoxDecoration(boxShadow: [
-                    BoxShadow(color: Colors.grey, blurRadius: 25)
-                  ]),
-                  margin: const EdgeInsets.only(top: 0, bottom: 12, right: 13),
-                  child: GestureDetector(
-                    onTap: () {
-                      more(context);
-                    },
-                    child: Icon(
-                      TualeIcons.elipsis,
-                      color: Colors.white,
-                      size: 25.sp,
+                        Text(noTuales.toString(),
+                            style: const TextStyle(color: Colors.white))
+                      ],
                     ),
                   ),
-                )
-              ]),
-        ),
-      ),
-    );
-  }
-
-  Widget commentSectionModal(BuildContext context, int index) {
-    return StatefulBuilder(
-        builder: (BuildContext context, StateSetter setState) {
-      return GestureDetector(
-        onTap: () {
-          showModalBottomSheet(
-              shape: const RoundedRectangleBorder(
-                  side: BorderSide(),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15))),
-              useRootNavigator: true,
-              isScrollControlled: true,
-              enableDrag: true,
-              context: context,
-              builder: (context) => Obx(
-                    () => commentModal(
-                      posts:
-                          Get.find<CuratedPostController>().curatedPost.value,
-                      index: index,
+                  Container(
+                    decoration: const BoxDecoration(boxShadow: [
+                      BoxShadow(color: Colors.grey, blurRadius: 40)
+                    ]),
+                    margin: const EdgeInsets.only(top: 8, bottom: 12),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        AnimatedCrossFade(
+                          duration: const Duration(milliseconds: 20),
+                          crossFadeState: isStarred
+                              ? CrossFadeState.showSecond
+                              : CrossFadeState.showFirst,
+                          secondChild: GestureDetector(
+                            onTap: () async {
+                              //when button is white on tap should make it yellow, isStarred ==true
+                              if (isStarred) {
+                                setState(() {
+                                  isStarred = false;
+                                  noStars = noStars - 1;
+                                });
+                                //checks if api response is ok to keep or discard local variable
+                                var result = await Api()
+                                    .unStartPost(posts[index].id ?? " ");
+                                if (result[0] == true) {
+                                  control.getCuratedPosts();
+                                  debugPrint(result[1]);
+                                } else {
+                                  setState(() {
+                                    isStarred = true;
+                                    noStars = noStars + 1;
+                                  });
+                                  debugPrint(result[1]);
+                                }
+                              } else {
+                                debugPrint("User already unstar a post");
+                              }
+                            },
+                            child: Icon(
+                              TualeIcons.star,
+                              color: tualeOrange,
+                              size: 33.sp,
+                            ),
+                          ),
+                          firstChild: GestureDetector(
+                            onTap: () async {
+                              if (isStarred) {
+                                debugPrint("User already star a post");
+                              } else {
+                                setState(() {
+                                  isStarred = true;
+                                  noStars = noStars + 1;
+                                });
+                                var result = await Api()
+                                    .startPost(posts[index].id ?? " ");
+                                if (result[0] == true) {
+                                  debugPrint(result[1]);
+                                  control.getCuratedPosts();
+                                } else {
+                                  setState(() {
+                                    isStarred = false;
+                                    noStars = noStars + 1;
+                                  });
+                                  debugPrint(result[1]);
+                                }
+                              }
+                            },
+                            child: Icon(
+                              TualeIcons.star,
+                              color: Colors.white,
+                              size: 37.sp,
+                            ),
+                          ),
+                        ),
+                        Text(noStars.toString(),
+                            style: const TextStyle(color: Colors.white))
+                      ],
                     ),
-                  ));
-        },
-        child: Container(
-          decoration: const BoxDecoration(
-              boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 25)]),
-          margin: const EdgeInsets.only(top: 10, bottom: 10),
-          child: Column(
-            children: [
-              Icon(
-                TualeIcons.comment,
-                color: Colors.white,
-                size: 29.sp,
-              ),
-              const Text(
-                "0",
-                style: TextStyle(color: Colors.white),
-              )
-            ],
+                  ),
+                  commentSectionModal(context, index),
+                  Container(
+                    decoration: const BoxDecoration(boxShadow: [
+                      BoxShadow(color: Colors.grey, blurRadius: 25)
+                    ]),
+                    margin:
+                        const EdgeInsets.only(top: 0, bottom: 12, right: 13),
+                    child: GestureDetector(
+                      onTap: () {
+                        more(context);
+                      },
+                      child: Icon(
+                        TualeIcons.elipsis,
+                        color: Colors.white,
+                        size: 25.sp,
+                      ),
+                    ),
+                  )
+                ]),
           ),
         ),
       );
     });
+  }
+
+  Widget commentSectionModal(BuildContext context, int index) {
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+            shape: const RoundedRectangleBorder(
+                side: BorderSide(),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15))),
+            useRootNavigator: true,
+            isScrollControlled: true,
+            enableDrag: true,
+            context: context,
+            builder: (_) => Obx(
+                  () => commentModal(
+                    posts: Get.find<CuratedPostController>().curatedPost.value,
+                    index: index,
+                  ),
+                ));
+      },
+      child: Container(
+        decoration: const BoxDecoration(
+            boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 25)]),
+        margin: const EdgeInsets.only(top: 10, bottom: 10),
+        child: Column(
+          children: [
+            Icon(
+              TualeIcons.comment,
+              color: Colors.white,
+              size: 29.sp,
+            ),
+            Obx(
+              () => Text(
+                Get.find<CuratedPostController>()
+                    .curatedPost
+                    .value[index]
+                    .noComment
+                    .toString(),
+                style: TextStyle(color: Colors.white),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Column userInfo(BuildContext context, int index, List posts) {
@@ -511,18 +516,24 @@ class commentModal extends StatefulWidget {
   List? posts;
   int? index;
 
-  commentModal({this.posts, this.index});
+  commentModal({
+    this.posts,
+    this.index,
+  });
 
   @override
   State<commentModal> createState() => _commentModalState();
 }
 
 class _commentModalState extends State<commentModal> {
+  final myController = TextEditingController();
   late FocusNode _focusNode;
   @override
   void dispose() {
     super.dispose();
     _focusNode.dispose();
+    // Clean up the controller when the widget is disposed.
+    myController.dispose();
   }
 
   @override
@@ -654,6 +665,7 @@ class _commentModalState extends State<commentModal> {
                       Api().commentOnAPost(
                           widget.posts![widget.index!].id, myController.text);
                       _focusNode.unfocus();
+                      myController.clear();
                     },
                     child: SizedBox(
                       height: 43.h,

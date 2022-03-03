@@ -28,6 +28,7 @@ class _OnePostState extends State<OnePost> {
   void dispose() {
     Get.delete<OnePostController>();
     super.dispose();
+    
   }
 
   @override
