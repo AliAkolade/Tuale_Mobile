@@ -48,7 +48,7 @@ class _CuratedState extends State<Curated> {
   @override
   void initState() {
     super.initState();
-     Get.put(CuratedPostController());
+    Get.put(CuratedPostController());
     scrollController.addListener(scrollPosition);
 
     //  Get.put(LoggedUserController());
@@ -69,223 +69,232 @@ class _CuratedState extends State<Curated> {
 
   @override
   Widget build(BuildContext context) {
-        return FutureBuilder(
-            future: control.getCuratedPosts(),
-            //Api().getVibingPost(),
-            builder: (context, AsyncSnapshot snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                // List posts = snapshot.data;
+    return FutureBuilder(
+        future: control.getCuratedPosts(),
+        //Api().getVibingPost(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            // List posts = snapshot.data;
 
-                return GetBuilder<CuratedPostController>(
-                  init: CuratedPostController(),
-                  builder: (control) {
-                    return ListView.builder(
-                      controller: scrollController,
-                      key: PageStorageKey<String>('curate'),
-                      itemCount: control.curatedPost.value.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        List posts = control.curatedPost.value;
-                        bool tualed = false;
-                        int tualCount = posts[index].noTuale;
-                        int starCount = posts[index].noStar;
-                        bool starred = false;
-                         return Obx(
-                  () => Get.find<CuratedPostController>()
-                      .curatedPost
-                      .value[index]
-                      .mediaType != "image" ?
-                  // Display video
-                  Container(
-                    height: 645.h,
-                    width: 400.w,
-                    margin: EdgeInsets.only(
-                        bottom: 10, left: 15, right: 15, top: 15.h),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Stack(
-                      children: [
-                        SizedBox(
-                          height: double.infinity,
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: SizedBox(
-                                  height: 645.h,
-                                  width: 400.w,
-                                  child: VideoPlayerScreen(
-                                    videoUrl:  Get.find<CuratedPostController>()
-                                      .curatedPost
-                                      .value[index]
-                                      .postMedia,)
-                              )
-                          ),
-                        ),
-                        Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            child: GestureDetector(
-                              onDoubleTap: (){
-                                debugPrint("User double tap");
-                              },
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                      return VibingZoom(
-                                        post: Get.find<CuratedPostController>()
-                                            .curatedPost
-                                            .value[index],
-                                      );
-                                    }));
-                              },
-                              child: Hero(
-                                tag: "hero$index",
-                                child: Container(
-                                  //Container for bottom gradient on image
-                                  child: Stack(
-                                    children: [
-                                      Align(
-                                        widthFactor: 5,
-                                        alignment: const Alignment(1.08, 0.6),
-                                        child: Obx(
-                                              () => sideBar(
-                                              tualed,
-                                              tualCount,
-                                              index,
-                                              starred,
-                                              starCount,
-                                              context,
-                                              Get.find<CuratedPostController>()
+            return GetBuilder<CuratedPostController>(
+                init: CuratedPostController(),
+                builder: (control) {
+                  return ListView.builder(
+                    controller: scrollController,
+                    key: PageStorageKey<String>('curate'),
+                    itemCount: control.curatedPost.value.length,
+                    itemBuilder: (BuildContext context, int index) {
+
+                      List posts = control.curatedPost.value;
+                      bool tualed = false;
+                      int tualCount = posts[index].noTuale;
+                      int starCount = posts[index].noStar;
+                      bool starred = false;
+                      return   Obx(() => false
+                      // Get.find<CuratedPostController>()
+                      //             .curatedPost
+                      //             .value[index]
+                      //             .mediaType !=
+                      //         "image"
+                          ?
+                          // Display video
+                          Container(
+                              height: 645.h,
+                              width: 400.w,
+                              margin: EdgeInsets.only(
+                                  bottom: 10, left: 15, right: 15, top: 15.h),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Stack(
+                                children: [
+                                  SizedBox(
+                                    height: double.infinity,
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: SizedBox(
+                                            height: 645.h,
+                                            width: 400.w,
+                                            child: VideoPlayerScreen(
+                                              videoUrl: Get.find<
+                                                      CuratedPostController>()
                                                   .curatedPost
-                                                  .value),
-                                        ),
-                                      ),
-
-                                      //user post info
-                                      Obx(() => userInfo(
-                                          context,
-                                          index,
-                                          Get.find<CuratedPostController>()
-                                              .curatedPost
-                                              .value))
-                                    ],
+                                                  .value[index]
+                                                  .postMedia,
+                                            ))),
                                   ),
-                                  height: 645.h,
-                                  width: 400.w,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      gradient: const LinearGradient(
-                                        begin: AlignmentDirectional(0.5, 0.5),
-                                        end: AlignmentDirectional(0.5, 1.4),
-                                        colors: [Colors.transparent, Colors.black87],
-                                      )),
-                                ),
+                                  Positioned(
+                                      bottom: 0,
+                                      left: 0,
+                                      right: 0,
+                                      child: GestureDetector(
+                                        onDoubleTap: () {
+                                          debugPrint("User double tap");
+                                        },
+                                        onTap: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return VibingZoom(
+                                                post: Get.find<
+                                                        CuratedPostController>()
+                                                    .curatedPost
+                                                    .value,
+                                                index: index);
+                                          }));
+                                        },
+                                        child: Hero(
+                                          tag: "hero$index",
+                                          child: Container(
+                                            //Container for bottom gradient on image
+                                            child: Stack(
+                                              children: [
+                                                Align(
+                                                  widthFactor: 5,
+                                                  alignment: const Alignment(
+                                                      1.08, 0.6),
+                                                  child: Obx(
+                                                    () => sideBar(
+                                                        starCount,
+                                                        context,
+                                                        Get.find<
+                                                                CuratedPostController>()
+                                                            .curatedPost
+                                                            .value),
+                                                  ),
+                                                ),
+
+                                                //user post info
+                                                Obx(() => userInfo(
+                                                    context,
+                                                    index,
+                                                    Get.find<
+                                                            CuratedPostController>()
+                                                        .curatedPost
+                                                        .value))
+                                              ],
+                                            ),
+                                            height: 645.h,
+                                            width: 400.w,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                gradient: const LinearGradient(
+                                                  begin: AlignmentDirectional(
+                                                      0.5, 0.5),
+                                                  end: AlignmentDirectional(
+                                                      0.5, 1.4),
+                                                  colors: [
+                                                    Colors.transparent,
+                                                    Colors.black87
+                                                  ],
+                                                )),
+                                          ),
+                                        ),
+                                      ))
+                                ],
                               ),
                             )
-                        )
-                      ],
-                    ),
-                  ) :
-                  Container(
-                    height: 645.h,
-                    width: 400.w,
-                    margin: EdgeInsets.only(
-                        bottom: 10, left: 15, right: 15, top: 15.h),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Stack(
-                      children: [
-                        SizedBox(
-                          height: double.infinity,
-                          width: double.infinity,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Image.network(
-                              Get.find<CuratedPostController>()
-                                  .curatedPost
-                                  .value[index]
-                                  .postMedia,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-
-                                  return Obx(
-                                    () => VibingZoom(
-                                      post: Get.find<CuratedPostController>()
-                                          .curatedPost
-                                          .value,
-                                      index: index,
-                                    ),
-                                  );
-                                }));
-                              },
-                              child: Hero(
-                                tag: "hero$index",
-                                child: Container(
-                                  //Container for bottom gradient on image
-                                  child: Stack(
-                                    children: [
-                                      Align(
-                                        widthFactor: 5,
-                                        alignment: const Alignment(1.08, 0.6),
-                                        child: Obx(
-
-                                          () => sideBar(
-                                              index,
-
-                                              context,
-                                              Get.find<CuratedPostController>()
-                                                  .curatedPost
-                                                  .value),
-                                        ),
-                                      ),
-
-                                      //user post info
-                                      Obx(() => userInfo(
-                                          context,
-                                          index,
-                                          Get.find<CuratedPostController>()
-                                              .curatedPost
-                                              .value))
-                                    ],
-                                  ),
-                                  height: 645.h,
-                                  width: 400.w,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      gradient: const LinearGradient(
-                                        begin: AlignmentDirectional(0.5, 0.5),
-                                        end: AlignmentDirectional(0.5, 1.4),
-                                        colors: [Colors.transparent, Colors.black87],
-                                      )),
-                                ),
+                          : Container(
+                              height: 645.h,
+                              width: 400.w,
+                              margin: EdgeInsets.only(
+                                  bottom: 10, left: 15, right: 15, top: 15.h),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
                               ),
+                              child: Stack(children: [
+                                SizedBox(
+                                  height: double.infinity,
+                                  width: double.infinity,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Image.network(
+                                      Get.find<CuratedPostController>()
+                                          .curatedPost
+                                          .value[index]
+                                          .postMedia,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return Obx(
+                                          () => VibingZoom(
+                                            post: Get.find<
+                                                    CuratedPostController>()
+                                                .curatedPost
+                                                .value,
+                                            index: index,
+                                          ),
+                                        );
+                                      }));
+                                    },
+                                    child: Hero(
+                                      tag: "hero$index",
+                                      child: Container(
+                                        //Container for bottom gradient on image
+                                        child: Stack(
+                                          children: [
+                                            Align(
+                                              widthFactor: 5,
+                                              alignment:
+                                                  const Alignment(1.08, 0.6),
+                                              child: Obx(
+                                                () => sideBar(
+                                                    index,
+                                                    context,
+                                                    Get.find<
+                                                            CuratedPostController>()
+                                                        .curatedPost
+                                                        .value),
+                                              ),
+                                            ),
 
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  }
-
-                );
-              }
-              return Center(
-                  child: SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75)));
-            });
-      
-    
+                                            //user post info
+                                            Obx(() => userInfo(
+                                                context,
+                                                index,
+                                                Get.find<
+                                                        CuratedPostController>()
+                                                    .curatedPost
+                                                    .value))
+                                          ],
+                                        ),
+                                        height: 645.h,
+                                        width: 400.w,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            gradient: const LinearGradient(
+                                              begin: AlignmentDirectional(
+                                                  0.5, 0.5),
+                                              end: AlignmentDirectional(
+                                                  0.5, 1.4),
+                                              colors: [
+                                                Colors.transparent,
+                                                Colors.black87
+                                              ],
+                                            )),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ])));
+                    },
+                  );
+                });
+          }
+          return Center(
+              child: SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75)));
+        });
   }
 
   Widget sideBar(int index, BuildContext context, List posts) {
@@ -598,7 +607,9 @@ class _CuratedState extends State<Curated> {
                     ],
                   ),
                 ),
-                SizedBox(height: 8,),
+                SizedBox(
+                  height: 8,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
