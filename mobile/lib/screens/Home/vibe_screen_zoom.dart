@@ -44,18 +44,24 @@ class _VibingZoomState extends State<VibingZoom> {
               VideoPlayerScreen(videoUrl: widget.post![widget.index!].postMedia,enablePlayBtn: true,),
               // Back button
               Align(
-                alignment: const Alignment(1.2, -1.05),
-                child: SizedBox(
-                  height: 100,
-                  width: 130,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(
-                      Icons.fullscreen_exit_rounded,
-                      color: Colors.black,
-                      size: 30,
+                // heightFactor: 1.0,
+                // widthFactor: 12.0,
+                alignment: Alignment(0.9, -0.95),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    color: Colors.white70,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.fullscreen_exit_rounded,
+                        color: Colors.black,
+                        size: 30,
+                      ),
                     ),
                   ),
                 ),
@@ -463,18 +469,22 @@ class _VibingZoomState extends State<VibingZoom> {
               Align(
                 // heightFactor: 1.0,
                 // widthFactor: 12.0,
-                alignment: Alignment(1.2, -1.05),
-                child: SizedBox(
-                  height: 100,
-                  width: 130,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(
-                      Icons.fullscreen_exit_rounded,
-                      color: Colors.black,
-                      size: 30,
+                alignment: Alignment(0.9, -0.95),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    color: Colors.white70,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.fullscreen_exit_rounded,
+                        color: Colors.black,
+                        size: 30,
+                      ),
                     ),
                   ),
                 ),

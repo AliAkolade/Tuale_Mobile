@@ -19,9 +19,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   bool displayPlayBtn = true;
   bool displayParams = false;
 
-  //late ChewieController chewieController;
-  //late Chewie playerWidget;
-
   @override
   void initState() {
     videoController = VideoPlayerController.network(
@@ -33,36 +30,21 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       )
     ;
 
-
-    /*videoController = VideoPlayerController.network(
-        widget.videoUrl,videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true));
-
-    chewieController = ChewieController(
-      videoPlayerController: videoController,
-      autoPlay: false,
-      looping: true,
-      autoInitialize: true,
-      showControlsOnInitialize: false,
-      errorBuilder: (context, errMsg){
-        return const Center(child: Text('Something went wrong'));
-      }
-    );
-
-    playerWidget = Chewie(
-      controller: chewieController,
-    );
-
-     */
-
     super.initState();
   }
 
   @override
   void dispose() {
     videoController.dispose();
-    //chewieController.dispose();
     super.dispose();
   }
+
+
+  /*@override
+  void deactivate() {
+    debugPrint("deactive : ${widget.enablePlayBtn}");
+    videoController.dispose();
+  }*/
 
   @override
   Widget build(BuildContext context) {
