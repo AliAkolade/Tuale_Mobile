@@ -11,6 +11,7 @@ import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Discover/controllers/searchController.dart';
 import 'package:mobile/screens/Home/controllers/getCuratedPost.dart';
 import 'package:mobile/screens/Home/models/postsetails.dart';
+import 'package:mobile/screens/Home/video_player_screen.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/imports.dart';
@@ -43,6 +44,7 @@ class _CuratedState extends State<Curated> {
   }
 
   CuratedPostController control = CuratedPostController();
+
   @override
   void initState() {
     super.initState();
@@ -87,40 +89,54 @@ class _CuratedState extends State<Curated> {
                         int tualCount = posts[index].noTuale;
                         int starCount = posts[index].noStar;
                         bool starred = false;
-                        return Obx(
-                          () => Container(
-                            //container for main image
-                            margin: EdgeInsets.only(
-                                bottom: 10, left: 15, right: 15, top: 15.h),
-                            height: 645.h,
-                            width: 400.w,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: Image.network(
-                                  Get.find<CuratedPostController>()
+                         return Obx(
+                  () => Get.find<CuratedPostController>()
+                      .curatedPost
+                      .value[index]
+                      .mediaType != "image" ?
+                  // Display video
+                  Container(
+                    height: 645.h,
+                    width: 400.w,
+                    margin: EdgeInsets.only(
+                        bottom: 10, left: 15, right: 15, top: 15.h),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Stack(
+                      children: [
+                        SizedBox(
+                          height: double.infinity,
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: SizedBox(
+                                  height: 645.h,
+                                  width: 400.w,
+                                  child: VideoPlayerScreen(
+                                    videoUrl:  Get.find<CuratedPostController>()
                                       .curatedPost
                                       .value[index]
-                                      .postMedia,
-                                  fit: BoxFit.fitHeight,
-                                ).image,
-                              ),
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
+                                      .postMedia,)
+                              )
+                          ),
+                        ),
+                        Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
                             child: GestureDetector(
+                              onDoubleTap: (){
+                                debugPrint("User double tap");
+                              },
                               onTap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
-                                  return Obx(
-                                    () => VibingZoom(
-                                      post: Get.find<CuratedPostController>()
-                                          .curatedPost
-                                          .value,
-                                      index: index,
-                                    ),
-                                  );
-                                }));
+                                      return VibingZoom(
+                                        post: Get.find<CuratedPostController>()
+                                            .curatedPost
+                                            .value[index],
+                                      );
+                                    }));
                               },
                               child: Hero(
                                 tag: "hero$index",
@@ -132,8 +148,12 @@ class _CuratedState extends State<Curated> {
                                         widthFactor: 5,
                                         alignment: const Alignment(1.08, 0.6),
                                         child: Obx(
-                                          () => sideBar(
+                                              () => sideBar(
+                                              tualed,
+                                              tualCount,
                                               index,
+                                              starred,
+                                              starCount,
                                               context,
                                               Get.find<CuratedPostController>()
                                                   .curatedPost
@@ -161,12 +181,104 @@ class _CuratedState extends State<Curated> {
                                       )),
                                 ),
                               ),
+                            )
+                        )
+                      ],
+                    ),
+                  ) :
+                  Container(
+                    height: 645.h,
+                    width: 400.w,
+                    margin: EdgeInsets.only(
+                        bottom: 10, left: 15, right: 15, top: 15.h),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Stack(
+                      children: [
+                        SizedBox(
+                          height: double.infinity,
+                          width: double.infinity,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image.network(
+                              Get.find<CuratedPostController>()
+                                  .curatedPost
+                                  .value[index]
+                                  .postMedia,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+
+                                  return Obx(
+                                    () => VibingZoom(
+                                      post: Get.find<CuratedPostController>()
+                                          .curatedPost
+                                          .value,
+                                      index: index,
+                                    ),
+                                  );
+                                }));
+                              },
+                              child: Hero(
+                                tag: "hero$index",
+                                child: Container(
+                                  //Container for bottom gradient on image
+                                  child: Stack(
+                                    children: [
+                                      Align(
+                                        widthFactor: 5,
+                                        alignment: const Alignment(1.08, 0.6),
+                                        child: Obx(
+
+                                          () => sideBar(
+                                              index,
+
+                                              context,
+                                              Get.find<CuratedPostController>()
+                                                  .curatedPost
+                                                  .value),
+                                        ),
+                                      ),
+
+                                      //user post info
+                                      Obx(() => userInfo(
+                                          context,
+                                          index,
+                                          Get.find<CuratedPostController>()
+                                              .curatedPost
+                                              .value))
+                                    ],
+                                  ),
+                                  height: 645.h,
+                                  width: 400.w,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      gradient: const LinearGradient(
+                                        begin: AlignmentDirectional(0.5, 0.5),
+                                        end: AlignmentDirectional(0.5, 1.4),
+                                        colors: [Colors.transparent, Colors.black87],
+                                      )),
+                                ),
+                              ),
+
                             ),
                           ),
                         );
                       },
                     );
                   }
+
                 );
               }
               return Center(
@@ -423,7 +535,7 @@ class _CuratedState extends State<Curated> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Container(
-            margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+            margin: const EdgeInsets.fromLTRB(20, 20, 20, 58),
             child: Column(
               children: [
                 GestureDetector(
@@ -446,8 +558,8 @@ class _CuratedState extends State<Curated> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: 52.h,
-                        width: 52.h,
+                        height: 48.h,
+                        width: 48.h,
                         child: CircleAvatar(
                           backgroundImage: Image.network(
                             posts[index].userProfilePic,
@@ -486,6 +598,7 @@ class _CuratedState extends State<Curated> {
                     ],
                   ),
                 ),
+                SizedBox(height: 8,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -493,16 +606,16 @@ class _CuratedState extends State<Curated> {
                       posts[index].postText.toString(),
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          color: Colors.white70,
+                          color: Colors.white,
                           // fontFamily: 'Poppins',
-                          fontSize: 15.sp,
+                          fontSize: 11.sp,
                           height: 1),
                     ),
-                    Icon(
+                    /*Icon(
                       Icons.volume_down_rounded,
                       size: 35,
                       color: Colors.white,
-                    )
+                    )*/
                   ],
                 ),
               ],

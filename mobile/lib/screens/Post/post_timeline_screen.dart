@@ -1,13 +1,110 @@
+import 'dart:io';
+
+import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:mobile/screens/imports.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class PostTimeline extends StatefulWidget {
-  PostTimeline({Key? key}) : super(key: key);
+  File fileContent;
+  String filePath;
+  String mediaType;
+  PostTimeline({Key? key, required this.fileContent, required this.filePath, required this.mediaType}) : super(key: key);
 
   @override
   _PostTimelineState createState() => _PostTimelineState();
 }
 
 class _PostTimelineState extends State<PostTimeline> {
+  late VideoPlayerController videoController;
+  late TextEditingController description;
+  final cloudinary = CloudinaryPublic('demilade211', 'Tuale-Ogunbanwo', cache: false);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    if(widget.mediaType  == "video") {
+      videoController = VideoPlayerController.file(widget.fileContent,
+          videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true))
+        ..setLooping(true)
+        ..setVolume(1)
+        ..initialize().then((_) => videoController.play());
+    }
+    description = TextEditingController();
+    super.initState();
+  }
+
+  makePost() async {
+    debugPrint("description :${description.text}");
+    debugPrint("asset :${widget.filePath}");
+    double uploadingPercentage = 0;
+
+    try {
+      Loader.show(context,
+          isSafeAreaOverlay: false,
+          isAppbarOverlay: true,
+          isBottomBarOverlay: false,
+          progressIndicator: CircularPercentIndicator(
+            radius: 60.0,
+            lineWidth: 5.0,
+            percent: 1.0,
+            //center: Text(uploadingPercentage.toString() + "%"),
+            center: const Text("Loading...."),
+            progressColor: tualeOrange,
+          ),
+          themeData: Theme.of(context)
+              .copyWith(accentColor: Colors.black38),
+          overlayColor: const Color(0x99E8EAF6));
+
+      CloudinaryResponse response = await cloudinary.uploadFile(
+        widget.mediaType == "image" ?
+        CloudinaryFile.fromFile(widget.filePath,folder: "Tuale posts", resourceType: CloudinaryResourceType.Image) :
+        CloudinaryFile.fromFile(widget.filePath,folder: "Tuale posts", resourceType: CloudinaryResourceType.Video),
+        onProgress: (count, total){
+          setState(() {
+            uploadingPercentage = (count / total) * 100;
+            debugPrint("uploadingPercentage : $uploadingPercentage");
+          });
+          // TODO : try  to display loader percentage
+        }
+      );
+
+      debugPrint("Cloudres : "+response.toString());
+
+      if(response.secureUrl  != "") {
+        String publicId = response.publicId;
+        String url = response.secureUrl;
+        String desc = description.text;
+        String mediaType = widget.mediaType;
+
+        //debugPrint("secureUrl : ${response.secureUrl}");
+        debugPrint("public : $publicId || url : $url || desc $desc");
+        var result = await Api().makeNewPost(mediaType,publicId,url,desc);
+        if(result[0]) {
+          debugPrint(result[1]);
+          // TODO : Everything pass
+          Navigator.pop(context);
+        }else{
+          debugPrint("Err : "+result[1]);
+        }
+        Loader.hide();
+      }else{
+        Loader.hide();
+        debugPrint("Something went wrong, retry");
+      }
+    } on CloudinaryException catch (e) {
+      Loader.hide();
+      debugPrint("Cloudinary Err : ${e.message}");
+    }
+  }
+
+  @override
+  void dispose() {
+    Loader.hide();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,12 +147,20 @@ class _PostTimelineState extends State<PostTimeline> {
                 border: Border(
                     top: BorderSide(color: Colors.grey.withOpacity(0.3)),
                     bottom: BorderSide(color: Colors.grey.withOpacity(0.9)))),
-            child: SizedBox(
+            child: widget.mediaType == "image" ?
+            SizedBox(
               height: 300.h,
               width: 300.h,
-              child: Image(
+              child: widget.fileContent != File("") ?
+                  Image.file(widget.fileContent) :
+                  const Image(
                   fit: BoxFit.cover,
                   image: AssetImage("assets/images/demoPost.png")),
+            ) :
+            SizedBox(
+              height: 300.h,
+              width: 300.h,
+              child: VideoPlayer(videoController),
             ),
           ),
           Container(
@@ -89,6 +194,7 @@ class _PostTimelineState extends State<PostTimeline> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                       ),
+                      controller: description,
                     ),
                   ),
                   Row(
@@ -155,7 +261,9 @@ class _PostTimelineState extends State<PostTimeline> {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  makePost();
+                },
                 style: ElevatedButton.styleFrom(
                     minimumSize: const Size(230, 45),
                     shape: RoundedRectangleBorder(

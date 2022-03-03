@@ -12,6 +12,7 @@ class PostDetails {
   List stars;
   bool isTualed;
   bool isStared;
+
   List? comment;
 
   PostDetails(
@@ -29,4 +30,5 @@ class PostDetails {
       required this.isTualed,
       required this.isStared,
       required this.comment});
+
 }

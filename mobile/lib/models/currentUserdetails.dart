@@ -2,14 +2,22 @@ import 'package:mobile/screens/imports.dart';
 
 class CurrentUserDetails {
   String? currentuserid;
+  String? currentuserAvatarUrl;
+  String? currentuserAvatarPublicId;
+  String? currentuserName;
   String? currentUserUsername;
+  String? currentuserBio;
   bool? unreadNotifications;
   List? friends;
 
-  CurrentUserDetails(
-      {
-        this.friends,
-        this.currentuserid = '',
+  CurrentUserDetails({
+      this.friends,
+      this.currentuserid = '',
+      this.currentuserAvatarUrl = '',
+      this.currentuserAvatarPublicId = '',
+      this.currentuserName = '',
       this.currentUserUsername = '',
-      this.unreadNotifications = false});
+      this.currentuserBio = '',
+      this.unreadNotifications = false
+  });
 }

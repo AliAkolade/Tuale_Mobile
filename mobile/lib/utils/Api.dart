@@ -58,7 +58,11 @@ class Api {
             stars: postsResponses[i]['stars'],
             comment: postsResponses[i]['comments'],
             isTualed: checkGivingTuale(postsResponses[i]['tuales']),
-            isStared: checkGivingStar(postsResponses[i]['stars'])));
+
+            isStared: checkGivingStar(postsResponses[i]['stars']),
+            mediaType: postsResponses[i]['mediaType']
+        ));
+
       }
     }
 
@@ -85,20 +89,23 @@ class Api {
     if (responseData['success'].toString() == 'true') {
       for (int i = 0; i < postsResponses.length; i++) {
         posts.add(PostDetails(
-          userProfilePic: postsResponses[i]['user']['avatar']['url'],
-          time: postsResponses[i]['createdAt'],
-          postMedia: postsResponses[i]['media']['url'],
-          postText: postsResponses[i]['caption'],
-          noTuale: postsResponses[i]['tuales'].toList().length,
-          noStar: postsResponses[i]['stars'].toList().length,
-          noComment: postsResponses[i]['comments'].toList().length,
-          username: postsResponses[i]['user']['username'],
-          id: postsResponses[i]['_id'],
-          tuales: postsResponses[i]['tuales'],
-          stars: postsResponses[i]['stars'],
-          comment: postsResponses[i]['comments'],
-          isTualed: checkGivingTuale(postsResponses[i]['tuales']),
-          isStared: checkGivingStar(postsResponses[i]['stars']),
+
+            userProfilePic: postsResponses[i]['user']['avatar']['url'],
+            time: postsResponses[i]['createdAt'],
+            postMedia: postsResponses[i]['media']['url'],
+            postText: postsResponses[i]['caption'],
+            noTuale: postsResponses[i]['tuales'].toList().length,
+            noStar: postsResponses[i]['stars'].toList().length,
+            noComment: postsResponses[i]['comments'].toList().length,
+            username: postsResponses[i]['user']['username'],
+            id: postsResponses[i]['_id'],
+            tuales: postsResponses[i]['tuales'],
+            stars: postsResponses[i]['stars'],
+            comment: postsResponses[i]['comments'],
+            isTualed: checkGivingTuale(postsResponses[i]['tuales']),
+            isStared:  checkGivingStar(postsResponses[i]['stars']),
+            mediaType: postsResponses[i]['mediaType']
+
         ));
       }
     }
@@ -168,6 +175,10 @@ class Api {
     if (currentUser.statusCode == 200) {
       CurrentUserDetails loggedUser = CurrentUserDetails(
           currentuserid: currentUser.data['user']["_id"].toString(),
+          currentuserAvatarUrl: currentUser.data['user']["avatar"]["url"].toString(),
+          currentuserAvatarPublicId: currentUser.data['user']["avatar"]["public_id"].toString(),
+          currentuserName: currentUser.data['user']["name"].toString(),
+          currentuserBio: currentUser.data["bio"].toString(),
           currentUserUsername: currentUser.data['user']["username"].toString(),
           unreadNotifications: currentUser.data['user']["unreadMessage"],
           friends: currentUser.data['userFollowStats']["friends"]);
@@ -313,20 +324,24 @@ class Api {
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
     PostDetails details = PostDetails(
-        noComment: 0,
-        noStar: 0,
-        noTuale: 0,
-        username: '',
-        id: "",
-        postText: '',
-        postMedia: '',
-        time: '',
-        userProfilePic: '',
-        tuales: [],
-        stars: [],
-        comment: [],
-        isTualed: false,
-        isStared: false);
+
+      noComment: 0,
+      noStar: 0,
+      noTuale: 0,
+      username: '',
+      id: "",
+      postText: '',
+      postMedia: '',
+      time: '',
+      userProfilePic: '',
+      tuales: [],
+      stars: [],
+      comment: [],
+      isTualed: false,
+      isStared: false,
+      mediaType: ''
+    );
+
 
     // Get userdetails
     Dio dio = Dio();
@@ -350,7 +365,11 @@ class Api {
           stars: responseData['post']['stars'],
           comment: responseData['post']['comments'],
           isTualed: checkGivingTuale(responseData['post']['tuales']),
-          isStared: checkGivingStar(responseData['post']['stars']));
+
+          isStared: checkGivingStar(responseData['post']['stars']),
+          mediaType: responseData['post']['mediaType']
+      );
+
     }
 
     return details;
@@ -478,15 +497,101 @@ class Api {
     } catch (e) {
       return [false, "Something got wrong"];
     }
-    return [false, "Oh why??"];
+
+    return [false,"Something got wrong"];
   }
+
+  makeNewPost(String mediaType, String publicId, String url, String description) async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio.post(hostAPI + 'post/create',
+        data: {
+          'mediaType': mediaType,
+          'media': {
+            'public_id': publicId,
+            'url': url
+          },
+          'caption': description
+        }
+      );
+      var responseData = response.data;
+      debugPrint("responseData : $responseData");
+      if (response.statusCode == 200) {
+        return [responseData["success"],"Your post has been added"];
+      }
+    } catch (e) {
+      return [false,"Something got wrong"];
+    }
+
+  }
+
+  updateUserProfil(String username, String fullname, String bio, String publicId, String url) async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio.put(hostAPI + 'profile/update',
+          data: {
+            'username': username,
+            'name': fullname,
+            'bio': bio,
+            'avatar': {
+              'public_id': publicId,
+              'url': url
+            },
+          }
+      );
+      var responseData = response.data;
+      debugPrint("responseData : $responseData");
+      if (response.statusCode == 200) {
+        return [responseData["success"],responseData["message"]];
+      }
+    } catch (e) {
+      return [false,"Something got wrong"];
+    }
+  }
+
+  updateUserPwd(String currentPwd, String newPwd) async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio.post(hostAPI + 'profile/password/update',
+          data: {
+            'currentPassword': currentPwd,
+            'newPassword': newPwd,
+          }
+      );
+      var responseData = response.data;
+      debugPrint("responseData : $responseData");
+      if (response.statusCode == 200) {
+        return [responseData["success"],"Your post has been updated"];
+      }
+    } catch (e) {
+      return [false,"Something got wrong"];
+    }
+  }
+
 
   checkGivingTuale(tuales) {
     // return true if user already give tuale
+
     var userId =
         Get.find<LoggedUserController>().loggedUser.value.currentuserid;
     if (tuales.length == 0) {
       debugPrint('test1  : $tuales');
+
       return false;
     } else {
       if (tuales.any((item) => item["user"] == userId)) {
@@ -502,10 +607,12 @@ class Api {
 
   checkGivingStar(stars) {
     // return true if user already give star
+
     var userId =
         Get.find<LoggedUserController>().loggedUser.value.currentuserid;
     if (stars.length == 0) {
       debugPrint('star-test');
+
       return false;
     } else {
       if (stars.any((item) => item["user"] == userId)) {
