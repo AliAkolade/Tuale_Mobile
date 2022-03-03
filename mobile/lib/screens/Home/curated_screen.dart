@@ -40,13 +40,10 @@ class _CuratedState extends State<Curated> {
 
   bool displayTualeAnimation = false;
 
-
-
   @override
   void dispose() {
     super.dispose();
   }
-
 
   CuratedPostController control = CuratedPostController();
 
@@ -89,18 +86,16 @@ class _CuratedState extends State<Curated> {
                     key: PageStorageKey<String>('curate'),
                     itemCount: control.curatedPost.value.length,
                     itemBuilder: (BuildContext context, int index) {
-
                       List posts = control.curatedPost.value;
                       bool tualed = false;
                       int tualCount = posts[index].noTuale;
                       int starCount = posts[index].noStar;
                       bool starred = false;
-                      return   Obx(() => false
-                      // Get.find<CuratedPostController>()
-                      //             .curatedPost
-                      //             .value[index]
-                      //             .mediaType !=
-                      //         "image"
+                      return Obx(() => Get.find<CuratedPostController>()
+                                  .curatedPost
+                                  .value[index]
+                                  .mediaType !=
+                              "image"
                           ?
                           // Display video
                           Container(
@@ -200,56 +195,50 @@ class _CuratedState extends State<Curated> {
                                 ],
                               ),
                             )
-
-                        )
-                      ],
-                    ),
-                  ) :
-                  Container(
-                    height: 645.h,
-                    width: 400.w,
-                    margin: EdgeInsets.only(
-                        bottom: 10, left: 15, right: 15, top: 15.h),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Stack(
-                      children: [
-                        SizedBox(
-                          height: double.infinity,
-                          width: double.infinity,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Image.network(
-                              Get.find<CuratedPostController>()
-                                  .curatedPost
-                                  .value[index]
-                                  .postMedia,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        // Give tuale when user double tap
-                        Visibility(
-                          visible: displayTualeAnimation,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Icon(
-                              TualeIcons.tuale,
-                              color: Colors.yellow,
-                              size: 100.sp,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            child: GestureDetector(
-                              onDoubleTap: (){
-                                debugPrint("User double tap");
-                                // TODO : make api request
-                                /*setState(() {
+                          : Container(
+                              height: 645.h,
+                              width: 400.w,
+                              margin: EdgeInsets.only(
+                                  bottom: 10, left: 15, right: 15, top: 15.h),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Stack(children: [
+                                SizedBox(
+                                  height: double.infinity,
+                                  width: double.infinity,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Image.network(
+                                      Get.find<CuratedPostController>()
+                                          .curatedPost
+                                          .value[index]
+                                          .postMedia,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                // Give tuale when user double tap
+                                Visibility(
+                                  visible: displayTualeAnimation,
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Icon(
+                                      TualeIcons.tuale,
+                                      color: Colors.yellow,
+                                      size: 100.sp,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    child: GestureDetector(
+                                      onDoubleTap: () {
+                                        debugPrint("User double tap");
+                                        // TODO : make api request
+                                        /*setState(() {
                                   displayTualeAnimation =  true;
                                 });
                                 Future.delayed(
@@ -259,58 +248,61 @@ class _CuratedState extends State<Curated> {
                                     });
                                   }
                                 );*/
-                              },
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                      return VibingZoom(
-                                        post: Get.find<CuratedPostController>()
-                                            .curatedPost
-                                            .value[index],
-                                      );
-                                    }));
-                              },
-                              child: Hero(
-                                tag: "hero$index",
-                                child: Container(
-                                  //Container for bottom gradient on image
-                                  child: Stack(
-                                    children: [
-                                      Align(
-                                        widthFactor: 5,
-                                        alignment: const Alignment(1.08, 0.6),
-                                        child: Obx(
-                                              () => sideBar(
-                                              tualed,
-                                              tualCount,
-                                              index,
-                                              starred,
-                                              starCount,
-                                              context,
-                                              Get.find<CuratedPostController>()
-                                                  .curatedPost
-                                                  .value),
-
+                                      },
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return VibingZoom(
+                                            post: Get.find<
+                                                    CuratedPostController>()
+                                                .curatedPost
+                                                .value[index],
+                                          );
+                                        }));
+                                      },
+                                      child: Hero(
+                                        tag: "hero$index",
+                                        child: Container(
+                                          //Container for bottom gradient on image
+                                           height: 645.h,
+                                                  width: 400.w,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                      gradient:
+                                                          const LinearGradient(
+                                                        begin:
+                                                            AlignmentDirectional(
+                                                                0.5, 0.5),
+                                                        end:
+                                                            AlignmentDirectional(
+                                                                0.5, 1.4),
+                                                        colors: [
+                                                          Colors.transparent,
+                                                          Colors.black87
+                                                        ],
+                                                      )),
+                                          child: Stack(children: [
+                                            Align(
+                                                widthFactor: 5,
+                                                alignment:
+                                                    const Alignment(1.08, 0.6),
+                                                child: Obx(
+                                                  () => sideBar(
+                                                      starCount,
+                                                      context,
+                                                      Get.find<
+                                                              CuratedPostController>()
+                                                          .curatedPost
+                                                          .value),
+                                                 
+                                                )),
+                                          ]),
                                         ),
-                                        height: 645.h,
-                                        width: 400.w,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            gradient: const LinearGradient(
-                                              begin: AlignmentDirectional(
-                                                  0.5, 0.5),
-                                              end: AlignmentDirectional(
-                                                  0.5, 1.4),
-                                              colors: [
-                                                Colors.transparent,
-                                                Colors.black87
-                                              ],
-                                            )),
                                       ),
-                                    ),
-                                  ),
-                                ),
+                                    ))
                               ])));
                     },
                   );
