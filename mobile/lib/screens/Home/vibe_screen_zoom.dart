@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:get/get.dart';
+import 'package:mobile/screens/Home/controllers/getVibedPost.dart';
 import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/Home/video_player_screen.dart';
 import 'package:mobile/screens/imports.dart';
@@ -9,7 +10,7 @@ import 'controllers/getCuratedPost.dart';
 
 class VibingZoom extends StatefulWidget {
   int? index;
-  PostDetails? post;
+  List? post;
 
   VibingZoom({this.index, this.post});
   @override
@@ -17,7 +18,6 @@ class VibingZoom extends StatefulWidget {
 }
 
 class _VibingZoomState extends State<VibingZoom> {
-
   var alreadyGiveTuale = false;
 
   @override
@@ -28,7 +28,7 @@ class _VibingZoomState extends State<VibingZoom> {
 
   getAlreadyGiveTuale() {
     setState(() {
-      alreadyGiveTuale = Api().checkGivingTuale(widget.post?.tuales);
+      // alreadyGiveTuale = Api().checkGivingTuale(widget.post?.tuales);
     });
     print("alreadyGiveTuale : $alreadyGiveTuale");
   }
@@ -506,22 +506,26 @@ class _VibingZoomState extends State<VibingZoom> {
                                 children: [
                                   AnimatedCrossFade(
                                     duration: const Duration(seconds: 1),
-                                    crossFadeState: widget.post!.isTualed
-                                        ? CrossFadeState.showSecond
-                                        : CrossFadeState.showFirst,
+                                    crossFadeState:
+                                        widget.post![widget.index!].isTualed
+                                            ? CrossFadeState.showSecond
+                                            : CrossFadeState.showFirst,
                                     secondChild: GestureDetector(
                                       onTap: () async {
                                         // debugPrint("tuales : ${widget.post?.tuales}");
                                         // debugPrint("testme : $alreadyGiveTuale");
 
-                                        if (widget.post!.isTualed) {
+                                        if (widget
+                                            .post![widget.index!].isTualed) {
                                           //"61e327db86dcaee74311fa14"
-                                          debugPrint("User already give a tuale");
+                                          debugPrint(
+                                              "User already give a tuale");
                                         } else {
-                                          var result =
-                                          await Api().addTuale(widget.post!.id);
+                                          var result = await Api().addTuale(
+                                              widget.post![widget.index!].id);
                                           if (result[0]) {
-                                            Get.find<CuratedPostController>().getCuratedPosts();
+                                            Get.find<CuratedPostController>()
+                                                .getCuratedPosts();
                                           } else {
                                             // TODO : display message
                                             debugPrint(result[1]);
@@ -536,15 +540,18 @@ class _VibingZoomState extends State<VibingZoom> {
                                     ),
                                     firstChild: GestureDetector(
                                       onTap: () async {
-                                        if (widget.post!.isTualed) {
+                                        if (widget
+                                            .post![widget.index!].isTualed) {
                                           //"61e327db86dcaee74311fa14"
-                                          debugPrint("User already give a tuale");
+                                          debugPrint(
+                                              "User already give a tuale");
                                         } else {
-                                          var result =
-                                          await Api().addTuale(widget.post!.id);
+                                          var result = await Api().addTuale(
+                                              widget.post![widget.index!].id);
                                           if (result[0]) {
                                             debugPrint(result[1]);
-                                            Get.find<CuratedPostController>().getCuratedPosts();
+                                            Get.find<CuratedPostController>()
+                                                .getCuratedPosts();
                                           } else {
                                             // TODO : display message
                                             debugPrint(result[1]);
@@ -558,7 +565,9 @@ class _VibingZoomState extends State<VibingZoom> {
                                       ),
                                     ),
                                   ),
-                                  Text(widget.post!.noTuale.toString(),
+                                  Text(
+                                      widget.post![widget.index!].noTuale
+                                          .toString(),
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 14,
@@ -576,22 +585,34 @@ class _VibingZoomState extends State<VibingZoom> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   AnimatedCrossFade(
-                                    duration: const Duration(milliseconds: 20),
-                                    crossFadeState: starred
-                                        ? CrossFadeState.showSecond
-                                        : CrossFadeState.showFirst,
+                                    duration: const Duration(milliseconds: 1),
+                                    crossFadeState:
+                                        widget.post![widget.index!].isStared
+                                            ? CrossFadeState.showSecond
+                                            : CrossFadeState.showFirst,
                                     secondChild: GestureDetector(
                                       onTap: () async {
-                                        var result = await Api().unStartPost(widget.post?.id ?? " ");
-                                        if(result[0]) {
-                                          setState(() {
-                                            starred = false;
-                                            starCount = starCount-1;
-                                          });
-                                          debugPrint(result[1]);
-                                        }else{
-                                          // TODO : display message
-                                          debugPrint(result[1]);
+                                        if (widget
+                                            .post![widget.index!].isStared) {
+                                          var result = await Api().unStartPost(
+                                              widget.post![widget.index!].id ??
+                                                  " ");
+                                          if (result[0]) {
+                                           Get.isRegistered<
+                                                    CuratedPostController>()
+                                                ? Get.find<
+                                                        CuratedPostController>()
+                                                    .getCuratedPosts()
+                                                : Get.find<
+                                                    VibedPostController>();
+                                            debugPrint(result[1]);
+                                          } else {
+                                            // TODO : display message
+                                            debugPrint(result[1]);
+                                          }
+                                        } else {
+                                          debugPrint(
+                                              "User already unstar a post");
                                         }
                                       },
                                       child: const Icon(
@@ -602,16 +623,27 @@ class _VibingZoomState extends State<VibingZoom> {
                                     ),
                                     firstChild: GestureDetector(
                                       onTap: () async {
-                                        var result = await Api().startPost(widget.post?.id ?? " ");
-                                        if(result[0]) {
-                                          setState(() {
-                                            starred = true;
-                                            starCount = widget.post!.noStar+1;
-                                          });
-                                          debugPrint(result[1]);
-                                        }else{
-                                          // TODO : display message
-                                          debugPrint(result[1]);
+                                        if (widget
+                                            .post![widget.index!].isStared) {
+                                          debugPrint(
+                                              "User already star a post");
+                                        } else {
+                                          var result = await Api().startPost(
+                                              widget.post![widget.index!].id ??
+                                                  " ");
+                                          if (result[0]) {
+                                            debugPrint(result[1]);
+                                            Get.isRegistered<
+                                                    CuratedPostController>()
+                                                ? Get.find<
+                                                        CuratedPostController>()
+                                                    .getCuratedPosts()
+                                                : Get.find<
+                                                    VibedPostController>();
+                                          } else {
+                                            // TODO : display message
+                                            debugPrint(result[1]);
+                                          }
                                         }
                                       },
                                       child: const Icon(
@@ -621,7 +653,9 @@ class _VibingZoomState extends State<VibingZoom> {
                                       ),
                                     ),
                                   ),
-                                  Text(starCount.toString(),
+                                  Text(
+                                      widget.post![widget.index!].noStar
+                                          .toString(),
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 14,
@@ -890,7 +924,8 @@ class _VibingZoomState extends State<VibingZoom> {
                                   MaterialPageRoute(builder: (context) {
                                 return userProfile(
                                   isUser: false,
-                                  username: widget.post!.username.toString(),
+                                  username: widget.post![widget.index!].username
+                                      .toString(),
                                   tag: "yourprofile",
                                 );
                               }));
@@ -903,15 +938,15 @@ class _VibingZoomState extends State<VibingZoom> {
                                   height: 50.h,
                                   width: 50.w,
                                   child: CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                        widget.post!.userProfilePic),
+                                    backgroundImage: NetworkImage(widget
+                                        .post![widget.index!].userProfilePic),
                                   ),
                                 ),
                                 const Spacer(
                                   flex: 1,
                                 ),
                                 Text(
-                                  widget.post!.username,
+                                  widget.post![widget.index!].username,
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'Poppins',
@@ -946,7 +981,7 @@ class _VibingZoomState extends State<VibingZoom> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    widget.post!.postText,
+                                    widget.post![widget.index!].postText,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       color: Colors.white70,
@@ -975,7 +1010,7 @@ class _VibingZoomState extends State<VibingZoom> {
               color: Colors.amber,
               image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(widget.post!.postMedia))),
+                  image: NetworkImage(widget.post![widget.index!].postMedia))),
         ),
       ),
     );

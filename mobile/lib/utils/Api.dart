@@ -6,6 +6,8 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/models/currentUserdetails.dart';
+import 'package:mobile/screens/Home/controllers/getCuratedPost.dart';
+import 'package:mobile/screens/Home/controllers/getVibedPost.dart';
 import 'package:mobile/screens/Home/models/notificationsModel.dart';
 
 import 'package:mobile/screens/Discover/models/searchresultController.dart';
@@ -32,19 +34,16 @@ class Api {
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
 
-
-
     // Get Posts
     Dio dio = Dio();
     dio.options.headers["Authorization"] = token;
     Response response =
         await dio.get(hostAPI + getVibingPosts + pageNo.toString());
-  //  log(response.data.toString());
+    //  log(response.data.toString());
     var responseData = response.data;
     List postsResponses = responseData['posts'];
     if (responseData['success'].toString() == 'true') {
       for (int i = 0; i < postsResponses.length; i++) {
-
         posts.add(PostDetails(
             userProfilePic: postsResponses[i]['user']['avatar']['url'],
             time: postsResponses[i]['createdAt'],
@@ -57,18 +56,21 @@ class Api {
             id: postsResponses[i]['_id'],
             tuales: postsResponses[i]['tuales'],
             stars: postsResponses[i]['stars'],
+            comment: postsResponses[i]['comments'],
             isTualed: checkGivingTuale(postsResponses[i]['tuales']),
+
             isStared: checkGivingStar(postsResponses[i]['stars']),
             mediaType: postsResponses[i]['mediaType']
         ));
+
       }
     }
 
     return posts;
   }
 
-  Future<List> getCuratedPost() async {
-    int pageNo = 1;
+  Future<List> getCuratedPost(int pageNo) async {
+   // int pageNo = 2;
     List posts = [];
 
     // Get Token
@@ -76,20 +78,18 @@ class Api {
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
 
-
-
     // Get Posts
     Dio dio = Dio();
     dio.options.headers["Authorization"] = token;
     Response response =
         await dio.get(hostAPI + getAllPosts + pageNo.toString());
-  //  log(response.data.toString());
+    //  log(response.data.toString());
     var responseData = response.data;
     List postsResponses = responseData['posts'];
     if (responseData['success'].toString() == 'true') {
       for (int i = 0; i < postsResponses.length; i++) {
-
         posts.add(PostDetails(
+
             userProfilePic: postsResponses[i]['user']['avatar']['url'],
             time: postsResponses[i]['createdAt'],
             postMedia: postsResponses[i]['media']['url'],
@@ -101,9 +101,11 @@ class Api {
             id: postsResponses[i]['_id'],
             tuales: postsResponses[i]['tuales'],
             stars: postsResponses[i]['stars'],
+            comment: postsResponses[i]['comments'],
             isTualed: checkGivingTuale(postsResponses[i]['tuales']),
             isStared:  checkGivingStar(postsResponses[i]['stars']),
             mediaType: postsResponses[i]['mediaType']
+
         ));
       }
     }
@@ -125,14 +127,15 @@ class Api {
     // log(response.data.toString());
     var responseData = response.data;
     print(responseData);
+
     List getList() {
       for (var i in responseData['profile']['staredPosts']) {
         starredPost.add(i['post']['media']['url']);
       }
+      debugPrint('starredpost $starredPost');
       return starredPost;
     }
 
-    getList();
     UserPostDetails info = UserPostDetails(
       id: responseData['profile']['user']['_id'].toString(),
       avatar: responseData['profile']['user']['avatar']['url'].toString(),
@@ -177,12 +180,9 @@ class Api {
           currentuserName: currentUser.data['user']["name"].toString(),
           currentuserBio: currentUser.data["bio"].toString(),
           currentUserUsername: currentUser.data['user']["username"].toString(),
-          unreadNotifications:
-              currentUser.data['user']["name"].toString() == 'true'
-                  ? true
-                  : false,
+          unreadNotifications: currentUser.data['user']["unreadMessage"],
           friends: currentUser.data['userFollowStats']["friends"]);
-
+      print("notify${currentUser.data['user']['unreadMessage']}");
       return loggedUser;
     }
 
@@ -311,7 +311,7 @@ class Api {
                 ? ''
                 : responseData['notifications'][i]['post']['mediaType'],
             id: responseData['notifications'][i]['type'] == 'newFan'
-                ? ''
+                ? responseData['notifications'][i]['user']['_id']
                 : responseData['notifications'][i]['post']['_id']));
       }
     }
@@ -324,6 +324,7 @@ class Api {
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
     PostDetails details = PostDetails(
+
       noComment: 0,
       noStar: 0,
       noTuale: 0,
@@ -335,10 +336,12 @@ class Api {
       userProfilePic: '',
       tuales: [],
       stars: [],
+      comment: [],
       isTualed: false,
       isStared: false,
       mediaType: ''
     );
+
 
     // Get userdetails
     Dio dio = Dio();
@@ -360,10 +363,13 @@ class Api {
           id: responseData['post']['user']['_id'],
           tuales: responseData['post']['tuales'],
           stars: responseData['post']['stars'],
+          comment: responseData['post']['comments'],
           isTualed: checkGivingTuale(responseData['post']['tuales']),
+
           isStared: checkGivingStar(responseData['post']['stars']),
           mediaType: responseData['post']['mediaType']
       );
+
     }
 
     return details;
@@ -390,7 +396,10 @@ class Api {
     dio.options.headers["Authorization"] = token;
     Response response = await dio.post(hostAPI + vibing + id);
     if (response.statusCode == 200) {
-      Get.find<ProfileController>(tag: tag).getProfileInfo(username);
+      Get.put<ProfileController>(
+              ProfileController(controllerusername: username),
+              tag: tag)
+          .getProfileInfo(username);
       Get.find<LoggedUserController>().getLoggeduser();
       Get.put<ProfileController>(
               ProfileController(
@@ -415,7 +424,10 @@ class Api {
     dio.options.headers["Authorization"] = token;
     Response response = await dio.put(hostAPI + unvibing + id);
     if (response.statusCode == 200) {
-      Get.find<ProfileController>(tag: tag).getProfileInfo(username);
+      Get.put<ProfileController>(
+              ProfileController(controllerusername: username),
+              tag: tag)
+          .getProfileInfo(username);
       Get.find<LoggedUserController>().getLoggeduser();
       Get.put<ProfileController>(
               ProfileController(
@@ -442,12 +454,12 @@ class Api {
       Response response = await dio.post(hostAPI + 'post/tuale/' + id);
       var responseData = response.data;
       if (response.statusCode == 200) {
-        return [responseData["success"],responseData["message"]];
+        return [responseData["success"], responseData["message"]];
       }
     } catch (e) {
-      return [false,"Something got wrong"];
+      return [false, "Something got wrong"];
     }
-    return [false,"Oh why??"];
+    return [false, "Oh why??"];
   }
 
   startPost(String id) async {
@@ -461,12 +473,12 @@ class Api {
       Response response = await dio.post(hostAPI + 'post/star/' + id);
       var responseData = response.data;
       if (response.statusCode == 200) {
-        return [responseData["success"],responseData["message"]];
+        return [responseData["success"], responseData["message"]];
       }
     } catch (e) {
-      return [false,"Something got wrong"];
+      return [false, "Something got wrong"];
     }
-    return [false,"Oh why??"];
+    return [false, "Oh why??"];
   }
 
   unStartPost(String id) async {
@@ -480,11 +492,12 @@ class Api {
       Response response = await dio.put(hostAPI + 'post/unstar/' + id);
       var responseData = response.data;
       if (response.statusCode == 200) {
-        return [responseData["success"],responseData["message"]];
+        return [responseData["success"], responseData["message"]];
       }
     } catch (e) {
-      return [false,"Something got wrong"];
+      return [false, "Something got wrong"];
     }
+
     return [false,"Something got wrong"];
   }
 
@@ -514,6 +527,7 @@ class Api {
     } catch (e) {
       return [false,"Something got wrong"];
     }
+
   }
 
   updateUserProfil(String username, String fullname, String bio, String publicId, String url) async {
@@ -572,12 +586,15 @@ class Api {
 
   checkGivingTuale(tuales) {
     // return true if user already give tuale
-    var userId =  Get.find<LoggedUserController>().loggedUser.value.currentuserid;
-    if(tuales.length == 0 ) {
+
+    var userId =
+        Get.find<LoggedUserController>().loggedUser.value.currentuserid;
+    if (tuales.length == 0) {
+      debugPrint('test1  : $tuales');
+
       return false;
-    }
-    else{
-      if (tuales.any((item) => item["user"] ==  userId)) {
+    } else {
+      if (tuales.any((item) => item["user"] == userId)) {
         return true;
       }
       return false;
@@ -590,15 +607,38 @@ class Api {
 
   checkGivingStar(stars) {
     // return true if user already give star
-    var userId =  Get.find<LoggedUserController>().loggedUser.value.currentuserid;
-    if(stars.length == 0 ) {
+
+    var userId =
+        Get.find<LoggedUserController>().loggedUser.value.currentuserid;
+    if (stars.length == 0) {
+      debugPrint('star-test');
+
       return false;
-    }
-    else{
-      if (stars.any((item) => item["user"] ==  userId)) {
+    } else {
+      if (stars.any((item) => item["user"] == userId)) {
         return true;
       }
       return false;
     }
+  }
+
+  Future commentOnAPost(String postId, String comment) async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio
+          .post(hostAPI + 'post/comment/' + postId, data: {'text': comment});
+
+      if (response.statusCode == 200) {
+        print("comment sent");
+        Get.isRegistered<CuratedPostController>()
+            ? Get.find<CuratedPostController>().getCuratedPosts()
+            : Get.find<VibedPostController>().getVibedPosts();
+      }
+    } catch (e) {}
   }
 }

@@ -21,7 +21,10 @@ class OnePostController extends GetxController {
     stars: [],
     isTualed: false,
     isStared: false,
+
     mediaType: ''
+
+    comment: [],
   ).obs;
   final Api _api = Api();
   var isLoading = true.obs;
