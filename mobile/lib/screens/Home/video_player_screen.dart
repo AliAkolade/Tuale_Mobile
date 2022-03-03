@@ -15,7 +15,7 @@ class VideoPlayerScreen extends StatefulWidget {
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   late VideoPlayerController videoController;
-  bool microIcon = false;
+  bool microIcon = true;
   bool displayPlayBtn = true;
   bool displayParams = false;
 
@@ -25,7 +25,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         widget.videoUrl,
         videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true))
       ..setLooping(true)
-      ..setVolume(0)
+      ..setVolume(0.1)
       ..initialize().then((_) => videoController.play()
       )
     ;
@@ -35,16 +35,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   void dispose() {
+    debugPrint("dispose : ${widget.enablePlayBtn}");
     videoController.dispose();
     super.dispose();
   }
-
-
-  /*@override
-  void deactivate() {
-    debugPrint("deactive : ${widget.enablePlayBtn}");
-    videoController.dispose();
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -69,41 +63,42 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 )*/
               },
             ),
-            if(widget.enablePlayBtn)
+            if(widget.enablePlayBtn)...[
               Visibility(
-              visible: displayParams,
-              child: Align(
-                alignment: Alignment.center,
+                visible: displayParams,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          displayPlayBtn ? videoController.pause() : videoController.play();
+                          displayPlayBtn = !displayPlayBtn;
+                        });
+                      },
+                      child: Icon(
+                        displayPlayBtn ? Icons.pause_circle_outline_outlined : Icons.play_circle_outline,
+                        size: 100, color: Colors.white,)
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 20,
+                right: 20,
                 child: GestureDetector(
-                    onTap: (){
-                      setState(() {
-                        displayPlayBtn ? videoController.pause() : videoController.play();
-                        displayPlayBtn = !displayPlayBtn;
-                      });
-                    },
-                    child: Icon(
-                      displayPlayBtn ? Icons.pause_circle_outline_outlined : Icons.play_circle_outline,
-                      size: 100, color: Colors.white,)
+                  child: Icon(
+                    microIcon ? Icons.volume_down_rounded  : Icons.volume_off_rounded,
+                    size: 35,
+                    color: Colors.white,
+                  ),
+                  onTap: (){
+                    setState(() {
+                      microIcon ? videoController.setVolume(0) : videoController.setVolume(1);
+                      microIcon = !microIcon;
+                    });
+                  },
                 ),
-              ),
-            ),
-            Positioned(
-              bottom: 20,
-              right: 20,
-              child: GestureDetector(
-                child: Icon(
-                  microIcon ? Icons.volume_down_rounded  : Icons.volume_off_rounded,
-                  size: 35,
-                  color: Colors.white,
-                ),
-                onTap: (){
-                  setState(() {
-                    microIcon ? videoController.setVolume(0) : videoController.setVolume(1);
-                    microIcon = !microIcon;
-                  });
-                },
-              ),
-            )
+              )
+            ]
           ],
         )
     );

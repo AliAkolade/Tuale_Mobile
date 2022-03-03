@@ -3,6 +3,7 @@ import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile/controller/loggedUserController.dart';
+import 'package:mobile/screens/Profile/controllers/profileController.dart';
 import 'package:mobile/screens/Profile/profile_screen.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -70,9 +71,8 @@ class _EditProfileState extends State<EditProfile> {
     );
     if(result[0]) {
       debugPrint(result[1]);
-      // TODO : Everything pass
-      // TODO : refresh currentUserInformations
-      //Navigator.pop(context);
+      // TODO : try to Everything pass - refresh currentUserInformations
+      //Get.put(ProfileController(controllerusername:currentusername), tag: "myprofile").getProfileInfo(currentusername)
     }else{
       debugPrint("Err : "+result[1]);
     }

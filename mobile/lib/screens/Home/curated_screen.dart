@@ -149,7 +149,7 @@ class _CuratedState extends State<Curated> {
                                 debugPrint("User double tap");
                               },
                               onTap: () {
-                                Navigator.push(context,
+                                Navigator.pushReplacement(context,
                                     MaterialPageRoute(builder: (context) {
                                       return VibingZoom(
                                         post: Get.find<CuratedPostController>()
