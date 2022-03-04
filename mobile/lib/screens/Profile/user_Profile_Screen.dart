@@ -49,12 +49,6 @@ class _ProfileState extends State<userProfile> with RouteAware {
   @override
   void initState() {
     super.initState();
-
-    // profileController = Get.put<ProfileController>(
-    //     ProfileController(controllerusername: widget.username!),
-    //     tag: widget.tag!);
-
-//    Get.put(UserPostsController(username: widget.username), tag: widget.tag);
   }
 
   @override
@@ -73,14 +67,12 @@ class _ProfileState extends State<userProfile> with RouteAware {
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child:  const Icon(
+                        child: const Icon(
                           Icons.arrow_back_rounded,
                           color: Colors.black,
                         ),
                       ),
                 actions: [
-
-
                   widget.isUser!
                       ? IconButton(
                           icon: const Icon(
@@ -94,15 +86,21 @@ class _ProfileState extends State<userProfile> with RouteAware {
                             final SharedPreferences prefs = await _prefs;
 
                             prefs.setBool('isLoggedIn', false);
+                            // Navigator.of(context).pushAndRemoveUntil(
+                            //     MaterialPageRoute(
+                            //         builder: (context) => Welcome()),
+                            //     (Route<dynamic> route) => false);
                             pushNewScreen(context,
-                                screen: const Welcome(),
+                                screen: Welcome() ,
                                 withNavBar: false,
                                 pageTransitionAnimation:
                                     PageTransitionAnimation.cupertino);
+                                     runApp(MyApp(
+                                       isLoggedIn: false,
+                                     ));
                           },
                         )
                       : Container(),
-
                 ],
                 centerTitle: true,
                 elevation: 0,
@@ -110,7 +108,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                 title: GetX<ProfileController>(
                     init:
                         ProfileController(controllerusername: widget.username),
-                    tag: widget.tag,  
+                    tag: widget.tag,
                     builder: (context) {
                       return Text(
                         context.profileInfo.value.name!,
@@ -144,7 +142,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                         flexibleSpace: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                           const TabBar(
+                            const TabBar(
                                 unselectedLabelColor: Colors.grey,
                                 indicatorColor: Colors.transparent,
                                 indicatorWeight: 1.1,
@@ -185,13 +183,13 @@ class _ProfileState extends State<userProfile> with RouteAware {
                 body: TabBarView(
                   children: [
                     Builder(builder: (context) {
-                      return CustomScrollView (
+                      return CustomScrollView(
                         slivers: [
                           SliverOverlapInjector(
                               handle: NestedScrollView
                                   .sliverOverlapAbsorberHandleFor(context)),
                           AllPosts(username: widget.username, tag: widget.tag),
-                        ], 
+                        ],
                       );
                     }),
                     Builder(builder: (context) {
@@ -357,7 +355,7 @@ class ProfileInfotwo extends StatelessWidget {
                                   height: 1),
                             );
                           }),
-                    const Text(
+                      const Text(
                         "Friends",
                         style: TextStyle(
                             color: Colors.black54,
@@ -557,7 +555,7 @@ class profileButton extends StatelessWidget {
                   : Api().vibeWithUser(userId!, username!, tag!);
             },
             style: ElevatedButton.styleFrom(
-                primary: tualeBlueDark,
+                primary: isFollowing() ? tualeOrange : tualeBlueDark,
                 minimumSize: const Size(150, 45),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10))),

@@ -13,21 +13,22 @@ class PostDetails {
   bool isTualed;
   bool isStared;
   String mediaType;
+  List? comment;
 
-  PostDetails({
-    required this.id,
-    required this.userProfilePic,
-    required this.time,
-    required this.postMedia,
-    required this.postText,
-    required this.noTuale,
-    required this.noStar,
-    required this.noComment,
-    required this.username,
-    required this.tuales,
-    required this.stars,
-    required this.isTualed,
-    required this.isStared,
-    required this.mediaType,
-  });
+  PostDetails(
+      {required this.id,
+      required this.userProfilePic,
+      required this.time,
+      required this.postMedia,
+      required this.postText,
+      required this.noTuale,
+      required this.noStar,
+      required this.noComment,
+      required this.username,
+      required this.tuales,
+      required this.stars,
+      required this.isTualed,
+      required this.isStared,
+      required this.mediaType,
+      required this.comment});
 }

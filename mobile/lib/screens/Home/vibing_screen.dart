@@ -52,6 +52,7 @@ class _VibingState extends State<Vibing> {
                 bool starred = false;
 
                 return Obx(
+
                   () => Get.find<VibedPostController>()
                               .vibePost
                               .value[index]
@@ -173,6 +174,7 @@ class _VibingState extends State<Vibing> {
                                         .value[index]
                                         .postMedia,
                                     fit: BoxFit.cover,
+
                                   ),
                                 ),
                               ),
@@ -277,7 +279,7 @@ class _VibingState extends State<Vibing> {
                   child: Column(
                     children: [
                       AnimatedCrossFade(
-                        duration: const Duration(seconds: 1),
+                        duration: const Duration(milliseconds: 1),
                         crossFadeState: posts[index].isTualed
                             ? CrossFadeState.showSecond
                             : CrossFadeState.showFirst,
@@ -344,7 +346,7 @@ class _VibingState extends State<Vibing> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       AnimatedCrossFade(
-                        duration: const Duration(seconds: 1),
+                        duration: const Duration(milliseconds: 1),
                         crossFadeState: posts[index].isStared
                             ? CrossFadeState.showSecond
                             : CrossFadeState.showFirst,

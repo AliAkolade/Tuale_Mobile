@@ -30,7 +30,28 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   late PersistentTabController _controller;
 
+
   // TODO : new design
+
+  List<Widget> _buildScreens() {
+    return [
+      Home(),
+      SearchScreen(),
+      PostTimeline(fileContent: File(""), filePath: "",mediaType: "image",),
+      Leaderboard(),
+      Obx(
+        () => userProfile(
+          isUser: true,
+          username: Get.find<LoggedUserController>()
+              .loggedUser
+              .value
+              .currentUserUsername,
+          tag: "myprofile",
+        ),
+      )
+    ];
+  }
+
 
   int _currentIndex = 0;
   double iconSize = 30.0;
@@ -55,6 +76,7 @@ class _NavBarState extends State<NavBar> {
   @override
   void initState() {
     Get.put(NotificationsController());
+    Get.put(LoggedUserController());
     // Api().getNotifications;
 
     setState(() {
@@ -77,6 +99,7 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
 
+
     return Scaffold(
       body: _children[_currentIndex],
       bottomNavigationBar: Container(
@@ -86,6 +109,7 @@ class _NavBarState extends State<NavBar> {
           boxShadow: [
             BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
           ],
+
         ),
         child: BottomNavigationBar(
           elevation: 10,
@@ -123,8 +147,10 @@ class _NavBarState extends State<NavBar> {
             ),
           ],
         ),
+
       ),
     );
+
   }
 }
 

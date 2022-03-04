@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Home/controllers/notificationsController.dart';
 import 'package:mobile/screens/Home/models/notificationsModel.dart';
 import 'package:mobile/screens/Home/models/notificationsModel.dart';
@@ -18,7 +19,7 @@ class Notifications extends StatefulWidget {
 class _NotificationsState extends State<Notifications> {
   @override
   void initState() {
-    Api().setNotificationToRead();
+    // Api().setNotificationToRead();
     super.initState();
   }
 
@@ -123,6 +124,7 @@ class _NotificationsState extends State<Notifications> {
                               : notifications[index].type == 'newFan'
                                   ? newFan(
                                       username: notifications[index].username,
+                                      id: notifications[index].id,
                                     )
                                   : Container();
 
@@ -136,74 +138,104 @@ class _NotificationsState extends State<Notifications> {
 
 class newFan extends StatelessWidget {
   String? username;
-  newFan({this.username});
+  String? id;
+  newFan({this.username, this.id});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 20, right: 4),
-      //  color: Colors.black,
-      height: 50,
-      width: MediaQuery.of(context).size.width,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          RichText(
-            text: TextSpan(
-              text: '@' + username! + " ",
-              style: TextStyle(
-                  fontSize: 15.sp,
-                  color: tualeBlueDark.withOpacity(0.7),
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.normal),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return userProfile(
-                      isUser: false,
-                      username: username,
-                      tag: "notification",
-                    );
-                  }));
-                },
-              children: <TextSpan>[
-                TextSpan(
-                    text: 'started vibing with you',
-                    style: TextStyle(color: Colors.black.withOpacity(0.8))),
-              ],
+      bool isFollowing() {
+      bool followed = false;
+      for (var i
+          in Get.find<LoggedUserController>().loggedUser.value.friends!) {
+        // print(i['user']);
+        if ( id ==
+            i["user"]) {
+          followed = true;
+          break;
+        } else {
+          followed = false;
+        }
+      }
+      // print(followed);
+      // print(Get.find<LoggedUserController>().loggedUser.value.friends!);
+      // print(Get.put(ProfileController(controllerusername: username), tag: tag!)
+      //     .profileInfo
+      //     .value
+      //     .id!);
+      return followed;
+    }
+    return Obx(() =>
+      Container(
+        padding: EdgeInsets.only(left: 20, right: 4),
+        //  color: Colors.black,
+        height: 50,
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            RichText(
+              text: TextSpan(
+                text: '@' + username! + " ",
+                style: TextStyle(
+                    fontSize: 15.sp,
+                    color: tualeBlueDark.withOpacity(0.7),
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.normal),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return userProfile(
+                        isUser: false,
+                        username: username,
+                        tag: "notification",
+                      );
+                    }));
+                  },
+                children: <TextSpan>[
+                  TextSpan(
+                      text: 'started vibing with you',
+                      style: TextStyle(color: Colors.black.withOpacity(0.8))),
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            width: 114.w,
-            height: 36.h,
-            child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                    minimumSize: Size(45.w, 39.h),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text('Vibe Back',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Color.fromRGBO(255, 255, 255, 1),
-                            fontFamily: 'Poppins',
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            height: 1)),
-                    Container(
-                        padding: EdgeInsets.only(
-                          bottom: 4,
-                        ),
-                        height: 20,
-                        width: 20,
-                        child: SvgPicture.asset("assets/icon/vibe.svg"))
-                  ],
-                )),
-          ),
-        ],
+            SizedBox(
+              width: 114.w,
+              height: 36.h,
+              child: ElevatedButton(
+                  onPressed: () {
+                     isFollowing()
+                    ? Api().unvibeWithUser(id!, username!, "notifications")
+                    : Api().vibeWithUser(id!, username!, "notifications");
+                  },
+                  style: ElevatedButton.styleFrom(
+                      primary: isFollowing() ? tualeOrange : tualeBlueDark,
+                      minimumSize: Size(45.w, 39.h),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text( isFollowing() ? 'Vibing' : 'Vibe back',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              fontFamily: 'Poppins',
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w600,
+                              height: 1)),
+                      Container(
+                          padding: EdgeInsets.only(
+                            bottom: 4,
+                          ),
+                          height: 20,
+                          width: 20,
+                          child: isFollowing()?  SvgPicture.asset(
+                                      "assets/icon/vibingUser.svg") : SvgPicture.asset("assets/icon/vibe.svg"))
+                    ],
+                  )),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -53,7 +53,7 @@ class _HomeState extends State<Home> {
                                         child: const Icon(Icons.refresh_rounded,
                                             color: tualeBlueDark),
                                         onTap: () {
-                                        // Curated().loadPosts(context);
+                                          // Curated().loadPosts(context);
                                           //Vibing.loadPosts(context);
                                         }),
                                     const SizedBox(width: 10),
@@ -108,10 +108,12 @@ class _HomeState extends State<Home> {
                                             ],
                                           ),
                                           onTap: () {
-                                            Get.find<LoggedUserController>()
-                                                .loggedUser
-                                                .value
-                                                .unreadNotifications = false;
+                                            print(
+                                                Get.find<LoggedUserController>()
+                                                    .loggedUser
+                                                    .value
+                                                    .unreadNotifications);
+                                            //= false;
                                             Navigator.push(context,
                                                 MaterialPageRoute(
                                                     builder: (context) {
