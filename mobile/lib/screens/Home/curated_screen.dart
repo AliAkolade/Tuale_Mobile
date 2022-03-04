@@ -102,6 +102,7 @@ class _CuratedState extends State<Curated> {
                           : Obx(() => Get.find<CuratedPostController>()
                                       .curatedPost
                                       .value[index]
+
                                       .mediaType !=
                                   "image"
                               ? Text("video")
@@ -171,6 +172,7 @@ class _CuratedState extends State<Curated> {
                               //                                   .value),
                               //                         ),
                               //                       ),
+
 
                               //                       //user post info
                               //                       Obx(() => userInfo(
@@ -259,6 +261,7 @@ class _CuratedState extends State<Curated> {
                                     });
                                   }
                                 );*/
+
                                           },
                                           onTap: () {
                                             Navigator.push(context,
@@ -315,6 +318,7 @@ class _CuratedState extends State<Curated> {
                     },
                   );
                 });
+
           }
           return Center(
               child: SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75)));

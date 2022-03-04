@@ -398,13 +398,33 @@ class SaveBioBtn extends StatelessWidget {
   }
 }
 
-class ChangePassBtn extends StatelessWidget {
-  TextEditingController currentPwd = TextEditingController();
-  TextEditingController newPwd= TextEditingController();
-  TextEditingController cNewPwd= TextEditingController();
+class ChangePassBtn extends StatefulWidget {
+
   ChangePassBtn({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<ChangePassBtn> createState() => _ChangePassBtnState();
+}
+
+class _ChangePassBtnState extends State<ChangePassBtn> {
+  TextEditingController currentPwd = TextEditingController();
+
+  TextEditingController newPwd= TextEditingController();
+
+  TextEditingController cNewPwd= TextEditingController();
+
+  showSnackBar(String msg, bool success) {
+    final snackBar = SnackBar(
+      content: Text(msg, style: const TextStyle(color: Colors.white),
+      ),
+      backgroundColor: success ? Colors.green : tualeOrange,
+      duration: const Duration(seconds: 5),
+      padding: const EdgeInsets.all(20),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -450,11 +470,15 @@ class ChangePassBtn extends StatelessWidget {
                               var res = await Api().updateUserPwd(currentPwd.text,newPwd.text);
                               if(res[0]){
                                 debugPrint(res[1]);
+                                showSnackBar(res[1],res[0]);
                               }else{
                                 debugPrint(res[1]);
+                                showSnackBar(res[1],res[0]);
                               }
                             }else{
-                              debugPrint("NewPwd and ConfirmPwd are different");
+                              String errMsg = "NewPwd and ConfirmPwd are different";
+                              debugPrint(errMsg);
+                              showSnackBar(errMsg,false);
                             }
                           },
                         ),

@@ -89,7 +89,7 @@ class _VibingState extends State<Vibing> {
                                   right: 0,
                                   child: GestureDetector(
                                     onTap: () {
-                                      Navigator.push(context,
+                                      Navigator.pushReplacement(context,
                                           MaterialPageRoute(builder: (context) {
                                         return VibingZoom(
                                           post: Get.find<VibedPostController>()
@@ -184,7 +184,7 @@ class _VibingState extends State<Vibing> {
                                   right: 0,
                                   child: GestureDetector(
                                     onTap: () {
-                                      Navigator.push(context,
+                                      Navigator.pushReplacement(context,
                                           MaterialPageRoute(builder: (context) {
                                         return VibingZoom(
                                           post: Get.find<VibedPostController>()
