@@ -82,10 +82,20 @@ class _PostTimelineState extends State<PostTimeline> {
         var result = await Api().makeNewPost(mediaType,publicId,url,desc);
         if(result[0]) {
           debugPrint(result[1]);
-          // TODO : Everything pass
-          Navigator.pop(context);
+          showSnackBar(result[1],result[0]);
+          // TODO : Everything pass so redirect to homepage and refresh comonent
+          Future.delayed(
+            const Duration(seconds: 3), (){
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => NavBar(index: 0,)),
+              );
+            }
+          );
+          //Navigator.pop(context);
         }else{
           debugPrint("Err : "+result[1]);
+          showSnackBar(result[1],result[0]);
         }
         Loader.hide();
       }else{
@@ -98,10 +108,21 @@ class _PostTimelineState extends State<PostTimeline> {
     }
   }
 
+  showSnackBar(String msg, bool success) {
+    final snackBar = SnackBar(
+      content: Text(msg, style: const TextStyle(color: Colors.white),
+      ),
+      backgroundColor: success ? Colors.green : tualeOrange,
+      duration: const Duration(seconds: 5),
+      padding: const EdgeInsets.all(20),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   void dispose() {
     Loader.hide();
-
+    videoController.dispose();
     super.dispose();
   }
 
@@ -152,7 +173,7 @@ class _PostTimelineState extends State<PostTimeline> {
               SizedBox(
                 height: double.infinity,
                 width: double.infinity,
-                child: widget.fileContent != File("") ?
+                child: widget.filePath != "" ?
                     Image.file(widget.fileContent) :
                     const Image(
                     fit: BoxFit.cover,

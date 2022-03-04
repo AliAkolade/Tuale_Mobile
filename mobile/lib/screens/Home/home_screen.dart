@@ -15,6 +15,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   @override
+  void initState() {
+    // TODO: implement initState
+    debugPrint("HomePage");
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     print(currentUsername);
     return WillPopScope(

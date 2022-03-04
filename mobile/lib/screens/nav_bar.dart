@@ -30,83 +30,27 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   late PersistentTabController _controller;
 
-  List<Widget> _buildScreens() {
-    return [
-      Home(),
-      SearchScreen(),
-      PostTimeline(fileContent: File(""), filePath: "",mediaType: "image",),
-      Leaderboard(),
-      Obx(
-        () => userProfile(
-          isUser: true,
-          username: Get.put(LoggedUserController())
-              .loggedUser
-              .value
-              .currentUserUsername,
-          tag: "myprofile",
-        ),
-      )
-    ];
-  }
+  // TODO : new design
 
-  List<PersistentBottomNavBarItem> _navBarsItems() {
-    return [
-      PersistentBottomNavBarItem(
-        icon: const Icon(Icons.home_rounded),
-        title: ("Home"),
-        activeColorPrimary: tualeOrange,
-        inactiveColorPrimary: tualeBlueDark,
-      ),
-      PersistentBottomNavBarItem(
-          icon: const Icon(FontAwesomeIcons.solidCompass),
-          title: ("Discover"),
-          activeColorPrimary: tualeOrange,
-          inactiveColorPrimary: tualeBlueDark),
-      PersistentBottomNavBarItem(
-        iconSize: 40,
-        //  contentPadding: 2,
-        icon: Padding(
-          padding: EdgeInsets.only(bottom: 30),
-          child: Icon(
-            Icons.add_circle,
-          ),
-        ),
+  int _currentIndex = 0;
+  double iconSize = 30.0;
 
-        title: ("."),
-        activeColorPrimary: tualeOrange,
-        inactiveColorPrimary: tualeBlueDark,
-        onPressed: (context) async {
-          await cameraSelect(selectedTabContext);
-        },
+  final List<Widget> _children = [
+    Home(),
+    SearchScreen(),
+    PostTimeline(fileContent: File(""), filePath: "",mediaType: "image",),
+    Leaderboard(),
+    Obx(
+          () => userProfile(
+        isUser: true,
+        username: Get.put(LoggedUserController())
+            .loggedUser
+            .value
+            .currentUserUsername,
+        tag: "myprofile",
       ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(Icons.leaderboard_rounded),
-        title: ("Leaderboard"),
-        activeColorPrimary: tualeOrange,
-        inactiveColorPrimary: tualeBlueDark,
-      ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(Icons.person),
-        title: ("Profile"),
-        activeColorPrimary: tualeOrange,
-        inactiveColorPrimary: tualeBlueDark,
-        // onPressed: (context) {
-        //   Get.put(
-        //           ProfileController(
-        //               controllerusername: Get.put(LoggedUserController())
-        //                   .loggedUser
-        //                   .value
-        //                   .currentUserUsername),
-        //           tag: 'myprofile')
-        //       .getProfileInfo(Get.put(LoggedUserController())
-        //           .loggedUser
-        //           .value
-        //           .currentUserUsername!);
-
-        // }
-      ),
-    ];
-  }
+    )
+  ];
 
   @override
   void initState() {
@@ -118,46 +62,69 @@ class _NavBarState extends State<NavBar> {
     });
   }
 
+  onTabTapped(int index) {
+    // try to show animation when user want to publish
+    if(index== 2) {
+      cameraSelect(context);
+    }
+    else{
+      setState(() {
+        _currentIndex = index;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<camera>(builder: (context, cam, child) {
-      return PersistentTabView(
-        context,
-        selectedTabScreenContext: (context) {
-          selectedTabContext = context;
-        },
-        controller: _controller,
-        screens: _buildScreens(),
-        items: _navBarsItems(),
-        confineInSafeArea: true,
-        backgroundColor: Colors.white, // Default is Colors.white.
-        handleAndroidBackButtonPress: true, // Default is true.
-        resizeToAvoidBottomInset:
-            true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-        stateManagement: true, // Default is true.
-        hideNavigationBarWhenKeyboardShows: true,
-        hideNavigationBar: cam
-            .hideNav, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
-        decoration: NavBarDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          colorBehindNavBar: Colors.white,
+
+    return Scaffold(
+      body: _children[_currentIndex],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+          boxShadow: [
+            BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+          ],
         ),
-        popAllScreensOnTapOfSelectedTab: true,
-        popActionScreens: PopActionScreensType.all,
-        itemAnimationProperties: const ItemAnimationProperties(
-          // Navigation Bar's items animation properties.
-          duration: Duration(milliseconds: 200),
-          curve: Curves.ease,
+        child: BottomNavigationBar(
+          elevation: 10,
+          backgroundColor: Colors.red,
+          fixedColor: tualeOrange,
+          onTap: onTabTapped,
+          currentIndex: _currentIndex,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home_rounded, color: tualeBlueDark,size: iconSize,),
+              label: 'Home',
+              //backgroundColor: Colors.red,
+              activeIcon: Icon(Icons.home_rounded, color: tualeOrange,size: iconSize,),
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.solidCompass, color: tualeBlueDark,size: iconSize,),
+                label: 'Discover',
+                //backgroundColor: Colors.red,
+                activeIcon: Icon(FontAwesomeIcons.solidCompass, color: tualeOrange,size: iconSize,)
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.add_circle, color: tualeBlueDark,size: iconSize,),
+                label: '',
+                activeIcon: Icon(Icons.add_circle, color: tualeOrange,size: iconSize,)
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.leaderboard_rounded, color: tualeBlueDark,size: iconSize,),
+                label: 'Leaderboard',
+                activeIcon: Icon(Icons.leaderboard_rounded, color: tualeOrange,size: iconSize,)
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person, color: tualeBlueDark,size: iconSize,),
+                label: 'Profile',
+                activeIcon: Icon(Icons.person, color: tualeOrange,size: iconSize,)
+            ),
+          ],
         ),
-        screenTransitionAnimation: const ScreenTransitionAnimation(
-          // Screen transition animation on change of selected tab.
-          animateTabTransition: true,
-          curve: Curves.ease,
-          duration: Duration(milliseconds: 200),
-        ),
-        navBarStyle: NavBarStyle.simple,
-      );
-    });
+      ),
+    );
   }
 }
 

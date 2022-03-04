@@ -43,6 +43,9 @@ class _EditProfileState extends State<EditProfile> {
       profilImg = currentUsr.currentuserAvatarUrl! != "" ?
       currentUsr.currentuserAvatarUrl! : "https://i.pinimg.com/originals/7a/e7/06/7ae706d977ccd25285c9fe7f424e247d.jpg";
     });
+
+
+    debugPrint("initstate : ${username.text }");
     super.initState();
   }
 
@@ -59,6 +62,17 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
+  showSnackBar(String msg, bool success) {
+    final snackBar = SnackBar(
+      content: Text(msg, style: const TextStyle(color: Colors.white),
+      ),
+      backgroundColor: success ? Colors.green : tualeOrange,
+      duration: const Duration(seconds: 5),
+      padding: const EdgeInsets.all(20),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
 
   updateProfilApi(String publicId, String url) async{
 
@@ -71,10 +85,14 @@ class _EditProfileState extends State<EditProfile> {
     );
     if(result[0]) {
       debugPrint(result[1]);
+      showSnackBar(result[1],result[0]);
       // TODO : try to Everything pass - refresh currentUserInformations
-      //Get.put(ProfileController(controllerusername:currentusername), tag: "myprofile").getProfileInfo(currentusername)
+      Get.delete<LoggedUserController>;
+      Get.put(LoggedUserController());
+      Get.put(ProfileController(controllerusername:username.text), tag: "myprofile").getProfileInfo(username.text);
     }else{
       debugPrint("Err : "+result[1]);
+      showSnackBar(result[1],result[0]);
     }
   }
 

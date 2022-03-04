@@ -262,7 +262,7 @@ class _CuratedState extends State<Curated> {
                                 );*/
                               },
                               onTap: () {
-                                Navigator.push(context,
+                                Navigator.pushReplacement(context,
                                     MaterialPageRoute(builder: (context) {
                                       return VibingZoom(
                                         post: Get.find<CuratedPostController>()
