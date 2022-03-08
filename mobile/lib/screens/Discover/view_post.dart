@@ -319,15 +319,10 @@ class _ViewPostState extends State<ViewPost> {
                                               const Spacer(
                                                 flex: 1,
                                               ),
-                                               Text(
-                                                "1 day ago",
-                                                style: TextStyle(
-                                                  color: Colors.white70,
-                                                  fontFamily: 'Poppins',
-                                                  fontSize: 10.sp,
-
-                                                  //height: 1
-                                                ),
+                                              const Icon(
+                                                Icons.check_circle,
+                                                color: Colors.blue,
+                                                size: 17,
                                               ),
                                               const Spacer(
                                                 flex: 10,

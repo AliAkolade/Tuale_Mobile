@@ -446,22 +446,17 @@ Column userInfoWidget(BuildContext context, int index, List posts) {
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'Poppins',
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           height: 1),
                     ),
                     const Spacer(
                       flex: 1,
                     ),
-                    Text(
-                      "1 day ago",
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontFamily: 'Poppins',
-                        fontSize: 12.sp,
-
-                        //height: 1
-                      ),
+                    const Icon(
+                      Icons.check_circle,
+                      color: Colors.blue,
+                      size: 17,
                     ),
                     const Spacer(
                       flex: 10,
@@ -481,7 +476,7 @@ Column userInfoWidget(BuildContext context, int index, List posts) {
                     style: TextStyle(
                         color: Colors.white,
                         // fontFamily: 'Poppins',
-                        fontSize: 11.sp,
+                        fontSize: 14,
                         height: 1),
                   ),
                   /*Icon(
@@ -533,7 +528,7 @@ class _actionBarState extends State<actionBar> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 400.h,
-      width: 100.w,
+      width: 110.w,
       // color: Colors.white,
       child: CustomPaint(
         size: Size(100, (100 * 3.536842105263158).toDouble()),
@@ -810,7 +805,7 @@ class _commentModalState extends State<commentModal> {
             SizedBox(
               height: 370.h,
               child: widget.posts![widget.index!].comment.isEmpty
-                  ? Text('no comment')
+                  ? Center(child: Text('no comment'))
                   : ListView.builder(
                       scrollDirection: Axis.vertical,
                       itemCount: widget.posts![widget.index!].comment.length,

@@ -118,7 +118,7 @@ class _LeaderboardState extends State<Leaderboard> {
                               style: TextStyle(
                                 color: tualeBlueDark,
                                 fontFamily: 'Poppins',
-                                fontSize: 20.sp,
+                                fontSize: 17.sp,
                               ),
                             ),
                             Text(
@@ -126,7 +126,7 @@ class _LeaderboardState extends State<Leaderboard> {
                               style: TextStyle(
                                 color: tualeBlueDark.withOpacity(0.5),
                                 fontFamily: 'Poppins',
-                                fontSize: 14.sp,
+                                fontSize: 13.sp,
                                 height: 1,
                               ),
                             )

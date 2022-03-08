@@ -385,7 +385,7 @@ class __actionBarState extends State<_actionBar> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 400.h,
-      width: 100.w,
+      width: 110.w,
       // color: Colors.white,
       child: CustomPaint(
         size: Size(100, (100 * 3.536842105263158).toDouble()),
@@ -628,7 +628,7 @@ class _commentModalState extends State<_commentModal> {
             SizedBox(
               height: 370.h,
               child: widget.posts![widget.index!].comment.isEmpty
-                  ? Text('no comment')
+                  ? Center(child: Text('no comment'))
                   : ListView.builder(
                       scrollDirection: Axis.vertical,
                       itemCount: widget.posts![widget.index!].comment.length,

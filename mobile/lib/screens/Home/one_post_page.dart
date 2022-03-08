@@ -202,14 +202,19 @@ class _OnePostState extends State<OnePost> {
                                         const Spacer(
                                           flex: 1,
                                         ),
-                                        Text(
+                                        const Icon(
+                                          Icons.check_circle,
+                                          color: Colors.blue,
+                                          size: 17,
+                                        ),
+                                        /*Text(
                                           "1 day ago",
                                           style: TextStyle(
                                               color: Colors.white70,
                                               fontFamily: 'Poppins',
                                               fontSize: 12.sp,
                                               height: 1),
-                                        ),
+                                        ),*/
                                         const Spacer(
                                           flex: 15,
                                         ),
@@ -581,7 +586,7 @@ class _commentModalState extends State<_commentModal> {
             SizedBox(
               height: 370.h,
               child: widget.posts!.comment!.isEmpty
-                  ? Text('no comment')
+                  ? Center(child: Text('no comment'))
                   : ListView.builder(
                       scrollDirection: Axis.vertical,
                       itemCount: widget.posts!.comment!.length,

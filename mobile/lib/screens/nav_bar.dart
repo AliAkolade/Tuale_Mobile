@@ -112,9 +112,10 @@ class _NavBarState extends State<NavBar> {
         ),
         child: BottomNavigationBar(
           unselectedItemColor: Colors.black,
+          type: BottomNavigationBarType.fixed,
           showUnselectedLabels: true,
           elevation: 10,
-          backgroundColor: Colors.red,
+          //backgroundColor: Colors.red,
           fixedColor: tualeOrange,
           onTap: onTabTapped,
           currentIndex: _currentIndex,
@@ -152,7 +153,7 @@ class _NavBarState extends State<NavBar> {
                   color: tualeBlueDark,
                   size: 50,
                 ),
-                label: 'Post',
+                label: '',
                 activeIcon: Icon(
                   Icons.add_circle,
                   color: tualeOrange,
