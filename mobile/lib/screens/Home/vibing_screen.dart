@@ -13,6 +13,9 @@ class Vibing extends StatefulWidget {
   _VibingState createState() => _VibingState();
 }
 
+bool displayTualeAnimation = false;
+final scrollController = ScrollController();
+
 bool tualed = false;
 int tualCount = 0;
 int starCount = 0;
@@ -22,245 +25,364 @@ class _VibingState extends State<Vibing> {
   VibedPostController control = VibedPostController();
 
   @override
+  void dispose() {
+    Get.delete<VibedPostController>();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     //  Api().getVibingPost();
-    Api().getUserProfile("demilade211");
     control = Get.put(VibedPostController());
+    scrollController.addListener(scrollPosition);
+    Api().getUserProfile("demilade211");
+
     print(Api.currentUserId);
+  }
+
+  void scrollPosition() {
+    if (scrollController.position.atEdge) {
+      final isTop = scrollController.position.pixels == 0;
+      if (isTop) {
+        print("at the top");
+      } else {
+        print("at tbe bottom");
+
+        Get.find<VibedPostController>().getMoreVibePosts();
+      }
+    }
+    ;
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: control.getVibedPosts(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          List posts = control.vibePost.value;
+        //Api().getVibingPost(),
+        builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            print(control.vibePost.value.length);
+            // List posts = snapshot.data;
 
-            if (control.vibePost.value.length == 0) {
-              return Center(
-                  child: Text("You haven't vibed with anyone yet :) "));
-            }
-            return ListView.builder(
-              itemCount: control.vibePost.value.length,
-              itemBuilder: (BuildContext context, int index) {
-                bool tualed = false;
-                int tualCount = 0;
-                int starCount = 0;
-                bool starred = false;
+            return GetBuilder<VibedPostController>(
+                init: VibedPostController(),
+                builder: (control) {
+                  return ListView.builder(
+                    controller: scrollController,
+                    key: PageStorageKey<String>('VIBED'),
+                    itemCount: control.vibePost.value.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      List posts = control.vibePost.value;
 
-                return Obx(
-
-                  () => Get.find<VibedPostController>()
-                              .vibePost
-                              .value[index]
-                              .mediaType !=
-                          "image"
-                      ? Container(
-                          height: 645.h,
-                          width: 400.w,
-                          margin: EdgeInsets.only(
-                              bottom: 10, left: 15, right: 15, top: 15.h),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Stack(
-                            children: [
-                              SizedBox(
-                                height: double.infinity,
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: SizedBox(
-                                        height: 645.h,
-                                        width: 400.w,
-                                        child: VideoPlayerScreen(
-                                          videoUrl:
-                                              Get.find<VibedPostController>()
+                      return Obx(() => Get.find<VibedPostController>()
+                                  .vibePost
+                                  .value[index]
+                                  .mediaType !=
+                              "image"
+                          ? 
+                         // Display video
+                          Container(
+                              height: 645.h,
+                              width: 400.w,
+                              margin: EdgeInsets.only(
+                                  bottom: 10, left: 15, right: 15, top: 15.h),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Stack(
+                                children: [
+                                  SizedBox(
+                                    height: double.infinity,
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: SizedBox(
+                                            height: 645.h,
+                                            width: 400.w,
+                                            child: VideoPlayerScreen(
+                                              videoUrl: Get.find<
+                                                      VibedPostController>()
                                                   .vibePost
                                                   .value[index]
                                                   .postMedia,
-                                        ))),
-                              ),
-                              Positioned(
-                                  bottom: 0,
-                                  left: 0,
-                                  right: 0,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushReplacement(context,
-                                          MaterialPageRoute(builder: (context) {
-                                        return VibingZoom(
-                                          post: Get.find<VibedPostController>()
-                                              .vibePost
-                                              .value[index],
-                                        );
-                                      }));
-                                    },
-                                    child: Hero(
-                                      tag: "hero$index",
-                                      child: Container(
-                                        //Container for bottom gradient on image
-                                        child: Stack(
-                                          children: [
-                                            Align(
-                                              widthFactor: 5,
-                                              alignment:
-                                                  const Alignment(1.08, 0.6),
-                                              child: Obx(
-                                                () => sideBar(
-                                                    tualed,
-                                                    tualCount,
-                                                    index,
-                                                    starred,
-                                                    starCount,
-                                                    context,
+                                            ))),
+                                  ),
+                                  Positioned(
+                                      bottom: 0,
+                                      left: 0,
+                                      right: 0,
+                                      child: GestureDetector(
+                                        onDoubleTap: () {
+                                          debugPrint("User double tap");
+                                        },
+                                        onTap: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return VibingZoom(
+                                                post: Get.find<
+                                                        VibedPostController>()
+                                                    .vibePost
+                                                    .value,
+                                                index: index);
+                                          }));
+                                        },
+                                        child: Hero(
+                                          tag: "hero$index",
+                                          child: Container(
+                                            //Container for bottom gradient on image
+                                            child: Stack(
+                                              children: [
+                                                Align(
+                                                  widthFactor: 5,
+                                                  alignment: const Alignment(
+                                                      1.08, 0.6),
+                                                  child: Obx(
+                                                    () => _actionBar(
+                                                        index:index,
+                          
+                                                        posts: Get.find<
+                                                                VibedPostController>()
+                                                            .vibePost
+                                                            .value),
+                                                  ),
+                                                ),
+
+                                                //user post info
+                                                Obx(() => userInfoWidget(
+                                                      context,
+                                                     index,
                                                     Get.find<
                                                             VibedPostController>()
                                                         .vibePost
-                                                        .value),
-                                              ),
-                                            ),
-
-                                            //user post info
-                                            Obx(() => userInfo(
-                                                context,
-                                                index,
-                                                Get.find<VibedPostController>()
-                                                    .vibePost
-                                                    .value))
-                                          ],
-                                        ),
-                                        height: 645.h,
-                                        width: 400.w,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            gradient: const LinearGradient(
-                                              begin: AlignmentDirectional(
-                                                  0.5, 0.5),
-                                              end: AlignmentDirectional(
-                                                  0.5, 1.4),
-                                              colors: [
-                                                Colors.transparent,
-                                                Colors.black87
+                                                        .value))
                                               ],
-                                            )),
-                                      ),
+                                            ),
+                                            height: 645.h,
+                                            width: 400.w,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                gradient: const LinearGradient(
+                                                  begin: AlignmentDirectional(
+                                                      0.5, 0.5),
+                                                  end: AlignmentDirectional(
+                                                      0.5, 1.4),
+                                                  colors: [
+                                                    Colors.transparent,
+                                                    Colors.black87
+                                                  ],
+                                                )),
+                                          ),
+                                        ),
+                                      ))
+                                ],
+                              ),
+                            )
+                          : Container(
+                              height: 645.h,
+                              width: 400.w,
+                              margin: EdgeInsets.only(
+                                  bottom: 10, left: 15, right: 15, top: 15.h),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Stack(children: [
+                                SizedBox(
+                                  height: double.infinity,
+                                  width: double.infinity,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Image.network(
+                                      Get.find<VibedPostController>()
+                                          .vibePost
+                                          .value[index]
+                                          .postMedia,
+                                      fit: BoxFit.cover,
                                     ),
-                                  ))
-                            ],
-                          ),
-                        )
-                      : Container(
-                          height: 645.h,
-                          width: 400.w,
-                          margin: EdgeInsets.only(
-                              bottom: 10, left: 15, right: 15, top: 15.h),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Stack(
-                            children: [
-                              SizedBox(
-                                height: double.infinity,
-                                width: double.infinity,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Image.network(
-                                    Get.find<VibedPostController>()
-                                        .vibePost
-                                        .value[index]
-                                        .postMedia,
-                                    fit: BoxFit.cover,
-
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                  bottom: 0,
-                                  left: 0,
-                                  right: 0,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushReplacement(context,
-                                          MaterialPageRoute(builder: (context) {
-                                        return VibingZoom(
-                                          post: Get.find<VibedPostController>()
-                                              .vibePost
-                                              .value[index],
-                                        );
-                                      }));
-                                    },
-                                    child: Hero(
-                                      tag: "hero$index",
-                                      child: Container(
-                                        //Container for bottom gradient on image
-                                        child: Stack(
-                                          children: [
+                                // Give tuale when user double tap
+                                Visibility(
+                                  visible: displayTualeAnimation,
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Icon(
+                                      TualeIcons.tuale,
+                                      color: Colors.yellow,
+                                      size: 100.sp,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    child: GestureDetector(
+                                      onDoubleTap: () {
+                                        debugPrint("User double tap");
+                                        // TODO : make api request
+                                        /*setState(() {
+                                  displayTualeAnimation =  true;
+                                });
+                                Future.delayed(
+                                  const Duration(seconds: 1), (){
+                                    setState(() {
+                                      displayTualeAnimation =  false;
+                                    });
+                                  }
+                                );*/
+                                      },
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return VibingZoom(
+                                            post:
+                                                Get.find<VibedPostController>()
+                                                    .vibePost
+                                                    .value,
+                                            index: index,
+                                          );
+                                        }));
+                                      },
+                                      child: Hero(
+                                        tag: "hero$index",
+                                        child: Container(
+                                          //Container for bottom gradient on image
+                                          height: 645.h,
+                                          width: 400.w,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              gradient: const LinearGradient(
+                                                begin: AlignmentDirectional(
+                                                    0.5, 0.5),
+                                                end: AlignmentDirectional(
+                                                    0.5, 1.4),
+                                                colors: [
+                                                  Colors.transparent,
+                                                  Colors.black87
+                                                ],
+                                              )),
+                                          child: Stack(children: [
                                             Align(
-                                              widthFactor: 5,
-                                              alignment:
-                                                  const Alignment(1.08, 0.6),
-                                              child: Obx(
-                                                () => sideBar(
-                                                    tualed,
-                                                    tualCount,
-                                                    index,
-                                                    starred,
-                                                    starCount,
-                                                    context,
-                                                    Get.find<
+                                                widthFactor: 5,
+                                                alignment:
+                                                    const Alignment(1.08, 0.6),
+                                                child: Obx(
+                                                  () => _actionBar(
+                                                    index: index,
+                                                    posts: Get.find<
                                                             VibedPostController>()
                                                         .vibePost
-                                                        .value),
-                                              ),
-                                            ),
-
-                                            //user post info
-                                            Obx(() => userInfo(
+                                                        .value,
+                                                  ),
+                                                )),
+                                            Obx(() => userInfoWidget(
                                                 context,
                                                 index,
                                                 Get.find<VibedPostController>()
                                                     .vibePost
                                                     .value))
-                                          ],
+                                          ]),
                                         ),
-                                        height: 645.h,
-                                        width: 400.w,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            gradient: const LinearGradient(
-                                              begin: AlignmentDirectional(
-                                                  0.5, 0.5),
-                                              end: AlignmentDirectional(
-                                                  0.5, 1.4),
-                                              colors: [
-                                                Colors.transparent,
-                                                Colors.black87
-                                              ],
-                                            )),
                                       ),
-                                    ),
-                                  ))
-                            ],
-                          ),
-                        ),
-                );
-              },
-            );
-          } else {
-            return Center(
-                child:
-                    SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75)));
+                                    ))
+                              ])));
+                    },
+                  );
+                });
           }
+          return Center(
+              child: SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75)));
         });
   }
 
-  SizedBox sideBar(bool tualed, int tualCount, int index, bool starred,
-      int starCount, BuildContext context, List posts) {
+  //
+}
+
+Widget _commentsectionModal(
+  BuildContext context,
+  int index,
+) {
+  return GestureDetector(
+    onTap: () {
+      showModalBottomSheet(
+          shape: const RoundedRectangleBorder(
+              side: BorderSide(),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+          useRootNavigator: true,
+          isScrollControlled: true,
+          enableDrag: true,
+          context: context,
+          builder: (_) => Obx(
+                () => _commentModal(
+                  posts: Get.find<VibedPostController>().vibePost.value,
+                  index: index,
+                ),
+              ));
+    },
+    child: Container(
+      decoration: const BoxDecoration(
+          boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 25)]),
+      margin: const EdgeInsets.only(top: 10, bottom: 10),
+      child: Column(
+        children: [
+          Icon(
+            TualeIcons.comment,
+            color: Colors.white,
+            size: 29.sp,
+          ),
+          Obx(
+            () => Text(
+              Get.find<VibedPostController>()
+                  .vibePost
+                  .value[index]
+                  .noComment
+                  .toString(),
+              style: TextStyle(color: Colors.white),
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}
+
+class _actionBar extends StatefulWidget {
+  List? posts;
+  int? index;
+  final Function()? notifyParent;
+
+  _actionBar({this.posts, this.index, this.notifyParent});
+
+  @override
+  State<_actionBar> createState() => __actionBarState();
+}
+
+class __actionBarState extends State<_actionBar> {
+  int noStars = 0;
+  bool isStarred = false;
+  int noTuales = 0;
+  bool isTualed = false;
+
+  @override
+  void initState() {
+    noStars = widget.posts![widget.index!].noStar;
+    print("colorcheck$isStarred");
+    // Get.find<CuratedPostController>().curatedPost.value[index].noStar;
+    isStarred = widget.posts![widget.index!].isStared;
+    print("colorcheck$isStarred");
+    //Get.find<CuratedPostController>().curatedPost.value[index].isStared;
+
+    noTuales = widget.posts![widget.index!].noTuale;
+    isTualed = widget.posts![widget.index!].isTualed;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
       height: 400.h,
       width: 100.w,
@@ -279,8 +401,8 @@ class _VibingState extends State<Vibing> {
                   child: Column(
                     children: [
                       AnimatedCrossFade(
-                        duration: const Duration(milliseconds: 1),
-                        crossFadeState: posts[index].isTualed
+                        duration: const Duration(milliseconds: 20),
+                        crossFadeState: isTualed
                             ? CrossFadeState.showSecond
                             : CrossFadeState.showFirst,
                         secondChild: GestureDetector(
@@ -288,39 +410,47 @@ class _VibingState extends State<Vibing> {
                             // debugPrint("tuales : ${widget.post?.tuales}");
                             // debugPrint("testme : $alreadyGiveTuale");
 
-                            if (posts[index].isTualed) {
+                            if (widget.posts![widget.index!].isTualed) {
                               //"61e327db86dcaee74311fa14"
                               debugPrint("User already give a tuale");
                             } else {
-                              var result =
-                                  await Api().addTuale(posts[index].id ?? " ");
-                              if (result[0]) {
-                                control.getVibedPosts();
-                              } else {
-                                // TODO : display message
-                                debugPrint(result[1]);
-                              }
+                              // var result = await Api()
+                              //     .addTuale(posts[index].id ?? " ");
+                              // if (result[0]) {
+                              //   control.getCuratedPosts();
+                              // } else {
+                              //   // TODO : display message
+                              //   debugPrint(result[1]);
+                              // }
                             }
                           },
                           child: Icon(
                             TualeIcons.tualeactive,
-                            color: tualeOrange,
+                            color: Colors.yellow,
                             size: 40.sp,
                           ),
                         ),
                         firstChild: GestureDetector(
                           onTap: () async {
-                            if (posts[index].isTualed) {
+                            if (widget.posts![widget.index!].isTualed) {
                               //"61e327db86dcaee74311fa14"
                               debugPrint("User already give a tuale");
                             } else {
-                              var result =
-                                  await Api().addTuale(posts[index].id ?? " ");
+                              setState(() {
+                                isTualed = true;
+                                noTuales = noTuales + 1;
+                              });
+                              var result = await Api().addTuale(
+                                  widget.posts![widget.index!].id ?? " ");
                               if (result[0]) {
-                                control.getVibedPosts();
+                                Get.find<VibedPostController>().getVibedPosts();
                               } else {
-                                // TODO : display message
+                                setState(() {
+                                  isTualed = false;
+                                  noTuales = noTuales - 1;
+                                });
                                 debugPrint(result[1]);
+                                Get.find<VibedPostController>().getVibedPosts();
                               }
                             }
                           },
@@ -331,7 +461,7 @@ class _VibingState extends State<Vibing> {
                           ),
                         ),
                       ),
-                      Text(posts[index].noTuale.toString(),
+                      Text(noTuales.toString(),
                           style: const TextStyle(color: Colors.white))
                     ],
                   ),
@@ -346,21 +476,37 @@ class _VibingState extends State<Vibing> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       AnimatedCrossFade(
-                        duration: const Duration(milliseconds: 1),
-                        crossFadeState: posts[index].isStared
+                        duration: const Duration(milliseconds: 20),
+                        crossFadeState: isStarred
                             ? CrossFadeState.showSecond
                             : CrossFadeState.showFirst,
                         secondChild: GestureDetector(
                           onTap: () async {
-                            if (posts[index].isStared) {
-                              var result = await Api()
-                                  .unStartPost(posts[index].id ?? " ");
-                              if (result[0]) {
-                                control.getVibedPosts();
+                            //when button is white on tap should make it yellow, isStarred ==true
+                            if (isStarred) {
+                              setState(() {
+                                isStarred = false;
+                                noStars = noStars - 1;
+                              });
+                              //checks if api response is ok to keep or discard local variable
+                              var result = await Api().unStartPost(
+                                  widget.posts![widget.index!].id ?? " ");
+                              if (result[0] == true) {
                                 debugPrint(result[1]);
+
+                                Get.find<VibedPostController>().getVibedPosts();
+                                Get.find<VibedPostController>().getVibedPosts();
                               } else {
-                                // TODO : display message
+                                setState(() {
+                                  isStarred = true;
+                                  noStars = noStars + 1;
+                                  print('post got restarredddd whyyy');
+                                });
                                 debugPrint(result[1]);
+
+                                Get.find<VibedPostController>().getVibedPosts();
+
+                                ;
                               }
                             } else {
                               debugPrint("User already unstar a post");
@@ -374,17 +520,28 @@ class _VibingState extends State<Vibing> {
                         ),
                         firstChild: GestureDetector(
                           onTap: () async {
-                            if (posts[index].isStared) {
+                            if (isStarred) {
                               debugPrint("User already star a post");
                             } else {
-                              var result =
-                                  await Api().startPost(posts[index].id ?? " ");
-                              if (result[0]) {
-                                debugPrint(result[1]);
-                                control.getVibedPosts();
+                              setState(() {
+                                print("meant to set state");
+                                isStarred = true;
+                                noStars = noStars + 1;
+                              });
+                              var result = await Api().startPost(
+                                  widget.posts![widget.index!].id ?? " ");
+                              if (result[0] == true) {
+                                Get.find<VibedPostController>().getVibedPosts();
+                                Get.find<VibedPostController>().getVibedPosts();
                               } else {
-                                // TODO : display message
+                                setState(() {
+                                  isStarred = false;
+                                  noStars = noStars + 1;
+                                });
                                 debugPrint(result[1]);
+                                Get.find<VibedPostController>().getVibedPosts();
+                                Get.find<VibedPostController>().getVibedPosts();
+                                debugPrint('herrre${result[1]}');
                               }
                             }
                           },
@@ -395,21 +552,19 @@ class _VibingState extends State<Vibing> {
                           ),
                         ),
                       ),
-                      Text(posts[index].noStar.toString(),
+                      Text(noStars.toString(),
                           style: const TextStyle(color: Colors.white))
                     ],
                   ),
                 ),
-                commentSectionModal(context),
+                _commentsectionModal(context, widget.index!),
                 Container(
                   decoration: const BoxDecoration(boxShadow: [
                     BoxShadow(color: Colors.grey, blurRadius: 25)
                   ]),
                   margin: const EdgeInsets.only(top: 0, bottom: 12, right: 13),
                   child: GestureDetector(
-                    onTap: () {
-                      more(context);
-                    },
+                    onTap: () {},
                     child: Icon(
                       TualeIcons.elipsis,
                       color: Colors.white,
@@ -424,258 +579,191 @@ class _VibingState extends State<Vibing> {
   }
 }
 
-Column userInfo(BuildContext context, int index, List posts) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.end,
-    children: [
-      Container(
-          margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-          child: Column(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  // Get.put(ProfileController(
-                  //   controllerusername: posts[index].username.toString()
-                  // ))
-                  //     .getProfileInfo(posts[index].username.toString());
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return userProfile(
-                      isUser: false,
-                      username: posts[index].username.toString(),
-                      tag: "yourprofile",
-                    );
-                  }));
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 52.h,
-                      width: 52.h,
-                      child: CircleAvatar(
-                        backgroundImage: Image.network(
-                          posts[index].userProfilePic,
-                          fit: BoxFit.fitHeight,
-                        ).image,
-                      ),
-                    ),
-                    const Spacer(
-                      flex: 1,
-                    ),
-                    Text(
-                      "@" + posts[index].username.toString(),
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Poppins',
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          height: 1),
-                    ),
-                    const Spacer(
-                      flex: 1,
-                    ),
-                    Text(
-                      "1 day ago",
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontFamily: 'Poppins',
-                        fontSize: 12.sp,
+class _commentModal extends StatefulWidget {
+  List? posts;
+  int? index;
 
-                        //height: 1
-                      ),
+  _commentModal({
+    this.posts,
+    this.index,
+  });
+
+  @override
+  State<_commentModal> createState() => _commentModalState();
+}
+
+class _commentModalState extends State<_commentModal> {
+  final myController = TextEditingController();
+  late FocusNode _focusNode;
+  @override
+  void dispose() {
+    super.dispose();
+    _focusNode.dispose();
+    // Clean up the controller when the widget is disposed.
+    myController.dispose();
+  }
+
+  @override
+  void initState() {
+    _focusNode = FocusNode();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.55,
+        padding: EdgeInsets.only(
+          left: 15,
+          right: 15,
+          top: 15,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text("Comments"),
+            SizedBox(
+              height: 370.h,
+              child: widget.posts![widget.index!].comment.isEmpty
+                  ? Text('no comment')
+                  : ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: widget.posts![widget.index!].comment.length,
+                      itemBuilder: (BuildContext context, int commentIndex) {
+                        return Container(
+                          //  color: Colors.blue,
+                          margin: EdgeInsetsDirectional.only(top: 5),
+                          // color: Colors.black,
+                          height: 85.h,
+                          width: ScreenUtil().screenWidth,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 35.h,
+                                width: 35.h,
+                                child: CircleAvatar(
+                                  backgroundImage: NetworkImage(widget
+                                          .posts![widget.index!]
+                                          .comment[commentIndex]['user']
+                                      ['avatar']['url']),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    widget.posts![widget.index!]
+                                            .comment[commentIndex]['user']
+                                        ['username'],
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontFamily: 'Poppins',
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  FittedBox(
+                                    child: SizedBox(
+                                      height: 58.h,
+                                      width: 250.w,
+                                      child: Text(
+                                        widget.posts![widget.index!]
+                                            .comment[commentIndex]['text'],
+                                        maxLines: 6,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 15.sp),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      },
                     ),
-                    const Spacer(
-                      flex: 10,
-                    ),
-                  ],
-                ),
-              ),
-              Row(
+            ),
+            Container(
+              height: 80,
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    posts[index].postText.toString(),
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: Colors.white70,
-                        // fontFamily: 'Poppins',
-                        fontSize: 15.sp,
-                        height: 1),
+                  SizedBox(
+                    height: 45.h,
+                    width: 45.h,
+                    child: CircleAvatar(
+                      backgroundImage:
+                          AssetImage('assets/images/demo_profile.png'),
+                    ),
                   ),
-                  Icon(
-                    Icons.volume_down_rounded,
-                    size: 35,
-                    color: Colors.white,
+                  SizedBox(
+                      width: 280.w,
+                      height: 50.h,
+                      child: TextField(
+                        focusNode: _focusNode,
+                        controller: myController,
+                        maxLines: 7,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey.shade50,
+                          contentPadding: const EdgeInsets.fromLTRB(5, 5, 5, 2),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                style: BorderStyle.solid,
+                                color: Colors.grey.shade300),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                style: BorderStyle.solid, color: Colors.grey),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                        ),
+                      )),
+                  GestureDetector(
+                    onTap: () async {
+                      List result = await Api().commentOnAPost(
+                          widget.posts![widget.index!].id, myController.text);
+                      _focusNode.unfocus();
+                      myController.clear();
+                      if (result[0]) {
+                        Get.find<VibedPostController>().getVibedPosts();
+                      } else {
+                        Get.snackbar("Error", result[1],
+                            duration: Duration(seconds: 4),
+                            isDismissible: true,
+                            snackPosition: SnackPosition.BOTTOM,
+                            colorText: Colors.black,
+                            backgroundColor: Colors.white);
+                      }
+                    },
+                    child: SizedBox(
+                      height: 43.h,
+                      width: 43.h,
+                      child: CircleAvatar(
+                          backgroundColor: tualeBlueDark,
+                          child: Transform.rotate(
+                            angle: -pi / 7,
+                            child: const Icon(
+                              Icons.send,
+                              color: Colors.white,
+                            ),
+                          )),
+                    ),
                   )
                 ],
               ),
-            ],
-          ))
-    ],
-  );
-}
-
-GestureDetector commentSectionModal(BuildContext context) {
-  return GestureDetector(
-    onTap: () {
-      showModalBottomSheet(
-          shape: const RoundedRectangleBorder(
-              side: BorderSide(),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15), topRight: Radius.circular(15))),
-          useRootNavigator: true,
-          isScrollControlled: true,
-          enableDrag: true,
-          context: context,
-          builder: (context) => Padding(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.55,
-                  padding: EdgeInsets.only(
-                    left: 15,
-                    right: 15,
-                    top: 15,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("Comments"),
-                      SizedBox(
-                        height: 370.h,
-                        child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          itemCount: 3,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              //  color: Colors.blue,
-                              margin: EdgeInsetsDirectional.only(top: 5),
-                              // color: Colors.black,
-                              height: 85.h,
-                              width: ScreenUtil().screenWidth,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 35.h,
-                                    width: 35.h,
-                                    child: CircleAvatar(
-                                      backgroundImage: AssetImage(
-                                          'assets/images/demo_profile.png'),
-                                    ),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "siphie_z0",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: 'Poppins',
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      FittedBox(
-                                        child: SizedBox(
-                                          height: 58.h,
-                                          width: 250.w,
-                                          child: Text(
-                                            "Was I high when I said this? Lol. I do not even remember writing this hfhfhhfhfhfhfhfhfhfhfhfhfhfhfhfhf.",
-                                            maxLines: 6,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(fontSize: 15.sp),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      Container(
-                        height: 80,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              height: 45.h,
-                              width: 45.h,
-                              child: CircleAvatar(
-                                backgroundImage: AssetImage(
-                                    'assets/images/demo_profile.png'),
-                              ),
-                            ),
-                            SizedBox(
-                                width: 280.w,
-                                height: 50.h,
-                                child: TextField(
-                                  maxLines: 7,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.grey.shade50,
-                                    contentPadding:
-                                        const EdgeInsets.fromLTRB(5, 5, 5, 2),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          style: BorderStyle.solid,
-                                          color: Colors.grey.shade300),
-                                      borderRadius: BorderRadius.circular(7),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          style: BorderStyle.solid,
-                                          color: Colors.grey),
-                                      borderRadius: BorderRadius.circular(7),
-                                    ),
-                                  ),
-                                )),
-                            SizedBox(
-                              height: 43.h,
-                              width: 43.h,
-                              child: CircleAvatar(
-                                  backgroundColor: tualeBlueDark,
-                                  child: Transform.rotate(
-                                    angle: -pi / 7,
-                                    child: const Icon(
-                                      Icons.send,
-                                      color: Colors.white,
-                                    ),
-                                  )),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ));
-    },
-    child: Container(
-      decoration: const BoxDecoration(
-          boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 25)]),
-      margin: const EdgeInsets.only(top: 10, bottom: 10),
-      child: Column(
-        children: [
-          Icon(
-            TualeIcons.comment,
-            color: Colors.white,
-            size: 29.sp,
-          ),
-          const Text(
-            "0",
-            style: TextStyle(color: Colors.white),
-          )
-        ],
+            )
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 //Custom painter for nice curvy  widget
@@ -736,30 +824,30 @@ class RPSCustomPainter extends CustomPainter {
   }
 }
 
-more(context) {
-  print("heyy");
-  showAlertDialog(BuildContext context) {
-    // set up the button
-    Widget okButton = TextButton(
-      child: Text("OK"),
-      onPressed: () {},
-    );
+// more(context) {
+//   print("heyy");
+//   showAlertDialog(BuildContext context) {
+//     // set up the button
+//     Widget okButton = TextButton(
+//       child: Text("OK"),
+//       onPressed: () {},
+//     );
 
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("My title"),
-      content: Text("This is my message."),
-      actions: [
-        okButton,
-      ],
-    );
+//     // set up the AlertDialog
+//     AlertDialog alert = AlertDialog(
+//       title: Text("My title"),
+//       content: Text("This is my message."),
+//       actions: [
+//         okButton,
+//       ],
+//     );
 
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-}
+//     // show the dialog
+//     showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return alert;
+//       },
+//     );
+//   }
+// }

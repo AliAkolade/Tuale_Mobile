@@ -40,7 +40,7 @@ class _AllPostsState extends State<AllPosts> {
 
     return  GetX<UserPostsController>(
       init: UserPostsController(username: widget.username),
-      tag: widget.tag,
+     // tag: widget.tag,
       builder: (text) {
         return text.isLoading.value
             ? SliverToBoxAdapter(
@@ -79,7 +79,9 @@ class _AllPostsState extends State<AllPosts> {
                                     context,
                                     PageTransition(
                                         type: PageTransitionType.topToBottom,
-                                        child: discoverScreen(index: index)));
+                                        child: discoverScreen(
+                                          tag: widget.tag,
+                                          index: index )));
                               },
                               child: Container(
                                 child: Container(
@@ -101,7 +103,7 @@ class _AllPostsState extends State<AllPosts> {
                                     image: DecorationImage(
                                         fit: BoxFit.cover,
                                         image: NetworkImage(
-                                            text.posts[index].postUrl!))),
+                                            text.posts[index].postMedia))),
                                 margin: EdgeInsets.fromLTRB(2, 2, 2, 2),
                                 height: 100.h,
                                 width: 100.h,

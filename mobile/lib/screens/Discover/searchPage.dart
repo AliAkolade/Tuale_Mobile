@@ -99,7 +99,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                           isUser: false,
                                           username: searchController
                                               .searchresult[index].usernames,
-                                          tag: "search")));
+                                          //tag: "search"
+                                          )));
                             },
                             child: Container(
                               child: Row(

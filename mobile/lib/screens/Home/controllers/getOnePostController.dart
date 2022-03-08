@@ -21,9 +21,7 @@ class OnePostController extends GetxController {
     stars: [],
     isTualed: false,
     isStared: false,
-
     mediaType: '',
-
     comment: [],
   ).obs;
   final Api _api = Api();
@@ -45,11 +43,16 @@ class OnePostController extends GetxController {
         postdetails.userProfilePic = details.userProfilePic;
         postdetails.noComment = details.noComment;
         postdetails.noStar = details.noStar;
+        postdetails.noTuale = details.noTuale;
+        postdetails.isStared = details.isStared;
+        postdetails.isTualed = details.isTualed;
         postdetails.postMedia = details.postMedia;
         postdetails.time = details.time;
+           postdetails.comment = details.comment;
+
         postdetails.postText = details.postText;
       });
-
+      print('nostarcontrol${postdetails.value.noStar}');
       postdetails.refresh();
     } catch (e) {
     } finally {

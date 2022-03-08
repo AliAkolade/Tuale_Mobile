@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/models/currentUserdetails.dart';
 import 'package:mobile/screens/Home/controllers/getCuratedPost.dart';
@@ -15,6 +16,7 @@ import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
 //import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/Profile/models/UserPost.dart';
+import 'package:mobile/screens/Profile/models/starredPostmodel.dart';
 import 'package:mobile/screens/imports.dart';
 
 class Api {
@@ -25,7 +27,7 @@ class Api {
   String? reference;
   String? tcpoints = '10';
 
-  Future<List> getVibingPost() async {
+  Future<List> getVibingPost(int pageNo) async {
     int pageNo = 1;
     List posts = [];
 
@@ -58,11 +60,8 @@ class Api {
             stars: postsResponses[i]['stars'],
             comment: postsResponses[i]['comments'],
             isTualed: checkGivingTuale(postsResponses[i]['tuales']),
-
             isStared: checkGivingStar(postsResponses[i]['stars']),
-            mediaType: postsResponses[i]['mediaType']
-        ));
-
+            mediaType: postsResponses[i]['mediaType']));
       }
     }
 
@@ -70,7 +69,7 @@ class Api {
   }
 
   Future<List> getCuratedPost(int pageNo) async {
-   // int pageNo = 2;
+    // int pageNo = 2;
     List posts = [];
 
     // Get Token
@@ -89,7 +88,6 @@ class Api {
     if (responseData['success'].toString() == 'true') {
       for (int i = 0; i < postsResponses.length; i++) {
         posts.add(PostDetails(
-
             userProfilePic: postsResponses[i]['user']['avatar']['url'],
             time: postsResponses[i]['createdAt'],
             postMedia: postsResponses[i]['media']['url'],
@@ -103,10 +101,8 @@ class Api {
             stars: postsResponses[i]['stars'],
             comment: postsResponses[i]['comments'],
             isTualed: checkGivingTuale(postsResponses[i]['tuales']),
-            isStared:  checkGivingStar(postsResponses[i]['stars']),
-            mediaType: postsResponses[i]['mediaType']
-
-        ));
+            isStared: checkGivingStar(postsResponses[i]['stars']),
+            mediaType: postsResponses[i]['mediaType']));
       }
     }
 
@@ -123,14 +119,20 @@ class Api {
     Dio dio = Dio();
     dio.options.headers["Authorization"] = token;
     Response response = await dio.get(hostAPI + userpost + username);
-    List starredPost = [];
+    List<starredPostModel> starredPost = [];
     // log(response.data.toString());
     var responseData = response.data;
     print(responseData);
 
-    List getList() {
+    List<starredPostModel> getList() {
       for (var i in responseData['profile']['staredPosts']) {
-        starredPost.add(i['post']['media']['url']);
+        starredPost.add(
+          starredPostModel(
+            url: i['post']['media']['url'],
+            mediaType: i['post']['mediaType'],
+            id: i['post']['_id']
+          )
+        );
       }
       debugPrint('starredpost $starredPost');
       return starredPost;
@@ -175,8 +177,10 @@ class Api {
     if (currentUser.statusCode == 200) {
       CurrentUserDetails loggedUser = CurrentUserDetails(
           currentuserid: currentUser.data['user']["_id"].toString(),
-          currentuserAvatarUrl: currentUser.data['user']["avatar"]["url"].toString(),
-          currentuserAvatarPublicId: currentUser.data['user']["avatar"]["public_id"].toString(),
+          currentuserAvatarUrl:
+              currentUser.data['user']["avatar"]["url"].toString(),
+          currentuserAvatarPublicId:
+              currentUser.data['user']["avatar"]["public_id"].toString(),
           currentuserName: currentUser.data['user']["name"].toString(),
           currentuserBio: currentUser.data["bio"].toString(),
           currentUserUsername: currentUser.data['user']["username"].toString(),
@@ -253,7 +257,7 @@ class Api {
     return searchResult;
   }
 
-  Future<List<UserPost>> getUserProfilePosts(String username) async {
+  Future<List<PostDetails>> getUserProfilePosts(String username) async {
     // Get Token
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
@@ -263,7 +267,7 @@ class Api {
     Dio dio = Dio();
     dio.options.headers["Authorization"] = token;
     Response response = await dio.get(hostAPI + profilepost + username);
-    List<UserPost> result = [];
+    List<PostDetails> result = [];
 
     // log(response.data.toString());
     var responseData = response.data;
@@ -271,7 +275,23 @@ class Api {
 
     if (response.data['success'].toString() == 'true') {
       for (var i = 0; i < responseData['posts'].length; i++) {
-        result.add(UserPost(postUrl: responseData['posts'][i]['media']['url']));
+        List postsResponses = responseData['posts'];
+        result.add(PostDetails(
+            userProfilePic: postsResponses[i]['user']['avatar']['url'],
+            time: postsResponses[i]['createdAt'],
+            postMedia: postsResponses[i]['media']['url'],
+            postText: postsResponses[i]['caption'],
+            noTuale: postsResponses[i]['tuales'].toList().length,
+            noStar: postsResponses[i]['stars'].toList().length,
+            noComment: postsResponses[i]['comments'].toList().length,
+            username: postsResponses[i]['user']['username'],
+            id: postsResponses[i]['_id'],
+            tuales: postsResponses[i]['tuales'],
+            stars: postsResponses[i]['stars'],
+            comment: postsResponses[i]['comments'],
+            isTualed: checkGivingTuale(postsResponses[i]['tuales']),
+            isStared: checkGivingStar(postsResponses[i]['stars']),
+            mediaType: postsResponses[i]['mediaType']));
       }
     }
 
@@ -324,30 +344,27 @@ class Api {
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
     PostDetails details = PostDetails(
-
-      noComment: 0,
-      noStar: 0,
-      noTuale: 0,
-      username: '',
-      id: "",
-      postText: '',
-      postMedia: '',
-      time: '',
-      userProfilePic: '',
-      tuales: [],
-      stars: [],
-      comment: [],
-      isTualed: false,
-      isStared: false,
-      mediaType: ''
-    );
-
+        noComment: 0,
+        noStar: 0,
+        noTuale: 0,
+        username: '',
+        id: "",
+        postText: '',
+        postMedia: '',
+        time: '',
+        userProfilePic: '',
+        tuales: [],
+        stars: [],
+        comment: [],
+        isTualed: false,
+        isStared: false,
+        mediaType: '');
 
     // Get userdetails
     Dio dio = Dio();
     dio.options.headers["Authorization"] = token;
     Response response = await dio.get(hostAPI + 'post/' + id);
-
+    print(response.data);
     if (response.statusCode == 200) {
       //  print(response.data);
       var responseData = response.data;
@@ -360,16 +377,13 @@ class Api {
           noStar: responseData['post']['stars'].toList().length,
           noComment: responseData['post']['comments'].toList().length,
           username: responseData['post']['user']['username'],
-          id: responseData['post']['user']['_id'],
+          id: responseData['post']['_id'],
           tuales: responseData['post']['tuales'],
           stars: responseData['post']['stars'],
           comment: responseData['post']['comments'],
           isTualed: checkGivingTuale(responseData['post']['tuales']),
-
           isStared: checkGivingStar(responseData['post']['stars']),
-          mediaType: responseData['post']['mediaType']
-      );
-
+          mediaType: responseData['post']['mediaType']);
     }
 
     return details;
@@ -498,10 +512,11 @@ class Api {
       return [false, "Something got wrong"];
     }
 
-    return [false,"Something got wrong"];
+    return [false, "Something got wrong"];
   }
 
-  makeNewPost(String mediaType, String publicId, String url, String description) async {
+  makeNewPost(
+      String mediaType, String publicId, String url, String description) async {
     try {
       Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       final SharedPreferences prefs = await _prefs;
@@ -509,32 +524,27 @@ class Api {
 
       Dio dio = Dio();
       dio.options.headers["Authorization"] = token;
-      Response response = await dio.post(hostAPI + 'post/create',
-        data: {
-          'mediaType': mediaType,
-          'media': {
-            'public_id': publicId,
-            'url': url
-          },
-          'caption': description
-        }
-      );
+      Response response = await dio.post(hostAPI + 'post/create', data: {
+        'mediaType': mediaType,
+        'media': {'public_id': publicId, 'url': url},
+        'caption': description
+      });
       var responseData = response.data;
       debugPrint("responseData : $responseData");
       if (response.statusCode == 200) {
-        if(responseData["success"]) {
-          return [responseData["success"],"Your post has been added"];
+        if (responseData["success"]) {
+          return [responseData["success"], "Your post has been added"];
         } else {
-          return [responseData["success"],responseData["message"]];
+          return [responseData["success"], responseData["message"]];
         }
       }
     } catch (e) {
-      return [false,"Something got wrong"];
+      return [false, "Something got wrong"];
     }
-
   }
 
-  updateUserProfil(String username, String fullname, String bio, String publicId, String url) async {
+  updateUserProfil(String username, String fullname, String bio,
+      String publicId, String url) async {
     try {
       Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       final SharedPreferences prefs = await _prefs;
@@ -542,24 +552,19 @@ class Api {
 
       Dio dio = Dio();
       dio.options.headers["Authorization"] = token;
-      Response response = await dio.put(hostAPI + 'profile/update',
-          data: {
-            'username': username,
-            'name': fullname,
-            'bio': bio,
-            'avatar': {
-              'public_id': publicId,
-              'url': url
-            },
-          }
-      );
+      Response response = await dio.put(hostAPI + 'profile/update', data: {
+        'username': username,
+        'name': fullname,
+        'bio': bio,
+        'avatar': {'public_id': publicId, 'url': url},
+      });
       var responseData = response.data;
       debugPrint("responseData : $responseData");
       if (response.statusCode == 200) {
-        return [responseData["success"],responseData["message"]];
+        return [responseData["success"], responseData["message"]];
       }
     } catch (e) {
-      return [false,"Something got wrong"];
+      return [false, "Something got wrong"];
     }
   }
 
@@ -571,26 +576,24 @@ class Api {
 
       Dio dio = Dio();
       dio.options.headers["Authorization"] = token;
-      Response response = await dio.post(hostAPI + 'profile/password/update',
-          data: {
-            'currentPassword': currentPwd,
-            'newPassword': newPwd,
-          }
-      );
+      Response response =
+          await dio.post(hostAPI + 'profile/password/update', data: {
+        'currentPassword': currentPwd,
+        'newPassword': newPwd,
+      });
       var responseData = response.data;
       debugPrint("responseData : $responseData");
       if (response.statusCode == 200) {
-        if(responseData["success"]) {
-          return [responseData["success"],"Your post has been updated"];}
-        else{
-          return [responseData["success"],responseData["message"]];
+        if (responseData["success"]) {
+          return [responseData["success"], "Your post has been updated"];
+        } else {
+          return [responseData["success"], responseData["message"]];
         }
       }
     } catch (e) {
-      return [false,"Something got wrong"];
+      return [false, "Something got wrong"];
     }
   }
-
 
   checkGivingTuale(tuales) {
     // return true if user already give tuale
@@ -630,7 +633,7 @@ class Api {
     }
   }
 
-  Future commentOnAPost(String postId, String comment) async {
+   commentOnAPost(String postId, String comment) async {
     try {
       Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       final SharedPreferences prefs = await _prefs;
@@ -642,11 +645,21 @@ class Api {
           .post(hostAPI + 'post/comment/' + postId, data: {'text': comment});
 
       if (response.statusCode == 200) {
-        print("comment sent");
-        Get.isRegistered<CuratedPostController>()
-            ? Get.find<CuratedPostController>().getCuratedPosts()
-            : Get.find<VibedPostController>().getVibedPosts();
+        if (response.data['success']) {
+          return [response.data["success"], 'comment sent'];
+        } else {
+          return [response.data["succes"], 'failed to comment'];
+        }
+   
       }
     } catch (e) {}
+  }
+
+  whichController() {
+    if (Get.isRegistered<CuratedPostController>()) {
+      return Get.find<CuratedPostController>();
+    } else {
+      return Get.find<VibedPostController>();
+    }
   }
 }

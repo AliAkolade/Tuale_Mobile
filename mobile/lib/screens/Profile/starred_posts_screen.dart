@@ -3,6 +3,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:mobile/controller/loggedUserController.dart';
+import 'package:mobile/screens/Home/one_post_page.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
 import 'package:mobile/screens/imports.dart';
 
@@ -78,7 +79,11 @@ class _starredPostsState extends State<starredPosts> {
                                       context,
                                       PageTransition(
                                           type: PageTransitionType.topToBottom,
-                                          child: discoverScreen(index: index)));
+                                          child: OnePost(
+                                            postMedia:text.profileInfo.value.starredPosts![index].url ,
+                                            mediaType:   text.profileInfo.value.starredPosts![index].mediaType,
+                                            id:  text.profileInfo.value.starredPosts![index].id
+                                          ) ));
                                 },
                                 child: Container(
                                   child: Container(
@@ -100,7 +105,7 @@ class _starredPostsState extends State<starredPosts> {
                                       image: DecorationImage(
                                           fit: BoxFit.cover,
                                           image: NetworkImage(text.profileInfo
-                                              .value.starredPosts![index]))),
+                                              .value.starredPosts![index].url!))),
                                   margin: EdgeInsets.fromLTRB(2, 2, 2, 2),
                                   height: 100.h,
                                   width: 100.h,

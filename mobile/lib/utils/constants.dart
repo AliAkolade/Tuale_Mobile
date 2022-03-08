@@ -58,6 +58,7 @@ const String unvibing = 'unvibe/';
 const String addTuale = 'post/tuale/';
 String currentUsername = '';
 int curatedPageNo = 1;
+int vibingPageNo = 1;
 
 var format =
     NumberFormat.simpleCurrency(locale: Platform.localeName, name: 'NGN');
