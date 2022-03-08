@@ -78,8 +78,15 @@ class _NotificationsState extends State<Notifications> {
                           onTap: () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return OnePost(
-                                id: notifications[index].id,
+                              return Obx(
+                                () => OnePost(
+                                  id: Get.find<NotificationsController>()
+                                      .notificationModel
+                                      .value[index]
+                                      .id,
+                                       mediaType: notifications[index].mediaType,
+                                          postMedia: notifications[index].likedPost,
+                                ),
                               );
                             }));
                           },
@@ -92,11 +99,20 @@ class _NotificationsState extends State<Notifications> {
                       : notifications[index].type == 'newStarred'
                           ? GestureDetector(
                               onTap: () {
+                                  
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
-                                  return OnePost(
-                                    id: notifications[index].id,
+                                  return Obx(
+                                    () => OnePost(
+                                      id: Get.find<NotificationsController>()
+                                          .notificationModel
+                                          .value[index]
+                                          .id,
+                                          mediaType: notifications[index].mediaType,
+                                          postMedia: notifications[index].likedPost,
+                                    ),
                                   );
+                                
                                 }));
                               },
                               child: newNotification(
@@ -110,8 +126,16 @@ class _NotificationsState extends State<Notifications> {
                                   onTap: () {
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {
-                                      return OnePost(
-                                        id: notifications[index].id,
+                                      return Obx(
+                                        () => OnePost(
+                                          id: Get.find<
+                                                  NotificationsController>()
+                                              .notificationModel
+                                              .value[index]
+                                              .id,
+                                               mediaType: notifications[index].mediaType,
+                                          postMedia: notifications[index].likedPost,
+                                        ),
                                       );
                                     }));
                                   },
@@ -142,13 +166,12 @@ class newFan extends StatelessWidget {
   newFan({this.username, this.id});
   @override
   Widget build(BuildContext context) {
-      bool isFollowing() {
+    bool isFollowing() {
       bool followed = false;
       for (var i
           in Get.find<LoggedUserController>().loggedUser.value.friends!) {
         // print(i['user']);
-        if ( id ==
-            i["user"]) {
+        if (id == i["user"]) {
           followed = true;
           break;
         } else {
@@ -163,8 +186,9 @@ class newFan extends StatelessWidget {
       //     .id!);
       return followed;
     }
-    return Obx(() =>
-      Container(
+
+    return Obx(
+      () => Container(
         padding: EdgeInsets.only(left: 20, right: 4),
         //  color: Colors.black,
         height: 50,
@@ -182,11 +206,12 @@ class newFan extends StatelessWidget {
                     fontWeight: FontWeight.normal),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
                       return userProfile(
                         isUser: false,
                         username: username,
-                        tag: "notification",
+                       // tag: "notification",
                       );
                     }));
                   },
@@ -202,9 +227,9 @@ class newFan extends StatelessWidget {
               height: 36.h,
               child: ElevatedButton(
                   onPressed: () {
-                     isFollowing()
-                    ? Api().unvibeWithUser(id!, username!, "notifications")
-                    : Api().vibeWithUser(id!, username!, "notifications");
+                    isFollowing()
+                        ? Api().unvibeWithUser(id!, username!, "notifications")
+                        : Api().vibeWithUser(id!, username!, "notifications");
                   },
                   style: ElevatedButton.styleFrom(
                       primary: isFollowing() ? tualeOrange : tualeBlueDark,
@@ -215,7 +240,7 @@ class newFan extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text( isFollowing() ? 'Vibing' : 'Vibe back',
+                      Text(isFollowing() ? 'Vibing' : 'Vibe back',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Color.fromRGBO(255, 255, 255, 1),
@@ -229,8 +254,9 @@ class newFan extends StatelessWidget {
                           ),
                           height: 20,
                           width: 20,
-                          child: isFollowing()?  SvgPicture.asset(
-                                      "assets/icon/vibingUser.svg") : SvgPicture.asset("assets/icon/vibe.svg"))
+                          child: isFollowing()
+                              ? SvgPicture.asset("assets/icon/vibingUser.svg")
+                              : SvgPicture.asset("assets/icon/vibe.svg"))
                     ],
                   )),
             ),
@@ -272,7 +298,7 @@ class newNotification extends StatelessWidget {
                     return userProfile(
                       isUser: false,
                       username: username,
-                      tag: "notification",
+                     // tag: "notification",
                     );
                   }));
                 },

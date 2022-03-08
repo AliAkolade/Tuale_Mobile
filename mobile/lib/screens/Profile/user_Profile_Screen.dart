@@ -16,12 +16,12 @@ class userProfile extends StatefulWidget {
   bool? isUser;
   String? username;
   ProfileController? profileController;
-  String? tag;
+ // String? tag;
 
   userProfile({
     this.isUser,
     this.username,
-    this.tag,
+   // this.tag,
   });
   State<userProfile> createState() => _ProfileState();
 }
@@ -43,7 +43,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
     routeObserver.unsubscribe(this);
     super.dispose();
 
-    Get.delete<ProfileController>(tag: widget.tag);
+    Get.delete<ProfileController>();
   }
 
   @override
@@ -108,7 +108,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                 title: GetX<ProfileController>(
                     init:
                         ProfileController(controllerusername: widget.username),
-                    tag: widget.tag,
+                   // tag: widget.tag,
                     builder: (context) {
                       return Text(
                         context.profileInfo.value.name!,
@@ -126,7 +126,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                     SliverPersistentHeader(
                       delegate: _SliverAppBarDelegate(ProfileInfotwo(
                         username: widget.username,
-                        tag: widget.tag!,
+                       // tag: widget.tag!,
                       )),
                       pinned: false,
                       //  floating: true,
@@ -188,7 +188,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                           SliverOverlapInjector(
                               handle: NestedScrollView
                                   .sliverOverlapAbsorberHandleFor(context)),
-                          AllPosts(username: widget.username, tag: widget.tag),
+                          AllPosts(username: widget.username, ),
                         ],
                       );
                     }),
@@ -199,7 +199,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                               handle: NestedScrollView
                                   .sliverOverlapAbsorberHandleFor(context)),
                           starredPosts(
-                              username: widget.username, tag: widget.tag),
+                              username: widget.username, ),
                         ],
                       );
                     }),
@@ -235,9 +235,11 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 class ProfileInfotwo extends StatelessWidget {
   bool? isUser;
   String? username;
-  String? tag;
+ // String? tag;
 
-  ProfileInfotwo({this.isUser, this.username, this.tag});
+  ProfileInfotwo({this.isUser, this.username, 
+  //this.tag
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -266,7 +268,7 @@ class ProfileInfotwo extends StatelessWidget {
             ),
             GetX<ProfileController>(
                 init: ProfileController(controllerusername: username),
-                tag: tag,
+               // tag: tag,
                 builder: (text) {
                   return Text(
                     //Get.find<ProfileController>().profileInfo.value.friends!,
@@ -301,7 +303,7 @@ class ProfileInfotwo extends StatelessWidget {
                   children: [
                     GetX<ProfileController>(
                         init: ProfileController(controllerusername: username),
-                        tag: tag,
+                       // tag: tag,
                         builder: (text) {
                           return Text(
                             //Get.find<ProfileController>().profileInfo.value.friends!,
@@ -342,7 +344,7 @@ class ProfileInfotwo extends StatelessWidget {
                     children: [
                       GetX<ProfileController>(
                           init: ProfileController(controllerusername: username),
-                          tag: tag,
+                         // tag: tag,
                           builder: (text) {
                             return Text(
                               //Get.find<ProfileController>().profileInfo.value.friends!,
@@ -375,7 +377,7 @@ class ProfileInfotwo extends StatelessWidget {
                   children: [
                     GetX<ProfileController>(
                         init: ProfileController(controllerusername: username),
-                        tag: tag,
+                        //tag: tag,
                         builder: (text) {
                           return Text(
                             //Get.find<ProfileController>().profileInfo.value.friends!,
@@ -422,7 +424,8 @@ class ProfileInfotwo extends StatelessWidget {
                           .value
                           .currentuserid ==
                       Get.put(ProfileController(controllerusername: username),
-                              tag: tag)
+                              //tag: tag
+                              )
                           .profileInfo
                           .value
                           .id
@@ -493,10 +496,11 @@ class ProfileInfotwo extends StatelessWidget {
                     )
                   : profileButton(
                       username: username,
-                      tag: tag,
+                     // tag: tag,
                       userId: Get.put(
                               ProfileController(controllerusername: username),
-                              tag: tag)
+                              //tag: tag
+                              )
                           .profileInfo
                           .value
                           .id,
@@ -522,7 +526,7 @@ class profileButton extends StatelessWidget {
       for (var i
           in Get.find<LoggedUserController>().loggedUser.value.friends!) {
         // print(i['user']);
-        if (Get.put(ProfileController(controllerusername: username), tag: tag!)
+        if (Get.put(ProfileController(controllerusername: username),)
                 .profileInfo
                 .value
                 .id! ==

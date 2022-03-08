@@ -259,7 +259,7 @@ class _ViewPostState extends State<ViewPost> {
                                                 top: 0, bottom: 12, right: 13),
                                             child: GestureDetector(
                                               onTap: () {
-                                                more(context);
+                                               
                                               },
                                               child:  Icon(
                                                 TualeIcons.elipsis,

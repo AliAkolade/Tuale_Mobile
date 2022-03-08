@@ -8,27 +8,40 @@ class CuratedPostController extends GetxController {
   int pageNo = 1;
   var isLoading = false.obs;
   int curatedNo = 2;
+  List more = [];
   onInit() {
     getCuratedPosts();
     super.onInit();
   }
 
-  Future updatedb() async {
-    try {
-      while (curatedNo <= curatedPageNo) {
-        List more = await _api.getCuratedPost(curatedNo);
-        curatedPost.value.addAll(more);
-        curatedNo++;
-      }
+  // Future updatedb() async {
+  //   try {
+  //     while (curatedNo <= curatedPageNo) {
+  //       List more = await _api.getCuratedPost(curatedNo);
+  //       curatedPost.value.addAll(more);
+  //       curatedNo++;
+  //     }
 
-      //  print(curatedPost.value[0]);
-      update();
-    } catch (e) {}
-  }
+  //     //  print(curatedPost.value[0]);
+  //     update();
+  //   } catch (e) {}
+  // }
 
   Future getCuratedPosts() async {
     try {
-      curatedPost.value = await _api.getCuratedPost(1);
+      // var pageNum = 1;
+      if (curatedPageNo == 1) {
+        curatedPost.value = await _api.getCuratedPost(curatedPageNo);
+      } else {
+        curatedPost.value.clear();
+        for (int i = 1; i <= curatedPageNo; i++) {
+          more = await _api.getCuratedPost(i);
+          print('before get cur${curatedPost.value.length}');
+          curatedPost.value.addAll(more);
+          print('after get cur${curatedPost.value.length}');
+        }
+      }
+
       //  print(curatedPost.value[0]);
       update();
     } catch (e) {}
@@ -36,19 +49,25 @@ class CuratedPostController extends GetxController {
 
   Future getMoreCuratedPosts() async {
     curatedPageNo = curatedPageNo + 1;
-
+    print('currentpageNoooooooooo${curatedPageNo}');
     isLoading.value = true;
     try {
       print("before");
       print(curatedPost.value.length);
       List more = await _api.getCuratedPost(curatedPageNo);
-      print("addition");
-      print(more.length);
-      for (var i in more) {
-        curatedPost.value.add(i);
+      if (more.isEmpty) {
+        curatedPageNo = curatedPageNo - 1;
+         print('currentpageNoooooooooo${curatedPageNo}');
+      } else {
+        print("addition");
+        print(more.length);
+        for (var i in more) {
+          curatedPost.value.add(i);
+        }
+        print("after");
+        print(curatedPost.value.length);
       }
-      print("after");
-      print(curatedPost.value.length);
+
       update();
       // curatedPost.refresh();
 

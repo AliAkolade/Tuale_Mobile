@@ -1,6 +1,8 @@
 //viewing user postdetails model
 
+import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
+import 'package:mobile/screens/Profile/models/starredPostmodel.dart';
 
 class UserPostDetails {
   String? id;
@@ -13,7 +15,7 @@ class UserPostDetails {
   String? tcBalance;
   String? withdrawalBalance;
   String? email;
-  List? starredPosts;
+  List<starredPostModel>? starredPosts;
 
   UserPostDetails(
       {this.id = "",

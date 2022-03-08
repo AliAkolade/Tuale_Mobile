@@ -2,14 +2,20 @@ import 'dart:math';
 
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:mobile/screens/Home/controllers/getOnePostController.dart';
+import 'package:mobile/screens/Home/models/postsetails.dart';
+import 'package:mobile/screens/Home/video_player_screen.dart';
 import 'package:mobile/screens/imports.dart';
 
 class OnePost extends StatefulWidget {
   String? id;
-  OnePost({this.id});
+  String? mediaType;
+  String? postMedia;
+  OnePost({this.id, this.mediaType, this.postMedia});
 
   @override
   _OnePostState createState() => _OnePostState();
@@ -28,7 +34,6 @@ class _OnePostState extends State<OnePost> {
   void dispose() {
     Get.delete<OnePostController>();
     super.dispose();
-    
   }
 
   @override
@@ -41,529 +46,676 @@ class _OnePostState extends State<OnePost> {
                 child:
                     SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75)),
               )
-            : Container(
-                child: Stack(
-                  children: [
-                    Align(
-                      // heightFactor: 1.0,
-                      // widthFactor: 12.0,
-                      alignment: Alignment(1.2, -1.05),
-                      child: SizedBox(
-                        height: 100,
-                        width: 130,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.fullscreen_exit_rounded,
-                            color: Colors.black,
-                            size: 30,
+            : widget.mediaType != "image"
+                ? Stack(
+                    children: [
+                      VideoPlayerScreen(
+                        videoUrl: widget.postMedia!,
+                        enablePlayBtn: true,
+                      ),
+                      // Back button
+                      Align(
+                        // heightFactor: 1.0,
+                        // widthFactor: 12.0,
+                        alignment: Alignment(0.9, -0.95),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            color: Colors.white70,
+                            child: GestureDetector(
+                              onTap: () {
+                                //Navigator.pop(context);
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Home()),
+                                );
+                              },
+                              child: Icon(
+                                Icons.fullscreen_exit_rounded,
+                                color: Colors.black,
+                                size: 30,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    //Add this CustomPaint widget to the Widget Tre                                //Add this CustomPaint widget to the Widget Tree
-                    Align(
-                      heightFactor: 1.9,
-                      alignment: Alignment(1.06, 0.78),
-                      child: Container(
-                        height: 350,
-                        width: 100,
-                        // color: Colors.white,
-                        child: CustomPaint(
-                          size: Size(
-                              100,
-                              (100 * 3.536842105263158)
-                                  .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                          painter: RPSCustomPainter(),
-                          child: Center(
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-
-                                // crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    // decoration: const BoxDecoration(boxShadow:  [BoxShadow(color: Colors.grey, blurRadius: 50)]),
-                                    margin: const EdgeInsets.only(
-                                        top: 12, bottom: 12),
-                                    child: Column(
-                                      children: [
-                                        AnimatedCrossFade(
-                                          duration:
-                                              const Duration(milliseconds: 20),
-                                          crossFadeState: tualed
-                                              ? CrossFadeState.showSecond
-                                              : CrossFadeState.showFirst,
-                                          secondChild: GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                tualed = false;
-                                                tualCount = 0;
-                                              });
-                                            },
-                                            child: const Icon(
-                                              TualeIcons.tualeactive,
-                                              color: Colors.yellow,
-                                              size: 40,
-                                            ),
-                                          ),
-                                          firstChild: GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                tualed = true;
-                                                tualCount = 1;
-                                              });
-                                            },
-                                            child: const Icon(
-                                              TualeIcons.tuale,
-                                              color: Colors.white,
-                                              size: 40,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                            post.postdetails.value.noTuale
-                                                .toString(),
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                            ))
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    decoration: const BoxDecoration(boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.grey, blurRadius: 40)
-                                    ]),
-                                    margin: const EdgeInsets.only(
-                                        top: 8, bottom: 12),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        AnimatedCrossFade(
-                                          duration:
-                                              const Duration(milliseconds: 20),
-                                          crossFadeState: starred
-                                              ? CrossFadeState.showSecond
-                                              : CrossFadeState.showFirst,
-                                          secondChild: GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                starred = false;
-                                                starCount = 0;
-                                              });
-                                            },
-                                            child: const Icon(
-                                              TualeIcons.star,
-                                              color: tualeOrange,
-                                              size: 33,
-                                            ),
-                                          ),
-                                          firstChild: GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                starred = true;
-                                                starCount = 1;
-                                              });
-                                            },
-                                            child: const Icon(
-                                              TualeIcons.star,
-                                              color: Colors.white,
-                                              size: 33,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                            post.postdetails.value.noStar
-                                                .toString(),
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                            ))
-                                      ],
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      showModalBottomSheet(
-                                          shape: const RoundedRectangleBorder(
-                                              side: BorderSide(),
-                                              borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(15),
-                                                  topRight:
-                                                      Radius.circular(15))),
-                                          useRootNavigator: true,
-                                          enableDrag: true,
-                                          isScrollControlled: true,
-                                          context: context,
-                                          builder: (context) => Padding(
-                                                padding: EdgeInsets.only(
-                                                    bottom:
-                                                        MediaQuery.of(context)
-                                                            .viewInsets
-                                                            .bottom),
-                                                child: Container(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.55,
-                                                  padding: EdgeInsets.only(
-                                                    left: 15,
-                                                    right: 15,
-                                                    top: 15,
-                                                  ),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      Text("Comments"),
-                                                      SizedBox(
-                                                        height: 300,
-                                                        child: ListView.builder(
-                                                          scrollDirection:
-                                                              Axis.vertical,
-                                                          itemCount: 3,
-                                                          itemBuilder:
-                                                              (BuildContext
-                                                                      context,
-                                                                  int index) {
-                                                            return Container(
-                                                              //color: Colors.blue,
-                                                              margin:
-                                                                  EdgeInsetsDirectional
-                                                                      .only(
-                                                                          top:
-                                                                              15),
-                                                              // color: Colors.black,
-                                                              height: 100,
-                                                              width: 100,
-                                                              child: Row(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  const SizedBox(
-                                                                    height: 35,
-                                                                    width: 35,
-                                                                    child:
-                                                                        CircleAvatar(
-                                                                      backgroundImage:
-                                                                          AssetImage(
-                                                                              'assets/images/demo_profile.png'),
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                      width:
-                                                                          10),
-                                                                  Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: const [
-                                                                      Text(
-                                                                        "siphie_z0",
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color:
-                                                                              Colors.black,
-                                                                          fontFamily:
-                                                                              'Poppins',
-                                                                          fontSize:
-                                                                              13,
-                                                                          fontWeight:
-                                                                              FontWeight.bold,
-                                                                        ),
-                                                                      ),
-                                                                      FittedBox(
-                                                                          child:
-                                                                              SizedBox(
-                                                                        height:
-                                                                            30,
-                                                                        width:
-                                                                            230,
-                                                                        child:
-                                                                            Text(
-                                                                          "Was I high when I said this? Lol. I do not even remember writing this.",
-                                                                          maxLines:
-                                                                              3,
-                                                                          overflow:
-                                                                              TextOverflow.ellipsis,
-                                                                        ),
-                                                                      )),
-                                                                      Text(
-                                                                        "Reply",
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color:
-                                                                              Colors.black54,
-                                                                          fontFamily:
-                                                                              'Poppins',
-                                                                          fontSize:
-                                                                              14,
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            );
-                                                          },
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        height: 80,
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            const SizedBox(
-                                                              height: 45,
-                                                              width: 45,
-                                                              child:
-                                                                  CircleAvatar(
-                                                                backgroundImage:
-                                                                    AssetImage(
-                                                                        'assets/images/demo_profile.png'),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                                width: 200,
-                                                                height: 50,
-                                                                child:
-                                                                    TextField(
-                                                                  maxLines: 7,
-                                                                  decoration:
-                                                                      InputDecoration(
-                                                                    filled:
-                                                                        true,
-                                                                    fillColor: Colors
-                                                                        .grey
-                                                                        .shade100,
-                                                                    contentPadding:
-                                                                        const EdgeInsets.fromLTRB(
-                                                                            5,
-                                                                            5,
-                                                                            5,
-                                                                            2),
-                                                                    enabledBorder:
-                                                                        OutlineInputBorder(
-                                                                      borderSide: BorderSide(
-                                                                          style: BorderStyle
-                                                                              .solid,
-                                                                          color: Colors
-                                                                              .grey
-                                                                              .shade300),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              7),
-                                                                    ),
-                                                                    focusedBorder:
-                                                                        OutlineInputBorder(
-                                                                      borderSide: const BorderSide(
-                                                                          style: BorderStyle
-                                                                              .solid,
-                                                                          color:
-                                                                              Colors.grey),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              7),
-                                                                    ),
-                                                                  ),
-                                                                )),
-                                                            SizedBox(
-                                                              height: 40,
-                                                              width: 40,
-                                                              child:
-                                                                  CircleAvatar(
-                                                                      backgroundColor:
-                                                                          tualeBlueDark,
-                                                                      child: Transform
-                                                                          .rotate(
-                                                                        angle:
-                                                                            -pi /
-                                                                                7,
-                                                                        child:
-                                                                            const Icon(
-                                                                          Icons
-                                                                              .send,
-                                                                          color:
-                                                                              Colors.white,
-                                                                        ),
-                                                                      )),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ));
-                                    },
-                                    child: Container(
-                                      decoration: const BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.grey,
-                                                blurRadius: 25)
-                                          ]),
-                                      margin: const EdgeInsets.only(
-                                          top: 10, bottom: 10),
-                                      child: Column(
-                                        children: const [
-                                          Icon(
-                                            TualeIcons.comment,
-                                            color: Colors.white,
-                                            size: 27,
-                                          ),
-                                          const Text(
-                                            "0",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    decoration: const BoxDecoration(boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.grey, blurRadius: 25)
-                                    ]),
-                                    margin: const EdgeInsets.only(
-                                        top: 0, bottom: 12, right: 13),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        more(context);
-                                      },
-                                      child: const Icon(
-                                        TualeIcons.elipsis,
-                                        color: Colors.white,
-                                        size: 23,
-                                      ),
-                                    ),
-                                  )
-                                ]),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    //user post info
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      //Add this CustomPaint widget to the Widget Tre                                //Add this CustomPaint widget to the Widget Tree
+                      Align(
+                          widthFactor: 5,
+                          alignment: const Alignment(1.08, 0.6),
+                          child: Obx(
+                            () => _actionBar(
+                              posts: Get.find<OnePostController>()
+                                  .postdetails
+                                  .value,
+                            ),
+                          )),
+                           Userinfo(context)
+                  
+                    ],
+                  )
+                : Container(
+                    child: Stack(
                       children: [
-                        Container(
-                            margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                            child: Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) {
-                                      return userProfile(
-                                        isUser: false,
-                                        username: post
-                                            .postdetails.value.username
-                                            .toString(),
-                                        tag: "yourprofile",
-                                      );
-                                    }));
-                                  },
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        height: 50.h,
-                                        width: 50.w,
-                                        child: CircleAvatar(
-                                          backgroundImage: NetworkImage(post
-                                              .postdetails
-                                              .value
-                                              .userProfilePic),
-                                        ),
-                                      ),
-                                      const Spacer(
-                                        flex: 1,
-                                      ),
-                                      Text(
-                                        post.postdetails.value.username,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: 'Poppins',
-                                            fontSize: 18.sp,
-                                            fontWeight: FontWeight.bold,
-                                            height: 1),
-                                      ),
-                                      const Spacer(
-                                        flex: 1,
-                                      ),
-                                      Text(
-                                        "1 day ago",
-                                        style: TextStyle(
-                                            color: Colors.white70,
-                                            fontFamily: 'Poppins',
-                                            fontSize: 12.sp,
-                                            height: 1),
-                                      ),
-                                      const Spacer(
-                                        flex: 15,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                Container(
-                                    // color: Colors.white70,
-                                    height: 55.h,
-                                    width: 950.w,
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          post.postdetails.value.postText,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            color: Colors.white70,
-                                            // fontFamily: 'Poppins',
-                                            fontSize: 15.sp,
-                                            height: 1,
-                                          ),
-                                        ),
-                                        Spacer(),
-                                        Icon(
-                                          Icons.volume_down_rounded,
-                                          size: 35.sp,
-                                          color: Colors.white,
-                                        )
-                                      ],
-                                    )),
-                              ],
-                            ))
+                        Align(
+                          // heightFactor: 1.0,
+                          // widthFactor: 12.0,
+                          alignment: Alignment(1.2, -1.05),
+                          child: SizedBox(
+                            height: 100,
+                            width: 130,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Icon(
+                                Icons.fullscreen_exit_rounded,
+                                color: Colors.black,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                        ),
+                        //Add this CustomPaint widget to the Widget Tre                                //Add this CustomPaint widget to the Widget Tree
+                        Align(
+                            widthFactor: 5,
+                            alignment: const Alignment(1.08, 0.6),
+                            child: Obx(
+                              () => _actionBar(
+                                posts: Get.find<OnePostController>()
+                                    .postdetails
+                                    .value,
+                              ),
+                            )),
+                        //user post info
+                        Userinfo(context)
                       ],
-                    )
-                  ],
-                ),
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    color: Colors.amber,
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(post.postdetails.value.postMedia))),
-              ),
+                    ),
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        color: Colors.amber,
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                                post.postdetails.value.postMedia))),
+                  ),
       )),
     );
   }
+
+  Column Userinfo(BuildContext context) {
+    return Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              margin:
+                                  const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                              child: Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(
+                                              builder: (context) {
+                                        return userProfile(
+                                          isUser: false,
+                                          username: post
+                                              .postdetails.value.username
+                                              .toString(),
+                                          //  tag: "yourprofile",
+                                        );
+                                      }));
+                                    },
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          height: 50.h,
+                                          width: 50.w,
+                                          child: CircleAvatar(
+                                            backgroundImage: NetworkImage(post
+                                                .postdetails
+                                                .value
+                                                .userProfilePic),
+                                          ),
+                                        ),
+                                        const Spacer(
+                                          flex: 1,
+                                        ),
+                                        Text(
+                                          post.postdetails.value.username,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'Poppins',
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.bold,
+                                              height: 1),
+                                        ),
+                                        const Spacer(
+                                          flex: 1,
+                                        ),
+                                        Text(
+                                          "1 day ago",
+                                          style: TextStyle(
+                                              color: Colors.white70,
+                                              fontFamily: 'Poppins',
+                                              fontSize: 12.sp,
+                                              height: 1),
+                                        ),
+                                        const Spacer(
+                                          flex: 15,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Container(
+                                      // color: Colors.white70,
+                                      height: 55.h,
+                                      width: 950.w,
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            post.postdetails.value.postText,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: Colors.white70,
+                                              // fontFamily: 'Poppins',
+                                              fontSize: 15.sp,
+                                              height: 1,
+                                            ),
+                                          ),
+                                          Spacer(),
+                                          Icon(
+                                            Icons.volume_down_rounded,
+                                            size: 35.sp,
+                                            color: Colors.white,
+                                          )
+                                        ],
+                                      )),
+                                ],
+                              ))
+                        ],
+                      );
+  }
 }
+
+//widget containing tuale, like, comments, etc
+class _actionBar extends StatefulWidget {
+  PostDetails? posts;
+
+  _actionBar({this.posts});
+
+  @override
+  State<_actionBar> createState() => _actionBarState();
+}
+
+class _actionBarState extends State<_actionBar> {
+  int noStars = 0;
+  bool isStarred = false;
+  int noTuales = 0;
+  bool isTualed = false;
+
+  @override
+  void initState() {
+    noStars = widget.posts!.noStar;
+    print("colorcheck$isStarred");
+    // Get.find<CuratedPostController>().curatedPost.value[index].noStar;
+    isStarred = widget.posts!.isStared;
+    print("colorcheck$isStarred");
+    //Get.find<CuratedPostController>().curatedPost.value[index].isStared;
+
+    noTuales = widget.posts!.noTuale;
+    isTualed = widget.posts!.isTualed;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 400.h,
+      width: 100.w,
+      // color: Colors.white,
+      child: CustomPaint(
+        size: Size(100, (100 * 3.536842105263158).toDouble()),
+        painter: CuratedLikeWidget(),
+        child: Center(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center,
+
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  // decoration: const BoxDecoration(boxShadow:  [BoxShadow(color: Colors.grey, blurRadius: 50)]),
+                  margin: const EdgeInsets.only(top: 12, bottom: 12),
+                  child: Column(
+                    children: [
+                      AnimatedCrossFade(
+                        duration: const Duration(milliseconds: 20),
+                        crossFadeState: isTualed
+                            ? CrossFadeState.showSecond
+                            : CrossFadeState.showFirst,
+                        secondChild: GestureDetector(
+                          onTap: () async {
+                            // debugPrint("tuales : ${widget.post?.tuales}");
+                            // debugPrint("testme : $alreadyGiveTuale");
+
+                            if (widget.posts!.isTualed) {
+                              //"61e327db86dcaee74311fa14"
+                              debugPrint("User already give a tuale");
+                            } else {
+                              // var result = await Api()
+                              //     .addTuale(posts[index].id ?? " ");
+                              // if (result[0]) {
+                              //   control.getCuratedPosts();
+                              // } else {
+                              //   // TODO : display message
+                              //   debugPrint(result[1]);
+                              // }
+                            }
+                          },
+                          child: Icon(
+                            TualeIcons.tualeactive,
+                            color: Colors.yellow,
+                            size: 40.sp,
+                          ),
+                        ),
+                        firstChild: GestureDetector(
+                          onTap: () async {
+                            if (widget.posts!.isTualed) {
+                              //"61e327db86dcaee74311fa14"
+                              debugPrint("User already give a tuale");
+                            } else {
+                              setState(() {
+                                isTualed = true;
+                                noTuales = noTuales + 1;
+                              });
+                              var result =
+                                  await Api().addTuale(widget.posts!.id);
+                              if (result[0]) {
+                                Get.find<OnePostController>()
+                                    .getOnePost(widget.posts!.id);
+                              } else {
+                                setState(() {
+                                  isTualed = false;
+                                  noTuales = noTuales - 1;
+                                });
+                                debugPrint(result[1]);
+                                Get.find<OnePostController>()
+                                    .getOnePost(widget.posts!.id);
+                              }
+                            }
+                          },
+                          child: Icon(
+                            TualeIcons.tuale,
+                            color: Colors.white,
+                            size: 43.sp,
+                          ),
+                        ),
+                      ),
+                      Text(noTuales.toString(),
+                          style: const TextStyle(color: Colors.white))
+                    ],
+                  ),
+                ),
+                Container(
+                  decoration: const BoxDecoration(boxShadow: [
+                    BoxShadow(color: Colors.grey, blurRadius: 40)
+                  ]),
+                  margin: const EdgeInsets.only(top: 8, bottom: 12),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      AnimatedCrossFade(
+                        duration: const Duration(milliseconds: 20),
+                        crossFadeState: isStarred
+                            ? CrossFadeState.showSecond
+                            : CrossFadeState.showFirst,
+                        secondChild: GestureDetector(
+                          onTap: () async {
+                            //when button is white on tap should make it yellow, isStarred ==true
+                            if (isStarred) {
+                              setState(() {
+                                isStarred = false;
+                                noStars = noStars - 1;
+                              });
+                              //checks if api response is ok to keep or discard local variable
+                              var result =
+                                  await Api().unStartPost(widget.posts!.id);
+                              if (result[0] == true) {
+                                debugPrint(result[1]);
+                                Get.find<OnePostController>()
+                                    .getOnePost(widget.posts!.id);
+                              } else {
+                                setState(() {
+                                  isStarred = true;
+                                  noStars = noStars + 1;
+                                  print('post got restarredddd whyyy');
+                                });
+                                debugPrint(result[1]);
+
+                                Get.find<OnePostController>()
+                                    .getOnePost(widget.posts!.id);
+
+                                ;
+                              }
+                            } else {
+                              debugPrint("User already unstar a post");
+                            }
+                          },
+                          child: Icon(
+                            TualeIcons.star,
+                            color: tualeOrange,
+                            size: 33.sp,
+                          ),
+                        ),
+                        firstChild: GestureDetector(
+                          onTap: () async {
+                            if (isStarred) {
+                              debugPrint("User already star a post");
+                            } else {
+                              setState(() {
+                                print("meant to set state");
+                                isStarred = true;
+                                noStars = noStars + 1;
+                              });
+                              var result =
+                                  await Api().startPost(widget.posts!.id);
+                              if (result[0] == true) {
+                                Get.find<OnePostController>()
+                                    .getOnePost(widget.posts!.id);
+                              } else {
+                                setState(() {
+                                  isStarred = false;
+                                  noStars = noStars - 1;
+                                });
+                                debugPrint(result[1]);
+                                Get.find<OnePostController>()
+                                    .getOnePost(widget.posts!.id);
+                                debugPrint('herrre${result[1]}');
+                              }
+                            }
+                          },
+                          child: Icon(
+                            TualeIcons.star,
+                            color: Colors.white,
+                            size: 37.sp,
+                          ),
+                        ),
+                      ),
+                      Text(noStars.toString(),
+                          style: const TextStyle(color: Colors.white))
+                    ],
+                  ),
+                ),
+                _commentsectionModal(
+                  context,
+                ),
+                Container(
+                  decoration: const BoxDecoration(boxShadow: [
+                    BoxShadow(color: Colors.grey, blurRadius: 25)
+                  ]),
+                  margin: const EdgeInsets.only(top: 0, bottom: 12, right: 13),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.find<OnePostController>()
+                          .getOnePost(widget.posts!.id);
+                    },
+                    child: Icon(
+                      TualeIcons.elipsis,
+                      color: Colors.white,
+                      size: 25.sp,
+                    ),
+                  ),
+                )
+              ]),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _commentsectionModal(
+  BuildContext context,
+) {
+  return GestureDetector(
+    onTap: () {
+      showModalBottomSheet(
+          shape: const RoundedRectangleBorder(
+              side: BorderSide(),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+          useRootNavigator: true,
+          isScrollControlled: true,
+          enableDrag: true,
+          context: context,
+          builder: (_) => Obx(
+                () => _commentModal(
+                  posts: Get.find<OnePostController>().postdetails.value,
+                ),
+              ));
+    },
+    child: Container(
+      decoration: const BoxDecoration(
+          boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 25)]),
+      margin: const EdgeInsets.only(top: 10, bottom: 10),
+      child: Column(
+        children: [
+          Icon(
+            TualeIcons.comment,
+            color: Colors.white,
+            size: 29.sp,
+          ),
+          Obx(
+            () => Text(
+              Get.find<OnePostController>()
+                  .postdetails
+                  .value
+                  .noComment
+                  .toString(),
+              style: TextStyle(color: Colors.white),
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}
+
+class _commentModal extends StatefulWidget {
+  PostDetails? posts;
+
+  _commentModal({
+    this.posts,
+  });
+
+  @override
+  State<_commentModal> createState() => _commentModalState();
+}
+
+class _commentModalState extends State<_commentModal> {
+  final myController = TextEditingController();
+  late FocusNode _focusNode;
+  @override
+  void dispose() {
+    super.dispose();
+    _focusNode.dispose();
+    // Clean up the controller when the widget is disposed.
+    myController.dispose();
+  }
+
+  @override
+  void initState() {
+    _focusNode = FocusNode();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.55,
+        padding: EdgeInsets.only(
+          left: 15,
+          right: 15,
+          top: 15,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text("Comments"),
+            SizedBox(
+              height: 370.h,
+              child: widget.posts!.comment!.isEmpty
+                  ? Text('no comment')
+                  : ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: widget.posts!.comment!.length,
+                      itemBuilder: (BuildContext context, int commentIndex) {
+                        return Container(
+                          //  color: Colors.blue,
+                          margin: EdgeInsetsDirectional.only(top: 5),
+                          // color: Colors.black,
+                          height: 85.h,
+                          width: ScreenUtil().screenWidth,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 35.h,
+                                width: 35.h,
+                                child: CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                      widget.posts!.comment![commentIndex]
+                                          ['user']['avatar']['url']),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    widget.posts!.comment![commentIndex]['user']
+                                        ['username'],
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontFamily: 'Poppins',
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  FittedBox(
+                                    child: SizedBox(
+                                      height: 58.h,
+                                      width: 250.w,
+                                      child: Text(
+                                        widget.posts!.comment![commentIndex]
+                                            ['text'],
+                                        maxLines: 6,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 15.sp),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+            ),
+            Container(
+              height: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    height: 45.h,
+                    width: 45.h,
+                    child: CircleAvatar(
+                      backgroundImage:
+                          AssetImage('assets/images/demo_profile.png'),
+                    ),
+                  ),
+                  SizedBox(
+                      width: 280.w,
+                      height: 50.h,
+                      child: TextField(
+                        focusNode: _focusNode,
+                        controller: myController,
+                        maxLines: 7,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey.shade50,
+                          contentPadding: const EdgeInsets.fromLTRB(5, 5, 5, 2),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                style: BorderStyle.solid,
+                                color: Colors.grey.shade300),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                style: BorderStyle.solid, color: Colors.grey),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                        ),
+                      )),
+                  GestureDetector(
+                    onTap: () async {
+                      List result = await Api()
+                          .commentOnAPost(widget.posts!.id, myController.text);
+                      _focusNode.unfocus();
+                      myController.clear();
+                      if (result[0]) {
+                        Get.find<OnePostController>()
+                            .getOnePost(widget.posts!.id);
+                      } else {
+                        Get.snackbar("Error", result[1],
+                            duration: Duration(seconds: 4),
+                            isDismissible: true,
+                            snackPosition: SnackPosition.BOTTOM,
+                            colorText: Colors.black,
+                            backgroundColor: Colors.white);
+                      }
+                    },
+                    child: SizedBox(
+                      height: 43.h,
+                      width: 43.h,
+                      child: CircleAvatar(
+                          backgroundColor: tualeBlueDark,
+                          child: Transform.rotate(
+                            angle: -pi / 7,
+                            child: const Icon(
+                              Icons.send,
+                              color: Colors.white,
+                            ),
+                          )),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//painter for that nice curve you see on each post :)

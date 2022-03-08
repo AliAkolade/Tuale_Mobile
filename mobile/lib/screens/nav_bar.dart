@@ -46,7 +46,7 @@ class _NavBarState extends State<NavBar> {
               .loggedUser
               .value
               .currentUserUsername,
-          tag: "myprofile",
+         // tag: "myprofile",
         ),
       )
     ];
@@ -68,7 +68,7 @@ class _NavBarState extends State<NavBar> {
             .loggedUser
             .value
             .currentUserUsername,
-        tag: "myprofile",
+       // tag: "myprofile",
       ),
     )
   ];
