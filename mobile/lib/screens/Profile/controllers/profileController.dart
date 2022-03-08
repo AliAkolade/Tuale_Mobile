@@ -68,9 +68,11 @@ class ProfileController extends GetxController {
         profileInfo.withdrawalBalance = user.withdrawalBalance;
         profileInfo.email = user.email;
         profileInfo.starredPosts = user.starredPosts;
+        profileInfo.bio = user.bio;
+        profileInfo.location = user.location;
+
       });
-      friends.value = profileInfo.value.friends!;
-      fans.value = profileInfo.value.fans!;
+      ;
       // print(profileInfo.value.starredPosts);
 
       profileInfo.refresh();

@@ -30,14 +30,17 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   late PersistentTabController _controller;
 
-
   // TODO : new design
 
   List<Widget> _buildScreens() {
     return [
       Home(),
       SearchScreen(),
-      PostTimeline(fileContent: File(""), filePath: "",mediaType: "image",),
+      PostTimeline(
+        fileContent: File(""),
+        filePath: "",
+        mediaType: "image",
+      ),
       Leaderboard(),
       Obx(
         () => userProfile(
@@ -46,12 +49,11 @@ class _NavBarState extends State<NavBar> {
               .loggedUser
               .value
               .currentUserUsername,
-         // tag: "myprofile",
+          // tag: "myprofile",
         ),
       )
     ];
   }
-
 
   int _currentIndex = 0;
   double iconSize = 30.0;
@@ -59,16 +61,20 @@ class _NavBarState extends State<NavBar> {
   final List<Widget> _children = [
     Home(),
     SearchScreen(),
-    PostTimeline(fileContent: File(""), filePath: "",mediaType: "image",),
+    PostTimeline(
+      fileContent: File(""),
+      filePath: "",
+      mediaType: "image",
+    ),
     Leaderboard(),
     Obx(
-          () => userProfile(
+      () => userProfile(
         isUser: true,
         username: Get.put(LoggedUserController())
             .loggedUser
             .value
             .currentUserUsername,
-       // tag: "myprofile",
+        // tag: "myprofile",
       ),
     )
   ];
@@ -86,10 +92,9 @@ class _NavBarState extends State<NavBar> {
 
   onTabTapped(int index) {
     // try to show animation when user want to publish
-    if(index== 2) {
+    if (index == 2) {
       cameraSelect(context);
-    }
-    else{
+    } else {
       setState(() {
         _currentIndex = index;
       });
@@ -98,20 +103,16 @@ class _NavBarState extends State<NavBar> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       body: _children[_currentIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-          boxShadow: [
-            BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
-          ],
-
         ),
         child: BottomNavigationBar(
+          unselectedItemColor: Colors.black,
+          showUnselectedLabels: true,
           elevation: 10,
           backgroundColor: Colors.red,
           fixedColor: tualeOrange,
@@ -119,38 +120,72 @@ class _NavBarState extends State<NavBar> {
           currentIndex: _currentIndex,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home_rounded, color: tualeBlueDark,size: iconSize,),
+              icon: Icon(
+                Icons.home_rounded,
+                color: tualeBlueDark,
+                size: iconSize,
+              ),
               label: 'Home',
               //backgroundColor: Colors.red,
-              activeIcon: Icon(Icons.home_rounded, color: tualeOrange,size: iconSize,),
+              activeIcon: Icon(
+                Icons.home_rounded,
+                color: tualeOrange,
+                size: iconSize,
+              ),
             ),
             BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.solidCompass, color: tualeBlueDark,size: iconSize,),
+                icon: Icon(
+                  FontAwesomeIcons.solidCompass,
+                  color: tualeBlueDark,
+                  size: iconSize,
+                ),
                 label: 'Discover',
                 //backgroundColor: Colors.red,
-                activeIcon: Icon(FontAwesomeIcons.solidCompass, color: tualeOrange,size: iconSize,)
-            ),
+                activeIcon: Icon(
+                  FontAwesomeIcons.solidCompass,
+                  color: tualeOrange,
+                  size: iconSize,
+                )),
             BottomNavigationBarItem(
-                icon: Icon(Icons.add_circle, color: tualeBlueDark,size: iconSize,),
-                label: '',
-                activeIcon: Icon(Icons.add_circle, color: tualeOrange,size: iconSize,)
-            ),
+                icon: Icon(
+                  Icons.add_circle,
+                  color: tualeBlueDark,
+                  size: 50,
+                ),
+                label: 'Post',
+                activeIcon: Icon(
+                  Icons.add_circle,
+                  color: tualeOrange,
+                  size: iconSize,
+                )),
             BottomNavigationBarItem(
-                icon: Icon(Icons.leaderboard_rounded, color: tualeBlueDark,size: iconSize,),
+                icon: Icon(
+                  Icons.leaderboard_rounded,
+                  color: tualeBlueDark,
+                  size: iconSize,
+                ),
                 label: 'Leaderboard',
-                activeIcon: Icon(Icons.leaderboard_rounded, color: tualeOrange,size: iconSize,)
-            ),
+                activeIcon: Icon(
+                  Icons.leaderboard_rounded,
+                  color: tualeOrange,
+                  size: iconSize,
+                )),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person, color: tualeBlueDark,size: iconSize,),
+                icon: Icon(
+                  Icons.person,
+                  color: tualeBlueDark,
+                  size: iconSize,
+                ),
                 label: 'Profile',
-                activeIcon: Icon(Icons.person, color: tualeOrange,size: iconSize,)
-            ),
+                activeIcon: Icon(
+                  Icons.person,
+                  color: tualeOrange,
+                  size: iconSize,
+                )),
           ],
         ),
-
       ),
     );
-
   }
 }
 
@@ -160,19 +195,19 @@ Future pickMedia(ImageSource source, String type) async {
   String filePath;
   if (type == "image") {
     asset = await ImagePicker().pickImage(source: source);
-    if(asset != null) {
+    if (asset != null) {
       file = File(asset.path);
       filePath = asset.path;
       debugPrint("imgUrl  : $file");
-      return [file,filePath];
+      return [file, filePath];
     }
   } else {
     asset = await ImagePicker().pickVideo(source: source);
-    if(asset != null) {
+    if (asset != null) {
       file = File(asset.path);
       filePath = asset.path;
       debugPrint("videoUrl  : $file");
-      return [file,filePath];
+      return [file, filePath];
     }
   }
 }
@@ -206,8 +241,9 @@ Future cameraSelect(text) async {
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
                       onTap: () async {
-                        var response = await pickMedia(ImageSource.gallery, "image");
-                        if(response != null){
+                        var response =
+                            await pickMedia(ImageSource.gallery, "image");
+                        if (response != null) {
                           File fileContent = response[0];
                           String filePath = response[1];
                           Navigator.push(
@@ -222,7 +258,7 @@ Future cameraSelect(text) async {
                               },
                             ),
                           );
-                        }else{
+                        } else {
                           debugPrint("User cancel uploading");
                         }
                       },
@@ -246,8 +282,9 @@ Future cameraSelect(text) async {
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
                       onTap: () async {
-                        var response = await pickMedia(ImageSource.gallery, "video");
-                        if(response != null) {
+                        var response =
+                            await pickMedia(ImageSource.gallery, "video");
+                        if (response != null) {
                           File fileContent = response[0];
                           String filePath = response[1];
                           Navigator.push(
@@ -262,7 +299,7 @@ Future cameraSelect(text) async {
                               },
                             ),
                           );
-                        }else{
+                        } else {
                           debugPrint("User cancel uploading");
                         }
                       },

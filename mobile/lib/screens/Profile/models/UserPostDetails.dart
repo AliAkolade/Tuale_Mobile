@@ -16,11 +16,14 @@ class UserPostDetails {
   String? withdrawalBalance;
   String? email;
   List<starredPostModel>? starredPosts;
+  String? bio;
+  String? location;
 
   UserPostDetails(
       {this.id = "",
       this.starredPosts,
-      this.avatar = "https://res.cloudinary.com/indersingh/image/upload/v1593464618/App/user_mklcpl.png",
+      this.avatar =
+          "https://res.cloudinary.com/indersingh/image/upload/v1593464618/App/user_mklcpl.png",
       this.name = "",
       this.username = '',
       this.fans = 0,
@@ -28,5 +31,9 @@ class UserPostDetails {
       this.tualegiven = "",
       this.tcBalance = "",
       this.withdrawalBalance = '',
-      this.email = ''});
+      this.email = '', 
+      this.bio = '',
+      this.location = ''
+
+      });
 }

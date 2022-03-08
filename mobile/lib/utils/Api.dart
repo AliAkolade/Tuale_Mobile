@@ -13,6 +13,7 @@ import 'package:mobile/screens/Home/models/notificationsModel.dart';
 
 import 'package:mobile/screens/Discover/models/searchresultController.dart';
 import 'package:mobile/screens/Home/models/postsetails.dart';
+import 'package:mobile/screens/Leaderboard/models/leaderboardmodel.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
 //import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/Profile/models/UserPost.dart';
@@ -126,13 +127,10 @@ class Api {
 
     List<starredPostModel> getList() {
       for (var i in responseData['profile']['staredPosts']) {
-        starredPost.add(
-          starredPostModel(
+        starredPost.add(starredPostModel(
             url: i['post']['media']['url'],
             mediaType: i['post']['mediaType'],
-            id: i['post']['_id']
-          )
-        );
+            id: i['post']['_id']));
       }
       debugPrint('starredpost $starredPost');
       return starredPost;
@@ -151,6 +149,8 @@ class Api {
           responseData['profile']['user']['walletBalance'].toString(),
       email: responseData['profile']['user']['email'].toString(),
       starredPosts: getList(),
+      location: responseData['profile']['user']['country'],
+      bio:  responseData['profile']['bio']
     );
 
     // if (responseData['success'].toString() == 'true') {
@@ -633,7 +633,7 @@ class Api {
     }
   }
 
-   commentOnAPost(String postId, String comment) async {
+  commentOnAPost(String postId, String comment) async {
     try {
       Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       final SharedPreferences prefs = await _prefs;
@@ -650,7 +650,6 @@ class Api {
         } else {
           return [response.data["succes"], 'failed to comment'];
         }
-   
       }
     } catch (e) {}
   }
@@ -661,5 +660,32 @@ class Api {
     } else {
       return Get.find<VibedPostController>();
     }
+  }
+
+  getleaderboard() async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+      List leaderboard = [];
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio.get(hostAPI + 'leaderboard');
+      var responseData = response.data;
+      if (response.statusCode == 200) {
+        for (var i in responseData['leaderboard'].length) {
+          leaderboard.add(LeaderboardModel(
+            
+          ));
+        }
+        return [responseData["success"], responseData["message"]];
+      } else {
+        return [responseData["success"], responseData["message"]];
+      }
+    } catch (e) {
+      return [false, "Something got wrong"];
+    }
+
+    return [false, "Something got wrong"];
   }
 }

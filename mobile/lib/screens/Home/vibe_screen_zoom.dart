@@ -59,12 +59,12 @@ class _VibingZoomState extends State<VibingZoom> {
                           color: Colors.white70,
                           child: GestureDetector(
                             onTap: () {
-                              //Navigator.pop(context);
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Home()),
-                              );
+                              Navigator.pop(context);
+                              // Navigator.pushReplacement(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => const Home()),
+                              // );
                             },
                             child: Icon(
                               Icons.fullscreen_exit_rounded,

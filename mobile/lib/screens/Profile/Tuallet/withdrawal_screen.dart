@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Profile/Tuallet/price_withdrawal_screen.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
 
@@ -22,7 +23,10 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
 
   @override
   Widget build(BuildContext context) {
-   ProfileController profileController = Get.put(ProfileController(),tag: "myprofile");
+ProfileController profileController = Get.put(ProfileController(
+    controllerusername:
+        Get.find<LoggedUserController>().loggedUser.value.currentUserUsername,
+  ));
   
    
     return Column(
