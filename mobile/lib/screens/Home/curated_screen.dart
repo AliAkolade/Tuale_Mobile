@@ -96,12 +96,7 @@ class _CuratedState extends State<Curated> {
                     itemCount: control.curatedPost.value.length,
                     itemBuilder: (BuildContext context, int index) {
                       List posts = control.curatedPost.value;
-                      bool tualed = false;
-                      int tualCount = posts[index].noTuale;
 
-                      int starCount = posts[index].noStar;
-
-                      bool starred = false;
                       if (control.isLoading.value) {
                         print('load');
                         return SpinKitFadingCircle(
@@ -115,14 +110,18 @@ class _CuratedState extends State<Curated> {
                                       .value[index]
                                       .mediaType !=
                                   "image"
-                              ? 
+                              ?
                               // Display video
                               Container(
                                   height: 645.h,
                                   width: 400.w,
                                   margin: EdgeInsets.only(
-                                      bottom: 10, left: 15, right: 15, top: 15.h),
+                                      bottom: 10,
+                                      left: 15,
+                                      right: 15,
+                                      top: 15.h),
                                   decoration: BoxDecoration(
+                                    color: Colors.black,
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                   child: Stack(
@@ -130,7 +129,8 @@ class _CuratedState extends State<Curated> {
                                       SizedBox(
                                         height: double.infinity,
                                         child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(15),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
                                             child: SizedBox(
                                                 height: 645.h,
                                                 width: 400.w,
@@ -170,13 +170,13 @@ class _CuratedState extends State<Curated> {
                                                   children: [
                                                     Align(
                                                       widthFactor: 5,
-                                                      alignment: const Alignment(
-                                                          1.08, 0.6),
+                                                      alignment:
+                                                          const Alignment(
+                                                              1.08, 0.6),
                                                       child: Obx(
                                                         () => actionBar(
-                                                            index:index,
-                              
-                                                          posts:  Get.find<
+                                                            index: index,
+                                                            posts: Get.find<
                                                                     CuratedPostController>()
                                                                 .curatedPost
                                                                 .value),
@@ -197,10 +197,13 @@ class _CuratedState extends State<Curated> {
                                                 width: 400.w,
                                                 decoration: BoxDecoration(
                                                     borderRadius:
-                                                        BorderRadius.circular(15),
-                                                    gradient: const LinearGradient(
-                                                      begin: AlignmentDirectional(
-                                                          0.5, 0.5),
+                                                        BorderRadius.circular(
+                                                            15),
+                                                    gradient:
+                                                        const LinearGradient(
+                                                      begin:
+                                                          AlignmentDirectional(
+                                                              0.5, 0.5),
                                                       end: AlignmentDirectional(
                                                           0.5, 1.4),
                                                       colors: [
@@ -223,6 +226,7 @@ class _CuratedState extends State<Curated> {
                                       right: 15,
                                       top: 15.h),
                                   decoration: BoxDecoration(
+                                    color: Colors.black,
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                   child: Stack(children: [
@@ -358,7 +362,9 @@ Widget _commentsectionModal(
           context: context,
           builder: (_) => Obx(
                 () => commentModal(
-                  posts: !Get.isRegistered<CuratedPostController>() ? Get.find<VibedPostController>().vibePost.value : Get.find<CuratedPostController>().curatedPost.value,
+                  posts: !Get.isRegistered<CuratedPostController>()
+                      ? Get.find<VibedPostController>().vibePost.value
+                      : Get.find<CuratedPostController>().curatedPost.value,
                   index: index,
                 ),
               ));
@@ -376,11 +382,17 @@ Widget _commentsectionModal(
           ),
           Obx(
             () => Text(
-            Get.isRegistered<CuratedPostController>() ?  Get.find<CuratedPostController>()
-                  .curatedPost
-                  .value[index]
-                  .noComment
-                  .toString() : Get.find<VibedPostController>().vibePost.value[index].noComment.toString(),
+              Get.isRegistered<CuratedPostController>()
+                  ? Get.find<CuratedPostController>()
+                      .curatedPost
+                      .value[index]
+                      .noComment
+                      .toString()
+                  : Get.find<VibedPostController>()
+                      .vibePost
+                      .value[index]
+                      .noComment
+                      .toString(),
               style: TextStyle(color: Colors.white),
             ),
           )
@@ -586,7 +598,6 @@ class _actionBarState extends State<actionBar> {
                                     VibedPostController>()) {
                                   Get.find<VibedPostController>()
                                       .getVibedPosts();
-
                                 }
                               } else {
                                 setState(() {

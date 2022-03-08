@@ -39,17 +39,18 @@ class _discoverScreenState extends State<discoverScreen> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-             backgroundColor: Colors.white,
-        elevation: 1,
-        centerTitle: true,
-        title: Text("My Posts", 
-        style:  TextStyle(
-                    color: tualeBlueDark,
-                    fontFamily: 'Poppins',
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.bold,
-                    height: 1),
-        ),
+            backgroundColor: Colors.white,
+            elevation: 1,
+            centerTitle: true,
+            title: Text(
+              "My Posts",
+              style: TextStyle(
+                  color: tualeBlueDark,
+                  fontFamily: 'Poppins',
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.bold,
+                  height: 1),
+            ),
           ),
           body: Container(
             color: Colors.white,
@@ -64,8 +65,8 @@ class _discoverScreenState extends State<discoverScreen> {
                       return Obx(() => userpostcontroller
                                   .posts.value[index].mediaType !=
                               "image"
-                          ? 
-                         // Display video
+                          ?
+                          // Display video
                           Container(
                               height: 645.h,
                               width: 400.w,
@@ -123,18 +124,19 @@ class _discoverScreenState extends State<discoverScreen> {
                                                       1.08, 0.6),
                                                   child: Obx(
                                                     () => _actionBar(
-                                                        index:index,
-                                                        
-                                                       posts: userpostcontroller.posts
-                                                            .value),
+                                                        index: index,
+                                                        posts:
+                                                            userpostcontroller
+                                                                .posts.value),
                                                   ),
                                                 ),
-        
+
                                                 //user post info
                                                 Obx(() => userInfoWidget(
                                                     context,
                                                     index,
-                                                  userpostcontroller.posts.value))
+                                                    userpostcontroller
+                                                        .posts.value))
                                               ],
                                             ),
                                             height: 645.h,
@@ -253,7 +255,6 @@ class _discoverScreenState extends State<discoverScreen> {
                                                     const Alignment(1.08, 0.6),
                                                 child: Obx(
                                                   () => _actionBar(
-                                                     
                                                       index: index,
                                                       posts: userpostcontroller
                                                           .posts.value),
@@ -511,7 +512,10 @@ class __actionBarState extends State<_actionBar> {
                     ],
                   ),
                 ),
-                _commentsectionModal(context, widget.index!, ),
+                _commentsectionModal(
+                  context,
+                  widget.index!,
+                ),
                 Container(
                   decoration: const BoxDecoration(boxShadow: [
                     BoxShadow(color: Colors.grey, blurRadius: 25)
@@ -536,7 +540,6 @@ class __actionBarState extends State<_actionBar> {
 Widget _commentsectionModal(
   BuildContext context,
   int index,
- 
 ) {
   return GestureDetector(
     onTap: () {

@@ -1,5 +1,6 @@
 import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:get/get.dart';
+import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Profile/controllers/paymentRequirementsController.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
 
@@ -11,7 +12,10 @@ class TpBalanceScreen extends StatefulWidget {
 }
 
 class _TpBalanceScreenState extends State<TpBalanceScreen> {
- ProfileController profileController = Get.put(ProfileController(),tag: "myprofile");
+  ProfileController profileController = Get.put(ProfileController(
+    controllerusername:
+        Get.find<LoggedUserController>().loggedUser.value.currentUserUsername,
+  ));
   List price = [
     {100: "1000"},
     {300: "3000"},
@@ -57,13 +61,11 @@ class _TpBalanceScreenState extends State<TpBalanceScreen> {
   @override
   void initState() {
     plugin.initialize(publicKey: publicKey);
-     
   }
 
   @override
   Widget build(BuildContext context) {
     PaymentReqController paymentReq = Get.put(PaymentReqController());
-  
 
     //profileController.isLoading.value
     //     ? Container():
