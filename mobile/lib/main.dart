@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:mobile/screens/Auth/welcome_screen.dart';
+import 'package:mobile/screens/Home/inprogress_screen.dart';
 
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/splash_screen.dart';
