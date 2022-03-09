@@ -13,6 +13,7 @@ class PostDetails {
   bool isTualed;
   bool isStared;
   String mediaType;
+  bool isVerified;
   List? comment;
 
   PostDetails(
@@ -30,5 +31,6 @@ class PostDetails {
       required this.isTualed,
       required this.isStared,
       required this.mediaType,
+      required this.isVerified,
       required this.comment});
 }
