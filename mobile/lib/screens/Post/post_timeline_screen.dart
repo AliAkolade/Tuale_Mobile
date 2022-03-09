@@ -9,7 +9,12 @@ class PostTimeline extends StatefulWidget {
   File fileContent;
   String filePath;
   String mediaType;
-  PostTimeline({Key? key, required this.fileContent, required this.filePath, required this.mediaType}) : super(key: key);
+  PostTimeline(
+      {Key? key,
+      required this.fileContent,
+      required this.filePath,
+      required this.mediaType})
+      : super(key: key);
 
   @override
   _PostTimelineState createState() => _PostTimelineState();
@@ -18,12 +23,13 @@ class PostTimeline extends StatefulWidget {
 class _PostTimelineState extends State<PostTimeline> {
   late VideoPlayerController videoController;
   late TextEditingController description;
-  final cloudinary = CloudinaryPublic('demilade211', 'Tuale-Ogunbanwo', cache: false);
+  final cloudinary =
+      CloudinaryPublic('demilade211', 'Tuale-Ogunbanwo', cache: false);
 
   @override
   void initState() {
     // TODO: implement initState
-    if(widget.mediaType  == "video") {
+    if (widget.mediaType == "video") {
       videoController = VideoPlayerController.file(widget.fileContent,
           videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true))
         ..setLooping(true)
@@ -52,26 +58,28 @@ class _PostTimelineState extends State<PostTimeline> {
             center: const Text("Loading...."),
             progressColor: tualeOrange,
           ),
-          themeData: Theme.of(context)
-              .copyWith(accentColor: Colors.black38),
+          themeData: Theme.of(context).copyWith(accentColor: Colors.black38),
           overlayColor: const Color(0x99E8EAF6));
 
       CloudinaryResponse response = await cloudinary.uploadFile(
-        widget.mediaType == "image" ?
-        CloudinaryFile.fromFile(widget.filePath,folder: "Tuale posts", resourceType: CloudinaryResourceType.Image) :
-        CloudinaryFile.fromFile(widget.filePath,folder: "Tuale posts", resourceType: CloudinaryResourceType.Video),
-        onProgress: (count, total){
-          setState(() {
-            uploadingPercentage = (count / total) * 100;
-            debugPrint("uploadingPercentage : $uploadingPercentage");
-          });
-          // TODO : try  to display loader percentage
-        }
-      );
+          widget.mediaType == "image"
+              ? CloudinaryFile.fromFile(widget.filePath,
+                  folder: "Tuale posts",
+                  resourceType: CloudinaryResourceType.Image)
+              : CloudinaryFile.fromFile(widget.filePath,
+                  folder: "Tuale posts",
+                  resourceType: CloudinaryResourceType.Video),
+          onProgress: (count, total) {
+        setState(() {
+          uploadingPercentage = (count / total) * 100;
+          debugPrint("uploadingPercentage : $uploadingPercentage");
+        });
+        // TODO : try  to display loader percentage
+      });
 
-      debugPrint("Cloudres : "+response.toString());
+      debugPrint("Cloudres : " + response.toString());
 
-      if(response.secureUrl  != "") {
+      if (response.secureUrl != "") {
         String publicId = response.publicId;
         String url = response.secureUrl;
         String desc = description.text;
@@ -79,26 +87,27 @@ class _PostTimelineState extends State<PostTimeline> {
 
         //debugPrint("secureUrl : ${response.secureUrl}");
         debugPrint("public : $publicId || url : $url || desc $desc");
-        var result = await Api().makeNewPost(mediaType,publicId,url,desc);
-        if(result[0]) {
+        var result = await Api().makeNewPost(mediaType, publicId, url, desc);
+        if (result[0]) {
           debugPrint(result[1]);
-          showSnackBar(result[1],result[0]);
+          showSnackBar(result[1], result[0]);
           // TODO : Everything pass so redirect to homepage and refresh comonent
-          Future.delayed(
-            const Duration(seconds: 3), (){
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => NavBar(index: 0,)),
-              );
-            }
-          );
+          Future.delayed(const Duration(seconds: 3), () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NavBar(
+                        index: 0,
+                      )),
+            );
+          });
           //Navigator.pop(context);
-        }else{
-          debugPrint("Err : "+result[1]);
-          showSnackBar(result[1],result[0]);
+        } else {
+          debugPrint("Err : " + result[1]);
+          showSnackBar(result[1], result[0]);
         }
         Loader.hide();
-      }else{
+      } else {
         Loader.hide();
         debugPrint("Something went wrong, retry");
       }
@@ -110,7 +119,9 @@ class _PostTimelineState extends State<PostTimeline> {
 
   showSnackBar(String msg, bool success) {
     final snackBar = SnackBar(
-      content: Text(msg, style: const TextStyle(color: Colors.white),
+      content: Text(
+        msg,
+        style: const TextStyle(color: Colors.white),
       ),
       backgroundColor: success ? Colors.green : tualeOrange,
       duration: const Duration(seconds: 5),
@@ -169,43 +180,50 @@ class _PostTimelineState extends State<PostTimeline> {
                   border: Border(
                       top: BorderSide(color: Colors.grey.withOpacity(0.3)),
                       bottom: BorderSide(color: Colors.grey.withOpacity(0.9)))),
-              child: widget.mediaType == "image" ?
-              SizedBox(
-                height: double.infinity,
-                width: double.infinity,
-                child: widget.filePath != "" ?
-                    Image.file(widget.fileContent) :
-                    const Image(
-                    fit: BoxFit.cover,
-                    image: AssetImage("assets/images/demoPost.png")),
-              ) :
-              SizedBox(
-                height: double.infinity,
-                width: double.infinity,
-                child: VideoPlayer(videoController),
-              ),
+              child: widget.mediaType == "image"
+                  ? SizedBox(
+                      height: double.infinity,
+                      width: double.infinity,
+                      child: widget.filePath != ""
+                          ? Image.file(widget.fileContent)
+                          : const Image(
+                              fit: BoxFit.cover,
+                              image: AssetImage("assets/images/demoPost.png")),
+                    )
+                  : SizedBox(
+                      height: double.infinity,
+                      width: double.infinity,
+                      child: VideoPlayer(videoController),
+                    ),
             ),
             Container(
               padding: const EdgeInsets.all(5),
               child: TextField(
-                maxLines: 7,
+                maxLines: 6,
                 decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.fromLTRB(5, 5, 5, 2),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        style: BorderStyle.solid, color: Colors.grey),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        style: BorderStyle.solid, color: Colors.grey),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
+                  border: InputBorder.none,
+                  hintText: 'Caption',
                 ),
+
+                // decoration: InputDecoration(
+                //   contentPadding: const EdgeInsets.fromLTRB(5, 5, 5, 2),
+                //   enabledBorder: OutlineInputBorder(
+                //     borderSide: const BorderSide(
+                //         style: BorderStyle.solid, color: Colors.grey),
+                //     borderRadius: BorderRadius.circular(5),
+                //   ),
+                //   focusedBorder: OutlineInputBorder(
+                //     borderSide: const BorderSide(
+                //         style: BorderStyle.solid, color: Colors.grey),
+                //     borderRadius: BorderRadius.circular(5),
+                //   ),
+                // ),
                 controller: description,
               ),
             ),
-            const SizedBox(height: 5,),
+            const SizedBox(
+              height: 5,
+            ),
             Container(
               padding: const EdgeInsets.all(5),
               child: Row(
@@ -221,8 +239,7 @@ class _PostTimelineState extends State<PostTimeline> {
                     child: Text(
                       '# Recent Hashtags ',
                       style: TextStyle(
-                          fontFamily: "Roboto",
-                          fontWeight: FontWeight.w400),
+                          fontFamily: "Roboto", fontWeight: FontWeight.w400),
                     ),
                   ),
                   SizedBox(
@@ -239,8 +256,7 @@ class _PostTimelineState extends State<PostTimeline> {
                     child: Text(
                       '@ Tag People',
                       style: TextStyle(
-                          fontFamily: "Roboto",
-                          fontWeight: FontWeight.w400),
+                          fontFamily: "Roboto", fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],

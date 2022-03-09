@@ -93,8 +93,7 @@ class _OnePostState extends State<OnePost> {
                                   .value,
                             ),
                           )),
-                           Userinfo(context)
-                  
+                      Userinfo(context)
                     ],
                   )
                 : Container(
@@ -149,65 +148,57 @@ class _OnePostState extends State<OnePost> {
 
   Column Userinfo(BuildContext context) {
     return Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                              margin:
-                                  const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                              child: Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(context,
-                                          MaterialPageRoute(
-                                              builder: (context) {
-                                        return userProfile(
-                                          isUser: false,
-                                          username: post
-                                              .postdetails.value.username
-                                              .toString(),
-                                          //  tag: "yourprofile",
-                                        );
-                                      }));
-                                    },
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          height: 50.h,
-                                          width: 50.w,
-                                          child: CircleAvatar(
-                                            backgroundImage: NetworkImage(post
-                                                .postdetails
-                                                .value
-                                                .userProfilePic),
-                                          ),
-                                        ),
-                                        const Spacer(
-                                          flex: 1,
-                                        ),
-                                        Text(
-                                          post.postdetails.value.username,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: 'Poppins',
-                                              fontSize: 18.sp,
-                                              fontWeight: FontWeight.bold,
-                                              height: 1),
-                                        ),
-                                        const Spacer(
-                                          flex: 1,
-                                        ),
-                                        const Icon(
-                                          Icons.check_circle,
-                                          color: Colors.blue,
-                                          size: 17,
-                                        ),
-                                        /*Text(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+            margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return userProfile(
+                        isUser: false,
+                        username: post.postdetails.value.username.toString(),
+                        //  tag: "yourprofile",
+                      );
+                    }));
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 50.h,
+                        width: 50.w,
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              post.postdetails.value.userProfilePic),
+                        ),
+                      ),
+                      const Spacer(
+                        flex: 1,
+                      ),
+                      Text(
+                        post.postdetails.value.username,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Poppins',
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                            height: 1),
+                      ),
+                      const Spacer(
+                        flex: 1,
+                      ),
+                      const Icon(
+                        Icons.check_circle,
+                        color: Colors.blue,
+                        size: 17,
+                      ),
+                      /*Text(
                                           "1 day ago",
                                           style: TextStyle(
                                               color: Colors.white70,
@@ -215,45 +206,43 @@ class _OnePostState extends State<OnePost> {
                                               fontSize: 12.sp,
                                               height: 1),
                                         ),*/
-                                        const Spacer(
-                                          flex: 15,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Container(
-                                      // color: Colors.white70,
-                                      height: 55.h,
-                                      width: 950.w,
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            post.postdetails.value.postText,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              color: Colors.white70,
-                                              // fontFamily: 'Poppins',
-                                              fontSize: 15.sp,
-                                              height: 1,
-                                            ),
-                                          ),
-                                          Spacer(),
-                                          Icon(
-                                            Icons.volume_down_rounded,
-                                            size: 35.sp,
-                                            color: Colors.white,
-                                          )
-                                        ],
-                                      )),
-                                ],
-                              ))
-                        ],
-                      );
+                      const Spacer(
+                        flex: 15,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10),
+                Container(
+                    // color: Colors.white70,
+                    height: 55.h,
+                    width: 950.w,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          post.postdetails.value.postText,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Colors.white70,
+                            // fontFamily: 'Poppins',
+                            fontSize: 15.sp,
+                            height: 1,
+                          ),
+                        ),
+                        Spacer(),
+                        Icon(
+                          Icons.volume_down_rounded,
+                          size: 35.sp,
+                          color: Colors.white,
+                        )
+                      ],
+                    )),
+              ],
+            ))
+      ],
+    );
   }
 }
 
@@ -595,7 +584,7 @@ class _commentModalState extends State<_commentModal> {
                           //  color: Colors.blue,
                           margin: EdgeInsetsDirectional.only(top: 5),
                           // color: Colors.black,
-                          height: 85.h,
+                          height: 70.h,
                           width: ScreenUtil().screenWidth,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -625,7 +614,7 @@ class _commentModalState extends State<_commentModal> {
                                   ),
                                   FittedBox(
                                     child: SizedBox(
-                                      height: 58.h,
+                                      height: 50.h,
                                       width: 250.w,
                                       child: Text(
                                         widget.posts!.comment![commentIndex]

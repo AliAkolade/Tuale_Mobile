@@ -567,8 +567,8 @@ class profileButton extends StatelessWidget {
         ElevatedButton(
             onPressed: () {
               isFollowing()
-                  ? Api().unvibeWithUser(userId!, username!, tag!)
-                  : Api().vibeWithUser(userId!, username!, tag!);
+                  ? Api().unvibeWithUser(userId!, username!, )
+                  : Api().vibeWithUser(userId!, username!, );
             },
             style: ElevatedButton.styleFrom(
                 primary: isFollowing() ? tualeOrange : tualeBlueDark,
