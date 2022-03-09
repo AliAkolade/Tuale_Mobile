@@ -81,8 +81,8 @@ class _VibingState extends State<Vibing> {
                                   .value[index]
                                   .mediaType !=
                               "image"
-                          ? 
-                         // Display video
+                          ?
+                          // Display video
                           Container(
                               height: 645.h,
                               width: 400.w,
@@ -146,8 +146,7 @@ class _VibingState extends State<Vibing> {
                                                       1.08, 0.6),
                                                   child: Obx(
                                                     () => _actionBar(
-                                                        index:index,
-                          
+                                                        index: index,
                                                         posts: Get.find<
                                                                 VibedPostController>()
                                                             .vibePost
@@ -157,8 +156,8 @@ class _VibingState extends State<Vibing> {
 
                                                 //user post info
                                                 Obx(() => userInfoWidget(
-                                                      context,
-                                                     index,
+                                                    context,
+                                                    index,
                                                     Get.find<
                                                             VibedPostController>()
                                                         .vibePost
@@ -645,7 +644,7 @@ class _commentModalState extends State<_commentModal> {
                           //  color: Colors.blue,
                           margin: EdgeInsetsDirectional.only(top: 5),
                           // color: Colors.black,
-                          height: 85.h,
+                          height: 70.h,
                           width: ScreenUtil().screenWidth,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -677,7 +676,7 @@ class _commentModalState extends State<_commentModal> {
                                   ),
                                   FittedBox(
                                     child: SizedBox(
-                                      height: 58.h,
+                                      height: 50.h,
                                       width: 250.w,
                                       child: Text(
                                         widget.posts![widget.index!]

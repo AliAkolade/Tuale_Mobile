@@ -822,7 +822,7 @@ class _commentModalState extends State<commentModal> {
                           //  color: Colors.blue,
                           margin: EdgeInsetsDirectional.only(top: 5),
                           // color: Colors.black,
-                          height: 85.h,
+                          height: 70.h,
                           width: ScreenUtil().screenWidth,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -854,7 +854,7 @@ class _commentModalState extends State<commentModal> {
                                   ),
                                   FittedBox(
                                     child: SizedBox(
-                                      height: 58.h,
+                                      height: 50.h,
                                       width: 250.w,
                                       child: Text(
                                         widget.posts![widget.index!]

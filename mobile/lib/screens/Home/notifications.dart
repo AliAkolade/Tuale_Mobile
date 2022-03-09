@@ -228,8 +228,8 @@ class newFan extends StatelessWidget {
               child: ElevatedButton(
                   onPressed: () {
                     isFollowing()
-                        ? Api().unvibeWithUser(id!, username!, "notifications")
-                        : Api().vibeWithUser(id!, username!, "notifications");
+                        ? Api().unvibeWithUser(id!, username!, )
+                        : Api().vibeWithUser(id!, username!, );
                   },
                   style: ElevatedButton.styleFrom(
                       primary: isFollowing() ? tualeOrange : tualeBlueDark,

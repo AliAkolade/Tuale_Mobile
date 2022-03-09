@@ -401,7 +401,7 @@ class Api {
     // print(response.data);
   }
 
-  Future vibeWithUser(String id, String username, String tag) async {
+  Future vibeWithUser(String id, String username, ) async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
@@ -412,7 +412,7 @@ class Api {
     if (response.statusCode == 200) {
       Get.put<ProfileController>(
               ProfileController(controllerusername: username),
-              tag: tag)
+              )
           .getProfileInfo(username);
       Get.find<LoggedUserController>().getLoggeduser();
       Get.put<ProfileController>(
@@ -421,7 +421,7 @@ class Api {
                       .loggedUser
                       .value
                       .currentUserUsername!),
-              tag: 'myprofile')
+              )
           .getProfileInfo(Get.find<LoggedUserController>()
               .loggedUser
               .value
@@ -429,7 +429,7 @@ class Api {
     }
   }
 
-  Future unvibeWithUser(String id, String username, String tag) async {
+  Future unvibeWithUser(String id, String username,) async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
@@ -440,7 +440,7 @@ class Api {
     if (response.statusCode == 200) {
       Get.put<ProfileController>(
               ProfileController(controllerusername: username),
-              tag: tag)
+              )
           .getProfileInfo(username);
       Get.find<LoggedUserController>().getLoggeduser();
       Get.put<ProfileController>(
@@ -449,7 +449,7 @@ class Api {
                       .loggedUser
                       .value
                       .currentUserUsername!),
-              tag: 'myprofile')
+              )
           .getProfileInfo(Get.find<LoggedUserController>()
               .loggedUser
               .value
