@@ -45,6 +45,9 @@ class _VibingZoomState extends State<VibingZoom> {
                     VideoPlayerScreen(
                       videoUrl: widget.post![widget.index!].postMedia,
                       enablePlayBtn: true,
+                        cbController: (VideoPlayerController vc){
+                          debugPrint("-here vc-");
+                        }
                     ),
                     // Back button
                     Align(
@@ -59,7 +62,8 @@ class _VibingZoomState extends State<VibingZoom> {
                           color: Colors.white70,
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.pop(context);
+                              // 200 -> mean user go back successufly so home can continue  play video
+                              Navigator.pop(context,200);
                               // Navigator.pushReplacement(
                               //   context,
                               //   MaterialPageRoute(

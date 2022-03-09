@@ -52,6 +52,9 @@ class _OnePostState extends State<OnePost> {
                       VideoPlayerScreen(
                         videoUrl: widget.postMedia!,
                         enablePlayBtn: true,
+                          cbController: (VideoPlayerController vc){
+                            debugPrint("-here vc-");
+                          }
                       ),
                       // Back button
                       Align(

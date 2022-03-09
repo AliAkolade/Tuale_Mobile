@@ -24,6 +24,8 @@ bool starred = false;
 class _VibingState extends State<Vibing> {
   VibedPostController control = VibedPostController();
 
+  late VideoPlayerController currentVP;
+
   @override
   void dispose() {
     Get.delete<VibedPostController>();
@@ -104,6 +106,10 @@ class _VibingState extends State<Vibing> {
                                                   .vibePost
                                                   .value[index]
                                                   .postMedia,
+                                              cbController: (VideoPlayerController vc){
+                                                debugPrint("-here vc-");
+                                                currentVP = vc;
+                                              },
                                             ))),
                                   ),
                                   Positioned(
@@ -114,17 +120,19 @@ class _VibingState extends State<Vibing> {
                                         onDoubleTap: () {
                                           debugPrint("User double tap");
                                         },
-                                        onTap: () {
-                                          Navigator.push(context,
+                                        onTap: () async {
+                                          currentVP.pause();
+                                          final result = await Navigator.push(context,
                                               MaterialPageRoute(
                                                   builder: (context) {
-                                            return VibingZoom(
-                                                post: Get.find<
-                                                        VibedPostController>()
-                                                    .vibePost
-                                                    .value,
-                                                index: index);
-                                          }));
+                                                    return VibingZoom(
+                                                        post: Get.find<
+                                                            VibedPostController>()
+                                                            .vibePost
+                                                            .value,
+                                                        index: index);
+                                                  }));
+                                          if(result == 200) currentVP.play();
                                         },
                                         child: Hero(
                                           tag: "hero$index",
