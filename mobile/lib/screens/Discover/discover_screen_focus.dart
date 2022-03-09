@@ -90,6 +90,9 @@ class _discoverScreenState extends State<discoverScreen> {
                                                   .posts
                                                   .value[index]
                                                   .postMedia,
+                                                cbController: (VideoPlayerController vc){
+                                                  debugPrint("-here vc-");
+                                                }
                                             ))),
                                   ),
                                   Positioned(

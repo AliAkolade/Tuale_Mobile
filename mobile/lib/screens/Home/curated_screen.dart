@@ -43,6 +43,8 @@ class _CuratedState extends State<Curated> {
 
   bool displayTualeAnimation = false;
 
+  late VideoPlayerController currentVP;
+
   @override
   void dispose() {
     Get.delete<CuratedPostController>();
@@ -140,6 +142,10 @@ class _CuratedState extends State<Curated> {
                                                       .curatedPost
                                                       .value[index]
                                                       .postMedia,
+                                                    cbController: (VideoPlayerController vc){
+                                                      debugPrint("-here vc- : $vc");
+                                                      currentVP = vc;
+                                                    }
                                                 ))),
                                       ),
                                       Positioned(
@@ -150,8 +156,9 @@ class _CuratedState extends State<Curated> {
                                             onDoubleTap: () {
                                               debugPrint("User double tap");
                                             },
-                                            onTap: () {
-                                              Navigator.push(context,
+                                            onTap: () async {
+                                              currentVP.pause();
+                                              final result = await Navigator.push(context,
                                                   MaterialPageRoute(
                                                       builder: (context) {
                                                 return VibingZoom(
@@ -161,6 +168,7 @@ class _CuratedState extends State<Curated> {
                                                         .value,
                                                     index: index);
                                               }));
+                                              if(result == 200) currentVP.play();
                                             },
                                             child: Hero(
                                               tag: "hero$index",

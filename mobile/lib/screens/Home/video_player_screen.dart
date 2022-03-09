@@ -6,8 +6,9 @@ import 'package:chewie/chewie.dart';
 class VideoPlayerScreen extends StatefulWidget {
   String videoUrl;
   bool enablePlayBtn;
+  late final Function(VideoPlayerController) cbController;
 
-  VideoPlayerScreen({Key? key, required this.videoUrl, this.enablePlayBtn=false}) : super(key: key);
+  VideoPlayerScreen({Key? key, required this.videoUrl, this.enablePlayBtn=false, required this.cbController}) : super(key: key);
 
   @override
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
@@ -30,18 +31,25 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       )
     ;
 
+
+
     super.initState();
   }
 
   @override
   void dispose() {
     debugPrint("dispose : ${widget.enablePlayBtn}");
+    //widget.cbController(videoController);
     videoController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration.zero, () async {
+      widget.cbController(videoController);
+    });
+
     return SizedBox(
         height: double.infinity,
         width: double.infinity,
