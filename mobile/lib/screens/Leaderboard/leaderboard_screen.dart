@@ -185,7 +185,10 @@ class _LeaderboardState extends State<Leaderboard> {
                                   const Spacer(
                                     flex: 2,
                                   ),
-                                  AnimatedCrossFade(
+                                leaderboard.leaderboard.value[index].id == Get.find<LoggedUserController>().loggedUser.value.currentuserid ? Container(
+                                  height: 33.h,
+                                  width: 33.h,
+                                ) : AnimatedCrossFade(
                                     duration: const Duration(milliseconds: 100),
                                     crossFadeState: isFollowing(leaderboard
                                             .leaderboard.value[index].id)

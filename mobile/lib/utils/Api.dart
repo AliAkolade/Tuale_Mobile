@@ -29,7 +29,7 @@ class Api {
   String? tcpoints = '10';
 
   Future<List> getVibingPost(int pageNo) async {
-    int pageNo = 1;
+    // int pageNo = 1;
     List posts = [];
 
     // Get Token
@@ -290,10 +290,10 @@ class Api {
             tuales: postsResponses[i]['tuales'],
             stars: postsResponses[i]['stars'],
             comment: postsResponses[i]['comments'],
-            isVerified: responseData['post']['user']['verified'],
+            isVerified: postsResponses[i]['user']['verified'],
             isTualed: checkGivingTuale(postsResponses[i]['tuales']),
             isStared: checkGivingStar(postsResponses[i]['stars']),
-            mediaType: postsResponses[i]['mediaType']));
+            mediaType: postsResponses[i]['user']['mediaType']));
       }
     }
 
@@ -303,7 +303,7 @@ class Api {
     //   }
 
     // }
-
+  
     return result;
   }
 
@@ -680,7 +680,7 @@ class Api {
       var responseData = response.data;
       if (response.statusCode == 200) {
         print('heyyyy');
-       print(responseData['leaderboard']);
+        print(responseData['leaderboard']);
         for (var i in responseData['leaderboard']) {
           print(i);
 
@@ -691,7 +691,7 @@ class Api {
               id: i['user']['_id'],
               noTuales: i['givenTuales']));
         }
-        
+
         return leaderboard;
       } else {
         return [responseData["success"], responseData["message"]];
