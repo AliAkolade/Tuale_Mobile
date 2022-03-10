@@ -18,10 +18,12 @@ BuildContext? selectedTabContext;
 
 class NavBar extends StatefulWidget {
   int index;
+  int initIndex;
 
   NavBar({
     Key? key,
     required this.index,
+    this.initIndex = 1,
   }) : super(key: key);
   @override
   State<NavBar> createState() => _NavBarState();
@@ -34,7 +36,7 @@ class _NavBarState extends State<NavBar> {
 
   List<Widget> _buildScreens() {
     return [
-      Home(),
+      Home(initialIndex: widget.initIndex,),
       SearchScreen(),
       PostTimeline(
         fileContent: File(""),
@@ -58,25 +60,7 @@ class _NavBarState extends State<NavBar> {
   int _currentIndex = 0;
   double iconSize = 25.0;
 
-  final List<Widget> _children = [
-    Home(),
-    SearchScreen(),
-    PostTimeline(
-      fileContent: File(""),
-      filePath: "",
-      mediaType: "image",
-    ),
-    Leaderboard(),
-    Obx(
-      () => userProfile(
-        isUser: true,
-        username: Get.put(LoggedUserController())
-            .loggedUser
-            .value
-            .currentUserUsername,
-        // tag: "myprofile",
-      ),
-    )
+  late List<Widget> _children = [
   ];
 
   @override
@@ -88,6 +72,27 @@ class _NavBarState extends State<NavBar> {
     setState(() {
       _controller = PersistentTabController(initialIndex: widget.index);
     });
+
+    _children = [
+      Home(initialIndex: widget.initIndex,),
+      SearchScreen(),
+      PostTimeline(
+        fileContent: File(""),
+        filePath: "",
+        mediaType: "image",
+      ),
+      Leaderboard(),
+      Obx(
+            () => userProfile(
+          isUser: true,
+          username: Get.put(LoggedUserController())
+              .loggedUser
+              .value
+              .currentUserUsername,
+          // tag: "myprofile",
+        ),
+      )
+    ];
   }
 
   onTabTapped(int index) {
@@ -106,7 +111,7 @@ class _NavBarState extends State<NavBar> {
     return Scaffold(
       body: _children[_currentIndex],
       bottomNavigationBar: Container(
-        height: 85,
+        //height: 85,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(30), topLeft: Radius.circular(30)),
