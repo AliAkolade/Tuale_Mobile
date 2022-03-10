@@ -125,7 +125,7 @@ class _OnePostState extends State<OnePost> {
                         ),
                       ),
                     ),
-                                         //Add this CustomPaint widget to the Widget Tree
+                    // widget to the Widget Tre                                //Add this CustomPaint widget to the Widget Tree
                         Align(
                             widthFactor: 5,
                             alignment: const Alignment(1.08, 0.6),
