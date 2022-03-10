@@ -258,25 +258,31 @@ class _EnterEmailState extends State<EnterEmail> {
             ))
           ]),
           const SizedBox(height: 15),
-          Material(
-              elevation: 1,
-              child: TextField(
-                  keyboardType: TextInputType.emailAddress,
-                  controller: email,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(5),
-                      prefixIcon: SvgPicture.asset(
-                        'assets/vectors/email2.svg',
-                        fit: BoxFit.scaleDown,
-                      ),
-                      labelText: 'Email',
-                      labelStyle: const TextStyle(
-                          color: Color.fromRGBO(3, 42, 43, 0.5199999809265137),
-                          fontFamily: 'Lato',
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          height: 1)))),
+          Container(
+              decoration: const BoxDecoration(boxShadow: [
+                BoxShadow(color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
+              ]),
+              child: Material(
+                  color: Colors.white,
+                  elevation: 0,
+                  child: TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      controller: email,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.all(5),
+                          prefixIcon: SvgPicture.asset(
+                            'assets/vectors/email2.svg',
+                            fit: BoxFit.scaleDown,
+                          ),
+                          labelText: 'Email',
+                          labelStyle: const TextStyle(
+                              color:
+                                  Color.fromRGBO(3, 42, 43, 0.5199999809265137),
+                              fontFamily: 'Lato',
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              height: 1))))),
           const SizedBox(height: 15),
           (message == '')
               ? Container(child: null)
@@ -470,25 +476,31 @@ class _EnterOTPState extends State<EnterOTP> {
             ))
           ]),
           const SizedBox(height: 10),
-          Material(
-              elevation: 1,
-              child: TextField(
-                  keyboardType: TextInputType.text,
-                  controller: otp,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(5),
-                      prefixIcon: SvgPicture.asset(
-                        'assets/vectors/padlock.svg',
-                        fit: BoxFit.scaleDown,
-                      ),
-                      labelText: 'Enter OTP',
-                      labelStyle: const TextStyle(
-                          color: Color.fromRGBO(3, 42, 43, 0.5199999809265137),
-                          fontFamily: 'Lato',
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          height: 1)))),
+          Container(
+              decoration: const BoxDecoration(boxShadow: [
+                BoxShadow(color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
+              ]),
+              child: Material(
+                  color: Colors.white,
+                  elevation: 0,
+                  child: TextField(
+                      keyboardType: TextInputType.text,
+                      controller: otp,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.all(5),
+                          prefixIcon: SvgPicture.asset(
+                            'assets/vectors/padlock.svg',
+                            fit: BoxFit.scaleDown,
+                          ),
+                          labelText: 'Enter OTP',
+                          labelStyle: const TextStyle(
+                              color:
+                                  Color.fromRGBO(3, 42, 43, 0.5199999809265137),
+                              fontFamily: 'Lato',
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              height: 1))))),
           const SizedBox(height: 15),
           (message == '')
               ? Container(child: null)
@@ -776,43 +788,55 @@ class _SetPasswordState extends State<SetPassword> {
             ))
           ]),
           const SizedBox(height: 20),
-          Material(
-              elevation: 1,
-              child: TextField(
-                  controller: pass1,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(5),
-                      prefixIcon: SvgPicture.asset(
-                        'assets/vectors/padlock.svg',
-                        fit: BoxFit.scaleDown,
-                      ),
-                      labelText: 'New Password',
-                      labelStyle: const TextStyle(
-                          color: Color.fromRGBO(3, 42, 43, 0.5199999809265137),
-                          fontFamily: 'Lato',
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          height: 1)))),
+          Container(
+              decoration: const BoxDecoration(boxShadow: [
+                BoxShadow(color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
+              ]),
+              child: Material(
+                  color: Colors.white,
+                  elevation: 0,
+                  child: TextField(
+                      controller: pass1,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.all(5),
+                          prefixIcon: SvgPicture.asset(
+                            'assets/vectors/padlock.svg',
+                            fit: BoxFit.scaleDown,
+                          ),
+                          labelText: 'New Password',
+                          labelStyle: const TextStyle(
+                              color:
+                                  Color.fromRGBO(3, 42, 43, 0.5199999809265137),
+                              fontFamily: 'Lato',
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              height: 1))))),
           const SizedBox(height: 20),
-          Material(
-              elevation: 1,
-              child: TextField(
-                  controller: pass2,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(5),
-                      prefixIcon: SvgPicture.asset(
-                        'assets/vectors/padlock.svg',
-                        fit: BoxFit.scaleDown,
-                      ),
-                      labelText: 'Confirm Password',
-                      labelStyle: const TextStyle(
-                          color: Color.fromRGBO(3, 42, 43, 0.5199999809265137),
-                          fontFamily: 'Lato',
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          height: 1)))),
+          Container(
+              decoration: const BoxDecoration(boxShadow: [
+                BoxShadow(color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
+              ]),
+              child: Material(
+                  color: Colors.white,
+                  elevation: 0,
+                  child: TextField(
+                      controller: pass2,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.all(5),
+                          prefixIcon: SvgPicture.asset(
+                            'assets/vectors/padlock.svg',
+                            fit: BoxFit.scaleDown,
+                          ),
+                          labelText: 'Confirm Password',
+                          labelStyle: const TextStyle(
+                              color:
+                                  Color.fromRGBO(3, 42, 43, 0.5199999809265137),
+                              fontFamily: 'Lato',
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              height: 1))))),
           const SizedBox(height: 15),
           (message == '')
               ? Container(child: null)

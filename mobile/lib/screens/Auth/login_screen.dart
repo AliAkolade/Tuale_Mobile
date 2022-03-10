@@ -100,28 +100,42 @@ class _LoginState extends State<Login> {
                               fontWeight: FontWeight.normal,
                               height: 1)),
                       const SizedBox(height: 30),
-                      Material(
-                          elevation: 2,
-                          child: TextField(
-                              controller: email,
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding: const EdgeInsets.all(5),
-                                  prefixIcon: SvgPicture.asset(
-                                    'assets/vectors/email.svg',
-                                    fit: BoxFit.scaleDown,
-                                  ),
-                                  labelText: 'Email',
-                                  labelStyle: const TextStyle(
-                                      color: Color.fromRGBO(
-                                          3, 42, 43, 0.5199999809265137),
-                                      fontFamily: 'Lato',
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.normal,
-                                      height: 1)))),
+                      Container(
+                          decoration: const BoxDecoration(boxShadow: [
+                            BoxShadow(
+                                color: Color.fromRGBO(4, 42, 43, 0.1),
+                                blurRadius: 3)
+                          ]),
+                          child: Material(
+                              elevation: 0,
+                              color: Colors.white,
+                              child: TextField(
+                                  controller: email,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      contentPadding: const EdgeInsets.all(5),
+                                      prefixIcon: SvgPicture.asset(
+                                        'assets/vectors/email.svg',
+                                        fit: BoxFit.scaleDown,
+                                      ),
+                                      labelText: 'Email',
+                                      labelStyle: const TextStyle(
+                                          color: Color.fromRGBO(
+                                              3, 42, 43, 0.5199999809265137),
+                                          fontFamily: 'Lato',
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.normal,
+                                          height: 1))))),
                       const SizedBox(height: 20),
-                      Material(
-                          elevation: 2,
+            Container(
+                decoration: const BoxDecoration(boxShadow: [
+                  BoxShadow(
+                      color: Color.fromRGBO(4, 42, 43, 0.1),
+                      blurRadius: 3)
+                ]),
+                child:Material(
+                          elevation: 0,
+                          color: Colors.white,
                           child: TextField(
                               controller: pass,
                               obscureText: hidePass,
@@ -152,7 +166,7 @@ class _LoginState extends State<Login> {
                                       fontFamily: 'Lato',
                                       fontSize: 15,
                                       fontWeight: FontWeight.normal,
-                                      height: 1)))),
+                                      height: 1))))),
                       const SizedBox(height: 50),
                       (message == '')
                           ? Container(child: null)

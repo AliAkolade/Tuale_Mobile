@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: Future.delayed(const Duration(seconds: 2)),
+        future: Future.delayed(const Duration(seconds: 0)),
         builder: (context, AsyncSnapshot snapshot) {
           // Show splash screen while waiting for app resources to load:
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -94,7 +94,7 @@ class _MyAppState extends State<MyApp> {
                       home: (widget.isLoggedIn)
                           ? NavBar(index: 0)
                           : const Welcome());
-                          // : const SplashScreen());
+                  // : const SignUp());
                 });
           }
         });

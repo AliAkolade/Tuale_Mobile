@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile/screens/imports.dart';
 
+import '../imports.dart';
+import '../imports.dart';
+
 int viewNo = 0;
 String finalEmail = '';
 String finalName = '';
@@ -49,7 +52,7 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
         body: SafeArea(
             child: Padding(
                 padding: const EdgeInsets.all(0),
@@ -370,44 +373,23 @@ class _FillDetailsState extends State<FillDetails> {
             )
           ]),
           const SizedBox(height: 10),
-          Material(
-              elevation: 1,
-              child: TextField(
-                  controller: name,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(5),
-                      prefixIcon: SvgPicture.asset(
-                        'assets/vectors/user.svg',
-                        fit: BoxFit.scaleDown,
-                      ),
-                      labelText: 'Full Name',
-                      labelStyle: const TextStyle(
-                          color: Color.fromRGBO(3, 42, 43, 0.5199999809265137),
-                          fontFamily: 'Lato',
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          height: 1)))),
-          const SizedBox(height: 20),
-          InkWell(
-              onTap: () {
-                setState(() {
-                  isDateShow = !isDateShow;
-                });
-              },
+          Container(
+              decoration: const BoxDecoration(boxShadow: [
+                BoxShadow(color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
+              ]),
               child: Material(
-                  elevation: 1,
+                  color: Colors.white,
+                  elevation: 0,
                   child: TextField(
-                      enabled: false,
-                      controller: date,
+                      controller: name,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           contentPadding: const EdgeInsets.all(5),
                           prefixIcon: SvgPicture.asset(
-                            'assets/vectors/calendar.svg',
+                            'assets/vectors/user.svg',
                             fit: BoxFit.scaleDown,
                           ),
-                          labelText: 'DD/MM/YYYY',
+                          labelText: 'Full Name',
                           labelStyle: const TextStyle(
                               color:
                                   Color.fromRGBO(3, 42, 43, 0.5199999809265137),
@@ -415,6 +397,39 @@ class _FillDetailsState extends State<FillDetails> {
                               fontSize: 15,
                               fontWeight: FontWeight.normal,
                               height: 1))))),
+          const SizedBox(height: 20),
+          InkWell(
+              onTap: () {
+                setState(() {
+                  isDateShow = !isDateShow;
+                });
+              },
+              child: Container(
+                  decoration: const BoxDecoration(boxShadow: [
+                    BoxShadow(
+                        color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
+                  ]),
+                  child: Material(
+                      color: Colors.white,
+                      elevation: 0,
+                      child: TextField(
+                          enabled: false,
+                          controller: date,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.all(5),
+                              prefixIcon: SvgPicture.asset(
+                                'assets/vectors/calendar.svg',
+                                fit: BoxFit.scaleDown,
+                              ),
+                              labelText: 'DD/MM/YYYY',
+                              labelStyle: const TextStyle(
+                                  color: Color.fromRGBO(
+                                      3, 42, 43, 0.5199999809265137),
+                                  fontFamily: 'Lato',
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                  height: 1)))))),
           isDateShow
               ? Column(children: [
                   SizedBox(
@@ -452,62 +467,80 @@ class _FillDetailsState extends State<FillDetails> {
                   child: null,
                 ),
           const SizedBox(height: 20),
-          Material(
-              elevation: 1,
-              child: TextField(
-                  controller: email,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(5),
-                      prefixIcon: SvgPicture.asset(
-                        'assets/vectors/email2.svg',
-                        fit: BoxFit.scaleDown,
-                      ),
-                      labelText: 'Email',
-                      labelStyle: const TextStyle(
-                          color: Color.fromRGBO(3, 42, 43, 0.5199999809265137),
-                          fontFamily: 'Lato',
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          height: 1)))),
+          Container(
+              decoration: const BoxDecoration(boxShadow: [
+                BoxShadow(color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
+              ]),
+              child: Material(
+                  color: Colors.white,
+                  elevation: 0,
+                  child: TextField(
+                      controller: email,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.all(5),
+                          prefixIcon: SvgPicture.asset(
+                            'assets/vectors/email2.svg',
+                            fit: BoxFit.scaleDown,
+                          ),
+                          labelText: 'Email',
+                          labelStyle: const TextStyle(
+                              color:
+                                  Color.fromRGBO(3, 42, 43, 0.5199999809265137),
+                              fontFamily: 'Lato',
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              height: 1))))),
           const SizedBox(height: 20),
-          Material(
-              elevation: 1,
-              child: TextField(
-                  controller: pass1,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(5),
-                      prefixIcon: SvgPicture.asset(
-                        'assets/vectors/padlock.svg',
-                        fit: BoxFit.scaleDown,
-                      ),
-                      labelText: 'Password',
-                      labelStyle: const TextStyle(
-                          color: Color.fromRGBO(3, 42, 43, 0.5199999809265137),
-                          fontFamily: 'Lato',
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          height: 1)))),
+          Container(
+              decoration: const BoxDecoration(boxShadow: [
+                BoxShadow(color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
+              ]),
+              child: Material(
+                  color: Colors.white,
+                  elevation: 0,
+                  child: TextField(
+                      controller: pass1,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.all(5),
+                          prefixIcon: SvgPicture.asset(
+                            'assets/vectors/padlock.svg',
+                            fit: BoxFit.scaleDown,
+                          ),
+                          labelText: 'Password',
+                          labelStyle: const TextStyle(
+                              color:
+                                  Color.fromRGBO(3, 42, 43, 0.5199999809265137),
+                              fontFamily: 'Lato',
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              height: 1))))),
           const SizedBox(height: 20),
-          Material(
-              elevation: 1,
-              child: TextField(
-                  controller: pass2,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(5),
-                      prefixIcon: SvgPicture.asset(
-                        'assets/vectors/padlock.svg',
-                        fit: BoxFit.scaleDown,
-                      ),
-                      labelText: 'Confirm Password',
-                      labelStyle: const TextStyle(
-                          color: Color.fromRGBO(3, 42, 43, 0.5199999809265137),
-                          fontFamily: 'Lato',
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          height: 1)))),
+          Container(
+              decoration: const BoxDecoration(boxShadow: [
+                BoxShadow(color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
+              ]),
+              child: Material(
+                  color: Colors.white,
+                  elevation: 0,
+                  child: TextField(
+                      controller: pass2,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.all(5),
+                          prefixIcon: SvgPicture.asset(
+                            'assets/vectors/padlock.svg',
+                            fit: BoxFit.scaleDown,
+                          ),
+                          labelText: 'Confirm Password',
+                          labelStyle: const TextStyle(
+                              color:
+                                  Color.fromRGBO(3, 42, 43, 0.5199999809265137),
+                              fontFamily: 'Lato',
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              height: 1))))),
           const SizedBox(height: 15),
           Row(children: [
             Text(
@@ -719,24 +752,30 @@ class _ChooseUsernameState extends State<ChooseUsername> {
             ))
           ]),
           const SizedBox(height: 10),
-          Material(
-              elevation: 1,
-              child: TextField(
-                  controller: username,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(5),
-                      prefixIcon: SvgPicture.asset(
-                        'assets/vectors/at.svg',
-                        fit: BoxFit.scaleDown,
-                      ),
-                      labelText: 'Choose Username',
-                      labelStyle: const TextStyle(
-                          color: Color.fromRGBO(3, 42, 43, 0.5199999809265137),
-                          fontFamily: 'Lato',
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          height: 1)))),
+          Container(
+              decoration: const BoxDecoration(boxShadow: [
+                BoxShadow(color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
+              ]),
+              child: Material(
+                  color: Colors.white,
+                  elevation: 0,
+                  child: TextField(
+                      controller: username,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.all(5),
+                          prefixIcon: SvgPicture.asset(
+                            'assets/vectors/at.svg',
+                            fit: BoxFit.scaleDown,
+                          ),
+                          labelText: 'Choose Username',
+                          labelStyle: const TextStyle(
+                              color:
+                                  Color.fromRGBO(3, 42, 43, 0.5199999809265137),
+                              fontFamily: 'Lato',
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              height: 1))))),
           const SizedBox(height: 20),
           Row(children: [
             Flexible(
@@ -976,23 +1015,29 @@ class _InputPhoneState extends State<InputPhone> {
             ))
           ]),
           const SizedBox(height: 10),
-          Material(
-              elevation: 1,
-              child: TextField(
-                  controller: phoneNo,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      prefixIcon: SvgPicture.asset(
-                        'assets/vectors/flag.svg',
-                        fit: BoxFit.scaleDown,
-                      ),
-                      hintText: '08012345678',
-                      hintStyle: const TextStyle(
-                          color: Color.fromRGBO(3, 42, 43, 0.5199999809265137),
-                          fontFamily: 'Lato',
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          height: 1)))),
+          Container(
+              decoration: const BoxDecoration(boxShadow: [
+                BoxShadow(color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
+              ]),
+              child: Material(
+                  color: Colors.white,
+                  elevation: 0,
+                  child: TextField(
+                      controller: phoneNo,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          prefixIcon: SvgPicture.asset(
+                            'assets/vectors/flag.svg',
+                            fit: BoxFit.scaleDown,
+                          ),
+                          hintText: '08012345678',
+                          hintStyle: const TextStyle(
+                              color:
+                                  Color.fromRGBO(3, 42, 43, 0.5199999809265137),
+                              fontFamily: 'Lato',
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              height: 1))))),
           const SizedBox(height: 10),
           Row(children: [
             Flexible(
@@ -1316,23 +1361,29 @@ class _VerifyCodeState extends State<VerifyCode> {
             ))
           ]),
           const SizedBox(height: 10),
-          Material(
-              elevation: 1,
-              child: TextField(
-                  controller: code,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      prefixIcon: SvgPicture.asset(
-                        'assets/vectors/padlock.svg',
-                        fit: BoxFit.scaleDown,
-                      ),
-                      hintText: 'XXXXXX',
-                      hintStyle: const TextStyle(
-                          color: Color.fromRGBO(3, 42, 43, 0.5199999809265137),
-                          fontFamily: 'Lato',
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          height: 1)))),
+          Container(
+              decoration: const BoxDecoration(boxShadow: [
+                BoxShadow(color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
+              ]),
+              child: Material(
+                  color: Colors.white,
+                  elevation: 0,
+                  child: TextField(
+                      controller: code,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          prefixIcon: SvgPicture.asset(
+                            'assets/vectors/padlock.svg',
+                            fit: BoxFit.scaleDown,
+                          ),
+                          hintText: 'XXXXXX',
+                          hintStyle: const TextStyle(
+                              color:
+                                  Color.fromRGBO(3, 42, 43, 0.5199999809265137),
+                              fontFamily: 'Lato',
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              height: 1))))),
           const SizedBox(height: 10),
           Row(children: [
             Flexible(
