@@ -29,7 +29,7 @@ class Api {
   String? tcpoints = '10';
 
   Future<List> getVibingPost(int pageNo) async {
-    int pageNo = 1;
+    // int pageNo = 1;
     List posts = [];
 
     // Get Token
@@ -60,6 +60,7 @@ class Api {
             tuales: postsResponses[i]['tuales'],
             stars: postsResponses[i]['stars'],
             comment: postsResponses[i]['comments'],
+            isVerified: postsResponses[i]['user']['verified'],
             isTualed: checkGivingTuale(postsResponses[i]['tuales']),
             isStared: checkGivingStar(postsResponses[i]['stars']),
             mediaType: postsResponses[i]['mediaType']));
@@ -101,6 +102,7 @@ class Api {
             tuales: postsResponses[i]['tuales'],
             stars: postsResponses[i]['stars'],
             comment: postsResponses[i]['comments'],
+            isVerified: postsResponses[i]['user']['verified'],
             isTualed: checkGivingTuale(postsResponses[i]['tuales']),
             isStared: checkGivingStar(postsResponses[i]['stars']),
             mediaType: postsResponses[i]['mediaType']));
@@ -137,21 +139,20 @@ class Api {
     }
 
     UserPostDetails info = UserPostDetails(
-      id: responseData['profile']['user']['_id'].toString(),
-      avatar: responseData['profile']['user']['avatar']['url'].toString(),
-      name: responseData['profile']['user']['name'].toString(),
-      username: responseData['profile']['user']['username'].toString(),
-      fans: responseData['fansLength'],
-      tualegiven: responseData['givenTuales'].toString(),
-      friends: responseData['friendsLength'],
-      tcBalance: responseData['profile']['user']['tcBalance'].toString(),
-      withdrawalBalance:
-          responseData['profile']['user']['walletBalance'].toString(),
-      email: responseData['profile']['user']['email'].toString(),
-      starredPosts: getList(),
-      location: responseData['profile']['user']['country'],
-      bio:  responseData['profile']['bio']
-    );
+        id: responseData['profile']['user']['_id'].toString(),
+        avatar: responseData['profile']['user']['avatar']['url'].toString(),
+        name: responseData['profile']['user']['name'].toString(),
+        username: responseData['profile']['user']['username'].toString(),
+        fans: responseData['fansLength'],
+        tualegiven: responseData['givenTuales'].toString(),
+        friends: responseData['friendsLength'],
+        tcBalance: responseData['profile']['user']['tcBalance'].toString(),
+        withdrawalBalance:
+            responseData['profile']['user']['walletBalance'].toString(),
+        email: responseData['profile']['user']['email'].toString(),
+        starredPosts: getList(),
+        location: responseData['profile']['user']['country'],
+        bio: responseData['profile']['bio']);
 
     // if (responseData['success'].toString() == 'true') {
     //   for (int i = 0; i < postsResponses.length; i++) {
@@ -289,9 +290,10 @@ class Api {
             tuales: postsResponses[i]['tuales'],
             stars: postsResponses[i]['stars'],
             comment: postsResponses[i]['comments'],
+            isVerified: postsResponses[i]['user']['verified'],
             isTualed: checkGivingTuale(postsResponses[i]['tuales']),
             isStared: checkGivingStar(postsResponses[i]['stars']),
-            mediaType: postsResponses[i]['mediaType']));
+            mediaType: postsResponses[i]['user']['mediaType']));
       }
     }
 
@@ -301,7 +303,7 @@ class Api {
     //   }
 
     // }
-
+  
     return result;
   }
 
@@ -356,6 +358,7 @@ class Api {
         tuales: [],
         stars: [],
         comment: [],
+        isVerified: false,
         isTualed: false,
         isStared: false,
         mediaType: '');
@@ -381,6 +384,7 @@ class Api {
           tuales: responseData['post']['tuales'],
           stars: responseData['post']['stars'],
           comment: responseData['post']['comments'],
+          isVerified: responseData['post']['user']['verified'],
           isTualed: checkGivingTuale(responseData['post']['tuales']),
           isStared: checkGivingStar(responseData['post']['stars']),
           mediaType: responseData['post']['mediaType']);
@@ -401,7 +405,10 @@ class Api {
     // print(response.data);
   }
 
-  Future vibeWithUser(String id, String username, ) async {
+  Future vibeWithUser(
+    String id,
+    String username,
+  ) async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
@@ -411,25 +418,26 @@ class Api {
     Response response = await dio.post(hostAPI + vibing + id);
     if (response.statusCode == 200) {
       Get.put<ProfileController>(
-              ProfileController(controllerusername: username),
-              )
-          .getProfileInfo(username);
+        ProfileController(controllerusername: username),
+      ).getProfileInfo(username);
       Get.find<LoggedUserController>().getLoggeduser();
       Get.put<ProfileController>(
-              ProfileController(
-                  controllerusername: Get.find<LoggedUserController>()
-                      .loggedUser
-                      .value
-                      .currentUserUsername!),
-              )
-          .getProfileInfo(Get.find<LoggedUserController>()
-              .loggedUser
-              .value
-              .currentUserUsername!);
+        ProfileController(
+            controllerusername: Get.find<LoggedUserController>()
+                .loggedUser
+                .value
+                .currentUserUsername!),
+      ).getProfileInfo(Get.find<LoggedUserController>()
+          .loggedUser
+          .value
+          .currentUserUsername!);
     }
   }
 
-  Future unvibeWithUser(String id, String username,) async {
+  Future unvibeWithUser(
+    String id,
+    String username,
+  ) async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
@@ -439,21 +447,19 @@ class Api {
     Response response = await dio.put(hostAPI + unvibing + id);
     if (response.statusCode == 200) {
       Get.put<ProfileController>(
-              ProfileController(controllerusername: username),
-              )
-          .getProfileInfo(username);
+        ProfileController(controllerusername: username),
+      ).getProfileInfo(username);
       Get.find<LoggedUserController>().getLoggeduser();
       Get.put<ProfileController>(
-              ProfileController(
-                  controllerusername: Get.find<LoggedUserController>()
-                      .loggedUser
-                      .value
-                      .currentUserUsername!),
-              )
-          .getProfileInfo(Get.find<LoggedUserController>()
-              .loggedUser
-              .value
-              .currentUserUsername!);
+        ProfileController(
+            controllerusername: Get.find<LoggedUserController>()
+                .loggedUser
+                .value
+                .currentUserUsername!),
+      ).getProfileInfo(Get.find<LoggedUserController>()
+          .loggedUser
+          .value
+          .currentUserUsername!);
     }
   }
 
@@ -673,12 +679,20 @@ class Api {
       Response response = await dio.get(hostAPI + 'leaderboard');
       var responseData = response.data;
       if (response.statusCode == 200) {
-        for (var i in responseData['leaderboard'].length) {
+        print('heyyyy');
+        print(responseData['leaderboard']);
+        for (var i in responseData['leaderboard']) {
+          print(i);
+
           leaderboard.add(LeaderboardModel(
-            
-          ));
+              name: i['user']['name'],
+              username: i['user']['username'],
+              avatar: i['user']['avatar']['url'],
+              id: i['user']['_id'],
+              noTuales: i['givenTuales']));
         }
-        return [responseData["success"], responseData["message"]];
+
+        return leaderboard;
       } else {
         return [responseData["success"], responseData["message"]];
       }
