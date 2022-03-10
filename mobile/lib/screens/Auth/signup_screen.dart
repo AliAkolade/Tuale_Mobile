@@ -1,11 +1,6 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile/screens/imports.dart';
-
-
-
 
 int viewNo = 0;
 String finalEmail = '';
@@ -44,6 +39,11 @@ class _SignUpState extends State<SignUp> {
     Timer.periodic(const Duration(milliseconds: 100), (timer) {
       reconcile();
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -421,9 +421,9 @@ class _FillDetailsState extends State<FillDetails> {
                       height: 200,
                       child: CupertinoDatePicker(
                         mode: CupertinoDatePickerMode.date,
-                        initialDateTime: DateTime.now(),
+                        maximumYear: DateTime.now().year - 13,
+                        initialDateTime: DateTime(2000, 1, 1),
                         onDateTimeChanged: (DateTime newDateTime) {
-                          // Do something
                           setState(() {
                             formattedDate =
                                 DateFormat.yMMMMd('en_US').format(newDateTime);
@@ -631,6 +631,12 @@ class _ChooseUsernameState extends State<ChooseUsername> {
       setState(() {
         message = 'Please enter a username';
       });
+      var snackBar = SnackBar(
+          content: Text(message, style: const TextStyle(color: Colors.white)),
+          backgroundColor: tualeOrange,
+          duration: const Duration(seconds: 5),
+          padding: const EdgeInsets.all(20));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else {
       Dio dio = Dio();
       Response response =
@@ -647,6 +653,12 @@ class _ChooseUsernameState extends State<ChooseUsername> {
         setState(() {
           message = responseData['message'].toString();
         });
+        var snackBar = SnackBar(
+            content: Text(message, style: const TextStyle(color: Colors.white)),
+            backgroundColor: tualeOrange,
+            duration: const Duration(seconds: 5),
+            padding: const EdgeInsets.all(20));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     }
     setState(() {
@@ -861,17 +873,19 @@ class _InputPhoneState extends State<InputPhone> {
         message = 'Please enter a valid phone number to receive and OTP';
         isError = true;
       });
+      var snackBar = SnackBar(
+          content: Text(message, style: const TextStyle(color: Colors.white)),
+          backgroundColor: tualeOrange,
+          duration: const Duration(seconds: 5),
+          padding: const EdgeInsets.all(20));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else {
       debugPrint('Sending');
       TwilioPhoneVerify _twilioPhoneVerify;
       _twilioPhoneVerify = TwilioPhoneVerify(
-          accountSid:
-              'AC9dc1570f1a5dc00f7a27e6008525c246', // replace with Account SID
-          authToken:
-              'XXXXXX', // replace with Auth Token Below
-          // 461d6ff2a79360c583c3cb7628b76620
-          serviceSid:
-              'VAb1899cf594ab102723a39403110cd491' // replace with Service SID
+          accountSid: accountSID, // replace with Account SID
+          authToken: twilioKey,
+          serviceSid: serviceID // replace with Service SID
           );
       String tempNo = phoneNo.text.trim();
       if (tempNo.substring(0, 1) == "0") {
@@ -895,6 +909,12 @@ class _InputPhoneState extends State<InputPhone> {
           message = 'Invalid Number';
           isError = true;
         });
+        var snackBar = SnackBar(
+            content: Text(message, style: const TextStyle(color: Colors.white)),
+            backgroundColor: tualeOrange,
+            duration: const Duration(seconds: 5),
+            padding: const EdgeInsets.all(20));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     }
 
@@ -1109,12 +1129,9 @@ class _VerifyCodeState extends State<VerifyCode> {
       debugPrint('Sending');
       TwilioPhoneVerify _twilioPhoneVerify;
       _twilioPhoneVerify = TwilioPhoneVerify(
-          accountSid:
-              'AC9dc1570f1a5dc00f7a27e6008525c246', // replace with Account SID
-          authToken:
-              'fe1ee4af12207ee9830ef0d46a9cb106', // replace with Auth Token
-          serviceSid:
-              'VAb1899cf594ab102723a39403110cd491' // replace with Service SID
+          accountSid: accountSID, // replace with Account SID
+          authToken: twilioKey,
+          serviceSid: serviceID // replace with Service SID
           );
 
       var twilioResponse = await _twilioPhoneVerify.verifySmsCode(
@@ -1203,18 +1220,42 @@ class _VerifyCodeState extends State<VerifyCode> {
                                         height: 1)))
                           ],
                         ))));
+          } else {
+            setState(() {
+              message = responseData['message'].toString();
+            });
+            var snackBar = SnackBar(
+                content:
+                    Text(message, style: const TextStyle(color: Colors.white)),
+                backgroundColor: tualeOrange,
+                duration: const Duration(seconds: 5),
+                padding: const EdgeInsets.all(20));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         } else {
           debugPrint('Invalid code');
           setState(() {
             message = 'Invalid Code';
           });
+          var snackBar = SnackBar(
+              content:
+                  Text(message, style: const TextStyle(color: Colors.white)),
+              backgroundColor: tualeOrange,
+              duration: const Duration(seconds: 5),
+              padding: const EdgeInsets.all(20));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       } else {
         debugPrint(twilioResponse.errorMessage);
         setState(() {
           message = 'Error verifying code';
         });
+        var snackBar = SnackBar(
+            content: Text(message, style: const TextStyle(color: Colors.white)),
+            backgroundColor: tualeOrange,
+            duration: const Duration(seconds: 5),
+            padding: const EdgeInsets.all(20));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     }
     setState(() {

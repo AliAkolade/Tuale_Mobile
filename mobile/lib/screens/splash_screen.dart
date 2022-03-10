@@ -25,15 +25,17 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Palette.tualeSwatchDark,
+        backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
         body: Center(
-            child: Column(children: [
-          const Spacer(),
-          Image.asset('assets/images/tuale_logo.png'),
-          const Text('Tuale',
-              style: TextStyle(
-                  color: Colors.white, letterSpacing: 3, fontSize: 50)),
-          const Spacer()
+            child:
+                Stack(alignment: AlignmentDirectional.bottomStart, children: [
+          Align(
+              alignment: Alignment.bottomCenter,
+              child: Image.asset('assets/images/bottomSplash.png',
+                  fit: BoxFit.fitWidth, alignment: Alignment.bottomCenter)),
+          Align(
+              alignment: Alignment.center,
+              child: SvgPicture.asset('assets/vectors/TualeLogo.svg'))
         ])));
   }
 }

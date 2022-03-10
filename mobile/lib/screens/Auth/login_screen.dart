@@ -1,7 +1,7 @@
-
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/state_manager.dart';
 import 'package:mobile/controller/loggedUserController.dart';
+import 'package:mobile/screens/Auth/reset_password_screen.dart';
 import 'package:mobile/screens/imports.dart';
 
 import 'dart:math' as math;
@@ -18,12 +18,19 @@ class _LoginState extends State<Login> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   // final email = TextEditingController(text: '');
   // final pass = TextEditingController(text: '');
-  final email = TextEditingController(text: 'tulenoreply@gmail.com');
-  final pass = TextEditingController(text: 'Azerty');
+  // final email = TextEditingController(text: 'tulenoreply@gmail.com');
+  // final pass = TextEditingController(text: 'Azerty');
   // final email = TextEditingController(text: 'afolabiogunbanwo@gmail.com');
   // final pass = TextEditingController(text: 'testing');
+  final email = TextEditingController(text: 'clintonali127@gmail.com');
+  final pass = TextEditingController(text: 'Clinton01');
   String message = '';
   bool hidePass = true;
 
@@ -50,7 +57,6 @@ class _LoginState extends State<Login> {
       prefs.setBool('isLoggedIn', true);
       prefs.setString('username', email.text.trim());
       prefs.setString('password', pass.text.trim());
-   
 
       Navigator.push(
           context,
@@ -199,10 +205,11 @@ class _LoginState extends State<Login> {
                       const SizedBox(height: 20),
                       InkWell(
                           onTap: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => const Login()));
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.topToBottom,
+                                    child: const ResetPassword()));
                           },
                           child: const Text('Forgot password?',
                               textAlign: TextAlign.center,

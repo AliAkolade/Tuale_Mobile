@@ -40,9 +40,15 @@ class Palette {
   );
 }
 
+const String twilioKey = '3eed694396ac1ff60587ea330646ffd4';
+const String serviceID = 'VAb1899cf594ab102723a39403110cd491';
+const String accountSID = 'AC9dc1570f1a5dc00f7a27e6008525c246';
 const String hostAPI = 'https://tuale-mobile-api.herokuapp.com/api/v1/';
 const String verifyUsernameAPI = 'verify/';
 const String registerUserAPI = 'register';
+const String forgotPasswordAPI = 'password/forgot';
+const String resetPasswordAPI = 'password/reset/';
+const String verifyResetTokenAPI = 'verify/password/token';
 const String loginUserAPI = 'login';
 const String getVibingPosts = 'posts/vibing?pageNumber=';
 const String getAllPosts = 'posts?pageNumber=';

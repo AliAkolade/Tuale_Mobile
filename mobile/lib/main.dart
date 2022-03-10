@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:mobile/screens/Auth/reset_password_screen.dart';
 import 'package:mobile/screens/Auth/welcome_screen.dart';
 
 import 'package:mobile/screens/imports.dart';
@@ -92,6 +93,7 @@ class _MyAppState extends State<MyApp> {
                       home: (widget.isLoggedIn)
                           ? NavBar(index: 0)
                           : const Welcome());
+                          // : const SplashScreen());
                 });
           }
         });
