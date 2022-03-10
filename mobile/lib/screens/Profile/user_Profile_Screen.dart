@@ -5,6 +5,7 @@ import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:mobile/controller/loggedUserController.dart';
+import 'package:mobile/screens/Home/inprogress_screen.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
 import 'package:mobile/screens/Profile/controllers/userPostsController.dart';
 import 'package:mobile/screens/Profile/edit_profile.dart';
@@ -585,7 +586,13 @@ class profileButton extends StatelessWidget {
                     height: 1))),
         const Spacer(),
         ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+               Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.fade,
+                                      child: InProgressScreen()));
+            },
             style: ElevatedButton.styleFrom(
                 primary: const Color.fromRGBO(218, 65, 103, 1),
                 minimumSize: const Size(150, 45),

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:mobile/controller/loggedUserController.dart';
+import 'package:mobile/screens/Home/inprogress_screen.dart';
 import 'package:mobile/screens/Profile/Tuallet/price_withdrawal_screen.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
 
@@ -73,7 +74,7 @@ ProfileController profileController = Get.put(ProfileController(
                         context,
                         PageTransition(
                             type: PageTransitionType.fade,
-                            child: PriceWithdrawalScreen()));
+                            child: InProgressScreen()));
                   },
                   style: ElevatedButton.styleFrom(
                       primary: tualeBlueDark,
