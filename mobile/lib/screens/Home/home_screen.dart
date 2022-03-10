@@ -22,9 +22,8 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     debugPrint("HomePage");
     super.initState();
-   
-     
   }
+
   @override
   Widget build(BuildContext context) {
     print(currentUsername);
@@ -58,8 +57,22 @@ class _HomeState extends State<Home> {
                                         child: const Icon(Icons.refresh_rounded,
                                             color: tualeBlueDark),
                                         onTap: () {
-                                          // Curated().loadPosts(context);
-                                          //Vibing.loadPosts(context);
+                                          if (Get.isRegistered<
+                                              CuratedPostController>()) {
+                                                setState(() {
+                                                  
+                                                });
+                                            curatedPageNo = 1;
+                                            Get.find<CuratedPostController>()
+                                                .getCuratedPosts();
+                                          } else {
+                                            setState(() {
+                                              
+                                            });
+                                            vibingPageNo = 1;
+                                            Get.find<VibedPostController>()
+                                                .getVibedPosts();
+                                          }
                                         }),
                                     const SizedBox(width: 10),
                                     Expanded(
