@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 import 'package:mobile/screens/imports.dart';
-import 'package:http/http.dart' as http;
 
 int viewNo = 0;
 String finalEmail = '';
@@ -714,24 +711,7 @@ class _SetPasswordState extends State<SetPassword> {
                   padding: const EdgeInsets.all(20));
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             }
-          }
-          // try {
-          //   var request = http.Request(
-          //       'PUT',
-          //       Uri.parse(
-          //           'https://tuale-mobile-api.herokuapp.com/api/v1/password/reset/$finalOTP'));
-          //   request.body =
-          //       '''{\r\n    "password": "ClintonAli2022",\r\n    "confirmPassword": "ClintonAli2022"\r\n}''';
-          //
-          //   http.StreamedResponse response = await request.send();
-          //
-          //   if (response.statusCode == 200) {
-          //     print(await response.stream.bytesToString());
-          //   } else {
-          //     print(response.reasonPhrase);
-          //   }
-          // }
-          on Exception catch (e) {
+          } on Exception catch (e) {
             print(e);
           } finally {
             setState(() {
