@@ -89,6 +89,7 @@ class _VibingState extends State<Vibing> {
                               margin: EdgeInsets.only(
                                   bottom: 10, left: 15, right: 15, top: 15.h),
                               decoration: BoxDecoration(
+                                color: Colors.black,
                                 borderRadius: BorderRadius.circular(15),
                               ),
                               child: Stack(
@@ -106,7 +107,8 @@ class _VibingState extends State<Vibing> {
                                                   .vibePost
                                                   .value[index]
                                                   .postMedia,
-                                              cbController: (VideoPlayerController vc){
+                                              cbController:
+                                                  (VideoPlayerController vc) {
                                                 debugPrint("-here vc-");
                                                 currentVP = vc;
                                               },
@@ -122,17 +124,17 @@ class _VibingState extends State<Vibing> {
                                         },
                                         onTap: () async {
                                           currentVP.pause();
-                                          final result = await Navigator.push(context,
-                                              MaterialPageRoute(
+                                          final result = await Navigator.push(
+                                              context, MaterialPageRoute(
                                                   builder: (context) {
-                                                    return VibingZoom(
-                                                        post: Get.find<
-                                                            VibedPostController>()
-                                                            .vibePost
-                                                            .value,
-                                                        index: index);
-                                                  }));
-                                          if(result == 200) currentVP.play();
+                                            return VibingZoom(
+                                                post: Get.find<
+                                                        VibedPostController>()
+                                                    .vibePost
+                                                    .value,
+                                                index: index);
+                                          }));
+                                          if (result == 200) currentVP.play();
                                         },
                                         child: Hero(
                                           tag: "hero$index",
@@ -191,6 +193,7 @@ class _VibingState extends State<Vibing> {
                               margin: EdgeInsets.only(
                                   bottom: 10, left: 15, right: 15, top: 15.h),
                               decoration: BoxDecoration(
+                                color: Colors.black,
                                 borderRadius: BorderRadius.circular(15),
                               ),
                               child: Stack(children: [
@@ -502,7 +505,6 @@ class __actionBarState extends State<_actionBar> {
                                 debugPrint(result[1]);
 
                                 Get.find<VibedPostController>().getVibedPosts();
-                                Get.find<VibedPostController>().getVibedPosts();
                               } else {
                                 setState(() {
                                   isStarred = true;
@@ -539,7 +541,6 @@ class __actionBarState extends State<_actionBar> {
                                   widget.posts![widget.index!].id ?? " ");
                               if (result[0] == true) {
                                 Get.find<VibedPostController>().getVibedPosts();
-                                Get.find<VibedPostController>().getVibedPosts();
                               } else {
                                 setState(() {
                                   isStarred = false;
@@ -547,7 +548,7 @@ class __actionBarState extends State<_actionBar> {
                                 });
                                 debugPrint(result[1]);
                                 Get.find<VibedPostController>().getVibedPosts();
-                                Get.find<VibedPostController>().getVibedPosts();
+
                                 debugPrint('herrre${result[1]}');
                               }
                             }

@@ -19,6 +19,7 @@ class OnePostController extends GetxController {
     userProfilePic: '',
     tuales: [],
     stars: [],
+    isVerified: false,
     isTualed: false,
     isStared: false,
     mediaType: '',

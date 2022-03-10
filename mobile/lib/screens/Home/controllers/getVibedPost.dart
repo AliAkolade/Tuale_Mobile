@@ -4,11 +4,11 @@ import 'package:mobile/screens/imports.dart';
 
 class VibedPostController extends GetxController {
   var vibePost = [].obs;
-   List more = [];
+  List more = [];
 
   final Api _api = Api();
 
-   Future getVibedPosts() async {
+  Future getVibedPosts() async {
     try {
       // var pageNum = 1;
       if (vibingPageNo == 1) {
@@ -28,24 +28,24 @@ class VibedPostController extends GetxController {
     } catch (e) {}
   }
 
-
-   Future getMoreVibePosts() async {
+  Future getMoreVibePosts() async {
     vibingPageNo = vibingPageNo + 1;
     print('currentpageNoooooooooo${vibingPageNo}');
-   
+
     try {
       print("before");
       print(vibePost.value.length);
       List more = await _api.getVibingPost(vibingPageNo);
       if (more.isEmpty) {
         vibingPageNo = vibingPageNo - 1;
-         print('currentpageNoooooooooo${vibingPageNo}');
+        print('currentpageNoooooooooo${vibingPageNo}');
       } else {
         print("addition");
         print(more.length);
         for (var i in more) {
           vibePost.value.add(i);
         }
+        print(vibingPageNo);
         print("after");
         print(vibePost.value.length);
       }
@@ -54,8 +54,6 @@ class VibedPostController extends GetxController {
       // curatedPost.refresh();
 
     } catch (e) {
-    } finally {
-     
-    }
+    } finally {}
   }
 }

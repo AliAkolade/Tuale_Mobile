@@ -137,16 +137,18 @@ class _CuratedState extends State<Curated> {
                                                 height: 645.h,
                                                 width: 400.w,
                                                 child: VideoPlayerScreen(
-                                                  videoUrl: Get.find<
-                                                          CuratedPostController>()
-                                                      .curatedPost
-                                                      .value[index]
-                                                      .postMedia,
-                                                    cbController: (VideoPlayerController vc){
-                                                      debugPrint("-here vc- : $vc");
+                                                    videoUrl: Get.find<
+                                                            CuratedPostController>()
+                                                        .curatedPost
+                                                        .value[index]
+                                                        .postMedia,
+                                                    cbController:
+                                                        (VideoPlayerController
+                                                            vc) {
+                                                      debugPrint(
+                                                          "-here vc- : $vc");
                                                       currentVP = vc;
-                                                    }
-                                                ))),
+                                                    }))),
                                       ),
                                       Positioned(
                                           bottom: 0,
@@ -158,9 +160,10 @@ class _CuratedState extends State<Curated> {
                                             },
                                             onTap: () async {
                                               currentVP.pause();
-                                              final result = await Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
+                                              final result =
+                                                  await Navigator.push(context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) {
                                                 return VibingZoom(
                                                     post: Get.find<
                                                             CuratedPostController>()
@@ -168,7 +171,8 @@ class _CuratedState extends State<Curated> {
                                                         .value,
                                                     index: index);
                                               }));
-                                              if(result == 200) currentVP.play();
+                                              if (result == 200)
+                                                currentVP.play();
                                             },
                                             child: Hero(
                                               tag: "hero$index",
@@ -461,11 +465,13 @@ Column userInfoWidget(BuildContext context, int index, List posts) {
                     const Spacer(
                       flex: 1,
                     ),
-                    const Icon(
-                      Icons.check_circle,
-                      color: Colors.blue,
-                      size: 17,
-                    ),
+                    posts[index].isVerified
+                        ? Icon(
+                            Icons.check_circle,
+                            color: Colors.blue,
+                            size: 17,
+                          )
+                        : Container(),
                     const Spacer(
                       flex: 10,
                     ),

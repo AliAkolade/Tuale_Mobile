@@ -10,7 +10,8 @@ import 'package:mobile/screens/imports.dart';
 import 'package:mobile/utils/Api.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final int initialIndex;
+  const Home({Key? key, this.initialIndex=1}) : super(key: key);
   @override
   State<Home> createState() => _HomeState();
 }
@@ -21,9 +22,8 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     debugPrint("HomePage");
     super.initState();
-   
-     
   }
+
   @override
   Widget build(BuildContext context) {
     print(currentUsername);
@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
             home: DefaultTabController(
-                initialIndex: 1,
+                initialIndex: widget.initialIndex,
                 length: 2,
                 child: Scaffold(
                     backgroundColor: Colors.white,
@@ -57,8 +57,22 @@ class _HomeState extends State<Home> {
                                         child: const Icon(Icons.refresh_rounded,
                                             color: tualeBlueDark),
                                         onTap: () {
-                                          // Curated().loadPosts(context);
-                                          //Vibing.loadPosts(context);
+                                          if (Get.isRegistered<
+                                              CuratedPostController>()) {
+                                                setState(() {
+                                                  
+                                                });
+                                            curatedPageNo = 1;
+                                            Get.find<CuratedPostController>()
+                                                .getCuratedPosts();
+                                          } else {
+                                            setState(() {
+                                              
+                                            });
+                                            vibingPageNo = 1;
+                                            Get.find<VibedPostController>()
+                                                .getVibedPosts();
+                                          }
                                         }),
                                     const SizedBox(width: 10),
                                     Expanded(

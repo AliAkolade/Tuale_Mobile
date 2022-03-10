@@ -23,6 +23,7 @@ class PostTimeline extends StatefulWidget {
 class _PostTimelineState extends State<PostTimeline> {
   late VideoPlayerController videoController;
   late TextEditingController description;
+  bool playVideo = false;
   final cloudinary =
       CloudinaryPublic('demilade211', 'Tuale-Ogunbanwo', cache: false);
 
@@ -34,7 +35,7 @@ class _PostTimelineState extends State<PostTimeline> {
           videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true))
         ..setLooping(true)
         ..setVolume(1)
-        ..initialize().then((_) => videoController.play());
+        ..initialize().then((_) => videoController.pause());
     }
     description = TextEditingController();
     super.initState();
@@ -98,6 +99,7 @@ class _PostTimelineState extends State<PostTimeline> {
               MaterialPageRoute(
                   builder: (context) => NavBar(
                         index: 0,
+                        initIndex: 0,
                       )),
             );
           });
@@ -190,11 +192,35 @@ class _PostTimelineState extends State<PostTimeline> {
                               fit: BoxFit.cover,
                               image: AssetImage("assets/images/demoPost.png")),
                     )
-                  : SizedBox(
-                      height: double.infinity,
-                      width: double.infinity,
-                      child: VideoPlayer(videoController),
-                    ),
+                  : Stack(
+                    children: [
+                      SizedBox(
+                        height: double.infinity,
+                        width: double.infinity,
+                        child: GestureDetector(
+                          child: VideoPlayer(videoController),
+                          onTap: (){
+                            if(playVideo  ==  false) {
+                              videoController.play();
+                            }else{
+                              videoController.pause();
+                            }
+                            setState(() {
+                              playVideo = !playVideo;
+                            });
+                          },
+                        ),
+                      ),
+                      if(widget.mediaType != "image")
+                        Visibility(
+                          visible: !playVideo,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Icon(Icons.play_circle_outline, size: 30, color: Colors.white,),
+                          ),
+                        ),
+                    ],
+                  ),
             ),
             Container(
               padding: const EdgeInsets.all(5),

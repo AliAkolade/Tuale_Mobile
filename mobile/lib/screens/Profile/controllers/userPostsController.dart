@@ -21,9 +21,11 @@ class UserPostsController extends GetxController {
     try {
       posts.value = await _api.getUserProfilePosts(username);
     } catch (e) {
+         print(e);
     } finally {
+   
       isLoading.value = false;
-      
+
       // update();
     }
   }
