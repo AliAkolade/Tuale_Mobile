@@ -9,15 +9,17 @@ class CurrentUserDetails {
   String? currentuserBio;
   bool? unreadNotifications;
   List? friends;
+  int? noTuales;
 
-  CurrentUserDetails({
-      this.friends,
+  CurrentUserDetails(
+      {this.friends,
       this.currentuserid = '',
       this.currentuserAvatarUrl = '',
       this.currentuserAvatarPublicId = '',
       this.currentuserName = '',
       this.currentUserUsername = '',
       this.currentuserBio = '',
-      this.unreadNotifications = false
-  });
+      this.unreadNotifications = false,
+      this.noTuales
+      });
 }

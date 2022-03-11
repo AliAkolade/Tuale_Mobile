@@ -50,12 +50,11 @@ class _OnePostState extends State<OnePost> {
                 ? Stack(
                     children: [
                       VideoPlayerScreen(
-                        videoUrl: widget.postMedia!,
-                        enablePlayBtn: true,
-                          cbController: (VideoPlayerController vc){
+                          videoUrl: widget.postMedia!,
+                          enablePlayBtn: true,
+                          cbController: (VideoPlayerController vc) {
                             debugPrint("-here vc-");
-                          }
-                      ),
+                          }),
                       // Back button
                       Align(
                         // heightFactor: 1.0,
@@ -105,27 +104,27 @@ class _OnePostState extends State<OnePost> {
                         Align(
                           // heightFactor: 1.0,
                           // widthFactor: 12.0,
-                          alignment: Alignment(1.2, -1.05),
+                          alignment: Alignment(0.9, -0.94),
                           child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: Container(
-                          height: 50,
-                          width: 50,
-                          color: Colors.white70,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Icon(
-                              Icons.fullscreen_exit_rounded,
-                              color: Colors.black,
-                              size: 30,
+                            borderRadius: BorderRadius.circular(50),
+                            child: Container(
+                              height: 50,
+                              width: 50,
+                              color: Colors.white70,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.fullscreen_exit_rounded,
+                                  color: Colors.black,
+                                  size: 30,
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    // widget to the Widget Tre                                //Add this CustomPaint widget to the Widget Tree
+                        // widget to the Widget Tre                                //Add this CustomPaint widget to the Widget Tree
                         Align(
                             widthFactor: 5,
                             alignment: const Alignment(1.08, 0.6),

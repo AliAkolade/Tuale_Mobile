@@ -11,7 +11,7 @@ import 'package:mobile/utils/Api.dart';
 
 class Home extends StatefulWidget {
   final int initialIndex;
-  const Home({Key? key, this.initialIndex=1}) : super(key: key);
+  const Home({Key? key, this.initialIndex = 1}) : super(key: key);
   @override
   State<Home> createState() => _HomeState();
 }
@@ -19,6 +19,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   void initState() {
+    Get.find<LoggedUserController>().getLoggeduser();
     // TODO: implement initState
     debugPrint("HomePage");
     super.initState();
@@ -59,16 +60,12 @@ class _HomeState extends State<Home> {
                                         onTap: () {
                                           if (Get.isRegistered<
                                               CuratedPostController>()) {
-                                                setState(() {
-                                                  
-                                                });
+                                            setState(() {});
                                             curatedPageNo = 1;
                                             Get.find<CuratedPostController>()
                                                 .getCuratedPosts();
                                           } else {
-                                            setState(() {
-                                              
-                                            });
+                                            setState(() {});
                                             vibingPageNo = 1;
                                             Get.find<VibedPostController>()
                                                 .getVibedPosts();
@@ -132,7 +129,7 @@ class _HomeState extends State<Home> {
                                                     .value
                                                     .unreadNotifications);
                                             //= false;
-                                            Navigator.push(context,
+                                            Navigator.pushReplacement(context,
                                                 MaterialPageRoute(
                                                     builder: (context) {
                                               return Notifications();
