@@ -162,6 +162,16 @@ class _EnterEmailState extends State<EnterEmail> {
   final valid = false;
   bool isLoading = false;
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   checkDetails() async {
     setState(() {
       message = '';
@@ -234,7 +244,7 @@ class _EnterEmailState extends State<EnterEmail> {
                   alignment: Alignment.center,
                   onPressed: () {
                     setState(() {
-                      viewNo -= 1;
+                      Navigator.pop(context);
                     });
                   },
                   icon: const Icon(Icons.chevron_left_rounded),
@@ -388,6 +398,16 @@ class _EnterOTPState extends State<EnterOTP> {
   String message = '';
   final valid = false;
   bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   checkDetails() async {
     setState(() {
@@ -607,6 +627,16 @@ class _SetPasswordState extends State<SetPassword> {
   String message = '';
   final valid = false;
   bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   checkDetails() async {
     setState(() {
