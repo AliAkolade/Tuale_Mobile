@@ -83,7 +83,7 @@ class _PostTimelineState extends State<PostTimeline> {
       if (response.secureUrl != "") {
         String publicId = response.publicId;
         String url = response.secureUrl;
-        String desc = description.text;
+        String desc = description.text.isNotEmpty ? description.text  : "";
         String mediaType = widget.mediaType;
 
         //debugPrint("secureUrl : ${response.secureUrl}");
