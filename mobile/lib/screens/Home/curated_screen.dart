@@ -593,34 +593,65 @@ class _actionBarState extends State<actionBar> {
                               //"61e327db86dcaee74311fa14"
                               debugPrint("User already give a tuale");
                             } else {
-                              setState(() {
-                                isTualed = true;
-                                noTuales = noTuales + 1;
-                              });
-                              var result = await Api().addTuale(
-                                  widget.posts![widget.index!].id ?? " ");
-                              if (result[0]) {
-                                if (Get.isRegistered<CuratedPostController>()) {
-                                  Get.find<CuratedPostController>()
-                                      .getCuratedPosts();
-                                } else if (Get.isRegistered<
-                                    VibedPostController>()) {
-                                  Get.find<VibedPostController>()
-                                      .getVibedPosts();
-                                }
+                              print(
+                                  'setstate no oftuales${Get.find<LoggedUserController>().loggedUser.value.noTuales}');
+                              //if no tuales is less than 2 it displays dialog box
+                              if (Get.find<LoggedUserController>()
+                                      .loggedUser
+                                      .value
+                                      .noTuales! <
+                                  2) {
+                                Get.defaultDialog(
+                                    title: 'Insufficient Tuale points',
+                                    backgroundColor: Colors.white,
+                                    textConfirm: 'Buy Tuale Points',
+                                    middleText: '',
+                                    buttonColor: tualeBlueDark,
+                                    onConfirm: () {
+                                    
+                                      // Navigator.pop(context);
+                                      Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              type: PageTransitionType.fade,
+                                              child: TualletHome()));
+                                                Get.back(closeOverlays: true);
+                                    },
+                                    confirmTextColor: Colors.white,
+                                    cancelTextColor: Colors.black,
+                                    textCancel: 'Cancel');
                               } else {
                                 setState(() {
-                                  isTualed = false;
-                                  noTuales = noTuales - 1;
+                                  isTualed = true;
+                                  noTuales = noTuales + 1;
                                 });
-                                debugPrint(result[1]);
-                                if (Get.isRegistered<CuratedPostController>()) {
-                                  Get.find<CuratedPostController>()
-                                      .getCuratedPosts();
-                                } else if (Get.isRegistered<
-                                    VibedPostController>()) {
-                                  Get.find<VibedPostController>()
-                                      .getVibedPosts();
+                                var result = await Api().addTuale(
+                                    widget.posts![widget.index!].id ?? " ");
+                                if (result[0]) {
+                                  if (Get.isRegistered<
+                                      CuratedPostController>()) {
+                                    Get.find<CuratedPostController>()
+                                        .getCuratedPosts();
+                                  } else if (Get.isRegistered<
+                                      VibedPostController>()) {
+                                    Get.find<VibedPostController>()
+                                        .getVibedPosts();
+                                  }
+                                } else {
+                                  setState(() {
+                                    isTualed = false;
+                                    noTuales = noTuales - 1;
+                                  });
+                                  debugPrint(result[1]);
+                                  if (Get.isRegistered<
+                                      CuratedPostController>()) {
+                                    Get.find<CuratedPostController>()
+                                        .getCuratedPosts();
+                                  } else if (Get.isRegistered<
+                                      VibedPostController>()) {
+                                    Get.find<VibedPostController>()
+                                        .getVibedPosts();
+                                  }
                                 }
                               }
                             }

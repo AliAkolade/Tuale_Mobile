@@ -185,9 +185,11 @@ class Api {
           currentuserName: currentUser.data['user']["name"].toString(),
           currentuserBio: currentUser.data["bio"].toString(),
           currentUserUsername: currentUser.data['user']["username"].toString(),
-          unreadNotifications: currentUser.data['user']["unreadMessage"],
+          unreadNotifications: currentUser.data['user']["unreadNotification"],
+          noTuales:  currentUser.data['user']["tcBalance"], 
           friends: currentUser.data['userFollowStats']["friends"]);
-      print("notify${currentUser.data['user']['unreadMessage']}");
+          
+      print("notify${currentUser.data['user']['unreadNotification']}");
       return loggedUser;
     }
 
@@ -400,7 +402,7 @@ class Api {
 
     Dio dio = Dio();
     dio.options.headers["Authorization"] = token;
-    Response response = await dio.post(hostAPI + vibing);
+    Response response = await dio.post(hostAPI + 'notifications');
 
     // print(response.data);
   }

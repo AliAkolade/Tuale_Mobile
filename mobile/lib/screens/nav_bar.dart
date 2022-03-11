@@ -36,7 +36,9 @@ class _NavBarState extends State<NavBar> {
 
   List<Widget> _buildScreens() {
     return [
-      Home(initialIndex: widget.initIndex,),
+      Home(
+        initialIndex: widget.initIndex,
+      ),
       SearchScreen(),
       PostTimeline(
         fileContent: File(""),
@@ -58,10 +60,9 @@ class _NavBarState extends State<NavBar> {
   }
 
   int _currentIndex = 0;
-  double iconSize = 25.0;
+  double iconSize = 19.0;
 
-  late List<Widget> _children = [
-  ];
+  late List<Widget> _children = [];
 
   @override
   void initState() {
@@ -74,7 +75,9 @@ class _NavBarState extends State<NavBar> {
     });
 
     _children = [
-      Home(initialIndex: widget.initIndex,),
+      Home(
+        initialIndex: widget.initIndex,
+      ),
       SearchScreen(),
       PostTimeline(
         fileContent: File(""),
@@ -83,7 +86,7 @@ class _NavBarState extends State<NavBar> {
       ),
       Leaderboard(),
       Obx(
-            () => userProfile(
+        () => userProfile(
           isUser: true,
           username: Get.put(LoggedUserController())
               .loggedUser
@@ -111,7 +114,7 @@ class _NavBarState extends State<NavBar> {
     return Scaffold(
       body: _children[_currentIndex],
       bottomNavigationBar: Container(
-        //height: 85,
+        height: 85.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(30), topLeft: Radius.circular(30)),
@@ -157,9 +160,9 @@ class _NavBarState extends State<NavBar> {
                 icon: Icon(
                   Icons.add_circle,
                   color: tualeBlueDark,
-                  size: 50,
+                  size: 40,
                 ),
-                label: '',
+                label: 'Post',
                 activeIcon: Icon(
                   Icons.add_circle,
                   color: tualeOrange,

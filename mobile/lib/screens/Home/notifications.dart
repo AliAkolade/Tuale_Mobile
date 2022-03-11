@@ -19,7 +19,7 @@ class Notifications extends StatefulWidget {
 class _NotificationsState extends State<Notifications> {
   @override
   void initState() {
-    // Api().setNotificationToRead();
+    Api().setNotificationToRead();
     super.initState();
   }
 
@@ -29,7 +29,12 @@ class _NotificationsState extends State<Notifications> {
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            //= false;
+            Get.find<LoggedUserController>().getLoggeduser();
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) {
+              return NavBar(index: 0);
+            }));
           },
           child: const Icon(
             Icons.arrow_back_rounded,
@@ -84,8 +89,8 @@ class _NotificationsState extends State<Notifications> {
                                       .notificationModel
                                       .value[index]
                                       .id,
-                                       mediaType: notifications[index].mediaType,
-                                          postMedia: notifications[index].likedPost,
+                                  mediaType: notifications[index].mediaType,
+                                  postMedia: notifications[index].likedPost,
                                 ),
                               );
                             }));
@@ -99,7 +104,6 @@ class _NotificationsState extends State<Notifications> {
                       : notifications[index].type == 'newStarred'
                           ? GestureDetector(
                               onTap: () {
-                                  
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
                                   return Obx(
@@ -108,11 +112,10 @@ class _NotificationsState extends State<Notifications> {
                                           .notificationModel
                                           .value[index]
                                           .id,
-                                          mediaType: notifications[index].mediaType,
-                                          postMedia: notifications[index].likedPost,
+                                      mediaType: notifications[index].mediaType,
+                                      postMedia: notifications[index].likedPost,
                                     ),
                                   );
-                                
                                 }));
                               },
                               child: newNotification(
@@ -133,8 +136,10 @@ class _NotificationsState extends State<Notifications> {
                                               .notificationModel
                                               .value[index]
                                               .id,
-                                               mediaType: notifications[index].mediaType,
-                                          postMedia: notifications[index].likedPost,
+                                          mediaType:
+                                              notifications[index].mediaType,
+                                          postMedia:
+                                              notifications[index].likedPost,
                                         ),
                                       );
                                     }));
@@ -211,7 +216,7 @@ class newFan extends StatelessWidget {
                       return userProfile(
                         isUser: false,
                         username: username,
-                       // tag: "notification",
+                        // tag: "notification",
                       );
                     }));
                   },
@@ -228,8 +233,14 @@ class newFan extends StatelessWidget {
               child: ElevatedButton(
                   onPressed: () {
                     isFollowing()
-                        ? Api().unvibeWithUser(id!, username!, )
-                        : Api().vibeWithUser(id!, username!, );
+                        ? Api().unvibeWithUser(
+                            id!,
+                            username!,
+                          )
+                        : Api().vibeWithUser(
+                            id!,
+                            username!,
+                          );
                   },
                   style: ElevatedButton.styleFrom(
                       primary: isFollowing() ? tualeOrange : tualeBlueDark,
@@ -298,7 +309,7 @@ class newNotification extends StatelessWidget {
                     return userProfile(
                       isUser: false,
                       username: username,
-                     // tag: "notification",
+                      // tag: "notification",
                     );
                   }));
                 },

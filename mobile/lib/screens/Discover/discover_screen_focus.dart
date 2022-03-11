@@ -189,17 +189,17 @@ class _discoverScreenState extends State<discoverScreen> {
                                   ),
                                 ),
                                 // Give tuale when user double tap
-                                Visibility(
-                                  visible: displayTualeAnimation,
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Icon(
-                                      TualeIcons.tuale,
-                                      color: Colors.yellow,
-                                      size: 100.sp,
-                                    ),
-                                  ),
-                                ),
+                                // Visibility(
+                                //   visible: displayTualeAnimation,
+                                //   child: Align(
+                                //     alignment: Alignment.center,
+                                //     child: Icon(
+                                //       TualeIcons.tuale,
+                                //       color: Colors.yellow,
+                                //       size: 100.sp,
+                                //     ),
+                                //   ),
+                                // ),
                                 Positioned(
                                     bottom: 0,
                                     left: 0,
