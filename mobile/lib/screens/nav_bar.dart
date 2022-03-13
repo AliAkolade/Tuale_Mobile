@@ -60,7 +60,7 @@ class _NavBarState extends State<NavBar> {
   }
 
   int _currentIndex = 0;
-  double iconSize = 19.0;
+  double iconSize = 25.0;
 
   late List<Widget> _children = [];
 

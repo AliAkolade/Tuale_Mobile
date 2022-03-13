@@ -89,9 +89,7 @@ class Api {
     List postsResponses = responseData['posts'];
     //debugPrint("before : $postsResponses");
     if (responseData['success'].toString() == 'true') {
-      debugPrint("before : ");
       for (int i = 0; i < postsResponses.length; i++) {
-        debugPrint("teststststs : ${postsResponses[i]['caption'] }");
         posts.add(PostDetails(
             userProfilePic: postsResponses[i]['user']['avatar']['url'],
             time: postsResponses[i]['createdAt'],
@@ -111,9 +109,6 @@ class Api {
             mediaType: postsResponses[i]['mediaType']
         ));
       }
-
-
-      debugPrint("after : ${ posts} ");
     }
     return posts;
   }
