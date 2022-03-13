@@ -114,7 +114,7 @@ class _NavBarState extends State<NavBar> {
     return Scaffold(
       body: _children[_currentIndex],
       bottomNavigationBar: Container(
-        height: 85.h,
+        //height: 85.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(30), topLeft: Radius.circular(30)),

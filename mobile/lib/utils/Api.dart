@@ -51,7 +51,7 @@ class Api {
             userProfilePic: postsResponses[i]['user']['avatar']['url'],
             time: postsResponses[i]['createdAt'],
             postMedia: postsResponses[i]['media']['url'],
-            postText: postsResponses[i]['caption'],
+            postText: postsResponses[i]['caption'] ?? "",
             noTuale: postsResponses[i]['tuales'].toList().length,
             noStar: postsResponses[i]['stars'].toList().length,
             noComment: postsResponses[i]['comments'].toList().length,
@@ -87,13 +87,16 @@ class Api {
     //  log(response.data.toString());
     var responseData = response.data;
     List postsResponses = responseData['posts'];
+    //debugPrint("before : $postsResponses");
     if (responseData['success'].toString() == 'true') {
+      debugPrint("before : ");
       for (int i = 0; i < postsResponses.length; i++) {
+        debugPrint("teststststs : ${postsResponses[i]['caption'] }");
         posts.add(PostDetails(
             userProfilePic: postsResponses[i]['user']['avatar']['url'],
             time: postsResponses[i]['createdAt'],
             postMedia: postsResponses[i]['media']['url'],
-            postText: postsResponses[i]['caption'],
+            postText: postsResponses[i]['caption'] ?? "",
             noTuale: postsResponses[i]['tuales'].toList().length,
             noStar: postsResponses[i]['stars'].toList().length,
             noComment: postsResponses[i]['comments'].toList().length,
@@ -105,10 +108,13 @@ class Api {
             isVerified: postsResponses[i]['user']['verified'],
             isTualed: checkGivingTuale(postsResponses[i]['tuales']),
             isStared: checkGivingStar(postsResponses[i]['stars']),
-            mediaType: postsResponses[i]['mediaType']));
+            mediaType: postsResponses[i]['mediaType']
+        ));
       }
-    }
 
+
+      debugPrint("after : ${ posts} ");
+    }
     return posts;
   }
 
@@ -283,7 +289,7 @@ class Api {
             userProfilePic: postsResponses[i]['user']['avatar']['url'],
             time: postsResponses[i]['createdAt'],
             postMedia: postsResponses[i]['media']['url'],
-            postText: postsResponses[i]['caption'],
+            postText: postsResponses[i]['caption'] ?? "",
             noTuale: postsResponses[i]['tuales'].toList().length,
             noStar: postsResponses[i]['stars'].toList().length,
             noComment: postsResponses[i]['comments'].toList().length,
