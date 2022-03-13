@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
                     backgroundColor: Colors.white,
                     appBar: PreferredSize(
                         preferredSize:
-                            const Size(double.infinity, kToolbarHeight + 10),
+                            const Size(double.infinity, kToolbarHeight + 5),
                         child: SafeArea(
                             child: Column(children: [
                           Spacer(
@@ -54,23 +54,23 @@ class _HomeState extends State<Home> {
                               child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    InkWell(
-                                        child: const Icon(Icons.refresh_rounded,
-                                            color: tualeBlueDark),
-                                        onTap: () {
-                                          if (Get.isRegistered<
-                                              CuratedPostController>()) {
-                                            setState(() {});
-                                            curatedPageNo = 1;
-                                            Get.find<CuratedPostController>()
-                                                .getCuratedPosts();
-                                          } else {
-                                            setState(() {});
-                                            vibingPageNo = 1;
-                                            Get.find<VibedPostController>()
-                                                .getVibedPosts();
-                                          }
-                                        }),
+                                    // InkWell(
+                                    //     child: const Icon(Icons.refresh_rounded,
+                                    //         color: tualeBlueDark),
+                                    //     onTap: () {
+                                    //       if (Get.isRegistered<
+                                    //           CuratedPostController>()) {
+                                    //         setState(() {});
+                                    //         curatedPageNo = 1;
+                                    //         Get.find<CuratedPostController>()
+                                    //             .getCuratedPosts();
+                                    //       } else {
+                                    //         setState(() {});
+                                    //         vibingPageNo = 1;
+                                    //         Get.find<VibedPostController>()
+                                    //             .getVibedPosts();
+                                    //       }
+                                    //     }),
                                     const SizedBox(width: 10),
                                     Expanded(
                                         child: TabBar(

@@ -253,7 +253,7 @@ class Api {
           avatar: responseData[i]['avatar']['url'],
           name: responseData[i]['name'],
           usernames: responseData[i]['username'],
-          isVerified: responseData[i]['isVerified'] == 'true' ? true : false,
+          isVerified: responseData[i]['verified'],
         ));
       }
     }
@@ -295,7 +295,7 @@ class Api {
             isVerified: postsResponses[i]['user']['verified'],
             isTualed: checkGivingTuale(postsResponses[i]['tuales']),
             isStared: checkGivingStar(postsResponses[i]['stars']),
-            mediaType: postsResponses[i]['user']['mediaType']));
+            mediaType: postsResponses[i]['mediaType']));
       }
     }
 

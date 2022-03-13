@@ -36,14 +36,14 @@ class Curated extends StatefulWidget {
   _CuratedState createState() => _CuratedState();
 }
 
+late VideoPlayerController currentVP;
+
 class _CuratedState extends State<Curated> {
   final scrollController = ScrollController();
   bool isLoading = true;
   int pageNo = 1;
 
   bool displayTualeAnimation = false;
-
-  late VideoPlayerController currentVP;
 
   @override
   void dispose() {
@@ -159,7 +159,9 @@ class _CuratedState extends State<Curated> {
                                               debugPrint("User double tap");
                                             },
                                             onTap: () async {
-                                              currentVP.pause();
+                                              currentVP != null
+                                                  ? currentVP.pause()
+                                                  : print('false');
                                               final result =
                                                   await Navigator.push(context,
                                                       MaterialPageRoute(
@@ -172,7 +174,9 @@ class _CuratedState extends State<Curated> {
                                                     index: index);
                                               }));
                                               if (result == 200)
-                                                currentVP.play();
+                                                currentVP != null
+                                                    ? currentVP.play()
+                                                    : print('false');
                                             },
                                             child: Hero(
                                               tag: "hero$index",
@@ -257,17 +261,17 @@ class _CuratedState extends State<Curated> {
                                       ),
                                     ),
                                     // Give tuale when user double tap
-                                    Visibility(
-                                      visible: displayTualeAnimation,
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: Icon(
-                                          TualeIcons.tuale,
-                                          color: Colors.yellow,
-                                          size: 100.sp,
-                                        ),
-                                      ),
-                                    ),
+                                    // Visibility(
+                                    //   visible: displayTualeAnimation,
+                                    //   child: Align(
+                                    //     alignment: Alignment.center,
+                                    //     child: Icon(
+                                    //       TualeIcons.tuale,
+                                    //       color: Colors.yellow,
+                                    //       size: 100.sp,
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     Positioned(
                                         bottom: 0,
                                         left: 0,
@@ -327,6 +331,7 @@ class _CuratedState extends State<Curated> {
                                                         1.08, 0.6),
                                                     child: Obx(
                                                       () => actionBar(
+                                                          //  currentVideo: currentVP,
                                                           index: index,
                                                           posts: Get.find<
                                                                   CuratedPostController>()
@@ -466,10 +471,20 @@ Column userInfoWidget(BuildContext context, int index, List posts) {
                       flex: 1,
                     ),
                     posts[index].isVerified
-                        ? Icon(
-                            Icons.check_circle,
-                            color: Colors.blue,
-                            size: 17,
+                        ? Container(
+                            height: 17.h,
+                            width: 17.h,
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.check,
+                                size: 12.sp,
+                                color: Colors.white,
+                              ),
+                            ),
                           )
                         : Container(),
                     const Spacer(
@@ -510,9 +525,14 @@ Column userInfoWidget(BuildContext context, int index, List posts) {
 class actionBar extends StatefulWidget {
   List? posts;
   int? index;
+  //VideoPlayerController? currentVideo;
   final Function()? notifyParent;
 
-  actionBar({this.posts, this.index, this.notifyParent});
+  actionBar({
+    this.posts,
+    this.index,
+    this.notifyParent,
+  });
 
   @override
   State<actionBar> createState() => _actionBarState();
@@ -593,33 +613,149 @@ class _actionBarState extends State<actionBar> {
                               //"61e327db86dcaee74311fa14"
                               debugPrint("User already give a tuale");
                             } else {
-                              print(
-                                  'setstate no oftuales${Get.find<LoggedUserController>().loggedUser.value.noTuales}');
                               //if no tuales is less than 2 it displays dialog box
                               if (Get.find<LoggedUserController>()
                                       .loggedUser
                                       .value
                                       .noTuales! <
                                   2) {
-                                Get.defaultDialog(
-                                    title: 'Insufficient Tuale points',
-                                    backgroundColor: Colors.white,
-                                    textConfirm: 'Buy Tuale Points',
-                                    middleText: '',
-                                    buttonColor: tualeBlueDark,
-                                    onConfirm: () {
-                                    
-                                      // Navigator.pop(context);
-                                      Navigator.push(
-                                          context,
-                                          PageTransition(
-                                              type: PageTransitionType.fade,
-                                              child: TualletHome()));
-                                                Get.back(closeOverlays: true);
-                                    },
-                                    confirmTextColor: Colors.white,
-                                    cancelTextColor: Colors.black,
-                                    textCancel: 'Cancel');
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Expanded(
+                                      child: AlertDialog(
+                                        // title: Text('Welcome'),
+                                        content: Text(
+                                            'Not enought Tuallet points \n to give this tuale'),
+                                        actions: [
+                                          GestureDetector(
+                                            onTap: () async {
+                                              if (Get.isRegistered<
+                                                  CuratedPostController>()) {
+                                                //checks if mediatype is video
+                                                Get.find<CuratedPostController>()
+                                                            .curatedPost
+                                                            .value[
+                                                                widget.index!]
+                                                            .mediaType ==
+                                                        'video'
+                                                    ? currentVP.pause()
+                                                    : print('no');
+                                                final result =
+                                                    await Navigator.push(
+                                                        context,
+                                                        PageTransition(
+                                                            type:
+                                                                PageTransitionType
+                                                                    .fade,
+                                                            child:
+                                                                TualletHome()));
+                                                if (result == 200 &&
+                                                    Get.find<CuratedPostController>()
+                                                            .curatedPost
+                                                            .value[
+                                                                widget.index!]
+                                                            .mediaType ==
+                                                        'video')
+                                                  currentVP.play();
+                                              } else if (Get.isRegistered<
+                                                  VibedPostController>()) {
+                                                //checks if mediatype is video
+                                                Get.find<VibedPostController>()
+                                                            .vibePost
+                                                            .value[
+                                                                widget.index!]
+                                                            .mediaType ==
+                                                        'video'
+                                                    ? currentVP.pause()
+                                                    : print('no');
+                                                final result =
+                                                    await Navigator.push(
+                                                        context,
+                                                        PageTransition(
+                                                            type:
+                                                                PageTransitionType
+                                                                    .fade,
+                                                            child:
+                                                                TualletHome()));
+                                                if (result == 200 &&
+                                                    Get.find<VibedPostController>()
+                                                            .vibePost
+                                                            .value[
+                                                                widget.index!]
+                                                            .mediaType ==
+                                                        'video')
+                                                  currentVP.play();
+                                              }
+                                            },
+                                            child: Container(
+                                                height: 30,
+                                                width: double.infinity,
+                                                child: Center(
+                                                  child: Text(
+                                                      'Buy more Tuallet points',
+                                                      style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.white,
+                                                      )),
+                                                ),
+                                                decoration: BoxDecoration(
+                                                    color: tualeBlueDark,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            9))),
+                                          ),
+                                          // FlatButton(
+                                          //   textColor: Colors.black,
+                                          //   onPressed: () async {
+                                          //     final result =
+                                          //         await Navigator.push(
+                                          //             context,
+                                          //             PageTransition(
+                                          //                 type:
+                                          //                     PageTransitionType
+                                          //                         .fade,
+                                          //                 child:
+                                          //                     TualletHome()));
+                                          //   },
+                                          //   child: Text('ACCEPT'),
+                                          // ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+
+                                // Get.defaultDialog(
+                                //   title: 'Insufficient Tuallet points',
+                                //   backgroundColor: Colors.white,
+                                //   textConfirm: 'Buy more Tuallet  Points',
+                                //   textCustom: 'hello',
+                                //   radius: 10,
+                                //   middleText: '',
+                                //   onWillPop: ()async {
+                                //     return true;
+                                //   },
+                                //   buttonColor: tualeBlueDark,
+                                //   onConfirm: () async {
+                                //     currentVP.pause();
+                                //     // Navigator.pop(context);
+                                //     Get.back(
+                                //       closeOverlays: true,
+                                //     );
+                                //     final result = await Navigator.push(
+                                //         context,
+                                //         PageTransition(
+                                //             type: PageTransitionType.fade,
+                                //             child: TualletHome()));
+
+                                //     if (result == 200) currentVP.play();
+                                //   },
+                                //   confirmTextColor: Colors.white,
+
+                                //   cancelTextColor: Colors.black,
+                                //   // textCancel: 'Cancel'
+                                // );
                               } else {
                                 setState(() {
                                   isTualed = true;

@@ -223,7 +223,7 @@ class _PostTimelineState extends State<PostTimeline> {
                   ),
             ),
             Container(
-              margin: const EdgeInsets.only(left: 10, right: 10),
+           margin: const EdgeInsets.only(left: 15, right: 15),
               padding: const EdgeInsets.all(5),
               child: TextField(
                 maxLines: 6,
@@ -252,7 +252,7 @@ class _PostTimelineState extends State<PostTimeline> {
               height: 5,
             ),
             Container(
-              margin: const EdgeInsets.only(left: 10, right: 10),
+              margin: const EdgeInsets.only(left: 15, right: 15),
               padding: const EdgeInsets.all(5),
               child: Row(
                 children: [
