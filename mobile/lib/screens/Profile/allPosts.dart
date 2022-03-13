@@ -22,7 +22,7 @@ class _AllPostsState extends State<AllPosts> {
   @override
   void dispose() {
     super.dispose();
-    Get.delete<UserPostsController>(tag: widget.tag);
+    Get.delete<UserPostsController>();
   }
 
   @override
@@ -80,10 +80,19 @@ class _AllPostsState extends State<AllPosts> {
                                     PageTransition(
                                         type: PageTransitionType.topToBottom,
                                         child: discoverScreen(
-                                          tag: widget.tag,
+                                          username: widget.username,
+                                       
                                           index: index )));
                               },
-                              child: Container(
+                              child:text.posts[index].mediaType != 'image' ? Container(
+                                   margin: EdgeInsets.fromLTRB(2, 2, 2, 2),
+                                height: 100.h,
+                                width: 100.h,
+                                color: Colors.black,
+                                child: Icon(Icons.play_arrow_outlined,
+                                color: Colors.white
+                                )
+                              )  :Container(
                                 child: Container(
                                   height: 100.h,
                                   width: 100.h,

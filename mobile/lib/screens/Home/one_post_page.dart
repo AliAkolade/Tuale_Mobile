@@ -6,6 +6,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Home/controllers/getOnePostController.dart';
 import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/Home/video_player_screen.dart';
@@ -22,6 +23,7 @@ class OnePost extends StatefulWidget {
 }
 
 OnePostController post = OnePostController();
+late VideoPlayerController currentVideoPlayer;
 
 class _OnePostState extends State<OnePost> {
   @override
@@ -53,6 +55,7 @@ class _OnePostState extends State<OnePost> {
                           videoUrl: widget.postMedia!,
                           enablePlayBtn: true,
                           cbController: (VideoPlayerController vc) {
+                            currentVideoPlayer = vc;
                             debugPrint("-here vc-");
                           }),
                       // Back button
@@ -90,6 +93,7 @@ class _OnePostState extends State<OnePost> {
                           alignment: const Alignment(1.08, 0.6),
                           child: Obx(
                             () => _actionBar(
+                              mediaType: widget.mediaType,
                               posts: Get.find<OnePostController>()
                                   .postdetails
                                   .value,
@@ -130,6 +134,7 @@ class _OnePostState extends State<OnePost> {
                             alignment: const Alignment(1.08, 0.6),
                             child: Obx(
                               () => _actionBar(
+                                mediaType: widget.mediaType,
                                 posts: Get.find<OnePostController>()
                                     .postdetails
                                     .value,
@@ -199,11 +204,22 @@ class _OnePostState extends State<OnePost> {
                       const Spacer(
                         flex: 1,
                       ),
-                      const Icon(
-                        Icons.check_circle,
-                        color: Colors.blue,
-                        size: 17,
-                      ),
+                      post.postdetails.value.isVerified ?
+                      Container(
+                            height: 17.h,
+                            width: 17.h,
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.check,
+                                size: 12.sp,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ) : Container(),
                       /*Text(
                                           "1 day ago",
                                           style: TextStyle(
@@ -255,8 +271,9 @@ class _OnePostState extends State<OnePost> {
 //widget containing tuale, like, comments, etc
 class _actionBar extends StatefulWidget {
   PostDetails? posts;
+  String? mediaType;
 
-  _actionBar({this.posts});
+  _actionBar({this.posts, this.mediaType});
 
   @override
   State<_actionBar> createState() => _actionBarState();
@@ -337,23 +354,94 @@ class _actionBarState extends State<_actionBar> {
                               //"61e327db86dcaee74311fa14"
                               debugPrint("User already give a tuale");
                             } else {
-                              setState(() {
-                                isTualed = true;
-                                noTuales = noTuales + 1;
-                              });
-                              var result =
-                                  await Api().addTuale(widget.posts!.id);
-                              if (result[0]) {
-                                Get.find<OnePostController>()
-                                    .getOnePost(widget.posts!.id);
+                              if (Get.find<LoggedUserController>()
+                                      .loggedUser
+                                      .value
+                                      .noTuales! <
+                                  2) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Expanded(
+                                      child: AlertDialog(
+                                        // title: Text('Welcome'),
+                                        content: Text(
+                                            'Not enought Tuallet points \n to give this tuale'),
+                                        actions: [
+                                          GestureDetector(
+                                            onTap: () async {
+                                              widget.mediaType == 'video'
+                                                  ? currentVideoPlayer.pause()
+                                                  : print('hi');
+                                              final result =
+                                                  await Navigator.push(
+                                                      context,
+                                                      PageTransition(
+                                                          type:
+                                                              PageTransitionType
+                                                                  .fade,
+                                                          child:
+                                                              TualletHome()));
+                                              if (result == 200 &&
+                                                  widget.mediaType == 'video')
+                                                currentVideoPlayer.play();
+                                            },
+                                            child: Container(
+                                                height: 30,
+                                                width: double.infinity,
+                                                child: Center(
+                                                  child: Text(
+                                                      'Buy more Tuallet points',
+                                                      style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.white,
+                                                      )),
+                                                ),
+                                                decoration: BoxDecoration(
+                                                    color: tualeBlueDark,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            9))),
+                                          ),
+                                          // FlatButton(
+                                          //   textColor: Colors.black,
+                                          //   onPressed: () async {
+                                          //     final result =
+                                          //         await Navigator.push(
+                                          //             context,
+                                          //             PageTransition(
+                                          //                 type:
+                                          //                     PageTransitionType
+                                          //                         .fade,
+                                          //                 child:
+                                          //                     TualletHome()));
+                                          //   },
+                                          //   child: Text('ACCEPT'),
+                                          // ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
                               } else {
                                 setState(() {
-                                  isTualed = false;
-                                  noTuales = noTuales - 1;
+                                  isTualed = true;
+                                  noTuales = noTuales + 1;
                                 });
-                                debugPrint(result[1]);
-                                Get.find<OnePostController>()
-                                    .getOnePost(widget.posts!.id);
+                                var result =
+                                    await Api().addTuale(widget.posts!.id);
+                                if (result[0]) {
+                                  Get.find<OnePostController>()
+                                      .getOnePost(widget.posts!.id);
+                                } else {
+                                  setState(() {
+                                    isTualed = false;
+                                    noTuales = noTuales - 1;
+                                  });
+                                  debugPrint(result[1]);
+                                  Get.find<OnePostController>()
+                                      .getOnePost(widget.posts!.id);
+                                }
                               }
                             }
                           },

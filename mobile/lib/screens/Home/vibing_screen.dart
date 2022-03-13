@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:get/get.dart';
+import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Home/controllers/getVibedPost.dart';
 import 'package:mobile/screens/Home/video_player_screen.dart';
 import 'package:mobile/screens/imports.dart';
@@ -212,17 +213,17 @@ class _VibingState extends State<Vibing> {
                                   ),
                                 ),
                                 // Give tuale when user double tap
-                                Visibility(
-                                  visible: displayTualeAnimation,
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Icon(
-                                      TualeIcons.tuale,
-                                      color: Colors.yellow,
-                                      size: 100.sp,
-                                    ),
-                                  ),
-                                ),
+                                // Visibility(
+                                //   visible: displayTualeAnimation,
+                                //   child: Align(
+                                //     alignment: Alignment.center,
+                                //     child: Icon(
+                                //       TualeIcons.tuale,
+                                //       color: Colors.yellow,
+                                //       size: 100.sp,
+                                //     ),
+                                //   ),
+                                // ),
                                 Positioned(
                                     bottom: 0,
                                     left: 0,
@@ -446,21 +447,52 @@ class __actionBarState extends State<_actionBar> {
                               //"61e327db86dcaee74311fa14"
                               debugPrint("User already give a tuale");
                             } else {
-                              setState(() {
-                                isTualed = true;
-                                noTuales = noTuales + 1;
-                              });
-                              var result = await Api().addTuale(
-                                  widget.posts![widget.index!].id ?? " ");
-                              if (result[0]) {
-                                Get.find<VibedPostController>().getVibedPosts();
+                              if (Get.find<LoggedUserController>()
+                                      .loggedUser
+                                      .value
+                                      .noTuales! <
+                                  2) {
+                                Get.defaultDialog(
+                                  title: 'Insufficient Tuallet points',
+                                  backgroundColor: Colors.white,
+                                  textConfirm: 'Buy more Tuallet  Points',
+                                  textCustom: 'hello',
+                                  radius: 10,
+                                  middleText: '',
+                                  buttonColor: tualeBlueDark,
+                                  onConfirm: () {
+                                    // Navigator.pop(context);
+                                    Navigator.push(
+                                        context,
+                                        PageTransition(
+                                            type: PageTransitionType.fade,
+                                            child: TualletHome()));
+                                    Get.back(closeOverlays: true);
+                                  },
+                                  confirmTextColor: Colors.white,
+
+                                  cancelTextColor: Colors.black,
+                                  // textCancel: 'Cancel'
+                                );
                               } else {
                                 setState(() {
-                                  isTualed = false;
-                                  noTuales = noTuales - 1;
+                                  isTualed = true;
+                                  noTuales = noTuales + 1;
                                 });
-                                debugPrint(result[1]);
-                                Get.find<VibedPostController>().getVibedPosts();
+                                var result = await Api().addTuale(
+                                    widget.posts![widget.index!].id ?? " ");
+                                if (result[0]) {
+                                  Get.find<VibedPostController>()
+                                      .getVibedPosts();
+                                } else {
+                                  setState(() {
+                                    isTualed = false;
+                                    noTuales = noTuales - 1;
+                                  });
+                                  debugPrint(result[1]);
+                                  Get.find<VibedPostController>()
+                                      .getVibedPosts();
+                                }
                               }
                             }
                           },

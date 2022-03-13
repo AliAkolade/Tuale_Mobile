@@ -2,7 +2,7 @@
 
 export 'package:mobile/screens/Post/camera_screen.dart';
 export 'package:mobile/screens/Discover/discover_screen.dart';
-export 'package:mobile/screens/Discover/discover_screen_focus.dart';
+export 'package:mobile/screens/Discover/user_post_screens.dart';
 export 'package:mobile/screens/Post/gallery_image.dart';
 export 'package:mobile/screens/Home/home_screen.dart';
 export 'package:mobile/screens/Leaderboard/leaderboard_screen.dart';
