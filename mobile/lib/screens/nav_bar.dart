@@ -60,7 +60,7 @@ class _NavBarState extends State<NavBar> {
   }
 
   int _currentIndex = 0;
-  double iconSize = 19.0;
+  double iconSize = 25.0;
 
   late List<Widget> _children = [];
 
@@ -114,7 +114,7 @@ class _NavBarState extends State<NavBar> {
     return Scaffold(
       body: _children[_currentIndex],
       bottomNavigationBar: Container(
-        height: 85.h,
+        //height: 85.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(30), topLeft: Radius.circular(30)),
