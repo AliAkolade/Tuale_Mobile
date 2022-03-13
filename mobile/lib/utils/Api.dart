@@ -108,7 +108,7 @@ class Api {
             mediaType: postsResponses[i]['mediaType']));
       }
     }
-
+    print('ListInList List${posts}');
     return posts;
   }
 
@@ -297,6 +297,7 @@ class Api {
             isStared: checkGivingStar(postsResponses[i]['stars']),
             mediaType: postsResponses[i]['mediaType']));
       }
+      
     }
 
     // if (responseData['success'].toString() == 'true') {
