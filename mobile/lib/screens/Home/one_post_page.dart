@@ -362,7 +362,9 @@ class _actionBarState extends State<_actionBar> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return Expanded(
+                                    return Container(
+                                      height: 40.h,
+                                      width: 100.h,
                                       child: AlertDialog(
                                         // title: Text('Welcome'),
                                         content: Text(

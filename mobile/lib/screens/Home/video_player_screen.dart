@@ -6,9 +6,16 @@ import 'package:chewie/chewie.dart';
 class VideoPlayerScreen extends StatefulWidget {
   String videoUrl;
   bool enablePlayBtn;
+  bool isVideoPaused;
   late final Function(VideoPlayerController) cbController;
 
-  VideoPlayerScreen({Key? key, required this.videoUrl, this.enablePlayBtn=false, required this.cbController}) : super(key: key);
+  VideoPlayerScreen(
+      {Key? key,
+      required this.videoUrl,
+      this.enablePlayBtn = false,
+      this.isVideoPaused = false,
+      required this.cbController})
+      : super(key: key);
 
   @override
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
@@ -22,16 +29,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   void initState() {
-    videoController = VideoPlayerController.network(
-        widget.videoUrl,
+    videoController = VideoPlayerController.network(widget.videoUrl,
         videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true))
       ..setLooping(true)
       ..setVolume(0.1)
-      ..initialize().then((_) => videoController.play()
-      )
-    ;
-
-
+      ..initialize().then((_) =>  videoController.play()); //:videoController.play());
 
     super.initState();
   }
@@ -56,8 +58,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         child: Stack(
           children: [
             GestureDetector(
-                child: VideoPlayer(videoController),
-              onTap: ()=> {
+              child: VideoPlayer(videoController),
+              onTap: () => {
                 setState(() {
                   displayParams = !displayParams;
                 }),
@@ -71,22 +73,27 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 )*/
               },
             ),
-            if(widget.enablePlayBtn)...[
+            if (widget.enablePlayBtn) ...[
               Visibility(
                 visible: displayParams,
                 child: Align(
                   alignment: Alignment.center,
                   child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
-                          displayPlayBtn ? videoController.pause() : videoController.play();
+                          displayPlayBtn
+                              ? videoController.pause()
+                              : videoController.play();
                           displayPlayBtn = !displayPlayBtn;
                         });
                       },
                       child: Icon(
-                        displayPlayBtn ? Icons.pause_circle_outline_outlined : Icons.play_circle_outline,
-                        size: 100, color: Colors.white,)
-                  ),
+                        displayPlayBtn
+                            ? Icons.pause_circle_outline_outlined
+                            : Icons.play_circle_outline,
+                        size: 100,
+                        color: Colors.white,
+                      )),
                 ),
               ),
               Positioned(
@@ -94,13 +101,17 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 right: 20,
                 child: GestureDetector(
                   child: Icon(
-                    microIcon ? Icons.volume_down_rounded  : Icons.volume_off_rounded,
+                    microIcon
+                        ? Icons.volume_down_rounded
+                        : Icons.volume_off_rounded,
                     size: 35,
                     color: Colors.white,
                   ),
-                  onTap: (){
+                  onTap: () {
                     setState(() {
-                      microIcon ? videoController.setVolume(0) : videoController.setVolume(1);
+                      microIcon
+                          ? videoController.setVolume(0)
+                          : videoController.setVolume(1);
                       microIcon = !microIcon;
                     });
                   },
@@ -108,8 +119,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               )
             ]
           ],
-        )
-    );
+        ));
     //return Chewie(controller: chewieController);
   }
 }

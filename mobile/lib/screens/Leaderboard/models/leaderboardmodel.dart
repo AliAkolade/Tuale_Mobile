@@ -4,5 +4,7 @@ class LeaderboardModel {
   int? noTuales;
   String? id;
   String? username;
-  LeaderboardModel({this.name, this.noTuales, this.id, this.avatar,this.username});
+  bool? isVerified;
+  LeaderboardModel(
+      {this.name, this.noTuales, this.id, this.avatar, this.username, this.isVerified,});
 }

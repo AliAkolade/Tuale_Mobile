@@ -110,6 +110,7 @@ class Api {
         ));
       }
     }
+
     return posts;
   }
 
@@ -147,13 +148,14 @@ class Api {
         fans: responseData['fansLength'],
         tualegiven: responseData['givenTuales'].toString(),
         friends: responseData['friendsLength'],
+        isVerified: responseData['profile']['user']['verified'],
         tcBalance: responseData['profile']['user']['tcBalance'].toString(),
         withdrawalBalance:
             responseData['profile']['user']['walletBalance'].toString(),
         email: responseData['profile']['user']['email'].toString(),
         starredPosts: getList(),
         location: responseData['profile']['user']['country'],
-        bio: responseData['profile']['bio']);
+        bio: responseData['profile']['bio'] ?? '');
 
     // if (responseData['success'].toString() == 'true') {
     //   for (int i = 0; i < postsResponses.length; i++) {
@@ -298,6 +300,7 @@ class Api {
             isStared: checkGivingStar(postsResponses[i]['stars']),
             mediaType: postsResponses[i]['mediaType']));
       }
+      
     }
 
     // if (responseData['success'].toString() == 'true') {
@@ -682,16 +685,19 @@ class Api {
       Response response = await dio.get(hostAPI + 'leaderboard');
       var responseData = response.data;
       if (response.statusCode == 200) {
+
         print('heyyyy');
         print(responseData['leaderboard']);
         for (var i in responseData['leaderboard']) {
-          print(i);
-
+        //  
+        //  print(i);
+          
           leaderboard.add(LeaderboardModel(
               name: i['user']['name'],
               username: i['user']['username'],
               avatar: i['user']['avatar']['url'],
               id: i['user']['_id'],
+              isVerified: i['user']['verified'],
               noTuales: i['givenTuales']));
         }
 
