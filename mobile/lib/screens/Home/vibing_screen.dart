@@ -452,28 +452,87 @@ class __actionBarState extends State<_actionBar> {
                                       .value
                                       .noTuales! <
                                   2) {
-                                Get.defaultDialog(
-                                  title: 'Insufficient Tuallet points',
-                                  backgroundColor: Colors.white,
-                                  textConfirm: 'Buy more Tuallet  Points',
-                                  textCustom: 'hello',
-                                  radius: 10,
-                                  middleText: '',
-                                  buttonColor: tualeBlueDark,
-                                  onConfirm: () {
-                                    // Navigator.pop(context);
-                                    Navigator.push(
-                                        context,
-                                        PageTransition(
-                                            type: PageTransitionType.fade,
-                                            child: TualletHome()));
-                                    Get.back(closeOverlays: true);
+                                           showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Container(
+                                      height: 40.h,
+                                      width: 100.h,
+                                      child: AlertDialog(
+                                        // title: Text('Welcome'),
+                                        content: Text(
+                                            'Not enought Tuallet points \n to give this tuale'),
+                                        actions: [
+                                          GestureDetector(
+                                            onTap: () async {
+                                               if (Get.isRegistered<
+                                                  VibedPostController>()) {
+                                                //checks if mediatype is video
+                                                Get.find<VibedPostController>()
+                                                            .vibePost
+                                                            .value[
+                                                                widget.index!]
+                                                            .mediaType ==
+                                                        'video'
+                                                    ? currentVP.pause()
+                                                    : print('no');
+                                                final result =
+                                                    await Navigator.push(
+                                                        context,
+                                                        PageTransition(
+                                                            type:
+                                                                PageTransitionType
+                                                                    .fade,
+                                                            child:
+                                                                TualletHome()));
+                                                if (result == 200 &&
+                                                    Get.find<VibedPostController>()
+                                                            .vibePost
+                                                            .value[
+                                                                widget.index!]
+                                                            .mediaType ==
+                                                        'video')
+                                                  currentVP.play();
+                                              }
+                                            },
+                                            child: Container(
+                                                height: 30,
+                                                width: double.infinity,
+                                                child: Center(
+                                                  child: Text(
+                                                      'Buy more Tuallet points',
+                                                      style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.white,
+                                                      )),
+                                                ),
+                                                decoration: BoxDecoration(
+                                                    color: tualeBlueDark,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            9))),
+                                          ),
+                                          // FlatButton(
+                                          //   textColor: Colors.black,
+                                          //   onPressed: () async {
+                                          //     final result =
+                                          //         await Navigator.push(
+                                          //             context,
+                                          //             PageTransition(
+                                          //                 type:
+                                          //                     PageTransitionType
+                                          //                         .fade,
+                                          //                 child:
+                                          //                     TualletHome()));
+                                          //   },
+                                          //   child: Text('ACCEPT'),
+                                          // ),
+                                        ],
+                                      ),
+                                    );
                                   },
-                                  confirmTextColor: Colors.white,
-
-                                  cancelTextColor: Colors.black,
-                                  // textCancel: 'Cancel'
                                 );
+
                               } else {
                                 setState(() {
                                   isTualed = true;

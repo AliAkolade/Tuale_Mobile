@@ -18,6 +18,7 @@ import 'package:mobile/screens/Profile/controllers/profileController.dart';
 import 'package:mobile/screens/Profile/controllers/userPostsController.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/imports.dart';
+import 'package:mobile/screens/widgets/verifiedTag.dart';
 
 class Curated extends StatefulWidget {
   GlobalKey<_CuratedState> globalCuratedState = GlobalKey<_CuratedState>();
@@ -51,7 +52,7 @@ class _CuratedState extends State<Curated> {
     super.dispose();
   }
 
-  CuratedPostController control = CuratedPostController();
+CuratedPostController control = CuratedPostController();
 
   @override
   void initState() {
@@ -173,7 +174,8 @@ class _CuratedState extends State<Curated> {
                                                         .value,
                                                     index: index);
                                               }));
-                                              if (result == 200)
+                                              if (result == 200) {
+                                              }
                                                 currentVP != null
                                                     ? currentVP.play()
                                                     : print('false');
@@ -383,6 +385,7 @@ Widget _commentsectionModal(
                       ? Get.find<VibedPostController>().vibePost.value
                       : Get.find<CuratedPostController>().curatedPost.value,
                   index: index,
+
                 ),
               ));
     },
@@ -460,7 +463,7 @@ Column userInfoWidget(BuildContext context, int index, List posts) {
                     ),
                     Text(
                       "@" + posts[index].username.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontFamily: 'Poppins',
                           fontSize: 16,
@@ -471,21 +474,7 @@ Column userInfoWidget(BuildContext context, int index, List posts) {
                       flex: 1,
                     ),
                     posts[index].isVerified
-                        ? Container(
-                            height: 17.h,
-                            width: 17.h,
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                            child: Center(
-                              child: Icon(
-                                Icons.check,
-                                size: 12.sp,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )
+                        ? verifiedTag()
                         : Container(),
                     const Spacer(
                       flex: 10,
@@ -493,16 +482,17 @@ Column userInfoWidget(BuildContext context, int index, List posts) {
                   ],
                 ),
               ),
-              SizedBox(
+             const SizedBox(
                 height: 8,
               ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     posts[index].postText.toString(),
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         // fontFamily: 'Poppins',
                         fontSize: 14,
@@ -520,6 +510,8 @@ Column userInfoWidget(BuildContext context, int index, List posts) {
     ],
   );
 }
+
+
 
 //widget containing tuale, like, comments, etc
 class actionBar extends StatefulWidget {
@@ -622,7 +614,9 @@ class _actionBarState extends State<actionBar> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return Expanded(
+                                    return Container(
+                                      height: 40.h,
+                                      width: 100.h,
                                       child: AlertDialog(
                                         // title: Text('Welcome'),
                                         content: Text(
@@ -1014,16 +1008,23 @@ class _commentModalState extends State<commentModal> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    widget.posts![widget.index!]
-                                            .comment[commentIndex]['user']
-                                        ['username'],
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: 'Poppins',
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        widget.posts![widget.index!]
+                                                .comment[commentIndex]['user']
+                                            ['username'],
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'Poppins',
+                                          fontSize: 13.sp,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      widget.posts![widget.index!]
+                                                .comment[commentIndex]['user']
+                                            ['verified'] ? verifiedTag() : Container()
+                                    ],
                                   ),
                                   FittedBox(
                                     child: SizedBox(

@@ -12,6 +12,7 @@ import 'package:mobile/screens/Profile/edit_profile.dart';
 import 'package:mobile/screens/Profile/starred_posts_screen.dart';
 
 import 'package:mobile/screens/imports.dart';
+import 'package:mobile/screens/widgets/verifiedTag.dart';
 
 class userProfile extends StatefulWidget {
   bool? isUser;
@@ -57,167 +58,172 @@ class _ProfileState extends State<userProfile> with RouteAware {
     // profileController.getProfileInfo(widget.username!);
     return Material(
       child: GetX<ProfileController>(
-        init:  ProfileController(controllerusername: widget.username),
-        builder: (text) {
-          return text.isLoading.value ? Center(
-            child: SpinKitFadingCircle(
-                                color: tualeOrange.withOpacity(0.75)),
-          ) : DefaultTabController(
-              length: 2,
-              child: //profileController.isLoading.value
-                  //     ? Container():
-                  Scaffold(
-                appBar: AppBar(
-                    leading: widget.isUser!
-                        ? Container()
-                        : GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Icon(
-                              Icons.arrow_back_rounded,
-                              color: Colors.black,
-                            ),
-                          ),
-                    actions: [
-                      widget.isUser!
-                          ? IconButton(
-                              icon: const Icon(
-                                Icons.logout,
-                                color: Colors.black,
-                              ),
-                              onPressed: () async {
-                                Get.deleteAll();
-                                Future<SharedPreferences> _prefs =
-                                    SharedPreferences.getInstance();
-                                final SharedPreferences prefs = await _prefs;
-
-                                prefs.setBool('isLoggedIn', false);
-                                // Navigator.of(context).pushAndRemoveUntil(
-                                //     MaterialPageRoute(
-                                //         builder: (context) => Welcome()),
-                                //     (Route<dynamic> route) => false);
-                                pushNewScreen(context,
-                                    screen: Welcome(),
-                                    withNavBar: false,
-                                    pageTransitionAnimation:
-                                        PageTransitionAnimation.cupertino);
-                                runApp(MyApp(
-                                  isLoggedIn: false,
-                                ));
-                              },
-                            )
-                          : Container(),
-                    ],
-                    centerTitle: true,
-                    elevation: 0,
-                    backgroundColor: Colors.white,
-                    title: GetX<ProfileController>(
-                        init:
-                            ProfileController(controllerusername: widget.username),
-                        // tag: widget.tag,
-                        builder: (context) {
-                          return Text(
-                            context.profileInfo.value.name!,
-                            style: const TextStyle(
-                              color: tualeBlueDark,
-                              fontFamily: 'Poppins',
-                              fontSize: 18, // fontWeig
-                            ),
-                          );
-                        })),
-                body: NestedScrollView(
-                    physics: ClampingScrollPhysics(),
-                    headerSliverBuilder: (context, isScrolled) {
-                      return [
-                        SliverPersistentHeader(
-                          delegate: _SliverAppBarDelegate(ProfileInfotwo(
-                            username: widget.username,
-                            // tag: widget.tag!,
-                          )),
-                          pinned: false,
-                          //  floating: true,
-                        ),
-                        SliverOverlapAbsorber(
-                          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                              context),
-                          sliver: SliverAppBar(
-                            //floating: true,
-                            pinned: true,
-                            // collapsedHeight: 100,
-                            expandedHeight: 10,
-                            flexibleSpace: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                const TabBar(
-                                    unselectedLabelColor: Colors.grey,
-                                    indicatorColor: Colors.transparent,
-                                    indicatorWeight: 1.1,
-                                    labelColor: tualeBlueDark,
-                                    labelStyle: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 16,
-                                        // fontWeight: FontWeight.bold,
-                                        height: 1),
-                                    tabs: [
-                                      Tab(
-                                        icon: Icon(
-                                          TualeIcons.allposts,
-                                          size: 30,
-                                        ),
-                                      ),
-                                      Tab(
-                                          icon: Icon(
-                                        TualeIcons.starredpost,
-                                        size: 35,
-                                        // color: Colors.grey.withOpacity(0.3),
-                                      )),
-                                    ]),
-                                SizedBox(
-                                  height: 1, // TODO : don't have 10.h
-                                  width: ScreenUtil().screenWidth,
-                                  child: const Divider(
-                                    color: Colors.grey,
+          init: ProfileController(controllerusername: widget.username),
+          builder: (text) {
+            return text.isLoading.value
+                ? Center(
+                    child: SpinKitFadingCircle(
+                        color: tualeOrange.withOpacity(0.75)),
+                  )
+                : DefaultTabController(
+                    length: 2,
+                    child: //profileController.isLoading.value
+                        //     ? Container():
+                        Scaffold(
+                      appBar: AppBar(
+                          leading: widget.isUser!
+                              ? Container()
+                              : GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Icon(
+                                    Icons.arrow_back_rounded,
+                                    color: Colors.black,
                                   ),
-                                )
-                              ],
-                            ),
-                            backgroundColor: Colors.white,
-                          ),
-                        ),
-                      ];
-                    },
-                    body: TabBarView(
-                      children: [
-                        Builder(builder: (context) {
-                          return CustomScrollView(
-                            slivers: [
-                              SliverOverlapInjector(
-                                  handle: NestedScrollView
-                                      .sliverOverlapAbsorberHandleFor(context)),
-                              AllPosts(
-                                username: widget.username,
+                                ),
+                          actions: [
+                            widget.isUser!
+                                ? IconButton(
+                                    icon: const Icon(
+                                      Icons.logout,
+                                      color: Colors.black,
+                                    ),
+                                    onPressed: () async {
+                                      Get.deleteAll();
+                                      Future<SharedPreferences> _prefs =
+                                          SharedPreferences.getInstance();
+                                      final SharedPreferences prefs =
+                                          await _prefs;
+
+                                      prefs.setBool('isLoggedIn', false);
+                                      // Navigator.of(context).pushAndRemoveUntil(
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) => Welcome()),
+                                      //     (Route<dynamic> route) => false);
+                                      pushNewScreen(context,
+                                          screen: Welcome(),
+                                          withNavBar: false,
+                                          pageTransitionAnimation:
+                                              PageTransitionAnimation
+                                                  .cupertino);
+                                      runApp(MyApp(
+                                        isLoggedIn: false,
+                                      ));
+                                    },
+                                  )
+                                : Container(),
+                          ],
+                          centerTitle: true,
+                          elevation: 0,
+                          backgroundColor: Colors.white,
+                          title: GetX<ProfileController>(
+                              init: ProfileController(
+                                  controllerusername: widget.username),
+                              // tag: widget.tag,
+                              builder: (context) {
+                                return Text(
+                                  context.profileInfo.value.name!,
+                                  style: const TextStyle(
+                                    color: tualeBlueDark,
+                                    fontFamily: 'Poppins',
+                                    fontSize: 18, // fontWeig
+                                  ),
+                                );
+                              })),
+                      body: NestedScrollView(
+                          physics: ClampingScrollPhysics(),
+                          headerSliverBuilder: (context, isScrolled) {
+                            return [
+                              SliverPersistentHeader(
+                                delegate: _SliverAppBarDelegate(ProfileInfotwo(
+                                  username: widget.username,
+                                  // tag: widget.tag!,
+                                )),
+                                pinned: false,
+                                //  floating: true,
                               ),
-                            ],
-                          );
-                        }),
-                        Builder(builder: (context) {
-                          return CustomScrollView(
-                            slivers: [
-                              SliverOverlapInjector(
-                                  handle: NestedScrollView
-                                      .sliverOverlapAbsorberHandleFor(context)),
-                              starredPosts(
-                                username: widget.username,
+                              SliverOverlapAbsorber(
+                                handle: NestedScrollView
+                                    .sliverOverlapAbsorberHandleFor(context),
+                                sliver: SliverAppBar(
+                                  //floating: true,
+                                  pinned: true,
+                                  // collapsedHeight: 100,
+                                  expandedHeight: 10,
+                                  flexibleSpace: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const TabBar(
+                                          unselectedLabelColor: Colors.grey,
+                                          indicatorColor: Colors.transparent,
+                                          indicatorWeight: 1.1,
+                                          labelColor: tualeBlueDark,
+                                          labelStyle: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontSize: 16,
+                                              // fontWeight: FontWeight.bold,
+                                              height: 1),
+                                          tabs: [
+                                            Tab(
+                                              icon: Icon(
+                                                TualeIcons.allposts,
+                                                size: 30,
+                                              ),
+                                            ),
+                                            Tab(
+                                                icon: Icon(
+                                              TualeIcons.starredpost,
+                                              size: 35,
+                                              // color: Colors.grey.withOpacity(0.3),
+                                            )),
+                                          ]),
+                                      SizedBox(
+                                        height: 1, // TODO : don't have 10.h
+                                        width: ScreenUtil().screenWidth,
+                                        child: const Divider(
+                                          color: Colors.grey,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  backgroundColor: Colors.white,
+                                ),
                               ),
+                            ];
+                          },
+                          body: TabBarView(
+                            children: [
+                              Builder(builder: (context) {
+                                return CustomScrollView(
+                                  slivers: [
+                                    SliverOverlapInjector(
+                                        handle: NestedScrollView
+                                            .sliverOverlapAbsorberHandleFor(
+                                                context)),
+                                    AllPosts(
+                                      username: widget.username,
+                                    ),
+                                  ],
+                                );
+                              }),
+                              Builder(builder: (context) {
+                                return CustomScrollView(
+                                  slivers: [
+                                    SliverOverlapInjector(
+                                        handle: NestedScrollView
+                                            .sliverOverlapAbsorberHandleFor(
+                                                context)),
+                                    starredPosts(
+                                      username: widget.username,
+                                    ),
+                                  ],
+                                );
+                              }),
                             ],
-                          );
-                        }),
-                      ],
-                    )),
-              ));
-        }
-      ),
+                          )),
+                    ));
+          }),
     );
   }
 }
@@ -286,15 +292,22 @@ class ProfileInfotwo extends StatelessWidget {
                 init: ProfileController(controllerusername: username),
                 // tag: tag,
                 builder: (text) {
-                  return Text(
-                    //Get.find<ProfileController>().profileInfo.value.friends!,
-                    "@" + text.profileInfo.value.username!,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'Poppins',
-                      fontSize: 14.sp,
-                      //fontWeight: FontWeight.bold,
-                    ),
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        //Get.find<ProfileController>().profileInfo.value.friends!,
+                        "@" + text.profileInfo.value.username!,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Poppins',
+                          fontSize: 14.sp,
+                          //fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                     text.profileInfo.value.isVerified! ? verifiedTag() : Container()
+                    ],
                   );
                 }),
             const Spacer(
@@ -568,8 +581,14 @@ class profileButton extends StatelessWidget {
         ElevatedButton(
             onPressed: () {
               isFollowing()
-                  ? Api().unvibeWithUser(userId!, username!, )
-                  : Api().vibeWithUser(userId!, username!, );
+                  ? Api().unvibeWithUser(
+                      userId!,
+                      username!,
+                    )
+                  : Api().vibeWithUser(
+                      userId!,
+                      username!,
+                    );
             },
             style: ElevatedButton.styleFrom(
                 primary: isFollowing() ? tualeOrange : tualeBlueDark,
@@ -587,11 +606,11 @@ class profileButton extends StatelessWidget {
         const Spacer(),
         ElevatedButton(
             onPressed: () {
-               Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      type: PageTransitionType.fade,
-                                      child: InProgressScreen()));
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.fade,
+                      child: InProgressScreen()));
             },
             style: ElevatedButton.styleFrom(
                 primary: const Color.fromRGBO(218, 65, 103, 1),

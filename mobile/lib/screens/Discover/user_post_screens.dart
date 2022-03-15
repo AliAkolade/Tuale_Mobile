@@ -89,6 +89,8 @@ class _discoverScreenState extends State<discoverScreen> {
                                         height: 645.h,
                                         width: 400.w,
                                         child: VideoPlayerScreen(
+                                          isVideoPaused: true,
+                                            enablePlayBtn: true,
                                             videoUrl:
                                                 Get.find<UserPostsController>()
                                                     .posts
@@ -96,79 +98,74 @@ class _discoverScreenState extends State<discoverScreen> {
                                                     .postMedia,
                                             cbController:
                                                 (VideoPlayerController vc) {
+                                                  
                                               currentVideoPlayer = vc;
                                               debugPrint("-here vc-");
                                             }))),
                               ),
-                              Positioned(
-                                  bottom: 0,
-                                  left: 0,
-                                  right: 0,
-                                  child: GestureDetector(
-                                    onDoubleTap: () {
-                                      debugPrint("User double tap");
-                                    },
-                                    onTap: () {
-                                      // Navigator.push(context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) {
-                                      //   return VibingZoom(
-                                      //       post: Get.find<
-                                      //               CuratedPostController>()
-                                      //           .curatedPost
-                                      //           .value,
-                                      //       index: index);
-                                      // }));
-                                    },
-                                    child: Hero(
-                                      tag: "hero$index",
-                                      child: Container(
-                                        //Container for bottom gradient on image
-                                        child: Stack(
-                                          children: [
-                                            Align(
-                                              widthFactor: 5,
-                                              alignment:
-                                                  const Alignment(1.08, 0.6),
-                                              child: Obx(
-                                                () => _actionBar(
-                                                    mediaType:
-                                                        userpostcontroller
-                                                            .posts
-                                                            .value[index]
-                                                            .mediaType,
-                                                    username: widget.username,
-                                                    index: index,
-                                                    posts: userpostcontroller
-                                                        .posts.value),
-                                              ),
-                                            ),
-
-                                            //user post info
-                                            Obx(() => userInfoWidget(
-                                                context,
-                                                index,
-                                                userpostcontroller.posts.value))
-                                          ],
+                              GestureDetector(
+                              
+                                onTap: () {
+                                  // Navigator.push(context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) {
+                                  //   return VibingZoom(
+                                  //       post: Get.find<
+                                  //               CuratedPostController>()
+                                  //           .curatedPost
+                                  //           .value,
+                                  //       index: index);
+                                  // }));
+                                },
+                                child: Hero(
+                                  tag: "hero$index",
+                                  child: Container(
+                                    //Container for bottom gradient on image
+                                    child: Stack(
+                                      children: [
+                                        Align(
+                                          widthFactor: 5,
+                                          alignment:
+                                              const Alignment(1.08, 0.6),
+                                          child: Obx(
+                                            () => _actionBar(
+                                                mediaType:
+                                                    userpostcontroller
+                                                        .posts
+                                                        .value[index]
+                                                        .mediaType,
+                                                username: widget.username,
+                                                index: index,
+                                                posts: userpostcontroller
+                                                    .posts.value),
+                                          ),
                                         ),
-                                        height: 645.h,
-                                        width: 400.w,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            gradient: const LinearGradient(
-                                              begin: AlignmentDirectional(
-                                                  0.5, 0.5),
-                                              end: AlignmentDirectional(
-                                                  0.5, 1.4),
-                                              colors: [
-                                                Colors.transparent,
-                                                Colors.black87
-                                              ],
-                                            )),
-                                      ),
+
+                                        //user post info
+                                        Obx(() => userInfoWidget(
+                                            context,
+                                            index,
+                                            userpostcontroller.posts.value))
+                                      ],
                                     ),
-                                  ))
+                                    height: 645.h,
+                                    width: 400.w,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(15),
+                                        gradient: const LinearGradient(
+                                          begin: AlignmentDirectional(
+                                              0.5, 0.5),
+                                          end: AlignmentDirectional(
+                                              0.5, 1.4),
+                                          colors: [
+                                            Colors.transparent,
+                                            Colors.black87
+                                          ],
+                                        )),
+                                  ),
+                                ),
+                              )
                             ],
                           ),
                         )
@@ -390,7 +387,9 @@ class __actionBarState extends State<_actionBar> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return Expanded(
+                                    return Container(
+                                      height: 40.h,
+                                      width: 100.h,
                                       child: AlertDialog(
                                         // title: Text('Welcome'),
                                         content: Text(

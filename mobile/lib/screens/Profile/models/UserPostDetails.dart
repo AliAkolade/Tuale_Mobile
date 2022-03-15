@@ -18,6 +18,7 @@ class UserPostDetails {
   List<starredPostModel>? starredPosts;
   String? bio;
   String? location;
+  bool? isVerified;
 
   UserPostDetails(
       {this.id = "",
@@ -31,9 +32,8 @@ class UserPostDetails {
       this.tualegiven = "",
       this.tcBalance = "",
       this.withdrawalBalance = '',
-      this.email = '', 
+      this.email = '',
       this.bio = '',
-      this.location = ''
-
-      });
+      this.isVerified = false,
+      this.location = ''});
 }

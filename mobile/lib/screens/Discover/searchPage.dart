@@ -6,6 +6,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:mobile/screens/Discover/controllers/searchController.dart';
 import 'package:mobile/screens/imports.dart';
+import 'package:mobile/screens/widgets/verifiedTag.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -146,11 +147,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                                     color: tualeBlueDark)),
                                             searchController.searchresult[index]
                                                     .isVerified!
-                                                ? Icon(
-                                                    Icons.verified_rounded,
-                                                    size: 20.sp,
-                                                    color: Colors.blue,
-                                                  )
+                                                ? verifiedTag()
                                                 : Container()
                                           ],
                                         ),

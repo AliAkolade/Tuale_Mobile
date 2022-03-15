@@ -4,6 +4,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Leaderboard/leaderboardController.dart';
 import 'package:mobile/screens/imports.dart';
+import 'package:mobile/screens/widgets/verifiedTag.dart';
 
 class Leaderboard extends StatefulWidget {
   const Leaderboard({Key? key}) : super(key: key);
@@ -93,7 +94,7 @@ class _LeaderboardState extends State<Leaderboard> {
                               fontSize: 17.sp,
                               height: 1),
                         ),
-                        Spacer(
+                       const Spacer(
                           flex: 4,
                         ),
                         Text(
@@ -104,13 +105,14 @@ class _LeaderboardState extends State<Leaderboard> {
                               fontSize: 16.sp,
                               height: 1),
                         ),
-                        Spacer(
+                       const Spacer(
                           flex: 2,
                         )
                       ],
                     ),
-                    Container(
+                Container(
                       child: Obx(
+
                         () => ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -119,27 +121,32 @@ class _LeaderboardState extends State<Leaderboard> {
                             return Container(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+                                
                                   SizedBox(
-                                    width: 15.h,
+                                    height: 20.h,
+                                    width: 20.h,
+                                    child: Text(
+                                      "${index + 1}.",
+                                      style: TextStyle(
+                                          color: tualeBlueDark,
+                                          fontFamily: 'Poppins',
+                                          fontSize: 19.sp,
+                                          height: 1),
+                                    ),
                                   ),
-                                  Text(
-                                    "${index + 1}.",
-                                    style: TextStyle(
-                                        color: tualeBlueDark,
-                                        fontFamily: 'Poppins',
-                                        fontSize: 19.sp,
-                                        height: 1),
-                                  ),
-                                  const Spacer(
-                                    flex: 1,
+                                  Container(
+                                    color:  Colors.black,
+                                    width: 15.w,
                                   ),
                                   Icon(
                                     TualeIcons.usericon,
                                     color: Colors.grey,
                                     size: 45.sp,
                                   ),
-                                  SizedBox(
+                                  Container(
+                                    color: Colors.blue,
                                     width: 5,
                                   ),
                                   Column(
@@ -147,14 +154,19 @@ class _LeaderboardState extends State<Leaderboard> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        leaderboard
-                                            .leaderboard.value[index].name,
-                                        style: TextStyle(
-                                          color: tualeBlueDark,
-                                          fontFamily: 'Poppins',
-                                          fontSize: 17.sp,
-                                        ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            leaderboard
+                                                .leaderboard.value[index].name,
+                                            style: TextStyle(
+                                              color: tualeBlueDark,
+                                              fontFamily: 'Poppins',
+                                              fontSize: 17.sp,
+                                            ),
+                                          ),
+                                         leaderboard.leaderboard.value[index].isVerified ? verifiedTag() :Container()
+                                        ],
                                       ),
                                       Text(
                                         "@" +
@@ -169,22 +181,26 @@ class _LeaderboardState extends State<Leaderboard> {
                                       )
                                     ],
                                   ),
-                                  const Spacer(
-                                    flex: 4,
-                                  ),
-                                  Text(
-                                    leaderboard
-                                        .leaderboard.value[index].noTuales
-                                        .toString(),
-                                    style: TextStyle(
-                                      color: tualeBlueDark,
-                                      fontFamily: 'Poppins',
-                                      fontSize: 22.sp,
+                                 Spacer(
+                                   flex: 2,
+                                 ),
+                                  SizedBox(
+                                    height: 26.h,
+                                    width: 26.h,
+                                    child: Text(
+                                      leaderboard
+                                          .leaderboard.value[index].noTuales
+                                          .toString(),
+                                      style: TextStyle(
+                                        color: tualeBlueDark,
+                                        fontFamily: 'Poppins',
+                                        fontSize: 22.sp,
+                                      ),
                                     ),
                                   ),
-                                  const Spacer(
-                                    flex: 2,
-                                  ),
+                              SizedBox(
+                                width: 55.w,
+                              ),
                                 leaderboard.leaderboard.value[index].id == Get.find<LoggedUserController>().loggedUser.value.currentuserid ? Container(
                                   height: 33.h,
                                   width: 33.h,
@@ -228,9 +244,10 @@ class _LeaderboardState extends State<Leaderboard> {
                                             child: SvgPicture.asset(
                                                 "assets/icon/vibe.svg"))),
                                   ),
-                                  const Spacer(
-                                    flex: 2,
-                                  )
+                                   Container(
+                                     color: Colors.green,
+                                    width: 5.w,
+                                  ),
                                 ],
                               ),
                               height: 74.h,
@@ -255,9 +272,7 @@ class _LeaderboardState extends State<Leaderboard> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 13.h,
-                    )
+                   
                   ],
                 ),
               ),

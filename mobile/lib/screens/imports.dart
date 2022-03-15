@@ -1,7 +1,7 @@
 //---------------------------Screens----------------------------------
 
 export 'package:mobile/screens/Post/camera_screen.dart';
-export 'package:mobile/screens/Discover/discover_screen.dart';
+
 export 'package:mobile/screens/Discover/user_post_screens.dart';
 export 'package:mobile/screens/Post/gallery_image.dart';
 export 'package:mobile/screens/Home/home_screen.dart';
@@ -9,7 +9,7 @@ export 'package:mobile/screens/Leaderboard/leaderboard_screen.dart';
 export 'package:mobile/screens/Home/vibing_screen.dart';
 export 'package:mobile/screens/Discover/all_discover_Screen.dart';
 export 'package:mobile/screens/Discover/photosScreen.dart';
-export 'package:mobile/screens/Discover/textScreen.dart';
+
 export 'package:mobile/screens/Discover/videoScreen.dart';
 export 'package:mobile/screens/Home/curated_screen.dart';
 

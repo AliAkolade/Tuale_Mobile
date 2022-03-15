@@ -70,7 +70,7 @@ class ProfileController extends GetxController {
         profileInfo.starredPosts = user.starredPosts;
         profileInfo.bio = user.bio;
         profileInfo.location = user.location;
-
+        profileInfo.isVerified = user.isVerified;
       });
       ;
       // print(profileInfo.value.starredPosts);
