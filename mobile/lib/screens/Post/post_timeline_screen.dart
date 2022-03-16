@@ -145,7 +145,15 @@ class _PostTimelineState extends State<PostTimeline> {
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            //Navigator.pop(context);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NavBar(
+                    index: 0,
+                    initIndex:1,
+                  )),
+            );
           },
           child: const Icon(
             Icons.arrow_back_rounded,

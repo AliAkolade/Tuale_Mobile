@@ -75,7 +75,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                               ? Container()
                               : GestureDetector(
                                   onTap: () {
-                                    Navigator.pop(context);
+                                    Navigator.pop(context,200);
                                   },
                                   child: const Icon(
                                     Icons.arrow_back_rounded,

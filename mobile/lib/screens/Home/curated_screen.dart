@@ -431,18 +431,22 @@ Column userInfoWidget(BuildContext context, int index, List posts) {
           child: Column(
             children: [
               GestureDetector(
-                onTap: () {
+                onTap: () async {
                   // Get.put(ProfileController(
                   //   controllerusername: posts[index].username.toString()
                   // ))
                   //     .getProfileInfo(posts[index].username.toString());
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  final res = await Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    currentVP.pause();
                     return userProfile(
                       isUser: false,
                       username: posts[index].username.toString(),
                       //tag: "yourprofile",
                     );
                   }));
+                  if(res==200) {
+                    currentVP.play();
+                  }
                 },
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,

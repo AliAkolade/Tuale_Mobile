@@ -256,7 +256,7 @@ Future cameraSelect(text) async {
                         if (response != null) {
                           File fileContent = response[0];
                           String filePath = response[1];
-                          Navigator.push(
+                          Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
                               builder: (BuildContext context) {
@@ -267,6 +267,7 @@ Future cameraSelect(text) async {
                                 );
                               },
                             ),
+                            (Route<dynamic> route) => false,
                           );
                         } else {
                           debugPrint("User cancel uploading");
@@ -297,7 +298,7 @@ Future cameraSelect(text) async {
                         if (response != null) {
                           File fileContent = response[0];
                           String filePath = response[1];
-                          Navigator.push(
+                          Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
                               builder: (BuildContext context) {
@@ -308,6 +309,7 @@ Future cameraSelect(text) async {
                                 );
                               },
                             ),
+                            (Route<dynamic> route) => false,
                           );
                         } else {
                           debugPrint("User cancel uploading");
