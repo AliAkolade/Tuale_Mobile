@@ -20,6 +20,8 @@ import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/widgets/verifiedTag.dart';
 
+import 'controllers/getOnePostController.dart';
+
 class Curated extends StatefulWidget {
   GlobalKey<_CuratedState> globalCuratedState = GlobalKey<_CuratedState>();
 
@@ -52,7 +54,7 @@ class _CuratedState extends State<Curated> {
     super.dispose();
   }
 
-CuratedPostController control = CuratedPostController();
+  CuratedPostController control = CuratedPostController();
 
   @override
   void initState() {
@@ -174,11 +176,10 @@ CuratedPostController control = CuratedPostController();
                                                         .value,
                                                     index: index);
                                               }));
-                                              if (result == 200) {
-                                              }
-                                                currentVP != null
-                                                    ? currentVP.play()
-                                                    : print('false');
+                                              if (result == 200) {}
+                                              currentVP != null
+                                                  ? currentVP.play()
+                                                  : print('false');
                                             },
                                             child: Hero(
                                               tag: "hero$index",
@@ -385,7 +386,6 @@ Widget _commentsectionModal(
                       ? Get.find<VibedPostController>().vibePost.value
                       : Get.find<CuratedPostController>().curatedPost.value,
                   index: index,
-
                 ),
               ));
     },
@@ -465,42 +465,49 @@ Column userInfoWidget(BuildContext context, int index, List posts) {
                     const Spacer(
                       flex: 1,
                     ),
-                    Text(
-                      "@" + posts[index].username.toString(),
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          height: 1),
+                    SizedBox(
+                      height: 25.h,
+                      width: 165.w,
+                      child: Text(
+                        "@" + posts[index].username.toString(),
+                        style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            color: Colors.white,
+                            fontFamily: 'Poppins',
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            height: 1),
+                      ),
                     ),
-                    const Spacer(
-                      flex: 1,
+                    const SizedBox(
+                      width: 4,
                     ),
-                    posts[index].isVerified
-                        ? verifiedTag()
-                        : Container(),
+                    posts[index].isVerified ? verifiedTag() : Container(),
                     const Spacer(
                       flex: 10,
                     ),
                   ],
                 ),
               ),
-             const SizedBox(
+              const SizedBox(
                 height: 8,
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    posts[index].postText.toString(),
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        // fontFamily: 'Poppins',
-                        fontSize: 14,
-                        height: 1),
+                  SizedBox(
+                    height: 80.h,
+                    width: 230.w,
+                    child: Text(
+                      posts[index].postText.toString(),
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          // fontFamily: 'Poppins',
+                          fontSize: 14,
+                          height: 1),
+                    ),
                   ),
                   /*Icon(
                       Icons.volume_down_rounded,
@@ -514,8 +521,6 @@ Column userInfoWidget(BuildContext context, int index, List posts) {
     ],
   );
 }
-
-
 
 //widget containing tuale, like, comments, etc
 class actionBar extends StatefulWidget {
@@ -1026,8 +1031,10 @@ class _commentModalState extends State<commentModal> {
                                         ),
                                       ),
                                       widget.posts![widget.index!]
-                                                .comment[commentIndex]['user']
-                                            ['verified'] ? verifiedTag() : Container()
+                                                  .comment[commentIndex]['user']
+                                              ['verified']
+                                          ? verifiedTag()
+                                          : Container()
                                     ],
                                   ),
                                   FittedBox(
@@ -1090,12 +1097,22 @@ class _commentModalState extends State<commentModal> {
                       )),
                   GestureDetector(
                     onTap: () async {
-                      List result = await Api().commentOnAPost(
-                          widget.posts![widget.index!].id, myController.text);
                       _focusNode.unfocus();
+                      String comment = myController.text;
                       myController.clear();
+
+                      List result = await Api().commentOnAPost(
+                          widget.posts![widget.index!].id, comment);
+
                       if (result[0]) {
-                        Get.find<CuratedPostController>().getCuratedPosts();
+                        if (Get.isRegistered<CuratedPostController>()) {
+                          Get.find<CuratedPostController>().getCuratedPosts();
+                        } else if (Get.isRegistered<VibedPostController>()) {
+                          Get.find<VibedPostController>().getVibedPosts();
+                        } else if (Get.isRegistered<OnePostController>()) {
+                          Get.find<OnePostController>()
+                              .getOnePost(widget.posts![widget.index!].id);
+                        }
                       } else {
                         Get.snackbar("Error", result[1],
                             duration: Duration(seconds: 4),
