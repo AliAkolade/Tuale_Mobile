@@ -94,8 +94,8 @@ class _LeaderboardState extends State<Leaderboard> {
                               fontSize: 17.sp,
                               height: 1),
                         ),
-                       const Spacer(
-                          flex: 4,
+                        const Spacer(
+                          flex: 6,
                         ),
                         Text(
                           "Tuales Given",
@@ -105,25 +105,24 @@ class _LeaderboardState extends State<Leaderboard> {
                               fontSize: 16.sp,
                               height: 1),
                         ),
-                       const Spacer(
-                          flex: 2,
+                        const Spacer(
+                          flex: 1,
                         )
                       ],
                     ),
-                Container(
+                    Container(
                       child: Obx(
-
                         () => ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: leaderboard.leaderboard.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Container(
+                              padding: EdgeInsets.only(left: 10, right: 10),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                
                                   SizedBox(
                                     height: 20.h,
                                     width: 20.h,
@@ -137,8 +136,8 @@ class _LeaderboardState extends State<Leaderboard> {
                                     ),
                                   ),
                                   Container(
-                                    color:  Colors.black,
-                                    width: 15.w,
+                                    // color:  Colors.black,
+                                    width: 12.w,
                                   ),
                                   Icon(
                                     TualeIcons.usericon,
@@ -146,7 +145,7 @@ class _LeaderboardState extends State<Leaderboard> {
                                     size: 45.sp,
                                   ),
                                   Container(
-                                    color: Colors.blue,
+                                    //  color: Colors.blue,
                                     width: 5,
                                   ),
                                   Column(
@@ -156,16 +155,24 @@ class _LeaderboardState extends State<Leaderboard> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            leaderboard
-                                                .leaderboard.value[index].name,
-                                            style: TextStyle(
-                                              color: tualeBlueDark,
-                                              fontFamily: 'Poppins',
-                                              fontSize: 17.sp,
+                                          SizedBox(
+                                            width: 170.w,
+                                            child: Text(
+                                              leaderboard.leaderboard
+                                                  .value[index].name,
+                                              style: TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                color: tualeBlueDark,
+                                                fontFamily: 'Poppins',
+                                                fontSize: 17.sp,
+                                              ),
                                             ),
                                           ),
-                                         leaderboard.leaderboard.value[index].isVerified ? verifiedTag() :Container()
+                                          SizedBox(width: 3.w),
+                                          leaderboard.leaderboard.value[index]
+                                                  .isVerified
+                                              ? verifiedTag()
+                                              : Container()
                                         ],
                                       ),
                                       Text(
@@ -181,9 +188,9 @@ class _LeaderboardState extends State<Leaderboard> {
                                       )
                                     ],
                                   ),
-                                 Spacer(
-                                   flex: 2,
-                                 ),
+                                  Spacer(
+                                    flex: 2,
+                                  ),
                                   SizedBox(
                                     height: 26.h,
                                     width: 26.h,
@@ -198,55 +205,67 @@ class _LeaderboardState extends State<Leaderboard> {
                                       ),
                                     ),
                                   ),
-                              SizedBox(
-                                width: 55.w,
-                              ),
-                                leaderboard.leaderboard.value[index].id == Get.find<LoggedUserController>().loggedUser.value.currentuserid ? Container(
-                                  height: 33.h,
-                                  width: 33.h,
-                                ) : AnimatedCrossFade(
-                                    duration: const Duration(milliseconds: 100),
-                                    crossFadeState: isFollowing(leaderboard
-                                            .leaderboard.value[index].id)
-                                        ? CrossFadeState.showSecond
-                                        : CrossFadeState.showFirst,
-                                    secondChild: GestureDetector(
-                                      onTap: () {
-                                        Api()
-                                            .unvibeWithUser(
-                                                leaderboard.leaderboard
-                                                    .value[index].id,
-                                                leaderboard.leaderboard
-                                                    .value[index].username)
-                                            .then((value) =>
-                                                leaderboard.getLeaderBoard());
-                                      },
-                                      child: Container(
+                                  SizedBox(
+                                    width: 15.w,
+                                  ),
+                                  leaderboard.leaderboard.value[index].id ==
+                                          Get.find<LoggedUserController>()
+                                              .loggedUser
+                                              .value
+                                              .currentuserid
+                                      ? Container(
                                           height: 33.h,
                                           width: 33.h,
-                                          child: SvgPicture.asset(
-                                              "assets/icon/vibingUser.svg")),
-                                    ),
-                                    firstChild: GestureDetector(
-                                        onTap: () {
-                                          Api()
-                                              .vibeWithUser(
+                                        )
+                                      : AnimatedCrossFade(
+                                          duration:
+                                              const Duration(milliseconds: 100),
+                                          crossFadeState: isFollowing(
                                                   leaderboard.leaderboard
-                                                      .value[index].id,
-                                                  leaderboard.leaderboard
-                                                      .value[index].username)
-                                              .then((value) =>
-                                                  leaderboard.getLeaderBoard());
-                                        },
-                                        child: Container(
-                                            height: 33.h,
-                                            width: 33.h,
-                                            child: SvgPicture.asset(
-                                                "assets/icon/vibe.svg"))),
-                                  ),
-                                   Container(
-                                     color: Colors.green,
-                                    width: 5.w,
+                                                      .value[index].id)
+                                              ? CrossFadeState.showSecond
+                                              : CrossFadeState.showFirst,
+                                          secondChild: GestureDetector(
+                                            onTap: () {
+                                              Api()
+                                                  .unvibeWithUser(
+                                                      leaderboard.leaderboard
+                                                          .value[index].id,
+                                                      leaderboard
+                                                          .leaderboard
+                                                          .value[index]
+                                                          .username)
+                                                  .then((value) => leaderboard
+                                                      .getLeaderBoard());
+                                            },
+                                            child: Container(
+                                                height: 33.h,
+                                                width: 33.h,
+                                                child: SvgPicture.asset(
+                                                    "assets/icon/vibingUser.svg")),
+                                          ),
+                                          firstChild: GestureDetector(
+                                              onTap: () {
+                                                Api()
+                                                    .vibeWithUser(
+                                                        leaderboard.leaderboard
+                                                            .value[index].id,
+                                                        leaderboard
+                                                            .leaderboard
+                                                            .value[index]
+                                                            .username)
+                                                    .then((value) => leaderboard
+                                                        .getLeaderBoard());
+                                              },
+                                              child: Container(
+                                                  height: 33.h,
+                                                  width: 33.h,
+                                                  child: SvgPicture.asset(
+                                                      "assets/icon/vibe.svg"))),
+                                        ),
+                                  Container(
+                                    // color: Colors.green,
+                                    width: 10.w,
                                   ),
                                 ],
                               ),
@@ -272,7 +291,6 @@ class _LeaderboardState extends State<Leaderboard> {
                         ),
                       ),
                     ),
-                   
                   ],
                 ),
               ),

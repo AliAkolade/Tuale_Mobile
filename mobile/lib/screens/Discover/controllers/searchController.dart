@@ -5,12 +5,12 @@ import 'package:mobile/screens/imports.dart';
 
 class SearchController extends GetxController {
   var searchresult = <SearchResultModel>[];
-  var isLoading = true.obs;
+  var isLoading = false.obs;
 
   Api _api = Api();
 
   void isEmpty() {
-    searchresult = [];
+    searchresult.clear();
     print(searchresult);
     update();
   }
@@ -19,6 +19,7 @@ class SearchController extends GetxController {
     try {
       isLoading.value = true;
       searchresult = await _api.getSearchResults(searchParam);
+      update();
     } catch (e) {
     } finally {
       isLoading.value = false;

@@ -98,6 +98,7 @@ class _NotificationsState extends State<Notifications> {
                           child: newNotification(
                               username: notifications[index].username,
                               postUrl: notifications[index].likedPost,
+                               mediaType:   notifications[index].mediaType,
                               body: 'gave you a tuale',
                               id: notifications[index].id),
                         )
@@ -121,6 +122,7 @@ class _NotificationsState extends State<Notifications> {
                               child: newNotification(
                                   username: notifications[index].username,
                                   postUrl: notifications[index].likedPost,
+                                   mediaType:   notifications[index].mediaType,
                                   body: 'starred one of your post',
                                   id: notifications[index].id),
                             )
@@ -148,6 +150,7 @@ class _NotificationsState extends State<Notifications> {
                                       username: notifications[index].username,
                                       postUrl: notifications[index].likedPost,
                                       body: 'commented on a post',
+                                      mediaType:   notifications[index].mediaType,
                                       id: notifications[index].id),
                                 )
                               : notifications[index].type == 'newFan'
@@ -283,8 +286,9 @@ class newNotification extends StatelessWidget {
   String? postUrl;
   String? body;
   String? id;
+  String? mediaType;
 
-  newNotification({this.username, this.postUrl, this.body, this.id});
+  newNotification({this.username, this.postUrl, this.body, this.id, this.mediaType,});
 
   @override
   Widget build(BuildContext context) {
@@ -325,7 +329,10 @@ class newNotification extends StatelessWidget {
             ),
           ),
           Spacer(),
-          Container(
+         mediaType != 'image' ?Container(
+           height: 40.h,
+           width: 40.w,
+         )  : Container(
             height: 40.h,
             width: 40.h,
             decoration: BoxDecoration(
