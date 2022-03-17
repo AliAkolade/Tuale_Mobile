@@ -826,10 +826,12 @@ class _commentModalState extends State<_commentModal> {
                       )),
                   GestureDetector(
                     onTap: () async {
+                       _focusNode.unfocus();
+                      String comment = myController.text;
+                               myController.clear();
                       List result = await Api().commentOnAPost(
-                          widget.posts![widget.index!].id, myController.text);
-                      _focusNode.unfocus();
-                      myController.clear();
+                          widget.posts![widget.index!].id, comment);
+                     
                       if (result[0]) {
                         Get.find<VibedPostController>().getVibedPosts();
                       } else {

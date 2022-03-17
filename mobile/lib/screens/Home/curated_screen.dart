@@ -20,6 +20,8 @@ import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/widgets/verifiedTag.dart';
 
+import 'controllers/getOnePostController.dart';
+
 class Curated extends StatefulWidget {
   GlobalKey<_CuratedState> globalCuratedState = GlobalKey<_CuratedState>();
 
@@ -1091,12 +1093,22 @@ class _commentModalState extends State<commentModal> {
                       )),
                   GestureDetector(
                     onTap: () async {
-                      List result = await Api().commentOnAPost(
-                          widget.posts![widget.index!].id, myController.text);
                       _focusNode.unfocus();
+                      String comment = myController.text;
                       myController.clear();
+
+                      List result = await Api().commentOnAPost(
+                          widget.posts![widget.index!].id, comment);
+
                       if (result[0]) {
-                        Get.find<CuratedPostController>().getCuratedPosts();
+                        if (Get.isRegistered<CuratedPostController>()) {
+                          Get.find<CuratedPostController>().getCuratedPosts();
+                        } else if (Get.isRegistered<VibedPostController>()) {
+                          Get.find<VibedPostController>().getVibedPosts();
+                        } else if (Get.isRegistered<OnePostController>()) {
+                          Get.find<OnePostController>()
+                              .getOnePost(widget.posts![widget.index!].id);
+                        }
                       } else {
                         Get.snackbar("Error", result[1],
                             duration: Duration(seconds: 4),

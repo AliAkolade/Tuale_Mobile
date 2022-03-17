@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:get/get.dart';
 import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Home/video_player_screen.dart';
 import 'package:mobile/screens/Profile/controllers/userPostsController.dart';
 import 'package:mobile/screens/imports.dart';
+import 'package:mobile/screens/widgets/verifiedTag.dart';
 
 class discoverScreen extends StatefulWidget {
   int? index;
@@ -89,7 +92,7 @@ class _discoverScreenState extends State<discoverScreen> {
                                         height: 645.h,
                                         width: 400.w,
                                         child: VideoPlayerScreen(
-                                          isVideoPaused: true,
+                                            isVideoPaused: true,
                                             enablePlayBtn: true,
                                             videoUrl:
                                                 Get.find<UserPostsController>()
@@ -98,13 +101,11 @@ class _discoverScreenState extends State<discoverScreen> {
                                                     .postMedia,
                                             cbController:
                                                 (VideoPlayerController vc) {
-                                                  
                                               currentVideoPlayer = vc;
                                               debugPrint("-here vc-");
                                             }))),
                               ),
                               GestureDetector(
-                              
                                 onTap: () {
                                   // Navigator.push(context,
                                   //     MaterialPageRoute(
@@ -125,15 +126,13 @@ class _discoverScreenState extends State<discoverScreen> {
                                       children: [
                                         Align(
                                           widthFactor: 5,
-                                          alignment:
-                                              const Alignment(1.08, 0.6),
+                                          alignment: const Alignment(1.08, 0.6),
                                           child: Obx(
                                             () => _actionBar(
-                                                mediaType:
-                                                    userpostcontroller
-                                                        .posts
-                                                        .value[index]
-                                                        .mediaType,
+                                                mediaType: userpostcontroller
+                                                    .posts
+                                                    .value[index]
+                                                    .mediaType,
                                                 username: widget.username,
                                                 index: index,
                                                 posts: userpostcontroller
@@ -142,22 +141,17 @@ class _discoverScreenState extends State<discoverScreen> {
                                         ),
 
                                         //user post info
-                                        Obx(() => userInfoWidget(
-                                            context,
-                                            index,
+                                        Obx(() => userInfoWidget(context, index,
                                             userpostcontroller.posts.value))
                                       ],
                                     ),
                                     height: 645.h,
                                     width: 400.w,
                                     decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(15),
+                                        borderRadius: BorderRadius.circular(15),
                                         gradient: const LinearGradient(
-                                          begin: AlignmentDirectional(
-                                              0.5, 0.5),
-                                          end: AlignmentDirectional(
-                                              0.5, 1.4),
+                                          begin: AlignmentDirectional(0.5, 0.5),
+                                          end: AlignmentDirectional(0.5, 1.4),
                                           colors: [
                                             Colors.transparent,
                                             Colors.black87
@@ -579,6 +573,7 @@ class __actionBarState extends State<_actionBar> {
                 _commentsectionModal(
                   context,
                   widget.index!,
+                  widget.username!
                 ),
                 Container(
                   decoration: const BoxDecoration(boxShadow: [
@@ -604,6 +599,7 @@ class __actionBarState extends State<_actionBar> {
 Widget _commentsectionModal(
   BuildContext context,
   int index,
+  String username
 ) {
   return GestureDetector(
     onTap: () {
@@ -617,9 +613,10 @@ Widget _commentsectionModal(
           enableDrag: true,
           context: context,
           builder: (_) => Obx(
-                () => commentModal(
+                () => _commentModal(
                   posts: Get.find<UserPostsController>().posts.value,
                   index: index,
+                  username: username
                 ),
               ));
     },
@@ -648,4 +645,207 @@ Widget _commentsectionModal(
       ),
     ),
   );
+}
+
+//widget containing comment section
+class _commentModal extends StatefulWidget {
+  List? posts;
+  int? index;
+  String? username;
+
+  _commentModal({
+    this.posts,
+    this.index,
+    this.username
+  });
+
+  @override
+  State<_commentModal> createState() => _commentModalState();
+}
+
+class _commentModalState extends State<_commentModal> {
+  final myController = TextEditingController();
+  late FocusNode _focusNode;
+  @override
+  void dispose() {
+    super.dispose();
+    _focusNode.dispose();
+    // Clean up the controller when the widget is disposed.
+    myController.dispose();
+  }
+
+  @override
+  void initState() {
+    _focusNode = FocusNode();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.55,
+        padding: EdgeInsets.only(
+          left: 15,
+          right: 15,
+          top: 15,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text("Comments"),
+            SizedBox(
+              height: 370.h,
+              child: widget.posts![widget.index!].comment.isEmpty
+                  ? Center(child: Text('no comment'))
+                  : ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: widget.posts![widget.index!].comment.length,
+                      itemBuilder: (BuildContext context, int commentIndex) {
+                        return Container(
+                          //  color: Colors.blue,
+                          margin: EdgeInsetsDirectional.only(top: 5),
+                          // color: Colors.black,
+                          height: 70.h,
+                          width: ScreenUtil().screenWidth,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 35.h,
+                                width: 35.h,
+                                child: CircleAvatar(
+                                  backgroundImage: NetworkImage(widget
+                                          .posts![widget.index!]
+                                          .comment[commentIndex]['user']
+                                      ['avatar']['url']),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        widget.posts![widget.index!]
+                                                .comment[commentIndex]['user']
+                                            ['username'],
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'Poppins',
+                                          fontSize: 13.sp,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      widget.posts![widget.index!]
+                                                  .comment[commentIndex]['user']
+                                              ['verified']
+                                          ? verifiedTag()
+                                          : Container()
+                                    ],
+                                  ),
+                                  FittedBox(
+                                    child: SizedBox(
+                                      height: 50.h,
+                                      width: 250.w,
+                                      child: Text(
+                                        widget.posts![widget.index!]
+                                            .comment[commentIndex]['text'],
+                                        maxLines: 6,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 15.sp),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+            ),
+            Container(
+              height: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    height: 45.h,
+                    width: 45.h,
+                    child: CircleAvatar(
+                      backgroundImage:
+                          AssetImage('assets/images/demo_profile.png'),
+                    ),
+                  ),
+                  SizedBox(
+                      width: 280.w,
+                      height: 50.h,
+                      child: TextField(
+                        focusNode: _focusNode,
+                        controller: myController,
+                        maxLines: 7,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey.shade50,
+                          contentPadding: const EdgeInsets.fromLTRB(5, 5, 5, 2),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                style: BorderStyle.solid,
+                                color: Colors.grey.shade300),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                style: BorderStyle.solid, color: Colors.grey),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                        ),
+                      )),
+                  GestureDetector(
+                    onTap: () async {
+                      _focusNode.unfocus();
+                      String comment = myController.text;
+                      myController.clear();
+
+                      List result = await Api().commentOnAPost(
+                          widget.posts![widget.index!].id, comment);
+
+                      if (result[0]) {
+                        Get.find<UserPostsController>()
+                            .getProfilePosts(widget.username!);
+                      } else {
+                        Get.snackbar("Error", result[1],
+                            duration: Duration(seconds: 4),
+                            isDismissible: true,
+                            snackPosition: SnackPosition.BOTTOM,
+                            colorText: Colors.black,
+                            backgroundColor: Colors.white);
+                      }
+                    },
+                    child: SizedBox(
+                      height: 43.h,
+                      width: 43.h,
+                      child: CircleAvatar(
+                          backgroundColor: tualeBlueDark,
+                          child: Transform.rotate(
+                            angle: -pi / 7,
+                            child: const Icon(
+                              Icons.send,
+                              color: Colors.white,
+                            ),
+                          )),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }

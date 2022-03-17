@@ -98,7 +98,7 @@ class _NotificationsState extends State<Notifications> {
                           child: newNotification(
                               username: notifications[index].username,
                               postUrl: notifications[index].likedPost,
-                               mediaType:   notifications[index].mediaType,
+                              mediaType: notifications[index].mediaType,
                               body: 'gave you a tuale',
                               id: notifications[index].id),
                         )
@@ -122,7 +122,7 @@ class _NotificationsState extends State<Notifications> {
                               child: newNotification(
                                   username: notifications[index].username,
                                   postUrl: notifications[index].likedPost,
-                                   mediaType:   notifications[index].mediaType,
+                                  mediaType: notifications[index].mediaType,
                                   body: 'starred one of your post',
                                   id: notifications[index].id),
                             )
@@ -150,7 +150,7 @@ class _NotificationsState extends State<Notifications> {
                                       username: notifications[index].username,
                                       postUrl: notifications[index].likedPost,
                                       body: 'commented on a post',
-                                      mediaType:   notifications[index].mediaType,
+                                      mediaType: notifications[index].mediaType,
                                       id: notifications[index].id),
                                 )
                               : notifications[index].type == 'newFan'
@@ -226,7 +226,8 @@ class newFan extends StatelessWidget {
                 children: <TextSpan>[
                   TextSpan(
                       text: 'started vibing with you',
-                      style: TextStyle(color: Colors.black.withOpacity(0.8))),
+                      style:
+                          TextStyle(color: Colors.black.withOpacity(0.8))),
                 ],
               ),
             ),
@@ -266,8 +267,8 @@ class newFan extends StatelessWidget {
                           padding: EdgeInsets.only(
                             bottom: 4,
                           ),
-                          height: 20,
-                          width: 20,
+                          height: 20.w,
+                          width: 20.w,
                           child: isFollowing()
                               ? SvgPicture.asset("assets/icon/vibingUser.svg")
                               : SvgPicture.asset("assets/icon/vibe.svg"))
@@ -288,7 +289,13 @@ class newNotification extends StatelessWidget {
   String? id;
   String? mediaType;
 
-  newNotification({this.username, this.postUrl, this.body, this.id, this.mediaType,});
+  newNotification({
+    this.username,
+    this.postUrl,
+    this.body,
+    this.id,
+    this.mediaType,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -297,51 +304,58 @@ class newNotification extends StatelessWidget {
       //  color: Colors.black,
       height: 50,
       width: MediaQuery.of(context).size.width,
-      child: Row(
-        children: [
-          RichText(
-            text: TextSpan(
-              text: '@' + username! + " ",
-              style: TextStyle(
-                  fontSize: 15.sp,
-                  color: tualeBlueDark.withOpacity(0.7),
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.normal),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return userProfile(
-                      isUser: false,
-                      username: username,
-                      // tag: "notification",
-                    );
-                  }));
-                },
-              children: <TextSpan>[
-                TextSpan(
-                    text: body!,
-                    style: TextStyle(
-                        fontSize: 15.sp,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black.withOpacity(0.8))),
-              ],
+      child: FittedBox(
+        fit: BoxFit.fitWidth,
+        child: Row(
+          children: [
+            RichText(
+              text: TextSpan(
+                text: '@' + username! + " ",
+                style: TextStyle(
+                    fontSize: 15.sp,
+                    color: tualeBlueDark.withOpacity(0.7),
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.normal),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return userProfile(
+                        isUser: false,
+                        username: username,
+                        // tag: "notification",
+                      );
+                    }));
+                  },
+                children: <TextSpan>[
+                  TextSpan(
+                      text: body!,
+                      style: TextStyle(
+                          fontSize: 15.sp,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black.withOpacity(0.8))),
+                ],
+              ),
             ),
-          ),
-          Spacer(),
-         mediaType != 'image' ?Container(
-           height: 40.h,
-           width: 40.w,
-         )  : Container(
-            height: 40.h,
-            width: 40.h,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    fit: BoxFit.cover, image: NetworkImage(postUrl!)),
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(1)),
-          )
-        ],
+            Spacer(),
+            mediaType != 'image'
+                ? Container(
+                    color: Colors.black,
+                    height: 40.h,
+                    width: 40.w,
+                  )
+                : Container(
+                    height: 40.h,
+                    width: 40.h,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover, image: NetworkImage(postUrl!)),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(1)),
+                  )
+          ],
+        ),
       ),
     );
   }
