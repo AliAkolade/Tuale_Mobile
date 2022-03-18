@@ -75,8 +75,6 @@ class _EditProfileState extends State<EditProfile> {
 
 
   updateProfilApi(String publicId, String url) async{
-
-    print("Fazbiooo : ${bio.text}");
     var result = await Api().updateUserProfil(
         username.text,
         fullname.text,

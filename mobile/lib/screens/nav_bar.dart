@@ -162,7 +162,7 @@ class _NavBarState extends State<NavBar> {
                   color: tualeBlueDark,
                   size: 40,
                 ),
-                label: 'Post',
+                label: '',
                 activeIcon: Icon(
                   Icons.add_circle,
                   color: tualeOrange,

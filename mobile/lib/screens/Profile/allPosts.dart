@@ -3,6 +3,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:mobile/screens/Home/one_post_page.dart';
 import 'package:mobile/screens/Profile/controllers/userPostsController.dart';
 import 'package:mobile/screens/imports.dart';
 
@@ -79,10 +80,13 @@ class _AllPostsState extends State<AllPosts> {
                                     context,
                                     PageTransition(
                                         type: PageTransitionType.topToBottom,
-                                        child: discoverScreen(
-                                          username: widget.username,
-                                       
-                                          index: index )));
+                                        child: OnePost(
+                                            postMedia: text.posts.value[index].postMedia,
+                                            mediaType: text.posts.value[index].mediaType,
+                                            id: text.posts.value[index].id,
+                                            pageType: false,
+                                        )
+                                    ));
                               },
                               child:text.posts[index].mediaType != 'image' ?
                               Container(

@@ -16,7 +16,8 @@ class OnePost extends StatefulWidget {
   String? id;
   String? mediaType;
   String? postMedia;
-  OnePost({this.id, this.mediaType, this.postMedia});
+  bool pageType;
+  OnePost({this.id, this.mediaType, this.postMedia, this.pageType=true});
 
   @override
   _OnePostState createState() => _OnePostState();
@@ -74,11 +75,13 @@ class _OnePostState extends State<OnePost> {
                               child: GestureDetector(
                                 onTap: () {
                                   //Navigator.pop(context);
+                                  widget.pageType ?
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => const Home()),
-                                  );
+                                  ) :
+                                  Navigator.pop(context,);
                                 },
                                 child: Icon(
                                   Icons.fullscreen_exit_rounded,
