@@ -38,7 +38,7 @@ class _EditProfileState extends State<EditProfile> {
       currentUsr.currentuserName! : "";
       username.text = currentUsr.currentUserUsername! != "" ?
       currentUsr.currentUserUsername!  : "";
-      bio.text = currentUsr.currentuserBio!;
+      bio.text = currentUsr.currentuserBio ?? "";
       profilImgProfilId = currentUsr.currentuserAvatarPublicId!;
       profilImg = currentUsr.currentuserAvatarUrl! != "" ?
       currentUsr.currentuserAvatarUrl! : "https://i.pinimg.com/originals/7a/e7/06/7ae706d977ccd25285c9fe7f424e247d.jpg";
@@ -76,10 +76,11 @@ class _EditProfileState extends State<EditProfile> {
 
   updateProfilApi(String publicId, String url) async{
 
+    print("Fazbiooo : ${bio.text}");
     var result = await Api().updateUserProfil(
         username.text,
         fullname.text,
-        bio.text,
+        bio.text.isNotEmpty ? bio.text : " ",
         publicId,
         url
     );

@@ -84,7 +84,8 @@ class _AllPostsState extends State<AllPosts> {
                                        
                                           index: index )));
                               },
-                              child:text.posts[index].mediaType != 'image' ? Container(
+                              child:text.posts[index].mediaType != 'image' ?
+                              Container(
                                    margin: EdgeInsets.fromLTRB(2, 2, 2, 2),
                                 height: 100.h,
                                 width: 100.h,
@@ -92,7 +93,8 @@ class _AllPostsState extends State<AllPosts> {
                                 child: Icon(Icons.play_arrow_outlined,
                                 color: Colors.white
                                 )
-                              )  :Container(
+                              )  :
+                              Container(
                                 child: Container(
                                   height: 100.h,
                                   width: 100.h,

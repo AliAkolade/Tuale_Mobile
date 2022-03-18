@@ -29,7 +29,7 @@ class _discoverScreenState extends State<discoverScreen> {
     Future scrollToIndex(index) async {
       itemScrollControll.jumpTo(
         index: index,
-        alignment: 0.1,
+        alignment: 0,
       );
     }
 
@@ -92,21 +92,25 @@ class _discoverScreenState extends State<discoverScreen> {
                                         height: 645.h,
                                         width: 400.w,
                                         child: VideoPlayerScreen(
-                                            isVideoPaused: true,
+                                            initVideoPlay: false,
                                             enablePlayBtn: true,
                                             videoUrl:
                                                 Get.find<UserPostsController>()
                                                     .posts
                                                     .value[index]
                                                     .postMedia,
-                                            cbController:
-                                                (VideoPlayerController vc) {
+                                            cbController: (VideoPlayerController vc) {
                                               currentVideoPlayer = vc;
-                                              debugPrint("-here vc-");
+                                              debugPrint("unique key : ${Get.find<UserPostsController>()
+                                                  .posts
+                                                  .value[index]
+                                                  .postMedia}");
                                             }))),
                               ),
                               GestureDetector(
                                 onTap: () {
+                                  debugPrint("yes Fabio click");
+                                  currentVideoPlayer?.play();
                                   // Navigator.push(context,
                                   //     MaterialPageRoute(
                                   //         builder: (context) {
@@ -275,7 +279,8 @@ class _discoverScreenState extends State<discoverScreen> {
                                     ),
                                   ),
                                 ))
-                          ])));
+                          ]))
+                  );
                 },
               );
             }),
