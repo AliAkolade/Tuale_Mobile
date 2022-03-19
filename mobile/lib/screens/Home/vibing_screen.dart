@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:get/get.dart';
 import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Home/controllers/getVibedPost.dart';
@@ -825,7 +826,17 @@ class _commentModalState extends State<_commentModal> {
                         ),
                       )),
                   GestureDetector(
+                    
                     onTap: () async {
+                        Loader.show(context,
+                          isSafeAreaOverlay: false,
+                          isAppbarOverlay: true,
+                          isBottomBarOverlay: false,
+                          progressIndicator: SpinKitFadingCircle(
+                              color: tualeOrange.withOpacity(0.75)),
+                          themeData: Theme.of(context)
+                              .copyWith(accentColor: Colors.black38),
+                          overlayColor: const Color(0x99E8EAF6));
                        _focusNode.unfocus();
                       String comment = myController.text;
                                myController.clear();
@@ -833,8 +844,10 @@ class _commentModalState extends State<_commentModal> {
                           widget.posts![widget.index!].id, comment);
                      
                       if (result[0]) {
+                          Loader.hide();
                         Get.find<VibedPostController>().getVibedPosts();
                       } else {
+                          Loader.hide();
                         Get.snackbar("Error", result[1],
                             duration: Duration(seconds: 4),
                             isDismissible: true,

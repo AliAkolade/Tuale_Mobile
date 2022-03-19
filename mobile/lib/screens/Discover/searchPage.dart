@@ -31,8 +31,8 @@ class _SearchScreenState extends State<SearchScreen> {
               child: TextField(
                 onChanged: (value) {
                   if (value.isEmpty || value == "") {
-                    Get.find<SearchController>().isEmpty();
-                    // Get.find<SearchController>().getSearch(value);
+                    //Get.find<SearchController>().isEmpty();
+                     Get.find<SearchController>().getSearch('');
                     print('hey${value}');
                   } else {
                     Get.find<SearchController>().getSearch(value);
