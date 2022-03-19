@@ -427,16 +427,7 @@ class Api {
         ProfileController(controllerusername: username),
       ).getProfileInfo(username);
       Get.find<LoggedUserController>().getLoggeduser();
-      Get.put<ProfileController>(
-        ProfileController(
-            controllerusername: Get.find<LoggedUserController>()
-                .loggedUser
-                .value
-                .currentUserUsername!),
-      ).getProfileInfo(Get.find<LoggedUserController>()
-          .loggedUser
-          .value
-          .currentUserUsername!);
+     
     }
   }
 
@@ -456,16 +447,7 @@ class Api {
         ProfileController(controllerusername: username),
       ).getProfileInfo(username);
       Get.find<LoggedUserController>().getLoggeduser();
-      Get.put<ProfileController>(
-        ProfileController(
-            controllerusername: Get.find<LoggedUserController>()
-                .loggedUser
-                .value
-                .currentUserUsername!),
-      ).getProfileInfo(Get.find<LoggedUserController>()
-          .loggedUser
-          .value
-          .currentUserUsername!);
+     
     }
   }
 

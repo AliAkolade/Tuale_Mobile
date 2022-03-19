@@ -1,6 +1,7 @@
 //import 'dart:developer';
 import 'dart:math';
 
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
@@ -422,12 +423,16 @@ Widget _commentsectionModal(
   );
 }
 
-Column userInfoWidget(BuildContext context, int index, List posts) {
+Widget userInfoWidget(BuildContext context, int index, List posts) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
+      SizedBox(
+        height: 20.h,
+      ),
       Container(
-          margin: const EdgeInsets.fromLTRB(20, 20, 20, 58),
+          color: Colors.black,
+          margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
           child: Column(
             children: [
               GestureDetector(
@@ -436,7 +441,8 @@ Column userInfoWidget(BuildContext context, int index, List posts) {
                   //   controllerusername: posts[index].username.toString()
                   // ))
                   //     .getProfileInfo(posts[index].username.toString());
-                  final res = await Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  final res = await Navigator.push(context,
+                      MaterialPageRoute(builder: (context) {
                     currentVP.pause();
                     return userProfile(
                       isUser: false,
@@ -444,7 +450,7 @@ Column userInfoWidget(BuildContext context, int index, List posts) {
                       //tag: "yourprofile",
                     );
                   }));
-                  if(res==200) {
+                  if (res == 200) {
                     currentVP.play();
                   }
                 },
@@ -496,7 +502,7 @@ Column userInfoWidget(BuildContext context, int index, List posts) {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    height: 80.h,
+                    height: 100.h,
                     width: 230.w,
                     child: Text(
                       posts[index].postText.toString(),
@@ -635,7 +641,7 @@ class _actionBarState extends State<actionBar> {
                                             onTap: () async {
                                               if (Get.isRegistered<
                                                   CuratedPostController>()) {
-                                                //checks if mediatype is video
+                                                //checks if mediatype is video pauses it before going to the next page
                                                 Get.find<CuratedPostController>()
                                                             .curatedPost
                                                             .value[
@@ -1097,6 +1103,15 @@ class _commentModalState extends State<commentModal> {
                       )),
                   GestureDetector(
                     onTap: () async {
+                      Loader.show(context,
+                          isSafeAreaOverlay: false,
+                          isAppbarOverlay: true,
+                          isBottomBarOverlay: false,
+                          progressIndicator: SpinKitFadingCircle(
+                              color: tualeOrange.withOpacity(0.75)),
+                          themeData: Theme.of(context)
+                              .copyWith(accentColor: Colors.black38),
+                          overlayColor: const Color(0x99E8EAF6));
                       _focusNode.unfocus();
                       String comment = myController.text;
                       myController.clear();
@@ -1105,6 +1120,7 @@ class _commentModalState extends State<commentModal> {
                           widget.posts![widget.index!].id, comment);
 
                       if (result[0]) {
+                        Loader.hide();
                         if (Get.isRegistered<CuratedPostController>()) {
                           Get.find<CuratedPostController>().getCuratedPosts();
                         } else if (Get.isRegistered<VibedPostController>()) {
@@ -1114,6 +1130,7 @@ class _commentModalState extends State<commentModal> {
                               .getOnePost(widget.posts![widget.index!].id);
                         }
                       } else {
+                        Loader.hide();
                         Get.snackbar("Error", result[1],
                             duration: Duration(seconds: 4),
                             isDismissible: true,
