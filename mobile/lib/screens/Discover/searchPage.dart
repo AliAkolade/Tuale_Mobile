@@ -16,7 +16,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-//  SearchController searchController = Get.put(SearchController());
+  // SearchController searchControl = Get.put(SearchController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +32,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 onChanged: (value) {
                   if (value.isEmpty || value == "") {
                     //Get.find<SearchController>().isEmpty();
-                     Get.find<SearchController>().getSearch('');
+                    Get.find<SearchController>().getSearch('');
                     print('hey${value}');
                   } else {
                     Get.find<SearchController>().getSearch(value);
@@ -81,119 +81,126 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
       body: GetBuilder<SearchController>(
-          autoRemove: false,
+          //  autoRemove: false,
           init: SearchController(),
           builder: (searchController) {
             return searchController.isLoading.value
-                ? Center(
-                    child: SpinKitFadingCircle(
-                        color: tualeOrange.withOpacity(0.75)),
-                  )
-                : searchController.searchresult.isEmpty
-                    ? Container(
-                        child: Center(
-                          child: Text("No result Found"),
-                        ),
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.only(top: 0),
-                        child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            itemCount: searchController.searchresult.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      PageTransition(
-                                          type: PageTransitionType.topToBottom,
-                                          child: userProfile(
-                                            isUser: false,
-                                            username: searchController
-                                                .searchresult[index].usernames,
-                                            //tag: "search"
-                                          )));
-                                },
-                                child: Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: 60.h,
-                                        width: 60.h,
-                                        child: CircleAvatar(
-                                          backgroundColor: Colors.grey,
-                                          child: SizedBox(
-                                            height: 57.h,
-                                            width: 57.h,
+                ? SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75))
+                : searchController.onBegin.value
+                    ? Container()
+                    : searchController.searchresult.isEmpty
+                        ? Container(
+                            child: Center(
+                              child: Text("No result Found"),
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.only(top: 0),
+                            child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                itemCount: searchController.searchresult.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              type: PageTransitionType
+                                                  .topToBottom,
+                                              child: userProfile(
+                                                isUser: false,
+                                                username: searchController
+                                                    .searchresult[index]
+                                                    .usernames,
+                                                //tag: "search"
+                                              )));
+                                    },
+                                    child: Container(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            height: 60.h,
+                                            width: 60.h,
                                             child: CircleAvatar(
-                                              backgroundImage: Image.network(
-                                                      searchController
-                                                          .searchresult[index]
-                                                          .avatar!)
-                                                  .image,
+                                              backgroundColor: Colors.grey,
+                                              child: SizedBox(
+                                                height: 57.h,
+                                                width: 57.h,
+                                                child: CircleAvatar(
+                                                  backgroundImage:
+                                                      Image.network(
+                                                              searchController
+                                                                  .searchresult[
+                                                                      index]
+                                                                  .avatar!)
+                                                          .image,
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10.h,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          //  mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Row(
+                                          SizedBox(
+                                            width: 10.h,
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 5),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              //  mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
-                                                Text(
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                        searchController
+                                                            .searchresult[index]
+                                                            .name!,
+                                                        style: TextStyle(
+                                                            fontSize: 18.sp,
+                                                            fontFamily:
+                                                                'Poppins',
+                                                            color:
+                                                                tualeBlueDark)),
+                                                    SizedBox(width: 5.w),
                                                     searchController
-                                                        .searchresult[index]
-                                                        .name!,
-                                                    style: TextStyle(
-                                                        fontSize: 18.sp,
-                                                        fontFamily: 'Poppins',
-                                                        color: tualeBlueDark)),
-                                                SizedBox(width: 5.w),
-                                                searchController
-                                                        .searchresult[index]
-                                                        .isVerified!
-                                                    ? verifiedTag()
-                                                    : Container()
+                                                            .searchresult[index]
+                                                            .isVerified!
+                                                        ? verifiedTag()
+                                                        : Container()
+                                                  ],
+                                                ),
+                                                Text(
+                                                  '@' +
+                                                      searchController
+                                                          .searchresult[index]
+                                                          .usernames!,
+                                                  style: TextStyle(
+                                                      color: tualeBlueDark),
+                                                )
                                               ],
                                             ),
-                                            Text(
-                                              '@' +
-                                                  searchController
-                                                      .searchresult[index]
-                                                      .usernames!,
-                                              style: TextStyle(
-                                                  color: tualeBlueDark),
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: Colors.grey
-                                                  .withOpacity(0.3)))),
-                                  height: 100.h,
-                                  padding: EdgeInsets.only(
-                                    top: 15,
-                                    bottom: 5,
-                                    left: 15,
-                                  ),
-                                  width: ScreenUtil().screenWidth,
-                                ),
-                              );
-                            }));
+                                          )
+                                        ],
+                                      ),
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.3)))),
+                                      height: 100.h,
+                                      padding: EdgeInsets.only(
+                                        top: 15,
+                                        bottom: 5,
+                                        left: 15,
+                                      ),
+                                      width: ScreenUtil().screenWidth,
+                                    ),
+                                  );
+                                }));
           }),
     );
   }
