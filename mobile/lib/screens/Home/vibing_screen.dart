@@ -9,7 +9,7 @@ import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/widgets/verifiedTag.dart';
 import 'package:mobile/utils/Api.dart';
 
-late VideoPlayerController currentVibingVP;
+
 
 class Vibing extends StatefulWidget {
   Vibing({Key? key}) : super(key: key);
@@ -20,6 +20,7 @@ class Vibing extends StatefulWidget {
 
 bool displayTualeAnimation = false;
 final scrollController = ScrollController();
+late VideoPlayerController currentVibingVP;
 
 bool tualed = false;
 int tualCount = 0;
@@ -378,7 +379,11 @@ Column userInfoVibingWidget(BuildContext context, int index, List posts) {
                   // ))
                   //     .getProfileInfo(posts[index].username.toString());
                   final res = await Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    currentVibingVP.pause();
+                    if(Get.find<VibedPostController>()
+                        .vibePost
+                        .value[index]
+                        .mediaType ==
+                        'video') {currentVibingVP.pause();}
                     return userProfile(
                       isUser: false,
                       username: posts[index].username.toString(),
@@ -386,7 +391,11 @@ Column userInfoVibingWidget(BuildContext context, int index, List posts) {
                     );
                   }));
                   if(res==200) {
-                    currentVibingVP.play();
+                    if(Get.find<VibedPostController>()
+                        .vibePost
+                        .value[index]
+                        .mediaType ==
+                        'video'){currentVibingVP.play();}
                   }
                 },
                 child: Row(
@@ -408,7 +417,7 @@ Column userInfoVibingWidget(BuildContext context, int index, List posts) {
                     ),
                     SizedBox(
                       height: 25.h,
-                      width: 165.w,
+                      //width: 165.w,
                       child: Text(
                         "@" + posts[index].username.toString(),
                         style: const TextStyle(
@@ -421,7 +430,7 @@ Column userInfoVibingWidget(BuildContext context, int index, List posts) {
                       ),
                     ),
                     const SizedBox(
-                      width: 4,
+                      width: 5,
                     ),
                     posts[index].isVerified ? verifiedTag() : Container(),
                     const Spacer(
