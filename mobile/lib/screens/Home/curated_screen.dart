@@ -431,7 +431,6 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
         height: 20.h,
       ),
       Container(
-          color: Colors.black,
           margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
           child: Column(
             children: [
@@ -473,7 +472,7 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
                     ),
                     SizedBox(
                       height: 25.h,
-                      width: 165.w,
+                      width: 200.w,
                       child: Text(
                         "@" + posts[index].username.toString(),
                         style: const TextStyle(
@@ -485,8 +484,8 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
                             height: 1),
                       ),
                     ),
-                    const SizedBox(
-                      width: 4,
+                     SizedBox(
+                      width: 1.w,
                     ),
                     posts[index].isVerified ? verifiedTag() : Container(),
                     const Spacer(
@@ -1073,8 +1072,11 @@ class _commentModalState extends State<commentModal> {
                     height: 45.h,
                     width: 45.h,
                     child: CircleAvatar(
-                      backgroundImage:
-                          AssetImage('assets/images/demo_profile.png'),
+                      backgroundImage: NetworkImage(
+                          Get.find<LoggedUserController>()
+                              .loggedUser
+                              .value
+                              .currentuserAvatarUrl!),
                     ),
                   ),
                   SizedBox(

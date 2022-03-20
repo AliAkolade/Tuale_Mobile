@@ -200,40 +200,78 @@ class newFan extends StatelessWidget {
         padding: EdgeInsets.only(left: 20, right: 4),
         //  color: Colors.black,
         height: 50,
-        width: MediaQuery.of(context).size.width,
+        width: double.infinity, //        MediaQuery.of(context).size.width,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            RichText(
-              text: TextSpan(
-                text: '@' + username! + " ",
+            Container(
+              // color: Colors.blue,
+              child: Text(
+                '@' + username! + " ",
                 style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
                     fontSize: 15.sp,
                     color: tualeBlueDark.withOpacity(0.7),
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.normal),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return userProfile(
-                        isUser: false,
-                        username: username,
-                        // tag: "notification",
-                      );
-                    }));
-                  },
-                children: <TextSpan>[
-                  TextSpan(
-                      text: 'started vibing with you',
-                      style:
-                          TextStyle(color: Colors.black.withOpacity(0.8))),
-                ],
               ),
+              height: 20.h,
+              width: 110.w,
             ),
             SizedBox(
-              width: 114.w,
-              height: 36.h,
+              width: 9.w,
+            ),
+            Container(
+              // color: Colors.black,
+              height: 20.h,
+              width: 180.w,
+              child: Text(
+                'started vibing with you',
+                style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                    color: Colors.black.withOpacity(0.8)),
+              ),
+            ),
+            // SizedBox(
+            //   height: 20.h,
+            //   width: 300.w,
+            //   child: FittedBox(
+            //     fit: BoxFit.fitWidth,
+            //     child: RichText(
+            //       text: TextSpan(
+            //         text: '@' + username! + " ",
+            //         style: TextStyle(
+            //             overflow: TextOverflow.ellipsis,
+            //             fontSize: 15.sp,
+            //             color: tualeBlueDark.withOpacity(0.7),
+            //             fontFamily: 'Poppins',
+            //             fontWeight: FontWeight.normal),
+            //         recognizer: TapGestureRecognizer()
+            //           ..onTap = () {
+            //             Navigator.push(context,
+            //                 MaterialPageRoute(builder: (context) {
+            //               return userProfile(
+            //                 isUser: false,
+            //                 username: username,
+            //                 // tag: "notification",
+            //               );
+            //             }));
+            //           },
+            //         children: <TextSpan>[
+            //           TextSpan(
+            //               text: 'started vibing with you',
+            //               style: TextStyle(
+            //                   overflow: TextOverflow.ellipsis,
+            //                   color: Colors.black.withOpacity(0.8))),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            Spacer(),
+            SizedBox(
+              width: 95.w,
+              height: 30.h,
               child: ElevatedButton(
                   onPressed: () {
                     isFollowing()
@@ -248,7 +286,7 @@ class newFan extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                       primary: isFollowing() ? tualeOrange : tualeBlueDark,
-                      minimumSize: Size(45.w, 39.h),
+                      minimumSize: Size(55.w, 30.h),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
                   child: Row(
@@ -260,7 +298,7 @@ class newFan extends StatelessWidget {
                           style: TextStyle(
                               color: Color.fromRGBO(255, 255, 255, 1),
                               fontFamily: 'Poppins',
-                              fontSize: 12.sp,
+                              fontSize: 10.sp,
                               fontWeight: FontWeight.w600,
                               height: 1)),
                       Container(
@@ -304,14 +342,17 @@ class newNotification extends StatelessWidget {
       //  color: Colors.black,
       height: 50,
       width: MediaQuery.of(context).size.width,
-      child: FittedBox(
-        fit: BoxFit.fitWidth,
-        child: Row(
-          children: [
-            RichText(
+      child: Row(
+        children: [
+          Container(
+            //  color: Colors.black,
+            height: 20.h,
+            width: 350.w,
+            child: RichText(
               text: TextSpan(
                 text: '@' + username! + " ",
                 style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
                     fontSize: 15.sp,
                     color: tualeBlueDark.withOpacity(0.7),
                     fontFamily: 'Poppins',
@@ -331,6 +372,7 @@ class newNotification extends StatelessWidget {
                   TextSpan(
                       text: body!,
                       style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
                           fontSize: 15.sp,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
@@ -338,24 +380,27 @@ class newNotification extends StatelessWidget {
                 ],
               ),
             ),
-            Spacer(),
-            mediaType != 'image'
-                ? Container(
-                    color: Colors.black,
-                    height: 40.h,
-                    width: 40.w,
-                  )
-                : Container(
-                    height: 40.h,
-                    width: 40.h,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.cover, image: NetworkImage(postUrl!)),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(1)),
-                  )
-          ],
-        ),
+          ),
+          Spacer(),
+          mediaType != 'image'
+              ? Container(
+                  child: Center(
+                      child:
+                          Icon(Icons.play_arrow_outlined, color: Colors.white)),
+                  color: Colors.black,
+                  height: 40.h,
+                  width: 40.w,
+                )
+              : Container(
+                  height: 40.h,
+                  width: 40.h,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.cover, image: NetworkImage(postUrl!)),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(1)),
+                )
+        ],
       ),
     );
   }
