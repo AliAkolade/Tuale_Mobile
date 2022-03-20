@@ -139,7 +139,7 @@ class _starredPostsState extends State<starredPosts> {
                                                   )),
                                             ),
                                       decoration: BoxDecoration(
-                                          color: Colors.black,
+                                         
                                           borderRadius:
                                               BorderRadius.circular(8),
                                           image: DecorationImage(
