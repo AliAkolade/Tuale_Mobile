@@ -427,11 +427,12 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
-      SizedBox(
-        height: 20.h,
-      ),
+      // SizedBox(
+      //   height: 20.h,
+      // ),
       Container(
-          margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+          color: Colors.black,
+          margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
           child: Column(
             children: [
               GestureDetector(
@@ -442,11 +443,13 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
                   //     .getProfileInfo(posts[index].username.toString());
                   final res = await Navigator.push(context,
                       MaterialPageRoute(builder: (context) {
-                        if(Get.find<CuratedPostController>()
+                    if (Get.find<CuratedPostController>()
                             .curatedPost
                             .value[index]
                             .mediaType ==
-                            'video') {currentVP.pause();}
+                        'video') {
+                      currentVP.pause();
+                    }
                     return userProfile(
                       isUser: false,
                       username: posts[index].username.toString(),
@@ -454,11 +457,13 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
                     );
                   }));
                   if (res == 200) {
-                    if(Get.find<CuratedPostController>()
-                        .curatedPost
-                        .value[index]
-                        .mediaType ==
-                        'video') { currentVP.play();}
+                    if (Get.find<CuratedPostController>()
+                            .curatedPost
+                            .value[index]
+                            .mediaType ==
+                        'video') {
+                      currentVP.play();
+                    }
                   }
                 },
                 child: Row(
@@ -492,7 +497,7 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
                             height: 1),
                       ),
                     ),
-                     SizedBox(
+                    SizedBox(
                       width: 5.w,
                     ),
                     posts[index].isVerified ? verifiedTag() : Container(),
@@ -509,11 +514,11 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    height: 100.h,
+                    height: 60.h,
                     width: 230.w,
                     child: Text(
                       posts[index].postText.toString(),
-                      maxLines: 4,
+                      maxLines: 5,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                           color: Colors.white,
@@ -649,12 +654,14 @@ class _actionBarState extends State<actionBar> {
                                               if (Get.isRegistered<
                                                   CuratedPostController>()) {
                                                 //checks if mediatype is video pauses it before going to the next page
-                                                if(Get.find<CuratedPostController>()
-                                                    .curatedPost
-                                                    .value[
-                                                widget.index!]
-                                                    .mediaType ==
-                                                    'video') {currentVP.pause();}
+                                                if (Get.find<
+                                                            CuratedPostController>()
+                                                        .curatedPost
+                                                        .value[widget.index!]
+                                                        .mediaType ==
+                                                    'video') {
+                                                  currentVP.pause();
+                                                }
                                                 final result =
                                                     await Navigator.push(
                                                         context,
