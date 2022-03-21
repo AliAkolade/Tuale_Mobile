@@ -306,9 +306,7 @@ class ProfileInfotwo extends StatelessWidget {
                           //fontWeight: FontWeight.bold,
                         ),
                       ),
-                      text.profileInfo.value.isVerified!
-                          ? verifiedTag()
-                          : Container()
+                     text.profileInfo.value.isVerified! ? verifiedTag() : Container()
                     ],
                   );
                 }),

@@ -49,7 +49,7 @@ class _starredPostsState extends State<starredPosts> {
                       child: SpinKitFadingCircle(
                           color: tualeOrange.withOpacity(0.75))))
               : text.profileInfo.value.starredPosts!.isEmpty
-                  ?  SliverToBoxAdapter(
+                  ? SliverToBoxAdapter(
                       child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,72 +60,117 @@ class _starredPostsState extends State<starredPosts> {
                         Text("No post"),
                       ],
                     ))
-                  : Get.find<LoggedUserController>().loggedUser.value.currentuserid == text.profileInfo.value.id ? SliverPadding(
-                      padding: const EdgeInsets.only(left: 5, right: 5),
-                      sliver: SliverGrid(
+                  : Get.find<LoggedUserController>()
+                              .loggedUser
+                              .value
+                              .currentuserid ==
+                          text.profileInfo.value.id
+                      ? SliverPadding(
+                          padding: const EdgeInsets.only(left: 5, right: 5),
+                          sliver: SliverGrid(
 
-                          //physics: NeverScrollableScrollPhysics(),
+                              //physics: NeverScrollableScrollPhysics(),
 
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            // mainAxisExtent: 5,
-                            crossAxisCount: 3,
-                          ),
-                          delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      PageTransition(
-                                          type: PageTransitionType.topToBottom,
-                                          child: OnePost(
-                                            postMedia:text.profileInfo.value.starredPosts![index].url ,
-                                            mediaType:   text.profileInfo.value.starredPosts![index].mediaType,
-                                            id:  text.profileInfo.value.starredPosts![index].id
-                                          ) ));
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                // mainAxisExtent: 5,
+                                crossAxisCount: 3,
+                              ),
+                              delegate: SliverChildBuilderDelegate(
+                                (BuildContext context, int index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              type: PageTransitionType
+                                                  .topToBottom,
+                                              child: OnePost(
+                                                  postMedia: text
+                                                      .profileInfo
+                                                      .value
+                                                      .starredPosts![index]
+                                                      .url,
+                                                  pageType: false,
+                                                  mediaType: text
+                                                      .profileInfo
+                                                      .value
+                                                      .starredPosts![index]
+                                                      .mediaType,
+                                                  id: text
+                                                      .profileInfo
+                                                      .value
+                                                      .starredPosts![index]
+                                                      .id)));
+                                    },
+                                    child: text
+                                                  .profileInfo
+                                                  .value
+                                                  .starredPosts![index]
+                                                  .mediaType !=
+                                              'image'
+                                          ? Container(
+                                            color: Colors.black,
+                                              height: 100.h,
+                                              width: 100.h,
+                                              child: Center(
+                                                child: Icon(
+                                                    Icons.play_arrow_outlined,
+                                                    color: Colors.white,
+                                                    ),
+                                              ),
+                                            )
+                                          : Container(
+                                      child:  Container(
+                                              height: 100.h,
+                                              width: 100.h,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  gradient:
+                                                      const LinearGradient(
+                                                    begin: AlignmentDirectional(
+                                                        0.5, 0.5),
+                                                    end: AlignmentDirectional(
+                                                        0.5, 1.9),
+                                                    colors: [
+                                                      Colors.transparent,
+                                                      Colors.black87
+                                                    ],
+                                                  )),
+                                            ),
+                                      decoration: BoxDecoration(
+                                         
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(text
+                                                  .profileInfo
+                                                  .value
+                                                  .starredPosts![index]
+                                                  .url!))),
+                                      margin: EdgeInsets.fromLTRB(2, 2, 2, 2),
+                                      height: 100.h,
+                                      width: 100.h,
+                                    ),
+                                  );
                                 },
-                                child: Container(
-                                  child: Container(
-                                    height: 100.h,
-                                    width: 100.h,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        gradient: const LinearGradient(
-                                          begin: AlignmentDirectional(0.5, 0.5),
-                                          end: AlignmentDirectional(0.5, 1.9),
-                                          colors: [
-                                            Colors.transparent,
-                                            Colors.black87
-                                          ],
-                                        )),
-                                  ),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(text.profileInfo
-                                              .value.starredPosts![index].url!))),
-                                  margin: EdgeInsets.fromLTRB(2, 2, 2, 2),
-                                  height: 100.h,
-                                  width: 100.h,
-                                ),
-                              );
-                            },
-                            childCount:
-                                text.profileInfo.value.starredPosts!.length,
-                          )),
-                    ) : SliverToBoxAdapter(
-                      child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 120.h,
-                        ),
-                        Text("You aren't authorized to view this page"),
-                      ],
-                    )); 
+                                childCount:
+                                    text.profileInfo.value.starredPosts!.length,
+                              )),
+                        )
+                      : SliverToBoxAdapter(
+                          child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 120.h,
+                            ),
+                            Text("You aren't authorized to view this page"),
+                          ],
+                        ));
         });
   }
 }

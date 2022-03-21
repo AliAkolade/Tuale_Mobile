@@ -501,6 +501,7 @@ class _FillDetailsState extends State<FillDetails> {
                   elevation: 0,
                   child: TextField(
                       controller: pass1,
+                      obscureText: true,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           contentPadding: const EdgeInsets.all(5),
@@ -526,6 +527,7 @@ class _FillDetailsState extends State<FillDetails> {
                   elevation: 0,
                   child: TextField(
                       controller: pass2,
+                      obscureText: true,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           contentPadding: const EdgeInsets.all(5),

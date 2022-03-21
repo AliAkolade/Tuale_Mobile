@@ -7,6 +7,7 @@ class CuratedPostController extends GetxController {
   final Api _api = Api();
   int pageNo = 1;
   var isLoading = false.obs;
+  var isCommentLoading = false.obs;
   int curatedNo = 2;
   List more = [];
   onInit() {
@@ -29,6 +30,7 @@ class CuratedPostController extends GetxController {
 
   Future getCuratedPosts() async {
     try {
+      isCommentLoading.value = true;
       // var pageNum = 1;
       if (curatedPageNo == 1) {
         curatedPost.value = await _api.getCuratedPost(curatedPageNo);
@@ -45,7 +47,10 @@ class CuratedPostController extends GetxController {
 
       //  print(curatedPost.value[0]);
       update();
-    } catch (e) {}
+    } catch (e) {
+    } finally {
+      isCommentLoading.value = false;
+    }
   }
 
   Future getMoreCuratedPosts() async {
@@ -58,7 +63,7 @@ class CuratedPostController extends GetxController {
       List more = await _api.getCuratedPost(curatedPageNo);
       if (more.isEmpty) {
         curatedPageNo = curatedPageNo - 1;
-         print('currentpageNoooooooooo${curatedPageNo}');
+        print('currentpageNoooooooooo${curatedPageNo}');
       } else {
         print("addition");
         print(more.length);

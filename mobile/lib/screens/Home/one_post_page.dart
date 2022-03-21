@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
@@ -16,7 +17,8 @@ class OnePost extends StatefulWidget {
   String? id;
   String? mediaType;
   String? postMedia;
-  OnePost({this.id, this.mediaType, this.postMedia});
+  bool pageType;
+  OnePost({this.id, this.mediaType, this.postMedia, this.pageType = true});
 
   @override
   _OnePostState createState() => _OnePostState();
@@ -49,58 +51,66 @@ class _OnePostState extends State<OnePost> {
                     SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75)),
               )
             : widget.mediaType != "image"
-                ? Stack(
-                    children: [
-                      VideoPlayerScreen(
-                          videoUrl: widget.postMedia!,
-                          enablePlayBtn: true,
-                          cbController: (VideoPlayerController vc) {
-                            currentVideoPlayer = vc;
-                            debugPrint("-here vc-");
-                          }),
-                      // Back button
-                      Align(
-                        // heightFactor: 1.0,
-                        // widthFactor: 12.0,
-                        alignment: Alignment(0.9, -0.95),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Container(
-                            height: 50,
-                            width: 50,
-                            color: Colors.white70,
-                            child: GestureDetector(
-                              onTap: () {
-                                //Navigator.pop(context);
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Home()),
-                                );
-                              },
-                              child: Icon(
-                                Icons.fullscreen_exit_rounded,
-                                color: Colors.black,
-                                size: 30,
+                ? Container(
+                    color: Colors.black,
+                    child: Stack(
+                      children: [
+                        VideoPlayerScreen(
+                            videoUrl: widget.postMedia!,
+                            enablePlayBtn: true,
+                            cbController: (VideoPlayerController vc) {
+                              currentVideoPlayer = vc;
+                              debugPrint("-here vc-");
+                            }),
+                        // Back button
+                        Align(
+                          // heightFactor: 1.0,
+                          // widthFactor: 12.0,
+                          alignment: Alignment(0.9, -0.95),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: Container(
+                              height: 50,
+                              width: 50,
+                              color: Colors.white70,
+                              child: GestureDetector(
+                                onTap: () {
+                                  //Navigator.pop(context);
+                                  widget.pageType
+                                      ? Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Home()),
+                                        )
+                                      : Navigator.pop(
+                                          context,
+                                        );
+                                },
+                                child: Icon(
+                                  Icons.fullscreen_exit_rounded,
+                                  color: Colors.black,
+                                  size: 30,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      //Add this CustomPaint widget to the Widget Tre                                //Add this CustomPaint widget to the Widget Tree
-                      Align(
-                          widthFactor: 5,
-                          alignment: const Alignment(1.08, 0.6),
-                          child: Obx(
-                            () => _actionBar(
-                              mediaType: widget.mediaType,
-                              posts: Get.find<OnePostController>()
-                                  .postdetails
-                                  .value,
-                            ),
-                          )),
-                      Userinfo(context)
-                    ],
+                        //Add this CustomPaint widget to the Widget Tre                                //Add this CustomPaint widget to the Widget Tree
+                        Align(
+                            widthFactor: 5,
+                            alignment: const Alignment(1.08, 0.6),
+                            child: Obx(
+                              () => _actionBar(
+                                mediaType: widget.mediaType,
+                                posts: Get.find<OnePostController>()
+                                    .postdetails
+                                    .value,
+                              ),
+                            )),
+                        Userinfo(context, widget.mediaType!)
+                      ],
+                    ),
                   )
                 : Container(
                     child: Stack(
@@ -141,13 +151,13 @@ class _OnePostState extends State<OnePost> {
                               ),
                             )),
                         //user post info
-                        Userinfo(context)
+                        Userinfo(context, widget.mediaType!)
                       ],
                     ),
                     height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                        color: Colors.amber,
+                        color: Colors.black,
                         image: DecorationImage(
                             fit: BoxFit.cover,
                             image: NetworkImage(
@@ -157,7 +167,7 @@ class _OnePostState extends State<OnePost> {
     );
   }
 
-  Column Userinfo(BuildContext context) {
+  Column Userinfo(BuildContext context, String mediaType) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,15 +177,28 @@ class _OnePostState extends State<OnePost> {
             child: Column(
               children: [
                 GestureDetector(
-                  onTap: () {
-                    Navigator.push(context,
+                  onTap: () async {
+                    final res = await Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
+                      currentVideoPlayer.pause();
                       return userProfile(
                         isUser: false,
                         username: post.postdetails.value.username.toString(),
-                        //  tag: "yourprofile",
+                        //tag: "yourprofile",
                       );
                     }));
+                    if (res == 200) {
+                      currentVideoPlayer.play();
+                    }
+
+                    // Navigator.push(context,
+                    //     MaterialPageRoute(builder: (context) {
+                    //   return userProfile(
+                    //     isUser: false,
+                    //     username: post.postdetails.value.username.toString(),
+                    //     //  tag: "yourprofile",
+                    //   );
+                    // }));
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -204,22 +227,23 @@ class _OnePostState extends State<OnePost> {
                       const Spacer(
                         flex: 1,
                       ),
-                      post.postdetails.value.isVerified ?
-                      Container(
-                            height: 17.h,
-                            width: 17.h,
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                            child: Center(
-                              child: Icon(
-                                Icons.check,
-                                size: 12.sp,
-                                color: Colors.white,
+                      post.postdetails.value.isVerified
+                          ? Container(
+                              height: 17.h,
+                              width: 17.h,
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(18),
                               ),
-                            ),
-                          ) : Container(),
+                              child: Center(
+                                child: Icon(
+                                  Icons.check,
+                                  size: 12.sp,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
+                          : Container(),
                       /*Text(
                                           "1 day ago",
                                           style: TextStyle(
@@ -738,8 +762,11 @@ class _commentModalState extends State<_commentModal> {
                     height: 45.h,
                     width: 45.h,
                     child: CircleAvatar(
-                      backgroundImage:
-                          AssetImage('assets/images/demo_profile.png'),
+                      backgroundImage: NetworkImage(
+                          Get.find<LoggedUserController>()
+                              .loggedUser
+                              .value
+                              .currentuserAvatarUrl!),
                     ),
                   ),
                   SizedBox(
@@ -768,14 +795,27 @@ class _commentModalState extends State<_commentModal> {
                       )),
                   GestureDetector(
                     onTap: () async {
+                      Loader.show(context,
+                          isSafeAreaOverlay: false,
+                          isAppbarOverlay: true,
+                          isBottomBarOverlay: false,
+                          progressIndicator: SpinKitFadingCircle(
+                              color: tualeOrange.withOpacity(0.75)),
+                          themeData: Theme.of(context)
+                              .copyWith(accentColor: Colors.black38),
+                          overlayColor: const Color(0x99E8EAF6));
+                      _focusNode.unfocus();
+                      String comment = myController.text;
+                      myController.clear();
                       List result = await Api()
                           .commentOnAPost(widget.posts!.id, myController.text);
-                      _focusNode.unfocus();
-                      myController.clear();
+
                       if (result[0]) {
+                        Loader.hide();
                         Get.find<OnePostController>()
                             .getOnePost(widget.posts!.id);
                       } else {
+                        Loader.hide();
                         Get.snackbar("Error", result[1],
                             duration: Duration(seconds: 4),
                             isDismissible: true,

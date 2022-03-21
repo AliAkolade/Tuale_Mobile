@@ -6,14 +6,14 @@ import 'package:chewie/chewie.dart';
 class VideoPlayerScreen extends StatefulWidget {
   String videoUrl;
   bool enablePlayBtn;
-  bool isVideoPaused;
+  bool initVideoPlay;
   late final Function(VideoPlayerController) cbController;
 
   VideoPlayerScreen(
       {Key? key,
       required this.videoUrl,
       this.enablePlayBtn = false,
-      this.isVideoPaused = false,
+      this.initVideoPlay = true,
       required this.cbController})
       : super(key: key);
 
@@ -33,7 +33,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true))
       ..setLooping(true)
       ..setVolume(0.1)
-      ..initialize().then((_) =>  videoController.play()); //:videoController.play());
+      ..initialize().then((_) => widget.initVideoPlay ? videoController.play() : videoController.pause()); //:videoController.play());
 
     super.initState();
   }

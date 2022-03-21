@@ -162,7 +162,7 @@ class _NavBarState extends State<NavBar> {
                   color: tualeBlueDark,
                   size: 40,
                 ),
-                label: 'Post',
+                label: '',
                 activeIcon: Icon(
                   Icons.add_circle,
                   color: tualeOrange,
@@ -331,7 +331,7 @@ Future cameraSelect(text) async {
                       ),
                     ),
                   ),
-                  Padding(
+                  /*Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: const [
@@ -347,7 +347,7 @@ Future cameraSelect(text) async {
                         )
                       ],
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             ),
