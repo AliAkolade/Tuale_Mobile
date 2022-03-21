@@ -97,19 +97,19 @@ class _ProfileState extends State<userProfile> with RouteAware {
                                           await _prefs;
 
                                       prefs.setBool('isLoggedIn', false);
-                                      // Navigator.of(context).pushAndRemoveUntil(
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) => Welcome()),
-                                      //     (Route<dynamic> route) => false);
-                                      pushNewScreen(context,
-                                          screen: Welcome(),
-                                          withNavBar: false,
-                                          pageTransitionAnimation:
-                                              PageTransitionAnimation
-                                                  .cupertino);
-                                      runApp(MyApp(
-                                        isLoggedIn: false,
-                                      ));
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                              builder: (context) => Welcome()),
+                                          (Route<dynamic> route) => false);
+                                      // pushNewScreen(context,
+                                      //     screen: Welcome(),
+                                      //     withNavBar: false,
+                                      //     pageTransitionAnimation:
+                                      //         PageTransitionAnimation
+                                      //             .cupertino);
+                                      // runApp(MyApp(
+                                      //   isLoggedIn: false,
+                                      // ));
                                     },
                                   )
                                 : Container(),

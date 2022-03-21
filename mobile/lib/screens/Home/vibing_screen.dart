@@ -450,7 +450,7 @@ Column userInfoVibingWidget(BuildContext context, int index, List posts) {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    height: 80.h,
+                    height: 60.h,
                     width: 230.w,
                     child: Text(
                       posts[index].postText.toString(),
