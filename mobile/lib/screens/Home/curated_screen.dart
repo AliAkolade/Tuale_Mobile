@@ -442,7 +442,11 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
                   //     .getProfileInfo(posts[index].username.toString());
                   final res = await Navigator.push(context,
                       MaterialPageRoute(builder: (context) {
-                    currentVP.pause();
+                        if(Get.find<CuratedPostController>()
+                            .curatedPost
+                            .value[index]
+                            .mediaType ==
+                            'video') {currentVP.pause();}
                     return userProfile(
                       isUser: false,
                       username: posts[index].username.toString(),
@@ -450,7 +454,11 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
                     );
                   }));
                   if (res == 200) {
-                    currentVP.play();
+                    if(Get.find<CuratedPostController>()
+                        .curatedPost
+                        .value[index]
+                        .mediaType ==
+                        'video') { currentVP.play();}
                   }
                 },
                 child: Row(
@@ -472,7 +480,7 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
                     ),
                     SizedBox(
                       height: 25.h,
-                      width: 200.w,
+                      //width: 200.w,
                       child: Text(
                         "@" + posts[index].username.toString(),
                         style: const TextStyle(
@@ -485,7 +493,7 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
                       ),
                     ),
                      SizedBox(
-                      width: 1.w,
+                      width: 5.w,
                     ),
                     posts[index].isVerified ? verifiedTag() : Container(),
                     const Spacer(
@@ -641,14 +649,12 @@ class _actionBarState extends State<actionBar> {
                                               if (Get.isRegistered<
                                                   CuratedPostController>()) {
                                                 //checks if mediatype is video pauses it before going to the next page
-                                                Get.find<CuratedPostController>()
-                                                            .curatedPost
-                                                            .value[
-                                                                widget.index!]
-                                                            .mediaType ==
-                                                        'video'
-                                                    ? currentVP.pause()
-                                                    : print('no');
+                                                if(Get.find<CuratedPostController>()
+                                                    .curatedPost
+                                                    .value[
+                                                widget.index!]
+                                                    .mediaType ==
+                                                    'video') {currentVP.pause();}
                                                 final result =
                                                     await Navigator.push(
                                                         context,

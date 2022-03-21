@@ -6,7 +6,10 @@ import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Home/controllers/getVibedPost.dart';
 import 'package:mobile/screens/Home/video_player_screen.dart';
 import 'package:mobile/screens/imports.dart';
+import 'package:mobile/screens/widgets/verifiedTag.dart';
 import 'package:mobile/utils/Api.dart';
+
+
 
 class Vibing extends StatefulWidget {
   Vibing({Key? key}) : super(key: key);
@@ -17,6 +20,7 @@ class Vibing extends StatefulWidget {
 
 bool displayTualeAnimation = false;
 final scrollController = ScrollController();
+late VideoPlayerController currentVibingVP;
 
 bool tualed = false;
 int tualCount = 0;
@@ -25,8 +29,6 @@ bool starred = false;
 
 class _VibingState extends State<Vibing> {
   VibedPostController control = VibedPostController();
-
-  late VideoPlayerController currentVP;
 
   @override
   void dispose() {
@@ -112,7 +114,7 @@ class _VibingState extends State<Vibing> {
                                               cbController:
                                                   (VideoPlayerController vc) {
                                                 debugPrint("-here vc-");
-                                                currentVP = vc;
+                                                currentVibingVP = vc;
                                               },
                                             ))),
                                   ),
@@ -125,7 +127,7 @@ class _VibingState extends State<Vibing> {
                                           debugPrint("User double tap");
                                         },
                                         onTap: () async {
-                                          currentVP.pause();
+                                          currentVibingVP.pause();
                                           final result = await Navigator.push(
                                               context, MaterialPageRoute(
                                                   builder: (context) {
@@ -136,7 +138,7 @@ class _VibingState extends State<Vibing> {
                                                     .value,
                                                 index: index);
                                           }));
-                                          if (result == 200) currentVP.play();
+                                          if (result == 200) currentVibingVP.play();
                                         },
                                         child: Hero(
                                           tag: "hero$index",
@@ -159,7 +161,7 @@ class _VibingState extends State<Vibing> {
                                                 ),
 
                                                 //user post info
-                                                Obx(() => userInfoWidget(
+                                                Obx(() => userInfoVibingWidget(
                                                     context,
                                                     index,
                                                     Get.find<
@@ -290,7 +292,7 @@ class _VibingState extends State<Vibing> {
                                                         .value,
                                                   ),
                                                 )),
-                                            Obx(() => userInfoWidget(
+                                            Obx(() => userInfoVibingWidget(
                                                 context,
                                                 index,
                                                 Get.find<VibedPostController>()
@@ -361,6 +363,115 @@ Widget _commentsectionModal(
     ),
   );
 }
+
+Column userInfoVibingWidget(BuildContext context, int index, List posts) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      Container(
+          margin: const EdgeInsets.fromLTRB(20, 20, 20, 58),
+          child: Column(
+            children: [
+              GestureDetector(
+                onTap: () async {
+                  // Get.put(ProfileController(
+                  //   controllerusername: posts[index].username.toString()
+                  // ))
+                  //     .getProfileInfo(posts[index].username.toString());
+                  final res = await Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    if(Get.find<VibedPostController>()
+                        .vibePost
+                        .value[index]
+                        .mediaType ==
+                        'video') {currentVibingVP.pause();}
+                    return userProfile(
+                      isUser: false,
+                      username: posts[index].username.toString(),
+                      //tag: "yourprofile",
+                    );
+                  }));
+                  if(res==200) {
+                    if(Get.find<VibedPostController>()
+                        .vibePost
+                        .value[index]
+                        .mediaType ==
+                        'video'){currentVibingVP.play();}
+                  }
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 48.h,
+                      width: 48.h,
+                      child: CircleAvatar(
+                        backgroundImage: Image.network(
+                          posts[index].userProfilePic,
+                          fit: BoxFit.fitHeight,
+                        ).image,
+                      ),
+                    ),
+                    const Spacer(
+                      flex: 1,
+                    ),
+                    SizedBox(
+                      height: 25.h,
+                      //width: 165.w,
+                      child: Text(
+                        "@" + posts[index].username.toString(),
+                        style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            color: Colors.white,
+                            fontFamily: 'Poppins',
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            height: 1),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    posts[index].isVerified ? verifiedTag() : Container(),
+                    const Spacer(
+                      flex: 10,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    height: 80.h,
+                    width: 230.w,
+                    child: Text(
+                      posts[index].postText.toString(),
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          // fontFamily: 'Poppins',
+                          fontSize: 14,
+                          height: 1),
+                    ),
+                  ),
+                  /*Icon(
+                      Icons.volume_down_rounded,
+                      size: 35,
+                      color: Colors.white,
+                    )*/
+                ],
+              ),
+            ],
+          ))
+    ],
+  );
+}
+
 
 class _actionBar extends StatefulWidget {
   List? posts;
@@ -475,7 +586,7 @@ class __actionBarState extends State<_actionBar> {
                                                                 widget.index!]
                                                             .mediaType ==
                                                         'video'
-                                                    ? currentVP.pause()
+                                                    ? currentVibingVP.pause()
                                                     : print('no');
                                                 final result =
                                                     await Navigator.push(
@@ -493,7 +604,7 @@ class __actionBarState extends State<_actionBar> {
                                                                 widget.index!]
                                                             .mediaType ==
                                                         'video')
-                                                  currentVP.play();
+                                                  currentVibingVP.play();
                                               }
                                             },
                                             child: Container(

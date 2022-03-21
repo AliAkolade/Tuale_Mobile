@@ -91,6 +91,7 @@ class _starredPostsState extends State<starredPosts> {
                                                       .value
                                                       .starredPosts![index]
                                                       .url,
+                                                  pageType: false,
                                                   mediaType: text
                                                       .profileInfo
                                                       .value

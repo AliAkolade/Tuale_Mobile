@@ -331,7 +331,7 @@ Future cameraSelect(text) async {
                       ),
                     ),
                   ),
-                  Padding(
+                  /*Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: const [
@@ -347,7 +347,7 @@ Future cameraSelect(text) async {
                         )
                       ],
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             ),
