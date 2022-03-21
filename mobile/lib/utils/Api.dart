@@ -63,7 +63,8 @@ class Api {
             isVerified: postsResponses[i]['user']['verified'],
             isTualed: checkGivingTuale(postsResponses[i]['tuales']),
             isStared: checkGivingStar(postsResponses[i]['stars']),
-            mediaType: postsResponses[i]['mediaType']));
+            mediaType: postsResponses[i]['mediaType'],
+            userId: postsResponses[i]['user']['_id']));
       }
     }
 
@@ -87,10 +88,12 @@ class Api {
     //  log(response.data.toString());
     var responseData = response.data;
     List postsResponses = responseData['posts'];
-    //debugPrint("before : $postsResponses");
+    // debugPrint("before : $postsResponses");
+    // log(postsResponses.toString());
     if (responseData['success'].toString() == 'true') {
       for (int i = 0; i < postsResponses.length; i++) {
         posts.add(PostDetails(
+            userId: postsResponses[i]['user']['_id'],
             userProfilePic: postsResponses[i]['user']['avatar']['url'],
             time: postsResponses[i]['createdAt'],
             postMedia: postsResponses[i]['media']['url'],
@@ -106,8 +109,7 @@ class Api {
             isVerified: postsResponses[i]['user']['verified'],
             isTualed: checkGivingTuale(postsResponses[i]['tuales']),
             isStared: checkGivingStar(postsResponses[i]['stars']),
-            mediaType: postsResponses[i]['mediaType']
-        ));
+            mediaType: postsResponses[i]['mediaType']));
       }
     }
 
@@ -189,9 +191,9 @@ class Api {
           currentuserBio: currentUser.data["bio"].toString(),
           currentUserUsername: currentUser.data['user']["username"].toString(),
           unreadNotifications: currentUser.data['user']["unreadNotification"],
-          noTuales:  currentUser.data['user']["tcBalance"], 
+          noTuales: currentUser.data['user']["tcBalance"],
           friends: currentUser.data['userFollowStats']["friends"]);
-          
+
       print("notify${currentUser.data['user']['unreadNotification']}");
       return loggedUser;
     }
@@ -298,9 +300,9 @@ class Api {
             isVerified: postsResponses[i]['user']['verified'],
             isTualed: checkGivingTuale(postsResponses[i]['tuales']),
             isStared: checkGivingStar(postsResponses[i]['stars']),
-            mediaType: postsResponses[i]['mediaType']));
+            mediaType: postsResponses[i]['mediaType'],
+            userId: postsResponses[i]['user']['_id']));
       }
-      
     }
 
     // if (responseData['success'].toString() == 'true') {
@@ -309,7 +311,7 @@ class Api {
     //   }
 
     // }
-  
+
     return result;
   }
 
@@ -367,7 +369,8 @@ class Api {
         isVerified: false,
         isTualed: false,
         isStared: false,
-        mediaType: '');
+        mediaType: '',
+        userId: '');
 
     // Get userdetails
     Dio dio = Dio();
@@ -393,7 +396,8 @@ class Api {
           isVerified: responseData['post']['user']['verified'],
           isTualed: checkGivingTuale(responseData['post']['tuales']),
           isStared: checkGivingStar(responseData['post']['stars']),
-          mediaType: responseData['post']['mediaType']);
+          mediaType: responseData['post']['mediaType'],
+          userId: responseData['post']['user']['_id']);
     }
 
     return details;
@@ -685,13 +689,12 @@ class Api {
       Response response = await dio.get(hostAPI + 'leaderboard');
       var responseData = response.data;
       if (response.statusCode == 200) {
-
         print('heyyyy');
         print(responseData['leaderboard']);
         for (var i in responseData['leaderboard']) {
-        //  
-        //  print(i);
-          
+          //
+          //  print(i);
+
           leaderboard.add(LeaderboardModel(
               name: i['user']['name'],
               username: i['user']['username'],

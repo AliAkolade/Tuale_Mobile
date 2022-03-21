@@ -1,5 +1,6 @@
 class PostDetails {
   String id;
+  String userId;
   String username;
   String userProfilePic;
   String time;
@@ -18,6 +19,7 @@ class PostDetails {
 
   PostDetails(
       {required this.id,
+      required this.userId,
       required this.userProfilePic,
       required this.time,
       required this.postMedia,

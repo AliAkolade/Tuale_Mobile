@@ -36,6 +36,7 @@ class CuratedPostController extends GetxController {
         curatedPost.value.clear();
         for (int i = 1; i <= curatedPageNo; i++) {
           more = await _api.getCuratedPost(i);
+          more = await _api.getCuratedPost(i);
           print('before get cur${curatedPost.value.length}');
           curatedPost.value.addAll(more);
           print('after get cur${curatedPost.value.length}');

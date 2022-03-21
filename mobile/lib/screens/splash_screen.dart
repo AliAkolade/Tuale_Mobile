@@ -9,7 +9,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void dispose() {
-    // SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     super.dispose();
@@ -17,25 +17,30 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   initState() {
-    // SystemChrome.setEnabledSystemUIOverlays([]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
-        body: Center(
-            child:
-                Stack(alignment: AlignmentDirectional.bottomStart, children: [
-          Align(
-              alignment: Alignment.bottomCenter,
-              child: Image.asset('assets/images/bottomSplash.png',
-                  fit: BoxFit.fitWidth, alignment: Alignment.bottomCenter)),
-          Align(
-              alignment: Alignment.center,
-              child: SvgPicture.asset('assets/vectors/TualeLogo.svg'))
-        ])));
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: const SystemUiOverlayStyle(
+            statusBarColor: Color.fromRGBO(250, 250, 250, 1)),
+        child: Scaffold(
+            backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
+            body: Center(
+                child: Stack(
+                    alignment: AlignmentDirectional.bottomStart,
+                    children: [
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Image.asset('assets/images/bottomSplash.png',
+                          fit: BoxFit.fitWidth,
+                          alignment: Alignment.bottomCenter)),
+                  Align(
+                      alignment: Alignment.center,
+                      child: SvgPicture.asset('assets/vectors/TualeLogo.svg'))
+                ]))));
   }
 }

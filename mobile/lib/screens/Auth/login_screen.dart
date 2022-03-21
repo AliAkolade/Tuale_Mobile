@@ -23,10 +23,10 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
-  // final email = TextEditingController(text: '');
-  // final pass = TextEditingController(text: '');
-  final email = TextEditingController(text: 'tulenoreply@gmail.com');
-  final pass = TextEditingController(text: 'Azerty');
+  final email = TextEditingController(text: '');
+  final pass = TextEditingController(text: '');
+  // final email = TextEditingController(text: 'tulenoreply@gmail.com');
+  // final pass = TextEditingController(text: 'Azerty');
   // final email = TextEditingController(text: 'afolabiogunbanwo@gmail.com');
   // final pass = TextEditingController(text: 'testing');
   // final email = TextEditingController(text: 'clintonali127@gmail.com');
@@ -127,46 +127,47 @@ class _LoginState extends State<Login> {
                                           fontWeight: FontWeight.normal,
                                           height: 1))))),
                       const SizedBox(height: 20),
-            Container(
-                decoration: const BoxDecoration(boxShadow: [
-                  BoxShadow(
-                      color: Color.fromRGBO(4, 42, 43, 0.1),
-                      blurRadius: 3)
-                ]),
-                child:Material(
-                          elevation: 0,
-                          color: Colors.white,
-                          child: TextField(
-                              controller: pass,
-                              obscureText: hidePass,
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding: const EdgeInsets.all(5),
-                                  prefixIcon: SvgPicture.asset(
-                                    'assets/vectors/padlock.svg',
-                                    fit: BoxFit.scaleDown,
-                                  ),
-                                  suffixIcon: IconButton(
-                                    color: const Color.fromRGBO(
-                                        3, 42, 43, 0.5199999809265137),
-                                    icon: hidePass
-                                        ? const Icon(Icons.visibility_outlined)
-                                        : const Icon(
-                                            Icons.visibility_off_outlined),
-                                    onPressed: () {
-                                      setState(() {
-                                        hidePass = !hidePass;
-                                      });
-                                    },
-                                  ),
-                                  labelText: 'Password',
-                                  labelStyle: const TextStyle(
-                                      color: Color.fromRGBO(
-                                          3, 42, 43, 0.5199999809265137),
-                                      fontFamily: 'Lato',
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.normal,
-                                      height: 1))))),
+                      Container(
+                          decoration: const BoxDecoration(boxShadow: [
+                            BoxShadow(
+                                color: Color.fromRGBO(4, 42, 43, 0.1),
+                                blurRadius: 3)
+                          ]),
+                          child: Material(
+                              elevation: 0,
+                              color: Colors.white,
+                              child: TextField(
+                                  controller: pass,
+                                  obscureText: hidePass,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      contentPadding: const EdgeInsets.all(5),
+                                      prefixIcon: SvgPicture.asset(
+                                        'assets/vectors/padlock.svg',
+                                        fit: BoxFit.scaleDown,
+                                      ),
+                                      suffixIcon: IconButton(
+                                        color: const Color.fromRGBO(
+                                            3, 42, 43, 0.5199999809265137),
+                                        icon: hidePass
+                                            ? const Icon(
+                                                Icons.visibility_outlined)
+                                            : const Icon(
+                                                Icons.visibility_off_outlined),
+                                        onPressed: () {
+                                          setState(() {
+                                            hidePass = !hidePass;
+                                          });
+                                        },
+                                      ),
+                                      labelText: 'Password',
+                                      labelStyle: const TextStyle(
+                                          color: Color.fromRGBO(
+                                              3, 42, 43, 0.5199999809265137),
+                                          fontFamily: 'Lato',
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.normal,
+                                          height: 1))))),
                       const SizedBox(height: 50),
                       (message == '')
                           ? Container(child: null)

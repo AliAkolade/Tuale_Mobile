@@ -1,8 +1,13 @@
+import 'dart:convert';
+
+import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:get/get.dart';
 import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Home/video_player_screen.dart';
 import 'package:mobile/screens/Profile/controllers/userPostsController.dart';
 import 'package:mobile/screens/imports.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart' as http;
 
 class discoverScreen extends StatefulWidget {
   int? index;
@@ -89,7 +94,7 @@ class _discoverScreenState extends State<discoverScreen> {
                                         height: 645.h,
                                         width: 400.w,
                                         child: VideoPlayerScreen(
-                                          isVideoPaused: true,
+                                            isVideoPaused: true,
                                             enablePlayBtn: true,
                                             videoUrl:
                                                 Get.find<UserPostsController>()
@@ -98,13 +103,11 @@ class _discoverScreenState extends State<discoverScreen> {
                                                     .postMedia,
                                             cbController:
                                                 (VideoPlayerController vc) {
-                                                  
                                               currentVideoPlayer = vc;
                                               debugPrint("-here vc-");
                                             }))),
                               ),
                               GestureDetector(
-                              
                                 onTap: () {
                                   // Navigator.push(context,
                                   //     MaterialPageRoute(
@@ -125,15 +128,13 @@ class _discoverScreenState extends State<discoverScreen> {
                                       children: [
                                         Align(
                                           widthFactor: 5,
-                                          alignment:
-                                              const Alignment(1.08, 0.6),
+                                          alignment: const Alignment(1.08, 0.6),
                                           child: Obx(
                                             () => _actionBar(
-                                                mediaType:
-                                                    userpostcontroller
-                                                        .posts
-                                                        .value[index]
-                                                        .mediaType,
+                                                mediaType: userpostcontroller
+                                                    .posts
+                                                    .value[index]
+                                                    .mediaType,
                                                 username: widget.username,
                                                 index: index,
                                                 posts: userpostcontroller
@@ -142,22 +143,17 @@ class _discoverScreenState extends State<discoverScreen> {
                                         ),
 
                                         //user post info
-                                        Obx(() => userInfoWidget(
-                                            context,
-                                            index,
+                                        Obx(() => userInfoWidget(context, index,
                                             userpostcontroller.posts.value))
                                       ],
                                     ),
                                     height: 645.h,
                                     width: 400.w,
                                     decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(15),
+                                        borderRadius: BorderRadius.circular(15),
                                         gradient: const LinearGradient(
-                                          begin: AlignmentDirectional(
-                                              0.5, 0.5),
-                                          end: AlignmentDirectional(
-                                              0.5, 1.4),
+                                          begin: AlignmentDirectional(0.5, 0.5),
+                                          end: AlignmentDirectional(0.5, 1.4),
                                           colors: [
                                             Colors.transparent,
                                             Colors.black87
@@ -310,8 +306,121 @@ class __actionBarState extends State<_actionBar> {
   int noTuales = 0;
   bool isTualed = false;
 
+  follow(String userId, BuildContext context) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    var headers = {'Authorization': token};
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+            'https://tuale-mobile-api.herokuapp.com/api/v1/vibe/$userId'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  share() {
+    Share.share('Get Tuale!\nVisit https://www.tuale.app',
+        subject: 'Install Tuale');
+  }
+
+  copy() async {
+    await Clipboard.setData(const ClipboardData(text: "https://www.tuale.app"));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Copied to clipboard')));
+  }
+
+  delete(String postId, BuildContext context) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    var headers = {'Authorization': token};
+
+    var request = http.Request(
+        'DELETE',
+        Uri.parse(
+            'https://tuale-mobile-api.herokuapp.com/api/v1/post/$postId'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+      print("Here");
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Post Deleted')));
+      await Future.delayed(const Duration(seconds: 1));
+      Navigator.pop(context);
+      pushNewScreen(context,
+          screen: NavBar(index: 0),
+          withNavBar: false,
+          pageTransitionAnimation: PageTransitionAnimation.cupertino);
+    } else {
+      print("Error");
+      print(response.reasonPhrase);
+    }
+  }
+
+  String currentUserID = '';
+  getCurrentUser() async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    var headers = {'Authorization': token};
+    var request = http.Request(
+        'GET', Uri.parse('https://tuale-mobile-api.herokuapp.com/api/v1/me'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      // print(await response.stream.bytesToString()["user"]["_id"]);
+      Map valueMap = json.decode(await response.stream.bytesToString());
+      // print(valueMap["user"]["_id"]);
+      setState(() {
+        currentUserID = valueMap["user"]["_id"];
+      });
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  List<ItemModel> checkUserPost(BuildContext context, String postUserId) {
+    List<ItemModel> menuItems = [];
+    if (postUserId == currentUserID) {
+      menuItems = [
+        ItemModel('Share', Icons.send),
+        ItemModel('Copy Link', Icons.content_copy),
+        ItemModel('Delete', Icons.delete)
+      ];
+    } else {
+      menuItems = [
+        // ItemModel('Follow', Icons.add),
+        ItemModel('Share', Icons.send),
+        ItemModel('Copy Link', Icons.content_copy),
+      ];
+    }
+    return menuItems;
+  }
+
+  final CustomPopupMenuController _controller = CustomPopupMenuController();
+
   @override
   void initState() {
+    getCurrentUser();
     noStars = widget.posts![widget.index!].noStar;
     print("colorcheck$isStarred");
     // Get.find<CuratedPostController>().curatedPost.value[index].noStar;
@@ -576,24 +685,117 @@ class __actionBarState extends State<_actionBar> {
                     ],
                   ),
                 ),
-                _commentsectionModal(
-                  context,
-                  widget.index!,
-                ),
-                Container(
-                  decoration: const BoxDecoration(boxShadow: [
-                    BoxShadow(color: Colors.grey, blurRadius: 25)
-                  ]),
-                  margin: const EdgeInsets.only(top: 0, bottom: 12, right: 13),
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Icon(
-                      TualeIcons.elipsis,
-                      color: Colors.white,
-                      size: 25.sp,
-                    ),
-                  ),
-                )
+                _commentsectionModal(context, widget.index!),
+                // Container(
+                //   decoration: const BoxDecoration(boxShadow: [
+                //     BoxShadow(color: Colors.grey, blurRadius: 25)
+                //   ]),
+                //   margin: const EdgeInsets.only(top: 0, bottom: 12, right: 13),
+                //   child: GestureDetector(
+                //     onTap: () {},
+                //     child: Icon(
+                //       TualeIcons.elipsis,
+                //       color: Colors.white,
+                //       size: 25.sp,
+                //     ),
+                //   ),
+                // )
+                CustomPopupMenu(
+                    arrowColor: const Color.fromRGBO(250, 250, 250, 1),
+                    menuBuilder: () => ClipRRect(
+                          borderRadius: BorderRadius.circular(5),
+                          child: Container(
+                            color: const Color.fromRGBO(250, 250, 250, 1),
+                            child: IntrinsicWidth(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: checkUserPost(context,
+                                        widget.posts![widget.index!].userId)
+                                    .map(
+                                      (item) => GestureDetector(
+                                        behavior: HitTestBehavior.translucent,
+                                        onTap: () {
+                                          switch (item.title) {
+                                            case "Follow":
+                                              {
+                                                var id = widget
+                                                    .posts![widget.index!]
+                                                    .userId;
+                                                follow(id, context);
+                                              }
+                                              break;
+
+                                            case "Share":
+                                              {
+                                                share();
+                                              }
+                                              break;
+                                            case "Copy Link":
+                                              {
+                                                copy();
+                                              }
+                                              break;
+                                            case "Delete":
+                                              {
+                                                var id = widget
+                                                    .posts![widget.index!].id;
+                                                delete(id, context);
+                                              }
+                                              break;
+                                          }
+                                          setState(() {
+                                            _controller.hideMenu();
+                                          });
+                                        },
+                                        child: Container(
+                                          height: 40,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          child: Row(
+                                            children: <Widget>[
+                                              Icon(
+                                                item.icon,
+                                                size: 15,
+                                                color: Color.fromRGBO(
+                                                    76, 76, 76, 1),
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  margin: const EdgeInsets.only(
+                                                      left: 10),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 10),
+                                                  child: Text(
+                                                    item.title,
+                                                    style: const TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          76, 76, 76, 1),
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                    pressType: PressType.singleClick,
+                    verticalMargin: -10,
+                    controller: _controller,
+                    child: Container(
+                        decoration: const BoxDecoration(boxShadow: [
+                          BoxShadow(color: Colors.grey, blurRadius: 25)
+                        ]),
+                        margin: const EdgeInsets.only(
+                            top: 0, bottom: 12, right: 13),
+                        child: Icon(TualeIcons.elipsis,
+                            color: Colors.white, size: 25.sp)))
               ]),
         ),
       ),
