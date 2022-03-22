@@ -23,10 +23,10 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
-  final email = TextEditingController(text: '');
-  final pass = TextEditingController(text: '');
-  // final email = TextEditingController(text: 'tulenoreply@gmail.com');
-  // final pass = TextEditingController(text: 'Azerty');
+  //final email = TextEditingController(text: '');
+ // final pass = TextEditingController(text: '');
+  final email = TextEditingController(text: 'tulenoreply@gmail.com');
+   final pass = TextEditingController(text: 'Azerty');
   // final email = TextEditingController(text: 'afolabiogunbanwo@gmail.com');
   // final pass = TextEditingController(text: 'testing');
   // final email = TextEditingController(text: 'clintonali127@gmail.com');
