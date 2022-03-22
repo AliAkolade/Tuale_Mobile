@@ -435,7 +435,7 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
       //   height: 20.h,
       // ),
       Container(
-          color: Colors.black,
+          //color: Colors.black,
           margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
           child: Column(
             children: [
@@ -670,9 +670,11 @@ class _actionBarState extends State<actionBar> {
       // print(await response.stream.bytesToString()["user"]["_id"]);
       Map valueMap = json.decode(await response.stream.bytesToString());
       // print(valueMap["user"]["_id"]);
-      setState(() {
-        currentUserID = valueMap["user"]["_id"];
-      });
+      if(mounted){
+        setState(() {
+          currentUserID = valueMap["user"]["_id"];
+        });
+      }
     } else {
       print(response.reasonPhrase);
     }

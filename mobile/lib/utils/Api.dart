@@ -327,22 +327,23 @@ class Api {
     Response response = await dio.get(hostAPI + notifications);
     var responseData = response.data;
     List<NotificationModel> notification = [];
-    //  print(responseData);
     if (response.data['success'].toString() == 'true') {
       for (var i = 0; i < responseData['notifications'].length; i++) {
         //   print(i);
-        notification.add(NotificationModel(
-            type: responseData['notifications'][i]['type'],
-            username: responseData['notifications'][i]['user']['username'],
-            likedPost: responseData['notifications'][i]['type'] == 'newFan'
-                ? ""
-                : responseData['notifications'][i]['post']['media']['url'],
-            mediaType: responseData['notifications'][i]['type'] == 'newFan'
-                ? ''
-                : responseData['notifications'][i]['post']['mediaType'],
-            id: responseData['notifications'][i]['type'] == 'newFan'
-                ? responseData['notifications'][i]['user']['_id']
-                : responseData['notifications'][i]['post']['_id']));
+        if(responseData['notifications'][i]['post'] != null){
+          notification.add(NotificationModel(
+              type: responseData['notifications'][i]['type'],
+              username: responseData['notifications'][i]['user']['username'],
+              likedPost: responseData['notifications'][i]['type'] == 'newFan'
+                  ? ""
+                  : responseData['notifications'][i]['post']['media']['url'],
+              mediaType: responseData['notifications'][i]['type'] == 'newFan'
+                  ? ''
+                  : responseData['notifications'][i]['post']['mediaType'],
+              id: responseData['notifications'][i]['type'] == 'newFan'
+                  ? responseData['notifications'][i]['user']['_id']
+                  : responseData['notifications'][i]['post']['_id']));
+        }
       }
     }
     // print(notification.length);

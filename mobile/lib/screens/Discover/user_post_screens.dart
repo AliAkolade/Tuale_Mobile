@@ -397,9 +397,11 @@ class __actionBarState extends State<_actionBar> {
       // print(await response.stream.bytesToString()["user"]["_id"]);
       Map valueMap = json.decode(await response.stream.bytesToString());
       // print(valueMap["user"]["_id"]);
-      setState(() {
-        currentUserID = valueMap["user"]["_id"];
-      });
+      if(mounted){
+        setState(() {
+          currentUserID = valueMap["user"]["_id"];
+        });
+      }
     } else {
       print(response.reasonPhrase);
     }
