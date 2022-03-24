@@ -436,7 +436,7 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
       // ),
       Container(
           //color: Colors.black,
-          margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+          margin: const EdgeInsets.fromLTRB(20, 20, 20, 10),
           child: Column(
             children: [
               GestureDetector(

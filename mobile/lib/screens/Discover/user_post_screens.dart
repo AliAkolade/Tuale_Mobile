@@ -368,11 +368,11 @@ class __actionBarState extends State<_actionBar> {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Post Deleted')));
       await Future.delayed(const Duration(seconds: 1));
-      Navigator.pop(context);
-      pushNewScreen(context,
-          screen: NavBar(index: 0),
-          withNavBar: false,
-          pageTransitionAnimation: PageTransitionAnimation.cupertino);
+       
+        Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                              builder: (context) => Home(initialIndex: 1)),
+                                          (Route<dynamic> route) => false);
     } else {
       print("Error");
       print(response.reasonPhrase);

@@ -373,7 +373,7 @@ Column userInfoVibingWidget(BuildContext context, int index, List posts) {
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
       Container(
-          margin: const EdgeInsets.fromLTRB(20, 20, 20, 58),
+          margin: const EdgeInsets.fromLTRB(20, 20, 20, 10),
           child: Column(
             children: [
               GestureDetector(
@@ -547,12 +547,11 @@ class __actionBarState extends State<_actionBar> {
       print("Here");
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Post Deleted')));
-      await Future.delayed(const Duration(seconds: 1));
-      Navigator.pop(context);
-      pushNewScreen(context,
-          screen: NavBar(index: 0),
-          withNavBar: false,
-          pageTransitionAnimation: PageTransitionAnimation.cupertino);
+      
+        Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                              builder: (context) => Home(initialIndex: 0)),
+                                          (Route<dynamic> route) => false);
     } else {
       print("Error");
       print(response.reasonPhrase);
