@@ -204,7 +204,7 @@ Future pickMedia(ImageSource source, String type) async {
   File file;
   String filePath;
   if (type == "image") {
-    asset = await ImagePicker().pickImage(source: source);
+    asset = await ImagePicker().pickImage(source: source,imageQuality: 50);
     if (asset != null) {
       file = File(asset.path);
       filePath = asset.path;
