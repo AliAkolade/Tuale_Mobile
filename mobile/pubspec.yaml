@@ -63,6 +63,7 @@ dependencies:
   http: ^0.13.4
   custom_pop_up_menu: ^1.2.3+1
   share_plus: ^4.0.1
+  video_compress: ^3.1.0
 
 
 flutter_icons:
