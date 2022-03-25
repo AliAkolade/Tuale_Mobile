@@ -49,11 +49,6 @@ class _PostTimelineState extends State<PostTimeline> {
     debugPrint("asset :${widget.filePath}");
     double uploadingPercentage = 0;
 
-    if (widget.mediaType != 'image') {
-       mediainfo = await VideoCompress.compressVideo(widget.filePath,
-          quality: VideoQuality.DefaultQuality, deleteOrigin: false);
-    }
-
     try {
       Loader.show(context,
           isSafeAreaOverlay: false,
@@ -69,6 +64,11 @@ class _PostTimelineState extends State<PostTimeline> {
           ),
           themeData: Theme.of(context).copyWith(accentColor: Colors.black38),
           overlayColor: const Color(0x99E8EAF6));
+
+      if (widget.mediaType != 'image') {
+        mediainfo = await VideoCompress.compressVideo(widget.filePath,
+            quality: VideoQuality.MediumQuality, deleteOrigin: false);
+      }
 
       CloudinaryResponse response = await cloudinary.uploadFile(
           widget.mediaType == "image"
