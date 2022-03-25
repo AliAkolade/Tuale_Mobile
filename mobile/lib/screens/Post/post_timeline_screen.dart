@@ -4,11 +4,13 @@ import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:video_compress/video_compress.dart';
 
 class PostTimeline extends StatefulWidget {
   File fileContent;
   String filePath;
   String mediaType;
+
   PostTimeline(
       {Key? key,
       required this.fileContent,
@@ -23,6 +25,7 @@ class PostTimeline extends StatefulWidget {
 class _PostTimelineState extends State<PostTimeline> {
   late VideoPlayerController videoController;
   late TextEditingController description;
+    MediaInfo? mediainfo;
   bool playVideo = false;
   final cloudinary =
       CloudinaryPublic('demilade211', 'Tuale-Ogunbanwo', cache: false);
@@ -46,6 +49,11 @@ class _PostTimelineState extends State<PostTimeline> {
     debugPrint("asset :${widget.filePath}");
     double uploadingPercentage = 0;
 
+    if (widget.mediaType != 'image') {
+       mediainfo = await VideoCompress.compressVideo(widget.filePath,
+          quality: VideoQuality.DefaultQuality, deleteOrigin: false);
+    }
+
     try {
       Loader.show(context,
           isSafeAreaOverlay: false,
@@ -67,7 +75,7 @@ class _PostTimelineState extends State<PostTimeline> {
               ? CloudinaryFile.fromFile(widget.filePath,
                   folder: "Tuale posts",
                   resourceType: CloudinaryResourceType.Image)
-              : CloudinaryFile.fromFile(widget.filePath,
+              : CloudinaryFile.fromFile(mediainfo!.path!,
                   folder: "Tuale posts",
                   resourceType: CloudinaryResourceType.Video),
           onProgress: (count, total) {
@@ -83,7 +91,7 @@ class _PostTimelineState extends State<PostTimeline> {
       if (response.secureUrl != "") {
         String publicId = response.publicId;
         String url = response.secureUrl;
-        String desc = description.text.isNotEmpty ? description.text  : "";
+        String desc = description.text.isNotEmpty ? description.text : "";
         String mediaType = widget.mediaType;
 
         //debugPrint("secureUrl : ${response.secureUrl}");
@@ -150,9 +158,9 @@ class _PostTimelineState extends State<PostTimeline> {
               context,
               MaterialPageRoute(
                   builder: (context) => NavBar(
-                    index: 0,
-                    initIndex:1,
-                  )),
+                        index: 0,
+                        initIndex: 1,
+                      )),
             );
           },
           child: const Icon(
@@ -201,37 +209,41 @@ class _PostTimelineState extends State<PostTimeline> {
                               image: AssetImage("assets/images/demoPost.png")),
                     )
                   : Stack(
-                    children: [
-                      SizedBox(
-                        height: double.infinity,
-                        width: double.infinity,
-                        child: GestureDetector(
-                          child: VideoPlayer(videoController),
-                          onTap: (){
-                            if(playVideo  ==  false) {
-                              videoController.play();
-                            }else{
-                              videoController.pause();
-                            }
-                            setState(() {
-                              playVideo = !playVideo;
-                            });
-                          },
-                        ),
-                      ),
-                      if(widget.mediaType != "image")
-                        Visibility(
-                          visible: !playVideo,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Icon(Icons.play_circle_outline, size: 30, color: Colors.white,),
+                      children: [
+                        SizedBox(
+                          height: double.infinity,
+                          width: double.infinity,
+                          child: GestureDetector(
+                            child: VideoPlayer(videoController),
+                            onTap: () {
+                              if (playVideo == false) {
+                                videoController.play();
+                              } else {
+                                videoController.pause();
+                              }
+                              setState(() {
+                                playVideo = !playVideo;
+                              });
+                            },
                           ),
                         ),
-                    ],
-                  ),
+                        if (widget.mediaType != "image")
+                          Visibility(
+                            visible: !playVideo,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Icon(
+                                Icons.play_circle_outline,
+                                size: 30,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
             ),
             Container(
-           margin: const EdgeInsets.only(left: 15, right: 15),
+              margin: const EdgeInsets.only(left: 15, right: 15),
               padding: const EdgeInsets.all(5),
               child: TextField(
                 maxLines: 6,
