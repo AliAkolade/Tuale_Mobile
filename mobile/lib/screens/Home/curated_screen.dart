@@ -145,6 +145,7 @@ class _CuratedState extends State<Curated> {
                                                 height: 645.h,
                                                 width: 400.w,
                                                 child: VideoPlayerScreen(
+                                                    defaultMute: true,
                                                     videoUrl: Get.find<
                                                             CuratedPostController>()
                                                         .curatedPost
@@ -548,6 +549,7 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
 class actionBar extends StatefulWidget {
   List? posts;
   int? index;
+  bool muteBtn;
   //VideoPlayerController? currentVideo;
   final Function()? notifyParent;
 
@@ -555,6 +557,7 @@ class actionBar extends StatefulWidget {
     this.posts,
     this.index,
     this.notifyParent,
+    this.muteBtn=false,
   });
 
   @override
@@ -1159,7 +1162,16 @@ class _actionBarState extends State<actionBar> {
                           margin: const EdgeInsets.only(
                               top: 0, bottom: 12, right: 13),
                           child: Icon(TualeIcons.elipsis,
-                              color: Colors.white, size: 25.sp)))
+                              color: Colors.white, size: 25.sp))),
+
+                  if(widget.muteBtn) Container(
+                      margin: const EdgeInsets.only(top: 8, bottom: 12),
+                      child: Icon(
+                        Icons.volume_off_rounded,
+                        color: Colors.white,
+                        size: 37.sp,
+                      )
+                  ),
                 ]))));
   }
 }

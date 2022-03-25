@@ -110,6 +110,7 @@ class _VibingState extends State<Vibing> {
                                             height: 645.h,
                                             width: 400.w,
                                             child: VideoPlayerScreen(
+                                              defaultMute: true,
                                               videoUrl: Get.find<
                                                       VibedPostController>()
                                                   .vibePost
@@ -480,9 +481,10 @@ Column userInfoVibingWidget(BuildContext context, int index, List posts) {
 class _actionBar extends StatefulWidget {
   List? posts;
   int? index;
+  bool muteBtn;
   final Function()? notifyParent;
 
-  _actionBar({this.posts, this.index, this.notifyParent});
+  _actionBar({this.posts, this.index, this.notifyParent,this.muteBtn=true,});
 
   @override
   State<_actionBar> createState() => __actionBarState();
@@ -994,7 +996,15 @@ class __actionBarState extends State<_actionBar> {
                         margin: const EdgeInsets.only(
                             top: 0, bottom: 12, right: 13),
                         child: Icon(TualeIcons.elipsis,
-                            color: Colors.white, size: 25.sp)))
+                            color: Colors.white, size: 25.sp))),
+                if(widget.muteBtn) Container(
+                    margin: const EdgeInsets.only(top: 8, bottom: 12),
+                    child: Icon(
+                      Icons.volume_off_rounded,
+                      color: Colors.white,
+                      size: 37.sp,
+                    )
+                ),
               ]),
         ),
       ),

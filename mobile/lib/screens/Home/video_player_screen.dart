@@ -7,6 +7,7 @@ class VideoPlayerScreen extends StatefulWidget {
   String videoUrl;
   bool enablePlayBtn;
   bool initVideoPlay;
+  bool defaultMute;
   late final Function(VideoPlayerController) cbController;
 
   VideoPlayerScreen(
@@ -14,6 +15,7 @@ class VideoPlayerScreen extends StatefulWidget {
       required this.videoUrl,
       this.enablePlayBtn = false,
       this.initVideoPlay = true,
+      this.defaultMute = false,
       required this.cbController})
       : super(key: key);
 
@@ -32,7 +34,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     videoController = VideoPlayerController.network(widget.videoUrl,
         videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true))
       ..setLooping(true)
-      ..setVolume(0.1)
+      ..setVolume(widget.defaultMute ? 0 : 0.5)
       ..initialize().then((_) => widget.initVideoPlay ? videoController.play() : videoController.pause()); //:videoController.play());
 
     super.initState();
