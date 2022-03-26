@@ -327,10 +327,11 @@ class Api {
     Response response = await dio.get(hostAPI + notifications);
     var responseData = response.data;
     List<NotificationModel> notification = [];
+   
     if (response.data['success'].toString() == 'true') {
+       print(responseData);
       for (var i = 0; i < responseData['notifications'].length; i++) {
-        //   print(i);
-        if(responseData['notifications'][i]['post'] != null){
+        // if (responseData['notifications'][i]['post'] != null) {
           notification.add(NotificationModel(
               type: responseData['notifications'][i]['type'],
               username: responseData['notifications'][i]['user']['username'],
@@ -343,7 +344,7 @@ class Api {
               id: responseData['notifications'][i]['type'] == 'newFan'
                   ? responseData['notifications'][i]['user']['_id']
                   : responseData['notifications'][i]['post']['_id']));
-        }
+        
       }
     }
     // print(notification.length);
@@ -432,7 +433,6 @@ class Api {
         ProfileController(controllerusername: username),
       ).getProfileInfo(username);
       Get.find<LoggedUserController>().getLoggeduser();
-     
     }
   }
 
@@ -452,7 +452,6 @@ class Api {
         ProfileController(controllerusername: username),
       ).getProfileInfo(username);
       Get.find<LoggedUserController>().getLoggeduser();
-     
     }
   }
 

@@ -437,7 +437,7 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
       // ),
       Container(
           //color: Colors.black,
-          margin: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+          margin: const EdgeInsets.fromLTRB(20, 20, 20, 30),
           child: Column(
             children: [
               GestureDetector(
@@ -492,7 +492,7 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
                       height: 25.h,
                       //width: 200.w,
                       child: Text(
-                        "@" + posts[index].username.toString(),
+                        posts[index].username.length > 20 ?'${posts[index].username.substring(0,19)}......':"@" + posts[index].username,
                         style: const TextStyle(
                             overflow: TextOverflow.ellipsis,
                             color: Colors.white,

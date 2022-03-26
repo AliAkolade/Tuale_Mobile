@@ -288,7 +288,7 @@ class newFan extends StatelessWidget {
                       primary: isFollowing() ? tualeOrange : tualeBlueDark,
                       minimumSize: Size(55.w, 30.h),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
+                          borderRadius: BorderRadius.circular(5))),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,

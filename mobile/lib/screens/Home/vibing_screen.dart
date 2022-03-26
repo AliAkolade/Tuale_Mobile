@@ -13,8 +13,6 @@ import 'package:mobile/screens/widgets/verifiedTag.dart';
 import 'package:mobile/utils/Api.dart';
 import 'package:share_plus/share_plus.dart';
 
-
-
 class Vibing extends StatefulWidget {
   Vibing({Key? key}) : super(key: key);
 
@@ -143,7 +141,8 @@ class _VibingState extends State<Vibing> {
                                                     .value,
                                                 index: index);
                                           }));
-                                          if (result == 200) currentVibingVP.play();
+                                          if (result == 200)
+                                            currentVibingVP.play();
                                         },
                                         child: Hero(
                                           tag: "hero$index",
@@ -374,7 +373,7 @@ Column userInfoVibingWidget(BuildContext context, int index, List posts) {
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
       Container(
-          margin: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+          margin: const EdgeInsets.fromLTRB(20, 20, 20, 30),
           child: Column(
             children: [
               GestureDetector(
@@ -383,24 +382,29 @@ Column userInfoVibingWidget(BuildContext context, int index, List posts) {
                   //   controllerusername: posts[index].username.toString()
                   // ))
                   //     .getProfileInfo(posts[index].username.toString());
-                  final res = await Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    if(Get.find<VibedPostController>()
-                        .vibePost
-                        .value[index]
-                        .mediaType ==
-                        'video') {currentVibingVP.pause();}
+                  final res = await Navigator.push(context,
+                      MaterialPageRoute(builder: (context) {
+                    if (Get.find<VibedPostController>()
+                            .vibePost
+                            .value[index]
+                            .mediaType ==
+                        'video') {
+                      currentVibingVP.pause();
+                    }
                     return userProfile(
                       isUser: false,
                       username: posts[index].username.toString(),
                       //tag: "yourprofile",
                     );
                   }));
-                  if(res==200) {
-                    if(Get.find<VibedPostController>()
-                        .vibePost
-                        .value[index]
-                        .mediaType ==
-                        'video'){currentVibingVP.play();}
+                  if (res == 200) {
+                    if (Get.find<VibedPostController>()
+                            .vibePost
+                            .value[index]
+                            .mediaType ==
+                        'video') {
+                      currentVibingVP.play();
+                    }
                   }
                 },
                 child: Row(
@@ -424,7 +428,7 @@ Column userInfoVibingWidget(BuildContext context, int index, List posts) {
                       height: 25.h,
                       //width: 165.w,
                       child: Text(
-                        "@" + posts[index].username.toString(),
+                         posts[index].username.length > 20 ?'${posts[index].username.substring(0,19)}......':"@" + posts[index].username,
                         style: const TextStyle(
                             overflow: TextOverflow.ellipsis,
                             color: Colors.white,
@@ -477,14 +481,18 @@ Column userInfoVibingWidget(BuildContext context, int index, List posts) {
   );
 }
 
-
 class _actionBar extends StatefulWidget {
   List? posts;
   int? index;
   bool muteBtn;
   final Function()? notifyParent;
 
-  _actionBar({this.posts, this.index, this.notifyParent,this.muteBtn=true,});
+  _actionBar({
+    this.posts,
+    this.index,
+    this.notifyParent,
+    this.muteBtn = true,
+  });
 
   @override
   State<_actionBar> createState() => __actionBarState();
@@ -549,11 +557,10 @@ class __actionBarState extends State<_actionBar> {
       print("Here");
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Post Deleted')));
-      
-        Navigator.of(context).pushAndRemoveUntil(
-                                          MaterialPageRoute(
-                                              builder: (context) => Home(initialIndex: 0)),
-                                          (Route<dynamic> route) => false);
+
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => Home(initialIndex: 0)),
+          (Route<dynamic> route) => false);
     } else {
       print("Error");
       print(response.reasonPhrase);
@@ -578,7 +585,7 @@ class __actionBarState extends State<_actionBar> {
       // print(await response.stream.bytesToString()["user"]["_id"]);
       Map valueMap = json.decode(await response.stream.bytesToString());
       // print(valueMap["user"]["_id"]);
-      if(mounted){
+      if (mounted) {
         setState(() {
           currentUserID = valueMap["user"]["_id"];
         });
@@ -997,14 +1004,14 @@ class __actionBarState extends State<_actionBar> {
                             top: 0, bottom: 12, right: 13),
                         child: Icon(TualeIcons.elipsis,
                             color: Colors.white, size: 25.sp))),
-                if(widget.muteBtn) Container(
-                    margin: const EdgeInsets.only(top: 8, bottom: 12),
-                    child: Icon(
-                      Icons.volume_off_rounded,
-                      color: Colors.white,
-                      size: 37.sp,
-                    )
-                ),
+                if (widget.muteBtn)
+                  Container(
+                      margin: const EdgeInsets.only(top: 8, bottom: 12),
+                      child: Icon(
+                        Icons.volume_off_rounded,
+                        color: Colors.white,
+                        size: 37.sp,
+                      )),
               ]),
         ),
       ),
@@ -1159,9 +1166,8 @@ class _commentModalState extends State<_commentModal> {
                         ),
                       )),
                   GestureDetector(
-
                     onTap: () async {
-                        Loader.show(context,
+                      Loader.show(context,
                           isSafeAreaOverlay: false,
                           isAppbarOverlay: true,
                           isBottomBarOverlay: false,
@@ -1170,17 +1176,17 @@ class _commentModalState extends State<_commentModal> {
                           themeData: Theme.of(context)
                               .copyWith(accentColor: Colors.black38),
                           overlayColor: const Color(0x99E8EAF6));
-                       _focusNode.unfocus();
+                      _focusNode.unfocus();
                       String comment = myController.text;
-                               myController.clear();
+                      myController.clear();
                       List result = await Api().commentOnAPost(
                           widget.posts![widget.index!].id, comment);
 
                       if (result[0]) {
-                          Loader.hide();
+                        Loader.hide();
                         Get.find<VibedPostController>().getVibedPosts();
                       } else {
-                          Loader.hide();
+                        Loader.hide();
                         Get.snackbar("Error", result[1],
                             duration: Duration(seconds: 4),
                             isDismissible: true,

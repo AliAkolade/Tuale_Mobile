@@ -139,11 +139,19 @@ class _LeaderboardState extends State<Leaderboard> {
                                     // color:  Colors.black,
                                     width: 12.w,
                                   ),
-                                  Icon(
-                                    TualeIcons.usericon,
-                                    color: Colors.grey,
-                                    size: 45.sp,
-                                  ),
+                                  SizedBox(
+                      height: 48.h,
+                      width: 48.h,
+                      child: CircleAvatar(
+                        backgroundImage: Image.network(
+                          leaderboard
+                                                          .leaderboard
+                                                          .value[index]
+                                                          .avatar,
+                          fit: BoxFit.fitHeight,
+                        ).image,
+                      ),
+                    ),
                                   Container(
                                     //  color: Colors.blue,
                                     width: 5,
@@ -156,10 +164,17 @@ class _LeaderboardState extends State<Leaderboard> {
                                       Row(
                                         children: [
                                           SizedBox(
-                                            width: 170.w,
+                                            // width: 170.w,
                                             child: Text(
-                                              leaderboard.leaderboard
-                                                  .value[index].name,
+                                              leaderboard
+                                                          .leaderboard
+                                                          .value[index]
+                                                          .name
+                                                          .length >
+                                                      20
+                                                  ? '${leaderboard.leaderboard.value[index].name.substring(0, 19)}....'
+                                                  : leaderboard.leaderboard
+                                                      .value[index].name,
                                               style: TextStyle(
                                                 overflow: TextOverflow.ellipsis,
                                                 color: tualeBlueDark,
