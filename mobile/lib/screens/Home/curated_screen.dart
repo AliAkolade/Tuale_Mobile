@@ -63,6 +63,7 @@ class _CuratedState extends State<Curated> {
 
   @override
   void initState() {
+    curatedPageNo = 1;
     super.initState();
     Get.put(CuratedPostController());
     scrollController.addListener(scrollPosition);
@@ -492,7 +493,9 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
                       height: 25.h,
                       //width: 200.w,
                       child: Text(
-                        posts[index].username.length > 20 ?'${posts[index].username.substring(0,19)}......':"@" + posts[index].username,
+                        posts[index].username.length > 20
+                            ? '${posts[index].username.substring(0, 19)}......'
+                            : "@" + posts[index].username,
                         style: const TextStyle(
                             overflow: TextOverflow.ellipsis,
                             color: Colors.white,
@@ -557,7 +560,7 @@ class actionBar extends StatefulWidget {
     this.posts,
     this.index,
     this.notifyParent,
-    this.muteBtn=false,
+    this.muteBtn = false,
   });
 
   @override
@@ -640,11 +643,10 @@ class _actionBarState extends State<actionBar> {
           .showSnackBar(const SnackBar(content: Text('Post Deleted')));
       await Future.delayed(const Duration(seconds: 1));
       // Navigator.pop(context);
-      
-        Navigator.of(context).pushAndRemoveUntil(
-                                          MaterialPageRoute(
-                                              builder: (context) => Home(initialIndex: 1)),
-                                          (Route<dynamic> route) => false);
+
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => Home(initialIndex: 1)),
+          (Route<dynamic> route) => false);
       // pushNewScreen(context,
       //     screen: NavBar(index: 0),
       //     withNavBar: false,
@@ -673,7 +675,7 @@ class _actionBarState extends State<actionBar> {
       // print(await response.stream.bytesToString()["user"]["_id"]);
       Map valueMap = json.decode(await response.stream.bytesToString());
       // print(valueMap["user"]["_id"]);
-      if(mounted){
+      if (mounted) {
         setState(() {
           currentUserID = valueMap["user"]["_id"];
         });
@@ -731,146 +733,144 @@ class _actionBarState extends State<actionBar> {
                               // debugPrint("tuales : ${widget.post?.tuales}");
                               // debugPrint("testme : $alreadyGiveTuale");
 
-                            if (widget.posts![widget.index!].isTualed) {
-                              //"61e327db86dcaee74311fa14"
-                              debugPrint("User already give a tuale");
-                            } else {
-                              // var result = await Api()
-                              //     .addTuale(posts[index].id ?? " ");
-                              // if (result[0]) {
-                              //   control.getCuratedPosts();
-                              // } else {
-                              //   // TODO : display message
-                              //   debugPrint(result[1]);
-                              // }
-                            }
-                          },
-                          child: Icon(
-                            TualeIcons.tualeactive,
-                            color: Colors.yellow,
-                            size: 40.sp,
+                              if (widget.posts![widget.index!].isTualed) {
+                                //"61e327db86dcaee74311fa14"
+                                debugPrint("User already give a tuale");
+                              } else {
+                                // var result = await Api()
+                                //     .addTuale(posts[index].id ?? " ");
+                                // if (result[0]) {
+                                //   control.getCuratedPosts();
+                                // } else {
+                                //   // TODO : display message
+                                //   debugPrint(result[1]);
+                                // }
+                              }
+                            },
+                            child: Icon(
+                              TualeIcons.tualeactive,
+                              color: Colors.yellow,
+                              size: 40.sp,
+                            ),
                           ),
-                        ),
-                        firstChild: GestureDetector(
-                          onTap: () async {
-                            if (widget.posts![widget.index!].isTualed) {
-                              //"61e327db86dcaee74311fa14"
-                              debugPrint("User already give a tuale");
-                            } else {
-                              //if no tuales is less than 2 it displays dialog box
-                              if (Get.find<LoggedUserController>()
-                                      .loggedUser
-                                      .value
-                                      .noTuales! <
-                                  2) {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return Container(
-                                      height: 40.h,
-                                      width: 100.h,
-                                      child: AlertDialog(
-                                        // title: Text('Welcome'),
-                                        content: Text(
-                                            'Not enought Tuallet points \n to give this tuale'),
-                                        actions: [
-                                          GestureDetector(
-                                            onTap: () async {
-                                              if (Get.isRegistered<
-                                                  CuratedPostController>()) {
-                                                //checks if mediatype is video pauses it before going to the next page
-                                                if (Get.find<
-                                                            CuratedPostController>()
-                                                        .curatedPost
-                                                        .value[widget.index!]
-                                                        .mediaType ==
-                                                    'video') {
-                                                  currentVP.pause();
+                          firstChild: GestureDetector(
+                            onTap: () async {
+                              if (widget.posts![widget.index!].isTualed) {
+                                //"61e327db86dcaee74311fa14"
+                                debugPrint("User already give a tuale");
+                              } else {
+                                //if no tuales is less than 2 it displays dialog box
+                                if (Get.find<LoggedUserController>()
+                                        .loggedUser
+                                        .value
+                                        .noTuales! <
+                                    2) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                        height: 40.h,
+                                        width: 100.h,
+                                        child: AlertDialog(
+                                          // title: Text('Welcome'),
+                                          content: Text(
+                                              'Not enought Tuallet points \n to give this tuale'),
+                                          actions: [
+                                            GestureDetector(
+                                              onTap: () async {
+                                                if (Get.isRegistered<
+                                                    CuratedPostController>()) {
+                                                  //checks if mediatype is video pauses it before going to the next page
+                                                  if (Get.find<
+                                                              CuratedPostController>()
+                                                          .curatedPost
+                                                          .value[widget.index!]
+                                                          .mediaType ==
+                                                      'video') {
+                                                    currentVP.pause();
+                                                  }
+                                                  final result = await Navigator.push(
+                                                      context,
+                                                      PageTransition(
+                                                          type:
+                                                              PageTransitionType
+                                                                  .fade,
+                                                          child:
+                                                              TualletHome()));
+                                                  if (result == 200 &&
+                                                      Get.find<CuratedPostController>()
+                                                              .curatedPost
+                                                              .value[
+                                                                  widget.index!]
+                                                              .mediaType ==
+                                                          'video')
+                                                    currentVP.play();
+                                                } else if (Get.isRegistered<
+                                                    VibedPostController>()) {
+                                                  //checks if mediatype is video
+                                                  Get.find<VibedPostController>()
+                                                              .vibePost
+                                                              .value[
+                                                                  widget.index!]
+                                                              .mediaType ==
+                                                          'video'
+                                                      ? currentVP.pause()
+                                                      : print('no');
+                                                  final result = await Navigator.push(
+                                                      context,
+                                                      PageTransition(
+                                                          type:
+                                                              PageTransitionType
+                                                                  .fade,
+                                                          child:
+                                                              TualletHome()));
+                                                  if (result == 200 &&
+                                                      Get.find<VibedPostController>()
+                                                              .vibePost
+                                                              .value[
+                                                                  widget.index!]
+                                                              .mediaType ==
+                                                          'video')
+                                                    currentVP.play();
                                                 }
-                                                final result =
-                                                    await Navigator.push(
-                                                        context,
-                                                        PageTransition(
-                                                            type:
-                                                                PageTransitionType
-                                                                    .fade,
-                                                            child:
-                                                                TualletHome()));
-                                                if (result == 200 &&
-                                                    Get.find<CuratedPostController>()
-                                                            .curatedPost
-                                                            .value[
-                                                                widget.index!]
-                                                            .mediaType ==
-                                                        'video')
-                                                  currentVP.play();
-                                              } else if (Get.isRegistered<
-                                                  VibedPostController>()) {
-                                                //checks if mediatype is video
-                                                Get.find<VibedPostController>()
-                                                            .vibePost
-                                                            .value[
-                                                                widget.index!]
-                                                            .mediaType ==
-                                                        'video'
-                                                    ? currentVP.pause()
-                                                    : print('no');
-                                                final result =
-                                                    await Navigator.push(
-                                                        context,
-                                                        PageTransition(
-                                                            type:
-                                                                PageTransitionType
-                                                                    .fade,
-                                                            child:
-                                                                TualletHome()));
-                                                if (result == 200 &&
-                                                    Get.find<VibedPostController>()
-                                                            .vibePost
-                                                            .value[
-                                                                widget.index!]
-                                                            .mediaType ==
-                                                        'video')
-                                                  currentVP.play();
-                                              }
-                                            },
-                                            child: Container(
-                                                height: 30,
-                                                width: double.infinity,
-                                                child: Center(
-                                                  child: Text(
-                                                      'Buy more Tuallet points',
-                                                      style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.white,
-                                                      )),
-                                                ),
-                                                decoration: BoxDecoration(
-                                                    color: tualeBlueDark,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            9))),
-                                          ),
-                                          // FlatButton(
-                                          //   textColor: Colors.black,
-                                          //   onPressed: () async {
-                                          //     final result =
-                                          //         await Navigator.push(
-                                          //             context,
-                                          //             PageTransition(
-                                          //                 type:
-                                          //                     PageTransitionType
-                                          //                         .fade,
-                                          //                 child:
-                                          //                     TualletHome()));
-                                          //   },
-                                          //   child: Text('ACCEPT'),
-                                          // ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
+                                              },
+                                              child: Container(
+                                                  height: 30,
+                                                  width: double.infinity,
+                                                  child: Center(
+                                                    child: Text(
+                                                        'Buy more Tuallet points',
+                                                        style: TextStyle(
+                                                          fontSize: 12,
+                                                          color: Colors.white,
+                                                        )),
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                      color: tualeBlueDark,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              9))),
+                                            ),
+                                            // FlatButton(
+                                            //   textColor: Colors.black,
+                                            //   onPressed: () async {
+                                            //     final result =
+                                            //         await Navigator.push(
+                                            //             context,
+                                            //             PageTransition(
+                                            //                 type:
+                                            //                     PageTransitionType
+                                            //                         .fade,
+                                            //                 child:
+                                            //                     TualletHome()));
+                                            //   },
+                                            //   child: Text('ACCEPT'),
+                                            // ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
 
                                   // Get.defaultDialog(
                                   //   title: 'Insufficient Tuallet points',
@@ -1163,15 +1163,14 @@ class _actionBarState extends State<actionBar> {
                               top: 0, bottom: 12, right: 13),
                           child: Icon(TualeIcons.elipsis,
                               color: Colors.white, size: 25.sp))),
-
-                  if(widget.muteBtn) Container(
-                      margin: const EdgeInsets.only(top: 8, bottom: 12),
-                      child: Icon(
-                        Icons.volume_off_rounded,
-                        color: Colors.white,
-                        size: 37.sp,
-                      )
-                  ),
+                  if (widget.muteBtn)
+                    Container(
+                        margin: const EdgeInsets.only(top: 8, bottom: 12),
+                        child: Icon(
+                          Icons.volume_off_rounded,
+                          color: Colors.white,
+                          size: 37.sp,
+                        )),
                 ]))));
   }
 }
@@ -1274,8 +1273,10 @@ class _commentModalState extends State<commentModal> {
                                         ),
                                       ),
                                       widget.posts![widget.index!]
-                                                .comment[commentIndex]['user']
-                                            ['verified'] ? verifiedTag() : Container()
+                                                  .comment[commentIndex]['user']
+                                              ['verified']
+                                          ? verifiedTag()
+                                          : Container()
                                     ],
                                   ),
                                   FittedBox(

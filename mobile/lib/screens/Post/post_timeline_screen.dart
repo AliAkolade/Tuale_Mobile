@@ -25,7 +25,7 @@ class PostTimeline extends StatefulWidget {
 class _PostTimelineState extends State<PostTimeline> {
   late VideoPlayerController videoController;
   late TextEditingController description;
-   // MediaInfo? mediainfo;
+   MediaInfo? mediainfo;
   bool playVideo = false;
   final cloudinary =
       CloudinaryPublic('demilade211', 'Tuale-Ogunbanwo', cache: false);
@@ -75,7 +75,7 @@ class _PostTimelineState extends State<PostTimeline> {
               ? CloudinaryFile.fromFile(widget.filePath,
                   folder: "Tuale posts",
                   resourceType: CloudinaryResourceType.Image)
-              : CloudinaryFile.fromFile(mediainfo.path!,
+              : CloudinaryFile.fromFile(mediainfo!.path!,
                   folder: "Tuale posts",
                   resourceType: CloudinaryResourceType.Video),
           onProgress: (count, total) {

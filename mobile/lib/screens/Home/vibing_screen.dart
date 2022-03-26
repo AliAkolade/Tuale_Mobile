@@ -40,6 +40,7 @@ class _VibingState extends State<Vibing> {
 
   @override
   void initState() {
+    vibingPageNo = 1;
     super.initState();
     //  Api().getVibingPost();
     control = Get.put(VibedPostController());
@@ -428,7 +429,9 @@ Column userInfoVibingWidget(BuildContext context, int index, List posts) {
                       height: 25.h,
                       //width: 165.w,
                       child: Text(
-                         posts[index].username.length > 20 ?'${posts[index].username.substring(0,19)}......':"@" + posts[index].username,
+                        posts[index].username.length > 20
+                            ? '${posts[index].username.substring(0, 19)}......'
+                            : "@" + posts[index].username,
                         style: const TextStyle(
                             overflow: TextOverflow.ellipsis,
                             color: Colors.white,

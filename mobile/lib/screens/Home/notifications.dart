@@ -206,14 +206,26 @@ class newFan extends StatelessWidget {
           children: [
             Container(
               // color: Colors.blue,
-              child: Text(
-                '@' + username! + " ",
-                style: TextStyle(
-                    overflow: TextOverflow.ellipsis,
-                    fontSize: 15.sp,
-                    color: tualeBlueDark.withOpacity(0.7),
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.normal),
+              child: GestureDetector(
+                onTap: () {
+                     Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return userProfile(
+                            isUser: false,
+                            username: username,
+                            // tag: "notification",
+                          );
+                        }));
+                },
+                child: Text(
+                  '@' + username! + " ",
+                  style: TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      fontSize: 15.sp,
+                      color: tualeBlueDark.withOpacity(0.7),
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.normal),
+                ),
               ),
               height: 20.h,
               width: 110.w,
