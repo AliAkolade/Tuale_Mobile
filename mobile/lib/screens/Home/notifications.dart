@@ -240,8 +240,10 @@ class newFan extends StatelessWidget {
               child: Text(
                 'started vibing with you',
                 style: TextStyle(
-                    overflow: TextOverflow.ellipsis,
-                    color: Colors.black.withOpacity(0.8)),
+                     fontSize: 15.sp,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black.withOpacity(0.8)),
               ),
             ),
             // SizedBox(
@@ -398,10 +400,12 @@ class newNotification extends StatelessWidget {
               ? Container(
                   child: Center(
                       child:
-                          Icon(Icons.play_arrow_outlined, color: Colors.white)),
+                          Icon(Icons.play_arrow_outlined, color: Colors.white,
+                          size: 10.sp,
+                          )),
                   color: Colors.black,
                   height: 40.h,
-                  width: 40.w,
+                  width: 40.h,
                 )
               : Container(
                   height: 40.h,

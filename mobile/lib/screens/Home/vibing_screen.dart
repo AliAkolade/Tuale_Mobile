@@ -1141,7 +1141,7 @@ class _commentModalState extends State<_commentModal> {
                     width: 45.h,
                     child: CircleAvatar(
                       backgroundImage:
-                          AssetImage('assets/images/demo_profile.png'),
+                          NetworkImage(Get.find<LoggedUserController>().loggedUser.value.currentuserAvatarUrl!),
                     ),
                   ),
                   SizedBox(

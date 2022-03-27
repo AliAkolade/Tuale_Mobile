@@ -57,6 +57,7 @@ class _CuratedState extends State<Curated> {
   void dispose() {
     Get.delete<CuratedPostController>();
     super.dispose();
+
   }
 
   CuratedPostController control = CuratedPostController();
@@ -1310,7 +1311,7 @@ class _commentModalState extends State<commentModal> {
                     width: 45.h,
                     child: CircleAvatar(
                       backgroundImage:
-                          AssetImage('assets/images/demo_profile.png'),
+                          NetworkImage(Get.find<LoggedUserController>().loggedUser.value.currentuserAvatarUrl!)
                     ),
                   ),
                   SizedBox(
