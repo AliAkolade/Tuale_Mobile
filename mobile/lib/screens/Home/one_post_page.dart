@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:math';
 
+import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -12,6 +14,8 @@ import 'package:mobile/screens/Home/controllers/getOnePostController.dart';
 import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/Home/video_player_screen.dart';
 import 'package:mobile/screens/imports.dart';
+import 'package:http/http.dart' as http;
+import 'package:share_plus/share_plus.dart';
 
 class OnePost extends StatefulWidget {
   String? id;
@@ -28,6 +32,7 @@ OnePostController post = OnePostController();
 late VideoPlayerController currentVideoPlayer;
 
 class _OnePostState extends State<OnePost> {
+
   @override
   void initState() {
     super.initState();
@@ -309,6 +314,8 @@ class _actionBarState extends State<_actionBar> {
   bool isStarred = false;
   int noTuales = 0;
   bool isTualed = false;
+  final CustomPopupMenuController _controller = CustomPopupMenuController();
+
 
   @override
   void initState() {
@@ -322,6 +329,122 @@ class _actionBarState extends State<_actionBar> {
     noTuales = widget.posts!.noTuale;
     isTualed = widget.posts!.isTualed;
     super.initState();
+  }
+
+  follow(String userId, BuildContext context) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    var headers = {'Authorization': token};
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+            'https://tuale-mobile-api.herokuapp.com/api/v1/vibe/$userId'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  share() {
+    Share.share('Get Tuale!\nVisit https://www.tuale.app',
+        subject: 'Install Tuale');
+  }
+
+  copy() async {
+    await Clipboard.setData(const ClipboardData(text: "https://www.tuale.app"));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Copied to clipboard')));
+  }
+
+  delete(String postId, BuildContext context) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    var headers = {'Authorization': token};
+
+    var request = http.Request(
+        'DELETE',
+        Uri.parse(
+            'https://tuale-mobile-api.herokuapp.com/api/v1/post/$postId'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+      print("Here");
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Post Deleted')));
+      await Future.delayed(const Duration(seconds: 1));
+      // Navigator.pop(context);
+
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => NavBar(index: 1)),
+              (Route<dynamic> route) => false);
+      // pushNewScreen(context,
+      //     screen: NavBar(index: 0),
+      //     withNavBar: false,
+      //     pageTransitionAnimation: PageTransitionAnimation.cupertino);
+    } else {
+      print("Error");
+      print(response.reasonPhrase);
+    }
+  }
+
+  String currentUserID = '';
+  getCurrentUser() async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    var headers = {'Authorization': token};
+    var request = http.Request(
+        'GET', Uri.parse('https://tuale-mobile-api.herokuapp.com/api/v1/me'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      // print(await response.stream.bytesToString()["user"]["_id"]);
+      Map valueMap = json.decode(await response.stream.bytesToString());
+      // print(valueMap["user"]["_id"]);
+      if (mounted) {
+        setState(() {
+          currentUserID = valueMap["user"]["_id"];
+        });
+      }
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  List<ItemModel> checkUserPost(BuildContext context, String postUserId) {
+    List<ItemModel> menuItems = [];
+    if (postUserId == currentUserID) {
+      menuItems = [
+        ItemModel('Share', Icons.send),
+        ItemModel('Copy Link', Icons.content_copy),
+        ItemModel('Delete', Icons.delete)
+      ];
+    } else {
+      menuItems = [
+        // ItemModel('Follow', Icons.add),
+        ItemModel('Share', Icons.send),
+        ItemModel('Copy Link', Icons.content_copy),
+      ];
+    }
+    return menuItems;
   }
 
   @override
@@ -578,7 +701,106 @@ class _actionBarState extends State<_actionBar> {
                 _commentsectionModal(
                   context,
                 ),
-                Container(
+                CustomPopupMenu(
+                    arrowColor: const Color.fromRGBO(250, 250, 250, 1),
+                    menuBuilder: () => ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Container(
+                        color: const Color.fromRGBO(250, 250, 250, 1),
+                        child: IntrinsicWidth(
+                          child: Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.stretch,
+                            children: checkUserPost(context,
+                                widget.posts!.userId)
+                                .map(
+                                  (item) => GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () {
+                                  switch (item.title) {
+                                    case "Follow":
+                                      {
+                                        var id = widget
+                                            .posts!
+                                            .userId;
+                                        follow(id, context);
+                                      }
+                                      break;
+
+                                    case "Share":
+                                      {
+                                        share();
+                                      }
+                                      break;
+                                    case "Copy Link":
+                                      {
+                                        copy();
+                                      }
+                                      break;
+                                    case "Delete":
+                                      {
+                                        var id = widget
+                                            .posts!.id;
+                                        delete(id, context);
+                                      }
+                                      break;
+                                  }
+                                  setState(() {
+                                    _controller.hideMenu();
+                                  });
+                                },
+                                child: Container(
+                                  height: 40,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        item.icon,
+                                        size: 15,
+                                        color: Color.fromRGBO(
+                                            76, 76, 76, 1),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          margin:
+                                          const EdgeInsets.only(
+                                              left: 10),
+                                          padding: const EdgeInsets
+                                              .symmetric(
+                                              vertical: 10),
+                                          child: Text(
+                                            item.title,
+                                            style: const TextStyle(
+                                              color: Color.fromRGBO(
+                                                  76, 76, 76, 1),
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                                .toList(),
+                          ),
+                        ),
+                      ),
+                    ),
+                    pressType: PressType.singleClick,
+                    verticalMargin: -10,
+                    controller: _controller,
+                    child: Container(
+                        decoration: const BoxDecoration(boxShadow: [
+                          BoxShadow(color: Colors.grey, blurRadius: 25)
+                        ]),
+                        margin: const EdgeInsets.only(
+                            top: 0, bottom: 12, right: 13),
+                        child: Icon(TualeIcons.elipsis,
+                            color: Colors.white, size: 25.sp))),
+                /*Container(
                   decoration: const BoxDecoration(boxShadow: [
                     BoxShadow(color: Colors.grey, blurRadius: 25)
                   ]),
@@ -594,7 +816,7 @@ class _actionBarState extends State<_actionBar> {
                       size: 25.sp,
                     ),
                   ),
-                )
+                )*/
               ]),
         ),
       ),

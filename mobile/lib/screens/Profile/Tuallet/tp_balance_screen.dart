@@ -22,7 +22,8 @@ class _TpBalanceScreenState extends State<TpBalanceScreen> {
     {1000: "10000"},
     {4000: "40000"}
   ];
-  var publicKey = 'pk_test_77d5e7bc4e812411caf295fe4affe301dfecdff2';
+  //var publicKey = 'pk_test_77d5e7bc4e812411caf295fe4affe301dfecdff2';
+  var publicKey = 'pk_live_0befce8513c3ebcdadc3d1f9e0c301f7c783bfb3';
   final plugin = PaystackPlugin();
 
   _chargeCard(
