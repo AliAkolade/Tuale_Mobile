@@ -96,7 +96,8 @@ class _VibingZoomState extends State<VibingZoom> {
                     Obx(() => userInfoWidgetZoom(
                         context,
                         widget.index!,
-                        !Get.isRegistered<CuratedPostController>() ? Get.find<VibedPostController>().vibePost.value : Get.find<CuratedPostController>().curatedPost.value,)) //Add this CustomPaint widget to the Widget Tree
+                        !Get.isRegistered<CuratedPostController>() ? Get.find<VibedPostController>().vibePost.value
+                            : Get.find<CuratedPostController>().curatedPost.value,)) //Add this CustomPaint widget to the Widget Tree
                   ],
                 )
               : Stack(
@@ -171,30 +172,63 @@ Widget userInfoWidgetZoom(BuildContext context, int index, List posts) {
                   //   controllerusername: posts[index].username.toString()
                   // ))
                   //     .getProfileInfo(posts[index].username.toString());
-                  final res = await Navigator.push(context,
-                      MaterialPageRoute(builder: (context) {
-                        if (Get.find<CuratedPostController>()
-                            .curatedPost
-                            .value[index]
-                            .mediaType ==
-                            'video') {
-                          currentVPZoom.pause();
-                        }
-                        return userProfile(
-                          isUser: false,
-                          username: posts[index].username.toString(),
-                          //tag: "yourprofile",
-                        );
-                      }));
-                  if (res == 200) {
-                    if (Get.find<CuratedPostController>()
-                        .curatedPost
-                        .value[index]
-                        .mediaType ==
-                        'video') {
-                      currentVPZoom.play();
+                  if(Get.isRegistered<CuratedPostController>()){
+                    print("--CuratedPostController--");
+                    final res = await Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                          if (Get.find<CuratedPostController>()
+                              .curatedPost
+                              .value[index]
+                              .mediaType ==
+                              'video') {
+                            currentVPZoom.pause();
+                          }
+                          return userProfile(
+                            isUser: false,
+                            username: posts[index].username.toString(),
+                            //tag: "yourprofile",
+                          );
+                        }));
+                    //Get.isRegistered<CuratedPostController>()
+                    if (res == 200 ) {
+                      if (Get.find<CuratedPostController>()
+                          .curatedPost
+                          .value[index]
+                          .mediaType ==
+                          'video') {
+                        currentVPZoom.play();
+                      }
                     }
                   }
+                  else if(Get.isRegistered<VibedPostController>()){
+                    print("--VibedPostController--");
+                    final res = await Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                          if (Get.find<VibedPostController>()
+                              .vibePost
+                              .value[index]
+                              .mediaType ==
+                              'video') {
+                            currentVPZoom.pause();
+                          }
+                          return userProfile(
+                            isUser: false,
+                            username: posts[index].username.toString(),
+                            //tag: "yourprofile",
+                          );
+                        }));
+                    //Get.isRegistered<CuratedPostController>()
+                    if (res == 200 ) {
+                      if (Get.find<VibedPostController>()
+                          .vibePost
+                          .value[index]
+                          .mediaType ==
+                          'video') {
+                        currentVPZoom.play();
+                      }
+                    }
+                  }
+
                 },
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,

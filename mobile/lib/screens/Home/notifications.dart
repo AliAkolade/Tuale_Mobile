@@ -284,7 +284,7 @@ class newFan extends StatelessWidget {
             // ),
             Spacer(),
             SizedBox(
-              width: 95.w,
+              width: 100.w,
               height: 30.h,
               child: ElevatedButton(
                   onPressed: () {
@@ -305,25 +305,29 @@ class newFan extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5))),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(isFollowing() ? 'Vibing' : 'Vibe back',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Color.fromRGBO(255, 255, 255, 1),
-                              fontFamily: 'Poppins',
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.w600,
-                              height: 1)),
-                      Container(
-                          padding: EdgeInsets.only(
-                            bottom: 4,
-                          ),
-                          height: 20.w,
-                          width: 20.w,
-                          child: isFollowing()
-                              ? SvgPicture.asset("assets/icon/vibingUser.svg")
-                              : SvgPicture.asset("assets/icon/vibe.svg"))
+                      Expanded(
+                        child: Text(isFollowing() ? 'Vibing' : 'Vibe back',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Color.fromRGBO(255, 255, 255, 1),
+                                fontFamily: 'Poppins',
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w600,
+                                height: 1)),
+                      ),
+                      Expanded(
+                        child: Container(
+                            padding: EdgeInsets.only(
+                              bottom: 4,
+                            ),
+                            height: 20.w,
+                            width: 20.w,
+                            child: isFollowing()
+                                ? SvgPicture.asset("assets/icon/vibingUser.svg")
+                                : SvgPicture.asset("assets/icon/vibe.svg")),
+                      )
                     ],
                   )),
             ),
