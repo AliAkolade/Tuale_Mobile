@@ -55,6 +55,7 @@ class _OnePostState extends State<OnePost> {
                     color: Colors.black,
                     child: Stack(
                       children: [
+                        Icon(Icons.linked_camera_sharp),
                         VideoPlayerScreen(
                             videoUrl: widget.postMedia!,
                             enablePlayBtn: true,
@@ -278,11 +279,11 @@ class _OnePostState extends State<OnePost> {
                           ),
                         ),
                         Spacer(),
-                        Icon(
+                        /*Icon(
                           Icons.volume_down_rounded,
                           size: 35.sp,
                           color: Colors.white,
-                        )
+                        )*/
                       ],
                     )),
               ],

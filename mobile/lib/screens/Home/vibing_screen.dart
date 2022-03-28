@@ -494,7 +494,7 @@ class _actionBar extends StatefulWidget {
     this.posts,
     this.index,
     this.notifyParent,
-    this.muteBtn = true,
+    this.muteBtn = false,
   });
 
   @override
