@@ -8,13 +8,12 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:http/http.dart' as http;
 import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Home/controllers/getOnePostController.dart';
 import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/Home/video_player_screen.dart';
 import 'package:mobile/screens/imports.dart';
-import 'package:http/http.dart' as http;
 import 'package:share_plus/share_plus.dart';
 
 class OnePost extends StatefulWidget {
@@ -22,6 +21,7 @@ class OnePost extends StatefulWidget {
   String? mediaType;
   String? postMedia;
   bool pageType;
+
   OnePost({this.id, this.mediaType, this.postMedia, this.pageType = true});
 
   @override
@@ -32,7 +32,6 @@ OnePostController post = OnePostController();
 late VideoPlayerController currentVideoPlayer;
 
 class _OnePostState extends State<OnePost> {
-
   @override
   void initState() {
     super.initState();
@@ -316,7 +315,6 @@ class _actionBarState extends State<_actionBar> {
   bool isTualed = false;
   final CustomPopupMenuController _controller = CustomPopupMenuController();
 
-
   @override
   void initState() {
     noStars = widget.posts!.noStar;
@@ -390,7 +388,7 @@ class _actionBarState extends State<_actionBar> {
 
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => NavBar(index: 1)),
-              (Route<dynamic> route) => false);
+          (Route<dynamic> route) => false);
       // pushNewScreen(context,
       //     screen: NavBar(index: 0),
       //     withNavBar: false,
@@ -402,6 +400,7 @@ class _actionBarState extends State<_actionBar> {
   }
 
   String currentUserID = '';
+
   getCurrentUser() async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
@@ -583,6 +582,14 @@ class _actionBarState extends State<_actionBar> {
                                 if (result[0]) {
                                   Get.find<OnePostController>()
                                       .getOnePost(widget.posts!.id);
+                                  Future<SharedPreferences> _prefs =
+                                      SharedPreferences.getInstance();
+                                  final SharedPreferences prefs = await _prefs;
+                                  MixPanelSingleton.instance.mixpanel
+                                      .track("GiveTuale", properties: {
+                                    'User': prefs.getString('username') ?? ''
+                                  });
+                                  MixPanelSingleton.instance.mixpanel.flush();
                                 } else {
                                   setState(() {
                                     isTualed = false;
@@ -704,91 +711,85 @@ class _actionBarState extends State<_actionBar> {
                 CustomPopupMenu(
                     arrowColor: const Color.fromRGBO(250, 250, 250, 1),
                     menuBuilder: () => ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: Container(
-                        color: const Color.fromRGBO(250, 250, 250, 1),
-                        child: IntrinsicWidth(
-                          child: Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.stretch,
-                            children: checkUserPost(context,
-                                widget.posts!.userId)
-                                .map(
-                                  (item) => GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () {
-                                  switch (item.title) {
-                                    case "Follow":
-                                      {
-                                        var id = widget
-                                            .posts!
-                                            .userId;
-                                        follow(id, context);
-                                      }
-                                      break;
+                          borderRadius: BorderRadius.circular(5),
+                          child: Container(
+                            color: const Color.fromRGBO(250, 250, 250, 1),
+                            child: IntrinsicWidth(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: checkUserPost(
+                                        context, widget.posts!.userId)
+                                    .map(
+                                      (item) => GestureDetector(
+                                        behavior: HitTestBehavior.translucent,
+                                        onTap: () {
+                                          switch (item.title) {
+                                            case "Follow":
+                                              {
+                                                var id = widget.posts!.userId;
+                                                follow(id, context);
+                                              }
+                                              break;
 
-                                    case "Share":
-                                      {
-                                        share();
-                                      }
-                                      break;
-                                    case "Copy Link":
-                                      {
-                                        copy();
-                                      }
-                                      break;
-                                    case "Delete":
-                                      {
-                                        var id = widget
-                                            .posts!.id;
-                                        delete(id, context);
-                                      }
-                                      break;
-                                  }
-                                  setState(() {
-                                    _controller.hideMenu();
-                                  });
-                                },
-                                child: Container(
-                                  height: 40,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        item.icon,
-                                        size: 15,
-                                        color: Color.fromRGBO(
-                                            76, 76, 76, 1),
-                                      ),
-                                      Expanded(
+                                            case "Share":
+                                              {
+                                                share();
+                                              }
+                                              break;
+                                            case "Copy Link":
+                                              {
+                                                copy();
+                                              }
+                                              break;
+                                            case "Delete":
+                                              {
+                                                var id = widget.posts!.id;
+                                                delete(id, context);
+                                              }
+                                              break;
+                                          }
+                                          setState(() {
+                                            _controller.hideMenu();
+                                          });
+                                        },
                                         child: Container(
-                                          margin:
-                                          const EdgeInsets.only(
-                                              left: 10),
-                                          padding: const EdgeInsets
-                                              .symmetric(
-                                              vertical: 10),
-                                          child: Text(
-                                            item.title,
-                                            style: const TextStyle(
-                                              color: Color.fromRGBO(
-                                                  76, 76, 76, 1),
-                                              fontSize: 12,
-                                            ),
+                                          height: 40,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          child: Row(
+                                            children: <Widget>[
+                                              Icon(
+                                                item.icon,
+                                                size: 15,
+                                                color: Color.fromRGBO(
+                                                    76, 76, 76, 1),
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  margin: const EdgeInsets.only(
+                                                      left: 10),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 10),
+                                                  child: Text(
+                                                    item.title,
+                                                    style: const TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          76, 76, 76, 1),
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
+                                    )
+                                    .toList(),
                               ),
-                            )
-                                .toList(),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
                     pressType: PressType.singleClick,
                     verticalMargin: -10,
                     controller: _controller,
@@ -885,6 +886,7 @@ class _commentModal extends StatefulWidget {
 class _commentModalState extends State<_commentModal> {
   final myController = TextEditingController();
   late FocusNode _focusNode;
+
   @override
   void dispose() {
     super.dispose();

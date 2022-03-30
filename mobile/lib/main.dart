@@ -1,20 +1,18 @@
 import 'dart:developer';
 
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:mobile/screens/Auth/reset_password_screen.dart';
+import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'package:mobile/screens/Auth/welcome_screen.dart';
-import 'package:mobile/screens/Home/inprogress_screen.dart';
-
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/splash_screen.dart';
 import 'package:mobile/utils/constants.dart';
-import 'package:provider/provider.dart';
+import 'package:mobile/utils/mixPanel.dart';
 
 final RouteObserver<ModalRoute<void>> routeObserver =
     RouteObserver<ModalRoute<void>>();
+
 Future<void> main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
@@ -57,6 +55,7 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   final bool isLoggedIn;
+
   const MyApp({Key? key, required this.isLoggedIn}) : super(key: key);
 
   @override
@@ -64,7 +63,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
+  @override
+  void initState() {
+    super.initState();
+    MixPanelSingleton.instance.initMixpanel();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(

@@ -39,6 +39,7 @@ class _SignUpState extends State<SignUp> {
   @override
   void initState() {
     super.initState();
+    MixPanelSingleton.instance.mixpanel.timeEvent("SignUp");
     Timer.periodic(const Duration(milliseconds: 100), (timer) {
       reconcile();
     });
@@ -1208,6 +1209,13 @@ class _VerifyCodeState extends State<VerifyCode> {
           debugPrint(response.data.toString());
           var responseData = response.data;
           if (responseData['success'].toString() == 'true') {
+            MixPanelSingleton.instance.mixpanel
+                .getPeople()
+                .set("Email", finalEmail);
+            MixPanelSingleton.instance.mixpanel
+                .getPeople()
+                .set("Name", finalName);
+            MixPanelSingleton.instance.mixpanel.track("SignUp");
             Navigator.pushReplacement(
                 context,
                 PageTransition(

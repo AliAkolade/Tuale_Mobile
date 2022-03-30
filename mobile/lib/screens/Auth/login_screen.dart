@@ -24,9 +24,9 @@ class _LoginState extends State<Login> {
   }
 
   //final email = TextEditingController(text: '');
- // final pass = TextEditingController(text: '');
+  // final pass = TextEditingController(text: '');
   final email = TextEditingController(text: 'tulenoreply@gmail.com');
-   final pass = TextEditingController(text: 'Azerty');
+  final pass = TextEditingController(text: 'Azerty');
   // final email = TextEditingController(text: 'afolabiogunbanwo@gmail.com');
   // final pass = TextEditingController(text: 'testing');
   // final email = TextEditingController(text: 'clintonali127@gmail.com');
@@ -49,6 +49,18 @@ class _LoginState extends State<Login> {
     var responseData = response.data;
 
     if (responseData['success'].toString() == 'true') {
+      // MixPanelSingleton.instance.mixpanel.timeEvent("Image Upload");
+      // MixPanelSingleton.instance.mixpanel.track("Image Upload");
+      MixPanelSingleton.instance.mixpanel
+          .track('Login', properties: {'User': email.text.trim()});
+      MixPanelSingleton.instance.mixpanel
+          .getPeople()
+          .set("Email", email.text.trim());
+      MixPanelSingleton.instance.mixpanel
+          .getPeople()
+          .set("Name", responseData['name'].toString());
+      MixPanelSingleton.instance.mixpanel.flush();
+
       debugPrint('Login Successful');
       Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       final SharedPreferences prefs = await _prefs;

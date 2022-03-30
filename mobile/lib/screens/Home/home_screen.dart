@@ -25,11 +25,13 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     print(currentUsername);
     return WillPopScope(
         onWillPop: () {
+          MixPanelSingleton.instance.mixpanel.flush();
           SystemNavigator.pop();
           return true as Future<bool>;
         },

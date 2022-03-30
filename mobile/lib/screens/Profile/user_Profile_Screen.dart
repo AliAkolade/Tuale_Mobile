@@ -97,6 +97,14 @@ class _ProfileState extends State<userProfile> with RouteAware {
                                           await _prefs;
 
                                       prefs.setBool('isLoggedIn', false);
+
+                                      MixPanelSingleton.instance.mixpanel
+                                          .track('Logout', properties: {
+                                        'User':
+                                            prefs.getString('username') ?? ''
+                                      });
+                                      MixPanelSingleton.instance.mixpanel
+                                          .flush();
                                       Navigator.of(context).pushAndRemoveUntil(
                                           MaterialPageRoute(
                                               builder: (context) => Welcome()),
@@ -306,7 +314,9 @@ class ProfileInfotwo extends StatelessWidget {
                           //fontWeight: FontWeight.bold,
                         ),
                       ),
-                     text.profileInfo.value.isVerified! ? verifiedTag() : Container()
+                      text.profileInfo.value.isVerified!
+                          ? verifiedTag()
+                          : Container()
                     ],
                   );
                 }),

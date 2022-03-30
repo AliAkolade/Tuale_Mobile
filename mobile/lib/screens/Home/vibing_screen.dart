@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:http/http.dart' as http;
 
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Home/controllers/getVibedPost.dart';
 import 'package:mobile/screens/Home/video_player_screen.dart';
@@ -317,7 +317,7 @@ class _VibingState extends State<Vibing> {
         });
   }
 
-  //
+//
 }
 
 Widget _commentsectionModal(
@@ -506,6 +506,7 @@ class __actionBarState extends State<_actionBar> {
   bool isStarred = false;
   int noTuales = 0;
   bool isTualed = false;
+
   follow(String userId, BuildContext context) async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
@@ -571,6 +572,7 @@ class __actionBarState extends State<_actionBar> {
   }
 
   String currentUserID = '';
+
   getCurrentUser() async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
@@ -783,6 +785,14 @@ class __actionBarState extends State<_actionBar> {
                                 if (result[0]) {
                                   Get.find<VibedPostController>()
                                       .getVibedPosts();
+                                  Future<SharedPreferences> _prefs =
+                                      SharedPreferences.getInstance();
+                                  final SharedPreferences prefs = await _prefs;
+                                  MixPanelSingleton.instance.mixpanel
+                                      .track("GiveTuale", properties: {
+                                    'User': prefs.getString('username') ?? ''
+                                  });
+                                  MixPanelSingleton.instance.mixpanel.flush();
                                 } else {
                                   setState(() {
                                     isTualed = false;
@@ -1038,6 +1048,7 @@ class _commentModal extends StatefulWidget {
 class _commentModalState extends State<_commentModal> {
   final myController = TextEditingController();
   late FocusNode _focusNode;
+
   @override
   void dispose() {
     super.dispose();
@@ -1140,8 +1151,11 @@ class _commentModalState extends State<_commentModal> {
                     height: 45.h,
                     width: 45.h,
                     child: CircleAvatar(
-                      backgroundImage:
-                          NetworkImage(Get.find<LoggedUserController>().loggedUser.value.currentuserAvatarUrl!),
+                      backgroundImage: NetworkImage(
+                          Get.find<LoggedUserController>()
+                              .loggedUser
+                              .value
+                              .currentuserAvatarUrl!),
                     ),
                   ),
                   SizedBox(

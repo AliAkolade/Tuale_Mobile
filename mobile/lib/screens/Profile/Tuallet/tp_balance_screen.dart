@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Profile/controllers/paymentRequirementsController.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
-
 import 'package:mobile/screens/imports.dart';
 
 class TpBalanceScreen extends StatefulWidget {
@@ -22,6 +21,7 @@ class _TpBalanceScreenState extends State<TpBalanceScreen> {
     {1000: "10000"},
     {4000: "40000"}
   ];
+
   //var publicKey = 'pk_test_77d5e7bc4e812411caf295fe4affe301dfecdff2';
   var publicKey = 'pk_live_0befce8513c3ebcdadc3d1f9e0c301f7c783bfb3';
   final plugin = PaystackPlugin();
@@ -53,6 +53,13 @@ class _TpBalanceScreenState extends State<TpBalanceScreen> {
 
       //you can send some data from the response to an API or use webhook to record the payment on a database
       // print("Payment successful");
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      MixPanelSingleton.instance.mixpanel.track("BuyTuale", properties: {
+        'User': prefs.getString('username') ?? '',
+        'Amount': amount
+      });
+      MixPanelSingleton.instance.mixpanel.flush();
     } else {
       //the payment wasn't successsful or the user cancelled the payment
       print('Payment Failed!!!');

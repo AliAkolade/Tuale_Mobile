@@ -2,25 +2,19 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
-import 'package:http/http.dart' as http;
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:http/http.dart' as http;
 import 'package:mobile/controller/loggedUserController.dart';
-import 'package:mobile/screens/Discover/controllers/searchController.dart';
 import 'package:mobile/screens/Home/controllers/getCuratedPost.dart';
 import 'package:mobile/screens/Home/controllers/getVibedPost.dart';
-import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/Home/video_player_screen.dart';
-import 'package:mobile/screens/Profile/controllers/profileController.dart';
-import 'package:mobile/screens/Profile/controllers/userPostsController.dart';
-import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/widgets/verifiedTag.dart';
 import 'package:share_plus/share_plus.dart';
@@ -57,7 +51,6 @@ class _CuratedState extends State<Curated> {
   void dispose() {
     Get.delete<CuratedPostController>();
     super.dispose();
-
   }
 
   CuratedPostController control = CuratedPostController();
@@ -554,6 +547,7 @@ class actionBar extends StatefulWidget {
   List? posts;
   int? index;
   bool muteBtn;
+
   //VideoPlayerController? currentVideo;
   final Function()? notifyParent;
 
@@ -659,6 +653,7 @@ class _actionBarState extends State<actionBar> {
   }
 
   String currentUserID = '';
+
   getCurrentUser() async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
@@ -920,6 +915,15 @@ class _actionBarState extends State<actionBar> {
                                       Get.find<VibedPostController>()
                                           .getVibedPosts();
                                     }
+                                    Future<SharedPreferences> _prefs =
+                                        SharedPreferences.getInstance();
+                                    final SharedPreferences prefs =
+                                        await _prefs;
+                                    MixPanelSingleton.instance.mixpanel
+                                        .track("GiveTuale", properties: {
+                                      'User': prefs.getString('username') ?? ''
+                                    });
+                                    MixPanelSingleton.instance.mixpanel.flush();
                                   } else {
                                     setState(() {
                                       isTualed = false;
@@ -1179,6 +1183,7 @@ class _actionBarState extends State<actionBar> {
 class ItemModel {
   String title;
   IconData icon;
+
   ItemModel(this.title, this.icon);
 }
 
@@ -1199,6 +1204,7 @@ class commentModal extends StatefulWidget {
 class _commentModalState extends State<commentModal> {
   final myController = TextEditingController();
   late FocusNode _focusNode;
+
   @override
   void dispose() {
     super.dispose();
@@ -1310,9 +1316,11 @@ class _commentModalState extends State<commentModal> {
                     height: 45.h,
                     width: 45.h,
                     child: CircleAvatar(
-                      backgroundImage:
-                          NetworkImage(Get.find<LoggedUserController>().loggedUser.value.currentuserAvatarUrl!)
-                    ),
+                        backgroundImage: NetworkImage(
+                            Get.find<LoggedUserController>()
+                                .loggedUser
+                                .value
+                                .currentuserAvatarUrl!)),
                   ),
                   SizedBox(
                       width: 280.w,

@@ -327,24 +327,23 @@ class Api {
     Response response = await dio.get(hostAPI + notifications);
     var responseData = response.data;
     List<NotificationModel> notification = [];
-   
+
     if (response.data['success'].toString() == 'true') {
-       print(responseData);
+      print(responseData);
       for (var i = 0; i < responseData['notifications'].length; i++) {
         // if (responseData['notifications'][i]['post'] != null) {
-          notification.add(NotificationModel(
-              type: responseData['notifications'][i]['type'],
-              username: responseData['notifications'][i]['user']['username'],
-              likedPost: responseData['notifications'][i]['type'] == 'newFan'
-                  ? ""
-                  : responseData['notifications'][i]['post']['media']['url'],
-              mediaType: responseData['notifications'][i]['type'] == 'newFan'
-                  ? ''
-                  : responseData['notifications'][i]['post']['mediaType'],
-              id: responseData['notifications'][i]['type'] == 'newFan'
-                  ? responseData['notifications'][i]['user']['_id']
-                  : responseData['notifications'][i]['post']['_id']));
-        
+        notification.add(NotificationModel(
+            type: responseData['notifications'][i]['type'],
+            username: responseData['notifications'][i]['user']['username'],
+            likedPost: responseData['notifications'][i]['type'] == 'newFan'
+                ? ""
+                : responseData['notifications'][i]['post']['media']['url'],
+            mediaType: responseData['notifications'][i]['type'] == 'newFan'
+                ? ''
+                : responseData['notifications'][i]['post']['mediaType'],
+            id: responseData['notifications'][i]['type'] == 'newFan'
+                ? responseData['notifications'][i]['user']['_id']
+                : responseData['notifications'][i]['post']['_id']));
       }
     }
     // print(notification.length);
@@ -417,10 +416,7 @@ class Api {
     // print(response.data);
   }
 
-  Future vibeWithUser(
-    String id,
-    String username,
-  ) async {
+  Future vibeWithUser(String id, String username) async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
@@ -436,10 +432,7 @@ class Api {
     }
   }
 
-  Future unvibeWithUser(
-    String id,
-    String username,
-  ) async {
+  Future unvibeWithUser(String id, String username) async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
@@ -531,6 +524,13 @@ class Api {
       debugPrint("responseData : $responseData");
       if (response.statusCode == 200) {
         if (responseData["success"]) {
+          (mediaType == 'image')
+              ? MixPanelSingleton.instance.mixpanel.track("PostImage",
+                  properties: {'User': prefs.getString('username') ?? ''})
+              : MixPanelSingleton.instance.mixpanel.track("PostVideo",
+                  properties: {'User': prefs.getString('username') ?? ''});
+          MixPanelSingleton.instance.mixpanel.flush();
+
           return [responseData["success"], "Your post has been added"];
         } else {
           return [responseData["success"], responseData["message"]];

@@ -3,13 +3,13 @@ import 'dart:math';
 
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Home/video_player_screen.dart';
 import 'package:mobile/screens/Profile/controllers/userPostsController.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/widgets/verifiedTag.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:http/http.dart' as http;
 
 class discoverScreen extends StatefulWidget {
   int? index;
@@ -103,12 +103,11 @@ class _discoverScreenState extends State<discoverScreen> {
                                                     .posts
                                                     .value[index]
                                                     .postMedia,
-                                            cbController: (VideoPlayerController vc) {
+                                            cbController:
+                                                (VideoPlayerController vc) {
                                               currentVideoPlayer = vc;
-                                              debugPrint("unique key : ${Get.find<UserPostsController>()
-                                                  .posts
-                                                  .value[index]
-                                                  .postMedia}");
+                                              debugPrint(
+                                                  "unique key : ${Get.find<UserPostsController>().posts.value[index].postMedia}");
                                             }))),
                               ),
                               GestureDetector(
@@ -283,8 +282,7 @@ class _discoverScreenState extends State<discoverScreen> {
                                     ),
                                   ),
                                 ))
-                          ]))
-                  );
+                          ])));
                 },
               );
             }),
@@ -368,11 +366,10 @@ class __actionBarState extends State<_actionBar> {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Post Deleted')));
       await Future.delayed(const Duration(seconds: 1));
-       
-        Navigator.of(context).pushAndRemoveUntil(
-                                          MaterialPageRoute(
-                                              builder: (context) => Home(initialIndex: 1)),
-                                          (Route<dynamic> route) => false);
+
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => Home(initialIndex: 1)),
+          (Route<dynamic> route) => false);
     } else {
       print("Error");
       print(response.reasonPhrase);
@@ -380,6 +377,7 @@ class __actionBarState extends State<_actionBar> {
   }
 
   String currentUserID = '';
+
   getCurrentUser() async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
@@ -397,7 +395,7 @@ class __actionBarState extends State<_actionBar> {
       // print(await response.stream.bytesToString()["user"]["_id"]);
       Map valueMap = json.decode(await response.stream.bytesToString());
       // print(valueMap["user"]["_id"]);
-      if(mounted){
+      if (mounted) {
         setState(() {
           currentUserID = valueMap["user"]["_id"];
         });
@@ -578,6 +576,14 @@ class __actionBarState extends State<_actionBar> {
                                 if (result[0]) {
                                   Get.find<UserPostsController>()
                                       .getProfilePosts(widget.username!);
+                                  Future<SharedPreferences> _prefs =
+                                      SharedPreferences.getInstance();
+                                  final SharedPreferences prefs = await _prefs;
+                                  MixPanelSingleton.instance.mixpanel
+                                      .track("GiveTuale", properties: {
+                                    'User': prefs.getString('username') ?? ''
+                                  });
+                                  MixPanelSingleton.instance.mixpanel.flush();
                                 } else {
                                   setState(() {
                                     isTualed = false;
@@ -694,12 +700,7 @@ class __actionBarState extends State<_actionBar> {
                     ],
                   ),
                 ),
-
-                _commentsectionModal(
-                    context,
-                    widget.index!,
-                    widget.username!
-                ),
+                _commentsectionModal(context, widget.index!, widget.username!),
                 CustomPopupMenu(
                     arrowColor: const Color.fromRGBO(250, 250, 250, 1),
                     menuBuilder: () => ClipRRect(
@@ -803,11 +804,7 @@ class __actionBarState extends State<_actionBar> {
   }
 }
 
-Widget _commentsectionModal(
-  BuildContext context,
-  int index,
-  String username
-) {
+Widget _commentsectionModal(BuildContext context, int index, String username) {
   return GestureDetector(
     onTap: () {
       showModalBottomSheet(
@@ -821,10 +818,9 @@ Widget _commentsectionModal(
           context: context,
           builder: (_) => Obx(
                 () => _commentModal(
-                  posts: Get.find<UserPostsController>().posts.value,
-                  index: index,
-                  username: username
-                ),
+                    posts: Get.find<UserPostsController>().posts.value,
+                    index: index,
+                    username: username),
               ));
     },
     child: Container(
@@ -860,11 +856,7 @@ class _commentModal extends StatefulWidget {
   int? index;
   String? username;
 
-  _commentModal({
-    this.posts,
-    this.index,
-    this.username
-  });
+  _commentModal({this.posts, this.index, this.username});
 
   @override
   State<_commentModal> createState() => _commentModalState();
@@ -873,6 +865,7 @@ class _commentModal extends StatefulWidget {
 class _commentModalState extends State<_commentModal> {
   final myController = TextEditingController();
   late FocusNode _focusNode;
+
   @override
   void dispose() {
     super.dispose();

@@ -204,6 +204,7 @@ Future pickMedia(ImageSource source, String type) async {
   File file;
   String filePath;
   if (type == "image") {
+    MixPanelSingleton.instance.mixpanel.timeEvent("PostImage");
     asset = await ImagePicker().pickImage(source: source,imageQuality: 50);
     if (asset != null) {
       file = File(asset.path);
@@ -212,6 +213,7 @@ Future pickMedia(ImageSource source, String type) async {
       return [file, filePath];
     }
   } else {
+    MixPanelSingleton.instance.mixpanel.timeEvent("PostVideo");
     asset = await ImagePicker().pickVideo(source: source);
     if (asset != null) {
       file = File(asset.path);
