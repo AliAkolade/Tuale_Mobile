@@ -444,7 +444,10 @@ Column userInfoVibingWidget(BuildContext context, int index, List posts) {
                     const SizedBox(
                       width: 5,
                     ),
-                    posts[index].isVerified ? verifiedTag() : Container(),
+                    posts[index].isVerified ? Padding(
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: verifiedTag(),
+                    ) : Container(),
                     const Spacer(
                       flex: 10,
                     ),

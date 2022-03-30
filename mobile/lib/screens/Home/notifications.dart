@@ -91,6 +91,7 @@ class _NotificationsState extends State<Notifications> {
                                       .id,
                                   mediaType: notifications[index].mediaType,
                                   postMedia: notifications[index].likedPost,
+                                  pageType: false,
                                 ),
                               );
                             }));
@@ -115,6 +116,7 @@ class _NotificationsState extends State<Notifications> {
                                           .id,
                                       mediaType: notifications[index].mediaType,
                                       postMedia: notifications[index].likedPost,
+                                      pageType: false,
                                     ),
                                   );
                                 }));
@@ -142,6 +144,7 @@ class _NotificationsState extends State<Notifications> {
                                               notifications[index].mediaType,
                                           postMedia:
                                               notifications[index].likedPost,
+                                          pageType: false,
                                         ),
                                       );
                                     }));
@@ -228,10 +231,10 @@ class newFan extends StatelessWidget {
                 ),
               ),
               height: 20.h,
-              width: 110.w,
+             // width: 110.w,
             ),
             SizedBox(
-              width: 9.w,
+              width: 2..w,
             ),
             Container(
               // color: Colors.black,
@@ -313,21 +316,19 @@ class newFan extends StatelessWidget {
                             style: TextStyle(
                                 color: Color.fromRGBO(255, 255, 255, 1),
                                 fontFamily: 'Poppins',
-                                fontSize: 10.sp,
+                                fontSize: 9.sp,
                                 fontWeight: FontWeight.w600,
                                 height: 1)),
                       ),
-                      Expanded(
-                        child: Container(
-                            padding: EdgeInsets.only(
-                              bottom: 4,
-                            ),
-                            height: 20.w,
-                            width: 20.w,
-                            child: isFollowing()
-                                ? SvgPicture.asset("assets/icon/vibingUser.svg")
-                                : SvgPicture.asset("assets/icon/vibe.svg")),
-                      )
+                      Container(
+                          padding: EdgeInsets.only(
+                            bottom: 4,
+                          ),
+                          height: 18.w,
+                          width: 18.w,
+                          child: isFollowing()
+                              ? SvgPicture.asset("assets/icon/vibingUser.svg")
+                              : null,)
                     ],
                   )),
             ),

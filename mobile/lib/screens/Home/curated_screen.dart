@@ -502,7 +502,12 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
                     SizedBox(
                       width: 5.w,
                     ),
-                    posts[index].isVerified ? verifiedTag() : Container(),
+                    posts[index].isVerified
+                        ? Padding(
+                            padding: const EdgeInsets.only(bottom: 4),
+                            child: verifiedTag(),
+                          )
+                        : Container(),
                     const Spacer(
                       flex: 10,
                     ),

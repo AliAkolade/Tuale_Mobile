@@ -132,7 +132,16 @@ class _OnePostState extends State<OnePost> {
                               color: Colors.white70,
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.pop(context);
+                                  widget.pageType
+                                      ? Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Home()),
+                                        )
+                                      : Navigator.pop(
+                                          context,
+                                        );
                                 },
                                 child: Icon(
                                   Icons.fullscreen_exit_rounded,
