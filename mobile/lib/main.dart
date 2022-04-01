@@ -67,8 +67,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var localVersion = "";
-  var storeVersion = "";
+  var localVersion = "0.0.0";
+  var storeVersion = "0.0.0";
   var appStoreLink = "";
   bool canUpdate = true;
 
@@ -85,7 +85,9 @@ class _MyAppState extends State<MyApp> {
         && (int.parse(localVersion[2]) >= int.parse(storeVersion[2])));
 
     if(canUpdate){
-      return showDialog<void>(
+      try {
+        
+          return showDialog<void>(
         context: context,
         barrierDismissible: canCancel, // user must tap button!
         builder: (BuildContext context) {
@@ -109,10 +111,15 @@ class _MyAppState extends State<MyApp> {
           );
         },
       );
+      } catch (e) {
+      }
+    
     }
   }
 
   updateFunc() async {
+   try {
+
     final newVersion = NewVersion();
     final status = await newVersion.getVersionStatus();
 
@@ -129,6 +136,10 @@ class _MyAppState extends State<MyApp> {
         canUpdate = status.canUpdate;
       });
     }
+     
+   } catch (e) {
+   }
+
   }
 
   @override

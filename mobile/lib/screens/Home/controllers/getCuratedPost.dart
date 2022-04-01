@@ -34,6 +34,7 @@ class CuratedPostController extends GetxController {
       // var pageNum = 1;
       if (curatedPageNo == 1) {
         curatedPost.value = await _api.getCuratedPost(curatedPageNo);
+        curatedPageNo = curatedPageNo + 1;
       } else {
         curatedPost.value.clear();
         for (int i = 1; i <= curatedPageNo; i++) {
@@ -54,7 +55,7 @@ class CuratedPostController extends GetxController {
   }
 
   Future getMoreCuratedPosts() async {
-    curatedPageNo = curatedPageNo + 1;
+   // curatedPageNo = curatedPageNo + 1;
     print('currentpageNoooooooooo${curatedPageNo}');
     isLoading.value = true;
     try {
@@ -65,6 +66,7 @@ class CuratedPostController extends GetxController {
         curatedPageNo = curatedPageNo - 1;
         print('currentpageNoooooooooo${curatedPageNo}');
       } else {
+          curatedPageNo = curatedPageNo + 1;
         print("addition");
         print(more.length);
         for (var i in more) {

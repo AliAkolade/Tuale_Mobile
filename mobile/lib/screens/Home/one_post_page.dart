@@ -426,7 +426,7 @@ class _actionBarState extends State<_actionBar> {
     if (response.statusCode == 200) {
       // print(await response.stream.bytesToString()["user"]["_id"]);
       Map valueMap = json.decode(await response.stream.bytesToString());
-      // print(valueMap["user"]["_id"]);
+      print(valueMap["user"]["_id"]);
       if (mounted) {
         setState(() {
           currentUserID = valueMap["user"]["_id"];
@@ -438,8 +438,10 @@ class _actionBarState extends State<_actionBar> {
   }
 
   List<ItemModel> checkUserPost(BuildContext context, String postUserId) {
+    print('userid${postUserId}');
+     print('userID${currentUserID}');
     List<ItemModel> menuItems = [];
-    if (postUserId == currentUserID) {
+    if (postUserId == Get.find<LoggedUserController>().loggedUser.value.currentuserid) {
       menuItems = [
         ItemModel('Share', Icons.send),
         ItemModel('Copy Link', Icons.content_copy),

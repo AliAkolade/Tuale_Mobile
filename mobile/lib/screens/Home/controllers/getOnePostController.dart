@@ -50,7 +50,7 @@ class OnePostController extends GetxController {
         postdetails.postMedia = details.postMedia;
         postdetails.time = details.time;
            postdetails.comment = details.comment;
-
+            postdetails.userId = details.userId;
         postdetails.postText = details.postText;
       });
       print('nostarcontrol${postdetails.value.noStar}');

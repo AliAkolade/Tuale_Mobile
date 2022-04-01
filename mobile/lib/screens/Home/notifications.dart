@@ -211,14 +211,13 @@ class newFan extends StatelessWidget {
               // color: Colors.blue,
               child: GestureDetector(
                 onTap: () {
-                     Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return userProfile(
-                            isUser: false,
-                            username: username,
-                            // tag: "notification",
-                          );
-                        }));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return userProfile(
+                      isUser: false,
+                      username: username,
+                      // tag: "notification",
+                    );
+                  }));
                 },
                 child: Text(
                   '@' + username! + " ",
@@ -231,7 +230,7 @@ class newFan extends StatelessWidget {
                 ),
               ),
               height: 20.h,
-             // width: 110.w,
+              width: 100.w,
             ),
             SizedBox(
               width: 2..w,
@@ -243,10 +242,10 @@ class newFan extends StatelessWidget {
               child: Text(
                 'started vibing with you',
                 style: TextStyle(
-                     fontSize: 15.sp,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black.withOpacity(0.8)),
+                    fontSize: 15.sp,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black.withOpacity(0.8)),
               ),
             ),
             // SizedBox(
@@ -310,25 +309,24 @@ class newFan extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: Text(isFollowing() ? 'Vibing' : 'Vibe back',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Color.fromRGBO(255, 255, 255, 1),
-                                fontFamily: 'Poppins',
-                                fontSize: 9.sp,
-                                fontWeight: FontWeight.w600,
-                                height: 1)),
-                      ),
+                      Text(isFollowing() ? 'Vibing' : 'Vibe back',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              fontFamily: 'Poppins',
+                              fontSize: 9.sp,
+                              fontWeight: FontWeight.w600,
+                              height: 1)),
                       Container(
-                          padding: EdgeInsets.only(
-                            bottom: 4,
-                          ),
-                          height: 18.w,
-                          width: 18.w,
-                          child: isFollowing()
-                              ? SvgPicture.asset("assets/icon/vibingUser.svg")
-                              : null,)
+                        padding: EdgeInsets.only(
+                          bottom: 4,
+                        ),
+                        height: 18.w,
+                        width: 18.w,
+                        child: isFollowing()
+                            ? SvgPicture.asset("assets/icon/vibingUser.svg")
+                            : null,
+                      )
                     ],
                   )),
             ),
@@ -364,50 +362,56 @@ class newNotification extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            //  color: Colors.black,
-            height: 20.h,
-            width: 350.w,
-            child: RichText(
-              text: TextSpan(
-                text: '@' + username! + " ",
+            // color: Colors.blue,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return userProfile(
+                    isUser: false,
+                    username: username,
+                    // tag: "notification",
+                  );
+                }));
+              },
+              child: Text(
+                '@' + username! + " ",
                 style: TextStyle(
                     overflow: TextOverflow.ellipsis,
                     fontSize: 15.sp,
                     color: tualeBlueDark.withOpacity(0.7),
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.normal),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return userProfile(
-                        isUser: false,
-                        username: username,
-                        // tag: "notification",
-                      );
-                    }));
-                  },
-                children: <TextSpan>[
-                  TextSpan(
-                      text: body!,
-                      style: TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                          fontSize: 15.sp,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black.withOpacity(0.8))),
-                ],
               ),
             ),
+            height: 20.h,
+            width: 100.w,
           ),
+          SizedBox(
+            width: 2..w,
+          ),
+          Container(
+            // color: Colors.black,
+            height: 20.h,
+            width: 180.w,
+            child: Text(
+              body!,
+              style: TextStyle(
+                  fontSize: 15.sp,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black.withOpacity(0.8)),
+            ),
+          ),
+          //
           Spacer(),
           mediaType != 'image'
               ? Container(
                   child: Center(
-                      child:
-                          Icon(Icons.play_arrow_outlined, color: Colors.white,
-                          size: 10.sp,
-                          )),
+                      child: Icon(
+                    Icons.play_arrow_outlined,
+                    color: Colors.white,
+                    size: 10.sp,
+                  )),
                   color: Colors.black,
                   height: 40.h,
                   width: 40.h,
