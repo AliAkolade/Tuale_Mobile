@@ -23,7 +23,7 @@ class _EditProfileState extends State<EditProfile> {
   String profilImgProfilId = "";
   File fileContent = File("");
   String filePath = "";
-  final cloudinary = CloudinaryPublic('demilade211', 'Tuale-Ogunbanwo', cache: false);
+  final cloudinary = CloudinaryPublic(cloudName, uploadPreset, cache: false);
 
 
   @override

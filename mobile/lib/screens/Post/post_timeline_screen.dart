@@ -28,7 +28,7 @@ class _PostTimelineState extends State<PostTimeline> {
    MediaInfo? mediainfo;
   bool playVideo = false;
   final cloudinary =
-      CloudinaryPublic('demilade211', 'Tuale-Ogunbanwo', cache: false);
+      CloudinaryPublic(cloudName, uploadPreset, cache: false);
 
   @override
   void initState() {

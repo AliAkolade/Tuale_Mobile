@@ -120,21 +120,27 @@ class _MyAppState extends State<MyApp> {
   updateFunc() async {
    try {
 
-    final newVersion = NewVersion();
-    final status = await newVersion.getVersionStatus();
+    try {
+      final newVersion = NewVersion();
+      final status = await newVersion.getVersionStatus();
 
-    if(status == null){debugPrint("Err getVersionStatus");}
-    else{
-      debugPrint("status-local : ${status.localVersion}");
-      debugPrint("status-store : ${status.storeVersion}");
-      debugPrint("status-link : ${status.appStoreLink}");
-      debugPrint("status : ${status.canUpdate.toString()}");
-      setState(() {
-        localVersion = status.localVersion;
-        storeVersion = status.storeVersion;
-        appStoreLink = status.appStoreLink;
-        canUpdate = status.canUpdate;
-      });
+      if(status != null){
+        debugPrint("status-local : ${status.localVersion}");
+        debugPrint("status-store : ${status.storeVersion}");
+        debugPrint("status-link : ${status.appStoreLink}");
+        debugPrint("status : ${status.canUpdate.toString()}");
+        setState(() {
+          localVersion = status.localVersion;
+          storeVersion = status.storeVersion;
+          appStoreLink = status.appStoreLink;
+          canUpdate = status.canUpdate;
+        });
+      }
+      else{
+        debugPrint("Err getVersionStatus");
+      }
+    } catch (err) {
+      debugPrint("Err getVersionStatus");
     }
      
    } catch (e) {
