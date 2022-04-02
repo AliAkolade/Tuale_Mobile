@@ -13,6 +13,7 @@ class VibedPostController extends GetxController {
       // var pageNum = 1;
       if (vibingPageNo == 1) {
         vibePost.value = await _api.getVibingPost(curatedPageNo);
+         vibingPageNo = vibingPageNo + 1;
       } else {
         vibePost.value.clear();
         for (int i = 1; i <= vibingPageNo; i++) {
@@ -29,7 +30,7 @@ class VibedPostController extends GetxController {
   }
 
   Future getMoreVibePosts() async {
-    vibingPageNo = vibingPageNo + 1;
+   // vibingPageNo = vibingPageNo + 1;
     print('currentpageNoooooooooo${vibingPageNo}');
 
     try {
@@ -40,6 +41,7 @@ class VibedPostController extends GetxController {
         vibingPageNo = vibingPageNo - 1;
         print('currentpageNoooooooooo${vibingPageNo}');
       } else {
+       vibingPageNo = vibingPageNo + 1;
         print("addition");
         print(more.length);
         for (var i in more) {
