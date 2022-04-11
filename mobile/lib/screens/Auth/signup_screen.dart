@@ -576,16 +576,41 @@ class _FillDetailsState extends State<FillDetails> {
                 },
               ),
               GestureDetector(
-                child: Text("I accept the Terms and Conditions \n of use by clicking this checkbox",
-                  style: TextStyle(
-                    //decoration: TextDecoration.underline,
-                    fontSize: 13,
-                      fontWeight: FontWeight.bold),
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'I accept ',
+                        style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                          text: 'terms and conditions\n',
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              fontSize: 13,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                          /*recognizer:  DoubleTapGestureRecognizer()..onDoubleTap = () {
+                            // Double tapped.
+                          }*/
+                      ),
+                      TextSpan(
+                        text: ' of use by clicking this checkbox',
+                        style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                 ),
                 onTap: () {
                   launch("https://www.tuale.app/privacy");
-                },
-              ),
+                }
+              )
             ],
           ),
           const SizedBox(height: 4),
