@@ -583,7 +583,7 @@ class _FillDetailsState extends State<FillDetails> {
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
-                  launch("https://www.tuale.app/app/cgu");
+                  launch("https://www.tuale.app/privacy");
                 },
               ),
             ],
