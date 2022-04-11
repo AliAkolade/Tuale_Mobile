@@ -311,6 +311,21 @@ class _PostTimelineState extends State<PostTimeline> {
               ),
             ),
             Container(
+              margin: const EdgeInsets.only(left: 15, right: 15),
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.only(top: 10,bottom: 10,left: 5, right: 5),
+              decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(color: Colors.grey),
+                    bottom: BorderSide(color: Colors.grey),
+                  )
+              ),
+              child: Text(
+                "Dear User, We can only support portrait photos with an aspect ratio of 2:3 fro now. We are working hard to fix this. We appreciate your understanding.",
+                style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),),
+            ),
+
+            /*Container(
               padding: const EdgeInsets.all(5),
               height: 50,
               decoration: BoxDecoration(
@@ -328,7 +343,7 @@ class _PostTimelineState extends State<PostTimeline> {
                   Icon(Icons.arrow_forward)
                 ],
               ),
-            ),
+            ),*/
             Padding(
               padding: const EdgeInsets.all(5),
               child: Center(

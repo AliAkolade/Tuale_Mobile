@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile/screens/imports.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../imports.dart';
 import '../imports.dart';
@@ -167,6 +168,7 @@ class ChooseSignUp extends StatefulWidget {
 }
 
 class _ChooseSignUpState extends State<ChooseSignUp> {
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -272,6 +274,7 @@ class _FillDetailsState extends State<FillDetails> {
   String message = '';
   final valid = false;
   bool isDateShow = false;
+  bool checkCGU = false;
   String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
   checkDetails() {
@@ -557,8 +560,37 @@ class _FillDetailsState extends State<FillDetails> {
                   height: 1.4375),
             )
           ]),
-          const SizedBox(height: 15),
-          ElevatedButton(
+          const SizedBox(height: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Checkbox(
+                value: checkCGU,
+                activeColor: Colors.red,
+                onChanged: (bool? value) {
+                  setState(() {
+                    checkCGU = value!;
+                  });
+                  debugPrint("cgu = ${checkCGU.toString()}");
+                },
+              ),
+              GestureDetector(
+                child: Text("I accept the Terms and Conditions \n of use by clicking this checkbox",
+                  style: TextStyle(
+                    //decoration: TextDecoration.underline,
+                    fontSize: 13,
+                      fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  launch("https://www.tuale.app/app/cgu");
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          if (checkCGU)
+            ElevatedButton(
               onPressed: () {
                 checkDetails();
               },
@@ -576,6 +608,7 @@ class _FillDetailsState extends State<FillDetails> {
                       fontSize: 15.5,
                       fontWeight: FontWeight.bold,
                       height: 1))),
+          const SizedBox(height: 3),
           const Spacer(),
           SizedBox(
               width: 254,
