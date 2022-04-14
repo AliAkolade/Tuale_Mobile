@@ -134,6 +134,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.4"
+  dropdown_plus:
+    dependency: "direct main"
+    description:
+      name: dropdown_plus
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.9"
   email_auth:
     dependency: "direct main"
     description:
@@ -261,6 +268,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.6.1"
+  group_radio_button:
+    dependency: "direct main"
+    description:
+      name: group_radio_button
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.0"
   html:
     dependency: transitive
     description:
