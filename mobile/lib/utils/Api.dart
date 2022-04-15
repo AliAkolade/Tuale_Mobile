@@ -696,4 +696,20 @@ class Api {
 
     return [false, "Something got wrong"];
   }
+
+  Future<bool> reportUser(String reason,String postId) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+    Response response = await dio.post(
+        hostAPI + "/report/" + postId,
+        data: {'reason': reason});
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
 }

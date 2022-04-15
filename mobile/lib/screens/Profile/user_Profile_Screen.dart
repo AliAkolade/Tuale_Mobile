@@ -133,7 +133,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                                           isScrollControlled: true,
                                           enableDrag: true,
                                           context: context,
-                                          builder: (context) => ReportWidget());
+                                          builder: (context) => ReportWidget(context: context,));
                                     },
                                     icon: Icon(
                                       Icons.more_vert,
@@ -255,8 +255,11 @@ class _ProfileState extends State<userProfile> with RouteAware {
 }
 
 class ReportWidget extends StatelessWidget {
-  const ReportWidget({
+  BuildContext context;
+
+  ReportWidget({
     Key? key,
+    required this.context,
   }) : super(key: key);
 
   @override
@@ -265,7 +268,7 @@ class ReportWidget extends StatelessWidget {
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.10,
+        height: 100,
         padding: const EdgeInsets.only(
           left: 15,
           right: 15,
@@ -287,7 +290,10 @@ class ReportWidget extends StatelessWidget {
                     isScrollControlled: true,
                     enableDrag: true,
                     context: context,
-                    builder: (context) => ReportList());
+                    builder: (context) => Container(
+                      height: 500,
+                        child: ReportList(parentContext: context,)
+                    ));
               },
               child: Text(
                 "Report",
@@ -301,17 +307,138 @@ class ReportWidget extends StatelessWidget {
   }
 }
 
-class ReportList extends StatelessWidget {
-  const ReportList({Key? key}) : super(key: key);
+class ReportList extends StatefulWidget {
+  BuildContext parentContext;
+  ReportList({Key? key, required this.parentContext}) : super(key: key);
+
+  @override
+  State<ReportList> createState() => _ReportListState();
+}
+
+class _ReportListState extends State<ReportList> {
+  int val= -1;
+  Api _api = Api();
+  String reason = "";
+
+  reportProfile() async {
+    if(val == 1){
+      reason = "It's posting content that shouldn't be on tuale";
+    }
+    else if(val == 2){
+      reason = "It's pretending to be someone else";
+    }
+    else if(val == 3){
+      reason = "It's posting bad comments";
+    }
+    else if(val == 4){
+      reason = "Other reasons";
+    }
+    bool response = await _api.reportUser(reason, "61d9a52870b12e1b26d946e3");
+    if(response){
+      Navigator.pop(context);
+      Navigator.pop(context);
+      ScaffoldMessenger.of(widget.parentContext)
+          .showSnackBar(const SnackBar(content: Text('Your request has been submit')));
+    }
+    else{
+      ScaffoldMessenger.of(widget.parentContext)
+        .showSnackBar(const SnackBar(content: Text('Something go wrong')));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        child: Row(
-          children: [
-            Text('Report'),
-            Text('Why are you reporting This account')
-          ],
+        child: Container(
+          child: Column(
+            children: [
+              SizedBox(height: 5,),
+              Text(
+                "Report",
+                style: TextStyle(fontSize: 23, color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10,),
+              Divider(),
+              Text(
+                "Why  are you reporting this account",
+                style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20,),
+              Text(
+                "Your report is anonymous, execept if you're reporting "
+                    "an intellectual property infrigement. If someone is in immediate"
+                    "danger, call the local emergency services - don't wait",
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(height: 20,),
+              ListTile(
+                title: const Text("It's posting content that shouldn't be on tuale"),
+                leading: Radio(
+                  value: 1,
+                  groupValue: val,
+                  onChanged: (int? value) {
+                    setState(() {
+                      val = value ?? -1;
+                    });
+                    reportProfile();
+                  },
+                  activeColor: Colors.orange,
+                ),
+              ),
+              SizedBox(height: 5,),
+              ListTile(
+                title: const Text("It's pretending to be someone else"),
+                leading: Radio(
+                  value: 2,
+                  groupValue: val,
+                  onChanged: (int? value) {
+                    setState(() {
+                      val = value ?? -1;
+                    });
+                    reportProfile();
+                  },
+                  activeColor: Colors.orange,
+                ),
+              ),
+              SizedBox(height: 5,),
+              ListTile(
+                title: const Text("It's posting bad comments"),
+                leading: Radio(
+                  value: 3,
+                  groupValue: val,
+                  onChanged: (int? value) {
+                    setState(() {
+                      val = value ?? -1;
+                    });
+                    reportProfile();
+                  },
+                  activeColor: Colors.orange,
+                ),
+              ),
+              SizedBox(height: 5,),
+              ListTile(
+                title: const Text("Other reasons"),
+                leading: Radio(
+                  value: 4,
+                  groupValue: val,
+                  onChanged: (int? value) {
+                    setState(() {
+                      val = value ?? -1;
+                    });
+                    reportProfile();
+                  },
+                  activeColor: Colors.orange,
+                ),
+              ),
+            ],
+          ),
         ),
         padding: EdgeInsets.only(left: 20, right: 20));
   }
