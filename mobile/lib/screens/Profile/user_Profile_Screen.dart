@@ -120,7 +120,58 @@ class _ProfileState extends State<userProfile> with RouteAware {
                                       // ));
                                     },
                                   )
-                                : Container(),
+                                : IconButton(
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                          shape: const RoundedRectangleBorder(
+                                              side: BorderSide(),
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(15),
+                                                  topRight:
+                                                      Radius.circular(15))),
+                                          useRootNavigator: true,
+                                          isScrollControlled: true,
+                                          enableDrag: true,
+                                          context: context,
+                                          builder: (context) => Padding(
+                                                padding: EdgeInsets.only(
+                                                    bottom:
+                                                        MediaQuery.of(context)
+                                                            .viewInsets
+                                                            .bottom),
+                                                child: Container(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.10,
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                    left: 15,
+                                                    right: 15,
+                                                    top: 15,
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        "Report",
+                                                        style: TextStyle(
+                                                            fontSize: 23,
+                                                            color: Colors.red),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ));
+                                    },
+                                    icon: Icon(
+                                      Icons.more_vert,
+                                      color: Colors.black,
+                                    ))
                           ],
                           centerTitle: true,
                           elevation: 0,

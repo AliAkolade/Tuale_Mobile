@@ -155,7 +155,7 @@ class _MyAppState extends State<MyApp> {
         builder: (context, AsyncSnapshot snapshot) {
           // Show splash screen while waiting for app resources to load:
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const MaterialApp(
+            return const GetMaterialApp(
                 debugShowCheckedModeBanner: false, home: SplashScreen());
           } else {
             return ScreenUtilInit(
