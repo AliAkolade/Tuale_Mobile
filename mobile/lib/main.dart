@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -13,9 +12,8 @@ import 'package:mobile/utils/mixPanel.dart';
 import 'package:new_version/new_version.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 final RouteObserver<ModalRoute<void>> routeObserver =
-RouteObserver<ModalRoute<void>>();
+    RouteObserver<ModalRoute<void>>();
 
 Future<void> main() async {
   try {
@@ -81,71 +79,65 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> displayDialog() async {
     await updateFunc();
-    bool canCancel = ((int.parse(localVersion[0]) == int.parse(storeVersion[0]))
-        && (int.parse(localVersion[2]) >= int.parse(storeVersion[2])));
+    bool canCancel =
+        ((int.parse(localVersion[0]) == int.parse(storeVersion[0])) &&
+            (int.parse(localVersion[2]) >= int.parse(storeVersion[2])));
 
-    if(canUpdate){
+    if (canUpdate) {
       try {
-        
-          return showDialog<void>(
-        context: context,
-        barrierDismissible: canCancel, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Update'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text("You need to update your app from $localVersion to $storeVersion"),
-                ],
+        return showDialog<void>(
+          context: context,
+          barrierDismissible: canCancel, // user must tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Update'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text(
+                        "You need to update your app from $localVersion to $storeVersion"),
+                  ],
+                ),
               ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                  child: Text("Yes, for sure"),
-                  onPressed: () async {
-                    if (!await launch(appStoreLink)) throw 'Could not launch $appStoreLink';
-                  }
-              ),
-            ],
-          );
-        },
-      );
-      } catch (e) {
-      }
-    
+              actions: <Widget>[
+                TextButton(
+                    child: Text("Yes, for sure"),
+                    onPressed: () async {
+                      if (!await launch(appStoreLink))
+                        throw 'Could not launch $appStoreLink';
+                    }),
+              ],
+            );
+          },
+        );
+      } catch (e) {}
     }
   }
 
   updateFunc() async {
-   try {
-
     try {
-      final newVersion = NewVersion();
-      final status = await newVersion.getVersionStatus();
+      try {
+        final newVersion = NewVersion();
+        final status = await newVersion.getVersionStatus();
 
-      if(status != null){
-        debugPrint("status-local : ${status.localVersion}");
-        debugPrint("status-store : ${status.storeVersion}");
-        debugPrint("status-link : ${status.appStoreLink}");
-        debugPrint("status : ${status.canUpdate.toString()}");
-        setState(() {
-          localVersion = status.localVersion;
-          storeVersion = status.storeVersion;
-          appStoreLink = status.appStoreLink;
-          canUpdate = status.canUpdate;
-        });
-      }
-      else{
+        if (status != null) {
+          debugPrint("status-local : ${status.localVersion}");
+          debugPrint("status-store : ${status.storeVersion}");
+          debugPrint("status-link : ${status.appStoreLink}");
+          debugPrint("status : ${status.canUpdate.toString()}");
+          setState(() {
+            localVersion = status.localVersion;
+            storeVersion = status.storeVersion;
+            appStoreLink = status.appStoreLink;
+            canUpdate = status.canUpdate;
+          });
+        } else {
+          debugPrint("Err getVersionStatus");
+        }
+      } catch (err) {
         debugPrint("Err getVersionStatus");
       }
-    } catch (err) {
-      debugPrint("Err getVersionStatus");
-    }
-     
-   } catch (e) {
-   }
-
+    } catch (e) {}
   }
 
   @override
@@ -155,7 +147,7 @@ class _MyAppState extends State<MyApp> {
         builder: (context, AsyncSnapshot snapshot) {
           // Show splash screen while waiting for app resources to load:
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const GetMaterialApp(
+            return const MaterialApp(
                 debugShowCheckedModeBanner: false, home: SplashScreen());
           } else {
             return ScreenUtilInit(

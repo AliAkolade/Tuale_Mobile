@@ -133,40 +133,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                                           isScrollControlled: true,
                                           enableDrag: true,
                                           context: context,
-                                          builder: (context) => Padding(
-                                                padding: EdgeInsets.only(
-                                                    bottom:
-                                                        MediaQuery.of(context)
-                                                            .viewInsets
-                                                            .bottom),
-                                                child: Container(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.10,
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                    left: 15,
-                                                    right: 15,
-                                                    top: 15,
-                                                  ),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        "Report",
-                                                        style: TextStyle(
-                                                            fontSize: 23,
-                                                            color: Colors.red),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ));
+                                          builder: (context) => ReportWidget());
                                     },
                                     icon: Icon(
                                       Icons.more_vert,
@@ -284,6 +251,69 @@ class _ProfileState extends State<userProfile> with RouteAware {
                     ));
           }),
     );
+  }
+}
+
+class ReportWidget extends StatelessWidget {
+  const ReportWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.10,
+        padding: const EdgeInsets.only(
+          left: 15,
+          right: 15,
+          top: 15,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                        side: BorderSide(),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15))),
+                    useRootNavigator: true,
+                    isScrollControlled: true,
+                    enableDrag: true,
+                    context: context,
+                    builder: (context) => ReportList());
+              },
+              child: Text(
+                "Report",
+                style: TextStyle(fontSize: 23, color: Colors.red),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ReportList extends StatelessWidget {
+  const ReportList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        child: Row(
+          children: [
+            Text('Report'),
+            Text('Why are you reporting This account')
+          ],
+        ),
+        padding: EdgeInsets.only(left: 20, right: 20));
   }
 }
 
