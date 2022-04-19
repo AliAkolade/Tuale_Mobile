@@ -192,8 +192,9 @@ class Api {
           currentUserUsername: currentUser.data['user']["username"].toString(),
           unreadNotifications: currentUser.data['user']["unreadNotification"],
           noTuales: currentUser.data['user']["tcBalance"],
-          friends: currentUser.data['userFollowStats']["friends"]);
-
+          friends: currentUser.data['userFollowStats']["friends"],
+          blockedUsers: currentUser.data['user']['blockedUser']);
+      print('friends$loggedUser.friends');
       print("notify${currentUser.data['user']['unreadNotification']}");
       return loggedUser;
     }
@@ -697,16 +698,45 @@ class Api {
     return [false, "Something got wrong"];
   }
 
-  Future<bool> reportUser(String reason,String postId) async {
+  Future<bool> reportUser(String reason, String postId) async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
 
     Dio dio = Dio();
     dio.options.headers["Authorization"] = token;
-    Response response = await dio.post(
-        hostAPI + "/report/" + postId,
-        data: {'reason': reason});
+    Response response =
+        await dio.post(hostAPI + "/report/" + postId, data: {'reason': reason});
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> blockUser(String id) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+    Response response = await dio.post(hostAPI + "/block/" + id);
+
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
+    Future<bool> unblockUser(String id) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String token = prefs.getString('token') ?? '';
+
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = token;
+    Response response = await dio.put(hostAPI + "/unblock/" + id);
+
     if (response.statusCode == 200) {
       return true;
     }

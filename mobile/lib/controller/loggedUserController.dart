@@ -27,6 +27,8 @@ class LoggedUserController extends GetxController {
         loggedUser.unreadNotifications = user.unreadNotifications;
         loggedUser.friends = user.friends;
         loggedUser.noTuales = user.noTuales;
+        loggedUser.blockedUsers = user.blockedUsers;
+        
       });
 
       loggedUser.refresh();

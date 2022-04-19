@@ -10,16 +10,18 @@ class CurrentUserDetails {
   bool? unreadNotifications;
   List? friends;
   int? noTuales;
+  List? blockedUsers;
 
-  CurrentUserDetails(
-      {this.friends,
-      this.currentuserid = '',
-      this.currentuserAvatarUrl = '',
-      this.currentuserAvatarPublicId = '',
-      this.currentuserName = '',
-      this.currentUserUsername = '',
-      this.currentuserBio = '',
-      this.unreadNotifications = false,
-      this.noTuales
-      });
+  CurrentUserDetails({
+    this.friends,
+    this.currentuserid = '',
+    this.currentuserAvatarUrl = '',
+    this.currentuserAvatarPublicId = '',
+    this.currentuserName = '',
+    this.currentUserUsername = '',
+    this.currentuserBio = '',
+    this.unreadNotifications = false,
+    this.noTuales,
+    this.blockedUsers,
+  });
 }

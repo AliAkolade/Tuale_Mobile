@@ -1,3 +1,4 @@
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
@@ -51,6 +52,25 @@ class _ProfileState extends State<userProfile> with RouteAware {
   @override
   void initState() {
     super.initState();
+  }
+
+  bool isBlocked(String id) {
+    bool isblocked = false;
+    for (var i
+        in Get.find<LoggedUserController>().loggedUser.value.blockedUsers!) {
+      print(i['user']);
+      print(id);
+      if (id == i['user']) {
+        isblocked = true;
+
+        break;
+      } else {
+        isblocked = false;
+
+        // break;
+      }
+    }
+    return isblocked;
   }
 
   @override
@@ -120,25 +140,53 @@ class _ProfileState extends State<userProfile> with RouteAware {
                                       // ));
                                     },
                                   )
-                                : IconButton(
-                                    onPressed: () {
-                                      showModalBottomSheet(
-                                          shape: const RoundedRectangleBorder(
-                                              side: BorderSide(),
-                                              borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(15),
-                                                  topRight:
-                                                      Radius.circular(15))),
-                                          useRootNavigator: true,
-                                          isScrollControlled: true,
-                                          enableDrag: true,
-                                          context: context,
-                                          builder: (context) => ReportWidget(context: context,));
-                                    },
-                                    icon: Icon(
-                                      Icons.more_vert,
-                                      color: Colors.black,
-                                    ))
+                                : Stack(
+                                    children: [
+                                      IconButton(
+                                          onPressed: () {
+                                            showModalBottomSheet(
+                                                shape:
+                                                    const RoundedRectangleBorder(
+                                                        side: BorderSide(),
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        15),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        15))),
+                                                useRootNavigator: true,
+                                                isScrollControlled: true,
+                                                enableDrag: true,
+                                                context: context,
+                                                builder: (context) =>
+                                                    ReportWidget(
+                                                        context: context,
+                                                        username:
+                                                            widget.username!));
+                                          },
+                                          icon: Icon(
+                                            Icons.more_vert,
+                                            color: Colors.black,
+                                          )),
+                                      isBlocked(text.profileInfo.value.id!)
+                                          ? Positioned(
+                                              left: 27,
+                                              top: 10,
+                                              child: Container(
+                                                height: 10,
+                                                width: 10,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.red,
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                              ),
+                                            )
+                                          : Container()
+                                    ],
+                                  )
                           ],
                           centerTitle: true,
                           elevation: 0,
@@ -157,290 +205,420 @@ class _ProfileState extends State<userProfile> with RouteAware {
                                   ),
                                 );
                               })),
-                      body: NestedScrollView(
-                          physics: ClampingScrollPhysics(),
-                          headerSliverBuilder: (context, isScrolled) {
-                            return [
-                              SliverPersistentHeader(
-                                delegate: _SliverAppBarDelegate(ProfileInfotwo(
-                                  username: widget.username,
-                                  // tag: widget.tag!,
-                                )),
-                                pinned: false,
-                                //  floating: true,
-                              ),
-                              SliverOverlapAbsorber(
-                                handle: NestedScrollView
-                                    .sliverOverlapAbsorberHandleFor(context),
-                                sliver: SliverAppBar(
-                                  //floating: true,
-                                  pinned: true,
-                                  // collapsedHeight: 100,
-                                  expandedHeight: 10,
-                                  flexibleSpace: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      const TabBar(
-                                          unselectedLabelColor: Colors.grey,
-                                          indicatorColor: Colors.transparent,
-                                          indicatorWeight: 1.1,
-                                          labelColor: tualeBlueDark,
-                                          labelStyle: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 16,
-                                              // fontWeight: FontWeight.bold,
-                                              height: 1),
-                                          tabs: [
-                                            Tab(
-                                              icon: Icon(
-                                                TualeIcons.allposts,
-                                                size: 30,
-                                              ),
-                                            ),
-                                            Tab(
-                                                icon: Icon(
-                                              TualeIcons.starredpost,
-                                              size: 35,
-                                              // color: Colors.grey.withOpacity(0.3),
-                                            )),
-                                          ]),
-                                      SizedBox(
-                                        height: 1, // TODO : don't have 10.h
-                                        width: ScreenUtil().screenWidth,
-                                        child: const Divider(
-                                          color: Colors.grey,
-                                        ),
-                                      )
-                                    ],
+                      body: ColorFiltered(
+                        colorFilter: ColorFilter.mode(
+                            isBlocked(text.profileInfo.value.id!)
+                                ? Colors.grey
+                                : Colors.transparent,
+                            BlendMode.saturation),
+                        child: AbsorbPointer(
+                          absorbing: isBlocked(text.profileInfo.value.id!),
+                          child: NestedScrollView(
+                              physics: ClampingScrollPhysics(),
+                              headerSliverBuilder: (context, isScrolled) {
+                                return [
+                                  SliverPersistentHeader(
+                                    delegate:
+                                        _SliverAppBarDelegate(ProfileInfotwo(
+                                      username: widget.username,
+                                      // tag: widget.tag!,
+                                    )),
+                                    pinned: false,
+                                    //  floating: true,
                                   ),
-                                  backgroundColor: Colors.white,
-                                ),
-                              ),
-                            ];
-                          },
-                          body: TabBarView(
-                            children: [
-                              Builder(builder: (context) {
-                                return CustomScrollView(
-                                  slivers: [
-                                    SliverOverlapInjector(
-                                        handle: NestedScrollView
-                                            .sliverOverlapAbsorberHandleFor(
-                                                context)),
-                                    AllPosts(
-                                      username: widget.username,
+                                  SliverOverlapAbsorber(
+                                    handle: NestedScrollView
+                                        .sliverOverlapAbsorberHandleFor(
+                                            context),
+                                    sliver: SliverAppBar(
+                                      //floating: true,
+                                      pinned: true,
+                                      // collapsedHeight: 100,
+                                      expandedHeight: 10,
+                                      flexibleSpace: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          const TabBar(
+                                              unselectedLabelColor: Colors.grey,
+                                              indicatorColor:
+                                                  Colors.transparent,
+                                              indicatorWeight: 1.1,
+                                              labelColor: tualeBlueDark,
+                                              labelStyle: TextStyle(
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 16,
+                                                  // fontWeight: FontWeight.bold,
+                                                  height: 1),
+                                              tabs: [
+                                                Tab(
+                                                  icon: Icon(
+                                                    TualeIcons.allposts,
+                                                    size: 30,
+                                                  ),
+                                                ),
+                                                Tab(
+                                                    icon: Icon(
+                                                  TualeIcons.starredpost,
+                                                  size: 35,
+                                                  // color: Colors.grey.withOpacity(0.3),
+                                                )),
+                                              ]),
+                                          SizedBox(
+                                            height: 1, // TODO : don't have 10.h
+                                            width: ScreenUtil().screenWidth,
+                                            child: const Divider(
+                                              color: Colors.grey,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      backgroundColor: Colors.white,
                                     ),
-                                  ],
-                                );
-                              }),
-                              Builder(builder: (context) {
-                                return CustomScrollView(
-                                  slivers: [
-                                    SliverOverlapInjector(
-                                        handle: NestedScrollView
-                                            .sliverOverlapAbsorberHandleFor(
-                                                context)),
-                                    starredPosts(
-                                      username: widget.username,
-                                    ),
-                                  ],
-                                );
-                              }),
-                            ],
-                          )),
+                                  ),
+                                ];
+                              },
+                              body: TabBarView(
+                                children: [
+                                  Builder(builder: (context) {
+                                    return CustomScrollView(
+                                      slivers: [
+                                        SliverOverlapInjector(
+                                            handle: NestedScrollView
+                                                .sliverOverlapAbsorberHandleFor(
+                                                    context)),
+                                        AllPosts(
+                                          username: widget.username,
+                                        ),
+                                      ],
+                                    );
+                                  }),
+                                  Builder(builder: (context) {
+                                    return CustomScrollView(
+                                      slivers: [
+                                        SliverOverlapInjector(
+                                            handle: NestedScrollView
+                                                .sliverOverlapAbsorberHandleFor(
+                                                    context)),
+                                        starredPosts(
+                                          username: widget.username,
+                                        ),
+                                      ],
+                                    );
+                                  }),
+                                ],
+                              )),
+                        ),
+                      ),
                     ));
           }),
     );
   }
 }
 
-class ReportWidget extends StatelessWidget {
+class ReportWidget extends StatefulWidget {
   BuildContext context;
+  String username;
 
   ReportWidget({
     Key? key,
     required this.context,
+    required this.username,
   }) : super(key: key);
 
   @override
+  State<ReportWidget> createState() => _ReportWidgetState();
+}
+
+class _ReportWidgetState extends State<ReportWidget> {
+  bool isBlocked(String id) {
+    bool isblocked = false;
+    for (var i
+        in Get.find<LoggedUserController>().loggedUser.value.blockedUsers!) {
+      print(i['user']);
+      print(id);
+      if (id == i['user']) {
+        isblocked = true;
+
+        break;
+      } else {
+        isblocked = false;
+
+        // break;
+      }
+    }
+    return isblocked;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Container(
-        height: 100,
-        padding: const EdgeInsets.only(
-          left: 15,
-          right: 15,
-          top: 15,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            GestureDetector(
-              onTap: () {
-                showModalBottomSheet(
-                    shape: const RoundedRectangleBorder(
-                        side: BorderSide(),
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15))),
-                    useRootNavigator: true,
-                    isScrollControlled: true,
-                    enableDrag: true,
-                    context: context,
-                    builder: (context) => Container(
-                      height: 500,
-                        child: ReportList(parentContext: context,)
-                    ));
-              },
-              child: Text(
-                "Report",
-                style: TextStyle(fontSize: 23, color: Colors.red),
+    return GetX<ProfileController>(
+        init: ProfileController(controllerusername: widget.username),
+        builder: (info) {
+          return Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: Container(
+              height: 100,
+              padding: const EdgeInsets.only(
+                left: 15,
+                right: 15,
+                top: 15,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                          shape: const RoundedRectangleBorder(
+                              side: BorderSide(),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(15),
+                                  topRight: Radius.circular(15))),
+                          useRootNavigator: true,
+                          isScrollControlled: true,
+                          enableDrag: true,
+                          context: context,
+                          builder: (context) => Container(
+                              height: 500,
+                              child: ReportList(
+                                parentContext: context,
+                              )));
+                    },
+                    child: Text(
+                      "Report",
+                      style: TextStyle(fontSize: 23, color: Colors.red),
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Expanded(
+                            child: AlertDialog(
+                              //  title: Text('Welcome'),
+                              content: Text(isBlocked(
+                                      info.profileInfo.value.id!)
+                                  ? 'Are you sure you want to unblock this account'
+                                  : 'Are you sure you want to block this user'),
+                              actions: [
+                                FlatButton(
+                                  textColor: Colors.black,
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('NO'),
+                                ),
+                                FlatButton(
+                                  textColor: Colors.black,
+                                  onPressed: () async {
+                                    Loader.show(context,
+                                        isSafeAreaOverlay: false,
+                                        isAppbarOverlay: true,
+                                        isBottomBarOverlay: false,
+                                        progressIndicator: SpinKitFadingCircle(
+                                            color:
+                                                tualeOrange.withOpacity(0.75)),
+                                        themeData: Theme.of(context).copyWith(
+                                            accentColor: Colors.black38),
+                                        overlayColor: const Color(0x99E8EAF6));
+                                    var result =
+                                        isBlocked(info.profileInfo.value.id!)
+                                            ? await Api().unblockUser(
+                                                info.profileInfo.value.id!)
+                                            : await Api().blockUser(
+                                                info.profileInfo.value.id!);
+                                    if (result) {
+                                      Get.find<LoggedUserController>()
+                                          .getLoggeduser();
+                                      Get.find<ProfileController>()
+                                          .getProfileInfo(
+                                              info.profileInfo.value.name!);
+                                      print(result);
+                                      Loader.hide();
+                                      Navigator.pop(context);
+                                    } else {}
+                                  },
+                                  child: Text('YES'),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Text(
+                      isBlocked(info.profileInfo.value.id!)
+                          ? "Unblock"
+                          : "Block",
+                      style: TextStyle(fontSize: 23, color: Colors.black),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 }
 
 class ReportList extends StatefulWidget {
   BuildContext parentContext;
-  ReportList({Key? key, required this.parentContext}) : super(key: key);
+  String? username;
+  ReportList({Key? key, required this.parentContext, this.username})
+      : super(key: key);
 
   @override
   State<ReportList> createState() => _ReportListState();
 }
 
 class _ReportListState extends State<ReportList> {
-  int val= -1;
+  int val = -1;
   Api _api = Api();
   String reason = "";
 
-  reportProfile() async {
-    if(val == 1){
+  reportProfile(String id) async {
+    if (val == 1) {
       reason = "It's posting content that shouldn't be on tuale";
-    }
-    else if(val == 2){
+    } else if (val == 2) {
       reason = "It's pretending to be someone else";
-    }
-    else if(val == 3){
+    } else if (val == 3) {
       reason = "It's posting bad comments";
-    }
-    else if(val == 4){
+    } else if (val == 4) {
       reason = "Other reasons";
     }
-    bool response = await _api.reportUser(reason, "61d9a52870b12e1b26d946e3");
-    if(response){
+    bool response = await _api.reportUser(reason, id);
+    if (response) {
       Navigator.pop(context);
       Navigator.pop(context);
+      ScaffoldMessenger.of(widget.parentContext).showSnackBar(
+          const SnackBar(content: Text('Your request has been submitted')));
+    } else {
       ScaffoldMessenger.of(widget.parentContext)
-          .showSnackBar(const SnackBar(content: Text('Your request has been submit')));
-    }
-    else{
-      ScaffoldMessenger.of(widget.parentContext)
-        .showSnackBar(const SnackBar(content: Text('Something go wrong')));
+          .showSnackBar(const SnackBar(content: Text('Something go wrong')));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        child: Container(
-          child: Column(
-            children: [
-              SizedBox(height: 5,),
-              Text(
-                "Report",
-                style: TextStyle(fontSize: 23, color: Colors.black,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10,),
-              Divider(),
-              Text(
-                "Why  are you reporting this account",
-                style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 20,),
-              Text(
-                "Your report is anonymous, execept if you're reporting "
-                    "an intellectual property infrigement. If someone is in immediate"
-                    "danger, call the local emergency services - don't wait",
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.grey,
+    return GetX<ProfileController>(
+        init: ProfileController(controllerusername: widget.username),
+        builder: (info) {
+          return Padding(
+              child: Container(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      "Report",
+                      style: TextStyle(
+                          fontSize: 23,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Divider(),
+                    Text(
+                      "Why are you reporting this account",
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Your report is anonymous, execept if you're reporting "
+                      "an intellectual property infrigement. If someone is in immediate"
+                      "danger, call the local emergency services - don't wait",
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    ListTile(
+                      title: const Text(
+                          "It's posting content that shouldn't be on tuale"),
+                      leading: Radio(
+                        value: 1,
+                        groupValue: val,
+                        onChanged: (int? value) {
+                          setState(() {
+                            val = value ?? -1;
+                          });
+                          reportProfile(info.profileInfo.value.id!);
+                        },
+                        activeColor: Colors.orange,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    ListTile(
+                      title: const Text("It's pretending to be someone else"),
+                      leading: Radio(
+                        value: 2,
+                        groupValue: val,
+                        onChanged: (int? value) {
+                          setState(() {
+                            val = value ?? -1;
+                          });
+                          reportProfile(info.profileInfo.value.id!);
+                        },
+                        activeColor: Colors.orange,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    ListTile(
+                      title: const Text("It's posting bad comments"),
+                      leading: Radio(
+                        value: 3,
+                        groupValue: val,
+                        onChanged: (int? value) {
+                          setState(() {
+                            val = value ?? -1;
+                          });
+                          reportProfile(info.profileInfo.value.id!);
+                        },
+                        activeColor: Colors.orange,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    ListTile(
+                      title: const Text("Other reasons"),
+                      leading: Radio(
+                        value: 4,
+                        groupValue: val,
+                        onChanged: (int? value) {
+                          setState(() {
+                            val = value ?? -1;
+                          });
+                          reportProfile(info.profileInfo.value.id!);
+                        },
+                        activeColor: Colors.orange,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(height: 20,),
-              ListTile(
-                title: const Text("It's posting content that shouldn't be on tuale"),
-                leading: Radio(
-                  value: 1,
-                  groupValue: val,
-                  onChanged: (int? value) {
-                    setState(() {
-                      val = value ?? -1;
-                    });
-                    reportProfile();
-                  },
-                  activeColor: Colors.orange,
-                ),
-              ),
-              SizedBox(height: 5,),
-              ListTile(
-                title: const Text("It's pretending to be someone else"),
-                leading: Radio(
-                  value: 2,
-                  groupValue: val,
-                  onChanged: (int? value) {
-                    setState(() {
-                      val = value ?? -1;
-                    });
-                    reportProfile();
-                  },
-                  activeColor: Colors.orange,
-                ),
-              ),
-              SizedBox(height: 5,),
-              ListTile(
-                title: const Text("It's posting bad comments"),
-                leading: Radio(
-                  value: 3,
-                  groupValue: val,
-                  onChanged: (int? value) {
-                    setState(() {
-                      val = value ?? -1;
-                    });
-                    reportProfile();
-                  },
-                  activeColor: Colors.orange,
-                ),
-              ),
-              SizedBox(height: 5,),
-              ListTile(
-                title: const Text("Other reasons"),
-                leading: Radio(
-                  value: 4,
-                  groupValue: val,
-                  onChanged: (int? value) {
-                    setState(() {
-                      val = value ?? -1;
-                    });
-                    reportProfile();
-                  },
-                  activeColor: Colors.orange,
-                ),
-              ),
-            ],
-          ),
-        ),
-        padding: EdgeInsets.only(left: 20, right: 20));
+              padding: EdgeInsets.only(left: 20, right: 20));
+        });
   }
 }
 
