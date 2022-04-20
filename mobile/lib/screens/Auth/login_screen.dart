@@ -1,13 +1,11 @@
-import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/state_manager.dart';
-import 'package:mobile/controller/loggedUserController.dart';
+import 'dart:math' as math;
+
 import 'package:mobile/screens/Auth/reset_password_screen.dart';
 import 'package:mobile/screens/imports.dart';
 
-import 'dart:math' as math;
-
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
+
   @override
   State<Login> createState() => _LoginState();
 }
@@ -23,10 +21,11 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
-  //final email = TextEditingController(text: '');
-  // final pass = TextEditingController(text: '');
-  final email = TextEditingController(text: 'tulenoreply@gmail.com');
-  final pass = TextEditingController(text: 'Azerty');
+  final email = TextEditingController(text: '');
+  final pass = TextEditingController(text: '');
+
+  // final email = TextEditingController(text: 'tulenoreply@gmail.com');
+  // final pass = TextEditingController(text: 'Azerty');
   // final email = TextEditingController(text: 'afolabiogunbanwo@gmail.com');
   // final pass = TextEditingController(text: 'testing');
   // final email = TextEditingController(text: 'clintonali127@gmail.com');
