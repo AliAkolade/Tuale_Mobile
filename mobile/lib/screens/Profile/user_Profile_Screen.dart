@@ -162,9 +162,12 @@ class _ProfileState extends State<userProfile> with RouteAware {
                                                 context: context,
                                                 builder: (context) =>
                                                     ReportWidget(
-                                                        context: context,
+                                                        parentcontext: context,
                                                         username:
-                                                            widget.username!));
+                                                            widget.username!,
+                                                        id: text.profileInfo.value.id.toString(),
+                                                        name: text.profileInfo.value.name.toString(),
+                                                    ));
                                           },
                                           icon: Icon(
                                             Icons.more_vert,
@@ -317,13 +320,17 @@ class _ProfileState extends State<userProfile> with RouteAware {
 }
 
 class ReportWidget extends StatefulWidget {
-  BuildContext context;
+  BuildContext parentcontext;
   String username;
+  String id;
+  String name;
 
   ReportWidget({
     Key? key,
-    required this.context,
+    required this.parentcontext,
     required this.username,
+    required this.id,
+    required this.name,
   }) : super(key: key);
 
   @override
@@ -352,124 +359,120 @@ class _ReportWidgetState extends State<ReportWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<ProfileController>(
-        init: ProfileController(controllerusername: widget.username),
-        builder: (info) {
-          return Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: Container(
-              height: 100,
-              padding: const EdgeInsets.only(
-                left: 15,
-                right: 15,
-                top: 15,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      showModalBottomSheet(
-                          shape: const RoundedRectangleBorder(
-                              side: BorderSide(),
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15))),
-                          useRootNavigator: true,
-                          isScrollControlled: true,
-                          enableDrag: true,
-                          context: context,
-                          builder: (context) => Container(
-                              height: 500,
-                              child: ReportList(
-                                parentContext: context,
-                              )));
-                    },
-                    child: Text(
-                      "Report",
-                      style: TextStyle(fontSize: 23, color: Colors.red),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  GestureDetector(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Expanded(
-                            child: AlertDialog(
-                              //  title: Text('Welcome'),
-                              content: Text(isBlocked(
-                                      info.profileInfo.value.id!)
-                                  ? 'Are you sure you want to unblock this account'
-                                  : 'Are you sure you want to block this user'),
-                              actions: [
-                                FlatButton(
-                                  textColor: Colors.black,
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text('NO'),
-                                ),
-                                FlatButton(
-                                  textColor: Colors.black,
-                                  onPressed: () async {
-                                    Loader.show(context,
-                                        isSafeAreaOverlay: false,
-                                        isAppbarOverlay: true,
-                                        isBottomBarOverlay: false,
-                                        progressIndicator: SpinKitFadingCircle(
-                                            color:
-                                                tualeOrange.withOpacity(0.75)),
-                                        themeData: Theme.of(context).copyWith(
-                                            accentColor: Colors.black38),
-                                        overlayColor: const Color(0x99E8EAF6));
-                                    var result =
-                                        isBlocked(info.profileInfo.value.id!)
-                                            ? await Api().unblockUser(
-                                                info.profileInfo.value.id!)
-                                            : await Api().blockUser(
-                                                info.profileInfo.value.id!);
-                                    if (result) {
-                                      Get.find<LoggedUserController>()
-                                          .getLoggeduser();
-                                      Get.find<ProfileController>()
-                                          .getProfileInfo(
-                                              info.profileInfo.value.name!);
-                                      print(result);
-                                      Loader.hide();
-                                      Navigator.pop(context);
-                                    } else {}
-                                  },
-                                  child: Text('YES'),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    child: Text(
-                      isBlocked(info.profileInfo.value.id!)
-                          ? "Unblock"
-                          : "Block",
-                      style: TextStyle(fontSize: 23, color: Colors.black),
-                    ),
-                  ),
-                ],
+    return Padding(
+      padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: Container(
+        height: 100,
+        padding: const EdgeInsets.only(
+          left: 15,
+          right: 15,
+          top: 15,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                        side: BorderSide(),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15))),
+                    useRootNavigator: true,
+                    isScrollControlled: true,
+                    enableDrag: true,
+                    context: context,
+                    builder: (context) => Container(
+                        height: 500,
+                        child: ReportList(
+                          parentContext: context,
+                          id: widget.id,
+                        )));
+              },
+              child: Text(
+                "Report",
+                style: TextStyle(fontSize: 23, color: Colors.red),
               ),
             ),
-          );
-        });
+            SizedBox(height: 15),
+            GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: widget.parentcontext,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      //  title: Text('Welcome'),
+                      content: Text(isBlocked(
+                          widget.id)
+                          ? 'Are you sure you want to unblock this account'
+                          : 'Are you sure you want to block this user'),
+                      actions: [
+                        FlatButton(
+                          textColor: Colors.black,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text('NO'),
+                        ),
+                        FlatButton(
+                          textColor: Colors.black,
+                          onPressed: () async {
+                            Loader.show(context,
+                                isSafeAreaOverlay: false,
+                                isAppbarOverlay: true,
+                                isBottomBarOverlay: false,
+                                progressIndicator: SpinKitFadingCircle(
+                                    color:
+                                    tualeOrange.withOpacity(0.75)),
+                                themeData: Theme.of(context).copyWith(
+                                    accentColor: Colors.black38),
+                                overlayColor: const Color(0x99E8EAF6));
+                            var result =
+                            isBlocked(widget.id)
+                                ? await Api().unblockUser(
+                                widget.id)
+                                : await Api().blockUser(
+                                widget.id);
+                            if (result) {
+                              Get.find<LoggedUserController>()
+                                  .getLoggeduser();
+                              Get.find<ProfileController>()
+                                  .getProfileInfo(
+                                  widget.name);
+                              print(result);
+                              Loader.hide();
+                              Navigator.pop(context);
+                            } else {}
+                          },
+                          child: Text('YES'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Text(
+                isBlocked(widget.id)
+                    ? "Unblock"
+                    : "Block",
+                style: TextStyle(fontSize: 23, color: Colors.black),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
 class ReportList extends StatefulWidget {
   BuildContext parentContext;
   String? username;
-  ReportList({Key? key, required this.parentContext, this.username})
+  String? id;
+  ReportList({Key? key, required this.parentContext, this.username, this.id})
       : super(key: key);
 
   @override
@@ -505,120 +508,116 @@ class _ReportListState extends State<ReportList> {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<ProfileController>(
-        init: ProfileController(controllerusername: widget.username),
-        builder: (info) {
-          return Padding(
-              child: Container(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "Report",
-                      style: TextStyle(
-                          fontSize: 23,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Divider(),
-                    Text(
-                      "Why are you reporting this account",
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      "Your report is anonymous, execept if you're reporting "
-                      "an intellectual property infrigement. If someone is in immediate"
-                      "danger, call the local emergency services - don't wait",
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    ListTile(
-                      title: const Text(
-                          "It's posting content that shouldn't be on tuale"),
-                      leading: Radio(
-                        value: 1,
-                        groupValue: val,
-                        onChanged: (int? value) {
-                          setState(() {
-                            val = value ?? -1;
-                          });
-                          reportProfile(info.profileInfo.value.id!);
-                        },
-                        activeColor: Colors.orange,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    ListTile(
-                      title: const Text("It's pretending to be someone else"),
-                      leading: Radio(
-                        value: 2,
-                        groupValue: val,
-                        onChanged: (int? value) {
-                          setState(() {
-                            val = value ?? -1;
-                          });
-                          reportProfile(info.profileInfo.value.id!);
-                        },
-                        activeColor: Colors.orange,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    ListTile(
-                      title: const Text("It's posting bad comments"),
-                      leading: Radio(
-                        value: 3,
-                        groupValue: val,
-                        onChanged: (int? value) {
-                          setState(() {
-                            val = value ?? -1;
-                          });
-                          reportProfile(info.profileInfo.value.id!);
-                        },
-                        activeColor: Colors.orange,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    ListTile(
-                      title: const Text("Other reasons"),
-                      leading: Radio(
-                        value: 4,
-                        groupValue: val,
-                        onChanged: (int? value) {
-                          setState(() {
-                            val = value ?? -1;
-                          });
-                          reportProfile(info.profileInfo.value.id!);
-                        },
-                        activeColor: Colors.orange,
-                      ),
-                    ),
-                  ],
+    return Padding(
+        child: Container(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                "Report",
+                style: TextStyle(
+                    fontSize: 23,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Divider(),
+              Text(
+                "Why are you reporting this account",
+                style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                "Your report is anonymous, execept if you're reporting "
+                    "an intellectual property infrigement. If someone is in immediate"
+                    "danger, call the local emergency services - don't wait",
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.grey,
                 ),
               ),
-              padding: EdgeInsets.only(left: 20, right: 20));
-        });
+              SizedBox(
+                height: 20,
+              ),
+              ListTile(
+                title: const Text(
+                    "It's posting content that shouldn't be on tuale"),
+                leading: Radio(
+                  value: 1,
+                  groupValue: val,
+                  onChanged: (int? value) {
+                    setState(() {
+                      val = value ?? -1;
+                    });
+                    reportProfile(widget.id!);
+                  },
+                  activeColor: Colors.orange,
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              ListTile(
+                title: const Text("It's pretending to be someone else"),
+                leading: Radio(
+                  value: 2,
+                  groupValue: val,
+                  onChanged: (int? value) {
+                    setState(() {
+                      val = value ?? -1;
+                    });
+                    reportProfile(widget.id!);
+                  },
+                  activeColor: Colors.orange,
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              ListTile(
+                title: const Text("It's posting bad comments"),
+                leading: Radio(
+                  value: 3,
+                  groupValue: val,
+                  onChanged: (int? value) {
+                    setState(() {
+                      val = value ?? -1;
+                    });
+                    reportProfile(widget.id!);
+                  },
+                  activeColor: Colors.orange,
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              ListTile(
+                title: const Text("Other reasons"),
+                leading: Radio(
+                  value: 4,
+                  groupValue: val,
+                  onChanged: (int? value) {
+                    setState(() {
+                      val = value ?? -1;
+                    });
+                    reportProfile(widget.id!);
+                  },
+                  activeColor: Colors.orange,
+                ),
+              ),
+            ],
+          ),
+        ),
+        padding: EdgeInsets.only(left: 20, right: 20));
   }
 }
 
