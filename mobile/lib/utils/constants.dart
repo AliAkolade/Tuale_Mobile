@@ -1,3 +1,5 @@
+import 'dart:developer' as devtools show log;
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -82,4 +84,38 @@ class camera extends ChangeNotifier {
 
     notifyListeners();
   }
+}
+
+void log(
+  String screenId, {
+  dynamic msg,
+  dynamic error,
+  StackTrace? stackTrace,
+}) =>
+    devtools.log(
+      msg.toString(),
+      error: error,
+      name: screenId,
+      stackTrace: stackTrace,
+    );
+
+void showSnackBar(String text,
+    {Duration duration = const Duration(seconds: 2)}) {
+  Globals.scaffoldMessengerKey.currentState
+    ?..clearSnackBars()
+    ..showSnackBar(
+      SnackBar(content: Text(text), duration: duration),
+    );
+}
+
+bool isNullOrBlank(String? data) => data?.trim().isEmpty ?? true;
+
+class Globals {
+  const Globals._();
+
+  static final auth = FirebaseAuth.instance;
+
+  static User? get firebaseUser => auth.currentUser;
+
+  static final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 }

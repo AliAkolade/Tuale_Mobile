@@ -1,10 +1,12 @@
+import 'package:easy_container/easy_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../imports.dart';
-import '../imports.dart';
+import '../widgets/pin_input_field.dart';
 
 int viewNo = 0;
 String finalEmail = '';
@@ -16,6 +18,7 @@ String finalPhone = '';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
+
   @override
   State<SignUp> createState() => _SignUpState();
 }
@@ -163,12 +166,12 @@ class _SignUpState extends State<SignUp> {
 
 class ChooseSignUp extends StatefulWidget {
   const ChooseSignUp({Key? key}) : super(key: key);
+
   @override
   State<ChooseSignUp> createState() => _ChooseSignUpState();
 }
 
 class _ChooseSignUpState extends State<ChooseSignUp> {
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -216,26 +219,26 @@ class _ChooseSignUpState extends State<ChooseSignUp> {
             });
           }, text: 'Sign up with Email'),
           const SizedBox(height: 10),
-          SignInButton(Buttons.Google,
-              elevation: 1,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(7))),
-              onPressed: () {},
-              text: 'Sign up with Google'),
-          const SizedBox(height: 10),
-          SignInButton(Buttons.FacebookNew,
-              elevation: 1,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(7))),
-              onPressed: () {},
-              text: 'Sign up with Facebook'),
-          const SizedBox(height: 10),
-          SignInButton(Buttons.Apple,
-              elevation: 1,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(7))),
-              onPressed: () {},
-              text: 'Sign up with Apple'),
+          // SignInButton(Buttons.Google,
+          //     elevation: 1,
+          //     shape: const RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.all(Radius.circular(7))),
+          //     onPressed: () {},
+          //     text: 'Sign up with Google'),
+          // const SizedBox(height: 10),
+          // SignInButton(Buttons.FacebookNew,
+          //     elevation: 1,
+          //     shape: const RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.all(Radius.circular(7))),
+          //     onPressed: () {},
+          //     text: 'Sign up with Facebook'),
+          // const SizedBox(height: 10),
+          // SignInButton(Buttons.Apple,
+          //     elevation: 1,
+          //     shape: const RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.all(Radius.circular(7))),
+          //     onPressed: () {},
+          //     text: 'Sign up with Apple'),
           const SizedBox(height: 30),
           InkWell(
               onTap: () {
@@ -261,6 +264,7 @@ class _ChooseSignUpState extends State<ChooseSignUp> {
 
 class FillDetails extends StatefulWidget {
   const FillDetails({Key? key}) : super(key: key);
+
   @override
   State<FillDetails> createState() => _FillDetailsState();
 }
@@ -576,17 +580,17 @@ class _FillDetailsState extends State<FillDetails> {
                 },
               ),
               GestureDetector(
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'I accept ',
-                        style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      TextSpan(
+                  child: RichText(
+                    text: const TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'I accept ',
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        TextSpan(
                           text: 'terms and conditions\n',
                           style: TextStyle(
                               decoration: TextDecoration.underline,
@@ -596,43 +600,42 @@ class _FillDetailsState extends State<FillDetails> {
                           /*recognizer:  DoubleTapGestureRecognizer()..onDoubleTap = () {
                             // Double tapped.
                           }*/
-                      ),
-                      TextSpan(
-                        text: ' of use by clicking this checkbox',
-                        style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
+                        ),
+                        TextSpan(
+                          text: ' of use by clicking this checkbox',
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                onTap: () {
-                  launch("https://www.tuale.app/privacy");
-                }
-              )
+                  onTap: () {
+                    launch("https://www.tuale.app/privacy");
+                  })
             ],
           ),
           const SizedBox(height: 4),
           if (checkCGU)
             ElevatedButton(
-              onPressed: () {
-                checkDetails();
-              },
-              style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  primary: tualeBlueDark,
-                  minimumSize: const Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              child: const Text('Next',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Poppins',
-                      fontSize: 15.5,
-                      fontWeight: FontWeight.bold,
-                      height: 1))),
+                onPressed: () {
+                  checkDetails();
+                },
+                style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    primary: tualeBlueDark,
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                child: const Text('Next',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Poppins',
+                        fontSize: 15.5,
+                        fontWeight: FontWeight.bold,
+                        height: 1))),
           const SizedBox(height: 3),
           const Spacer(),
           SizedBox(
@@ -706,6 +709,7 @@ class _FillDetailsState extends State<FillDetails> {
 
 class ChooseUsername extends StatefulWidget {
   const ChooseUsername({Key? key}) : super(key: key);
+
   @override
   State<ChooseUsername> createState() => _ChooseUsernameState();
 }
@@ -948,6 +952,7 @@ class _ChooseUsernameState extends State<ChooseUsername> {
 
 class InputPhone extends StatefulWidget {
   const InputPhone({Key? key}) : super(key: key);
+
   @override
   State<InputPhone> createState() => _InputPhoneState();
 }
@@ -956,73 +961,76 @@ class _InputPhoneState extends State<InputPhone> {
   final phoneNo = TextEditingController(text: finalPhone);
   bool isLoading = false;
   bool isError = false;
+  final _formKey = GlobalKey<FormState>();
+  String? phoneNumber;
+
   String message =
       'We will send an OTP to this number to confirm if it is yours';
 
-  checkPhone() async {
-    setState(() {
-      isLoading = true;
-      isError = false;
-      message = 'We will send an OTP to this number to confirm if it is yours';
-    });
-    debugPrint(phoneNo.text);
-    if (phoneNo.text == '' ||
-        phoneNo.text.isEmpty ||
-        phoneNo.text.length < 11) {
-      setState(() {
-        message = 'Please enter a valid phone number to receive and OTP';
-        isError = true;
-      });
-      var snackBar = SnackBar(
-          content: Text(message, style: const TextStyle(color: Colors.white)),
-          backgroundColor: tualeOrange,
-          duration: const Duration(seconds: 5),
-          padding: const EdgeInsets.all(20));
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    } else {
-      debugPrint('Sending');
-      TwilioPhoneVerify _twilioPhoneVerify;
-      _twilioPhoneVerify = TwilioPhoneVerify(
-          accountSid: accountSID, // replace with Account SID
-          authToken: twilioKey,
-          serviceSid: serviceID // replace with Service SID
-          );
-      String tempNo = phoneNo.text.trim();
-      if (tempNo.substring(0, 1) == "0") {
-        tempNo = tempNo.replaceFirst("0", "+234");
-      }
-      if (tempNo.substring(0, 3) == "234") {
-        tempNo = tempNo.replaceFirst("234", "+234");
-      }
-      var twilioResponse = await _twilioPhoneVerify.sendSmsCode(tempNo);
-
-      if (twilioResponse.successful ?? false) {
-        //code sent
-        debugPrint('Sent');
-        setState(() {
-          finalPhone = tempNo;
-          viewNo += 1;
-        });
-      } else {
-        debugPrint(twilioResponse.errorMessage);
-        setState(() {
-          message = 'Invalid Number';
-          isError = true;
-        });
-        var snackBar = SnackBar(
-            content: Text(message, style: const TextStyle(color: Colors.white)),
-            backgroundColor: tualeOrange,
-            duration: const Duration(seconds: 5),
-            padding: const EdgeInsets.all(20));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-    }
-
-    setState(() {
-      isLoading = false;
-    });
-  }
-
+  // checkPhone() async {
+  //   setState(() {
+  //     isLoading = true;
+  //     isError = false;
+  //     message = 'We will send an OTP to this number to confirm if it is yours';
+  //   });
+  //   debugPrint(phoneNo.text);
+  //   if (phoneNo.text == '' ||
+  //       phoneNo.text.isEmpty ||
+  //       phoneNo.text.length < 11) {
+  //     setState(() {
+  //       message = 'Please enter a valid phone number to receive and OTP';
+  //       isError = true;
+  //     });
+  //     var snackBar = SnackBar(
+  //         content: Text(message, style: const TextStyle(color: Colors.white)),
+  //         backgroundColor: tualeOrange,
+  //         duration: const Duration(seconds: 5),
+  //         padding: const EdgeInsets.all(20));
+  //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  //   } else {
+  //     debugPrint('Sending');
+  //     TwilioPhoneVerify _twilioPhoneVerify;
+  //     _twilioPhoneVerify = TwilioPhoneVerify(
+  //         accountSid: accountSID, // replace with Account SID
+  //         authToken: twilioKey,
+  //         serviceSid: serviceID // replace with Service SID
+  //         );
+  //     String tempNo1 = phoneNo.text.trim();
+  //     String tempNo = tempNo1.removeAllWhitespace();
+  //     if (tempNo.substring(0, 1) == "0") {
+  //       tempNo = tempNo.replaceFirst("0", "+234");
+  //     }
+  //     if (tempNo.substring(0, 3) == "234") {
+  //       tempNo = tempNo.replaceFirst("234", "+234");
+  //     }
+  //     var twilioResponse = await _twilioPhoneVerify.sendSmsCode(tempNo);
+  //
+  //     if (twilioResponse.successful ?? false) {
+  //       //code sent
+  //       debugPrint('Sent');
+  //       setState(() {
+  //         finalPhone = tempNo;
+  //         viewNo += 1;
+  //       });
+  //     } else {
+  //       debugPrint(twilioResponse.errorMessage);
+  //       setState(() {
+  //         message = 'Invalid Number';
+  //         isError = true;
+  //       });
+  //       var snackBar = SnackBar(
+  //           content: Text(message, style: const TextStyle(color: Colors.white)),
+  //           backgroundColor: tualeOrange,
+  //           duration: const Duration(seconds: 5),
+  //           padding: const EdgeInsets.all(20));
+  //       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  //     }
+  //   }
+  //
+  //   setState(() {
+  //     isLoading = false;
+  //   });
+  // }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -1076,29 +1084,25 @@ class _InputPhoneState extends State<InputPhone> {
             ))
           ]),
           const SizedBox(height: 10),
-          Container(
-              decoration: const BoxDecoration(boxShadow: [
-                BoxShadow(color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
-              ]),
-              child: Material(
-                  color: Colors.white,
-                  elevation: 0,
-                  child: TextField(
-                      controller: phoneNo,
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          prefixIcon: SvgPicture.asset(
-                            'assets/vectors/flag.svg',
-                            fit: BoxFit.scaleDown,
-                          ),
-                          hintText: '08012345678',
-                          hintStyle: const TextStyle(
-                              color:
-                                  Color.fromRGBO(3, 42, 43, 0.5199999809265137),
-                              fontFamily: 'Lato',
-                              fontSize: 15,
-                              fontWeight: FontWeight.normal,
-                              height: 1))))),
+          EasyContainer(
+            elevation: 0,
+            borderRadius: 10,
+            color: Colors.transparent,
+            child: Form(
+              key: _formKey,
+              child: IntlPhoneField(
+                autofocus: true,
+                invalidNumberMessage: 'Invalid Phone Number!',
+                textAlignVertical: TextAlignVertical.center,
+                style: const TextStyle(fontSize: 25),
+                onChanged: (phone) => phoneNumber = phone.completeNumber,
+                initialCountryCode: 'NG',
+                flagsButtonPadding: const EdgeInsets.only(right: 10),
+                showDropdownIcon: false,
+                keyboardType: TextInputType.phone,
+              ),
+            ),
+          ),
           const SizedBox(height: 10),
           Row(children: [
             Flexible(
@@ -1121,8 +1125,16 @@ class _InputPhoneState extends State<InputPhone> {
                   ),
                 )
               : ElevatedButton(
-                  onPressed: () {
-                    checkPhone();
+                  onPressed: () async {
+                    if (isNullOrBlank(phoneNumber) ||
+                        !_formKey.currentState!.validate()) {
+                      showSnackBar('Please enter a valid phone number!');
+                    } else {
+                      setState(() {
+                        finalPhone = phoneNumber!;
+                        viewNo += 1;
+                      });
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                       elevation: 0,
@@ -1210,14 +1222,16 @@ class _InputPhoneState extends State<InputPhone> {
 
 class VerifyCode extends StatefulWidget {
   const VerifyCode({Key? key}) : super(key: key);
+
   @override
   State<VerifyCode> createState() => _VerifyCodeState();
 }
 
-class _VerifyCodeState extends State<VerifyCode> {
+class _VerifyCodeState extends State<VerifyCode> with WidgetsBindingObserver {
   final code = TextEditingController(text: '');
   bool isLoading = false;
   String message = '';
+  bool isKeyboardVisible = false;
 
   checkCode() async {
     setState(() {
@@ -1232,136 +1246,90 @@ class _VerifyCodeState extends State<VerifyCode> {
         message = 'Please enter a code';
       });
     } else {
-      debugPrint('Sending');
-      TwilioPhoneVerify _twilioPhoneVerify;
-      _twilioPhoneVerify = TwilioPhoneVerify(
-          accountSid: accountSID, // replace with Account SID
-          authToken: twilioKey,
-          serviceSid: serviceID // replace with Service SID
-          );
+      debugPrint('Phone number is approved');
+      debugPrint('Registering Now');
+      debugPrint(finalName);
+      debugPrint(finalDOB);
+      debugPrint(finalEmail);
+      debugPrint(finalPhone);
+      debugPrint(finalUsername);
+      debugPrint(finalPassword);
 
-      var twilioResponse = await _twilioPhoneVerify.verifySmsCode(
-          phone: finalPhone, code: code.text.trim());
-
-      if (twilioResponse.successful ?? false) {
-        if (twilioResponse.verification?.status ==
-            VerificationStatus.approved) {
-          debugPrint('Phone number is approved');
-          debugPrint('Registering Now');
-          debugPrint(finalName);
-          debugPrint(finalDOB);
-          debugPrint(finalEmail);
-          debugPrint(finalPhone);
-          debugPrint(finalUsername);
-          debugPrint(finalPassword);
-
-          Dio dio = Dio();
-          Response response = await dio.post(hostAPI + registerUserAPI, data: {
-            "name": finalName,
-            "dateOfBirth": finalDOB,
-            "email": finalEmail,
-            "phoneNumber": finalPhone,
-            "username": finalUsername,
-            "password": finalPassword
-          });
-          debugPrint(response.data.toString());
-          var responseData = response.data;
-          if (responseData['success'].toString() == 'true') {
-            MixPanelSingleton.instance.mixpanel
-                .getPeople()
-                .set("Email", finalEmail);
-            MixPanelSingleton.instance.mixpanel
-                .getPeople()
-                .set("Name", finalName);
-            MixPanelSingleton.instance.mixpanel.track("SignUp");
-            Navigator.pushReplacement(
-                context,
-                PageTransition(
-                    type: PageTransitionType.fade, child: const Welcome()));
-            showDialog(
-                context: context,
-                builder: (BuildContext context) => Dialog(
-                    elevation: 0,
-                    backgroundColor: Colors.transparent,
-                    child: Container(
-                        padding: const EdgeInsets.all(30),
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SvgPicture.asset(
-                                'assets/vectors/actionSuccess.svg'),
-                            const SizedBox(height: 25),
-                            const Text(
-                                'Details verified successfully.\nYou can now sign in.',
+      Dio dio = Dio();
+      Response response = await dio.post(hostAPI + registerUserAPI, data: {
+        "name": finalName,
+        "dateOfBirth": finalDOB,
+        "email": finalEmail,
+        "phoneNumber": finalPhone,
+        "username": finalUsername,
+        "password": finalPassword
+      });
+      debugPrint(response.data.toString());
+      var responseData = response.data;
+      if (responseData['success'].toString() == 'true') {
+        MixPanelSingleton.instance.mixpanel
+            .getPeople()
+            .set("Email", finalEmail);
+        MixPanelSingleton.instance.mixpanel.getPeople().set("Name", finalName);
+        MixPanelSingleton.instance.mixpanel.track("SignUp");
+        Navigator.pushReplacement(
+            context,
+            PageTransition(
+                type: PageTransitionType.fade, child: const Welcome()));
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => Dialog(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                child: Container(
+                    padding: const EdgeInsets.all(30),
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset('assets/vectors/actionSuccess.svg'),
+                        const SizedBox(height: 25),
+                        const Text(
+                            'Details verified successfully.\nYou can now sign in.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Color.fromRGBO(76, 76, 76, 1),
+                                fontFamily: 'Poppins',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w100,
+                                height: 1)),
+                        const SizedBox(height: 25),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.bottomToTop,
+                                      child: const Login()));
+                            },
+                            style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                primary: tualeBlueDark,
+                                minimumSize: const Size(double.infinity, 50),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                            child: const Text('Go to  Sign In',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: Color.fromRGBO(76, 76, 76, 1),
+                                    color: Colors.white,
                                     fontFamily: 'Poppins',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w100,
-                                    height: 1)),
-                            const SizedBox(height: 25),
-                            ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                      context,
-                                      PageTransition(
-                                          type: PageTransitionType.bottomToTop,
-                                          child: const Login()));
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    elevation: 0,
-                                    primary: tualeBlueDark,
-                                    minimumSize:
-                                        const Size(double.infinity, 50),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10))),
-                                child: const Text('Go to  Sign In',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Poppins',
-                                        fontSize: 15.5,
-                                        fontWeight: FontWeight.bold,
-                                        height: 1)))
-                          ],
-                        ))));
-          } else {
-            setState(() {
-              message = responseData['message'].toString();
-            });
-            var snackBar = SnackBar(
-                content:
-                    Text(message, style: const TextStyle(color: Colors.white)),
-                backgroundColor: tualeOrange,
-                duration: const Duration(seconds: 5),
-                padding: const EdgeInsets.all(20));
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          }
-        } else {
-          debugPrint('Invalid code');
-          setState(() {
-            message = 'Invalid Code';
-          });
-          var snackBar = SnackBar(
-              content:
-                  Text(message, style: const TextStyle(color: Colors.white)),
-              backgroundColor: tualeOrange,
-              duration: const Duration(seconds: 5),
-              padding: const EdgeInsets.all(20));
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }
+                                    fontSize: 15.5,
+                                    fontWeight: FontWeight.bold,
+                                    height: 1)))
+                      ],
+                    ))));
       } else {
-        debugPrint(twilioResponse.errorMessage);
         setState(() {
-          message = 'Error verifying code';
+          message = responseData['message'].toString();
         });
         var snackBar = SnackBar(
             content: Text(message, style: const TextStyle(color: Colors.white)),
@@ -1374,6 +1342,42 @@ class _VerifyCodeState extends State<VerifyCode> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  late final ScrollController scrollController;
+
+  @override
+  void initState() {
+    scrollController = ScrollController();
+    WidgetsBinding.instance?.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    final bottomViewInsets = WidgetsBinding.instance!.window.viewInsets.bottom;
+    isKeyboardVisible = bottomViewInsets > 0;
+  }
+
+  Future<void> _scrollToBottomOnKeyboardOpen() async {
+    while (!isKeyboardVisible) {
+      await Future.delayed(const Duration(milliseconds: 50));
+    }
+
+    await Future.delayed(const Duration(milliseconds: 250));
+
+    await scrollController.animateTo(
+      scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeIn,
+    );
   }
 
   @override
@@ -1414,83 +1418,146 @@ class _VerifyCodeState extends State<VerifyCode> {
               alignment: Alignment.centerLeft,
             )
           ], alignment: AlignmentDirectional.center),
-          const SizedBox(height: 20),
-          Row(children: const [
-            Flexible(
-                child: Text(
-              'Enter the One Time Password that was sent to the phone number.',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                  color: Color.fromRGBO(76, 76, 76, 1),
-                  fontFamily: 'Lato',
-                  fontSize: 16,
-                  fontWeight: FontWeight.normal,
-                  height: 1.4375),
-            ))
-          ]),
-          const SizedBox(height: 10),
-          Container(
-              decoration: const BoxDecoration(boxShadow: [
-                BoxShadow(color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
-              ]),
-              child: Material(
-                  color: Colors.white,
-                  elevation: 0,
-                  child: TextField(
-                      controller: code,
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          prefixIcon: SvgPicture.asset(
-                            'assets/vectors/padlock.svg',
-                            fit: BoxFit.scaleDown,
-                          ),
-                          hintText: 'XXXXXX',
-                          hintStyle: const TextStyle(
-                              color:
-                                  Color.fromRGBO(3, 42, 43, 0.5199999809265137),
-                              fontFamily: 'Lato',
-                              fontSize: 15,
-                              fontWeight: FontWeight.normal,
-                              height: 1))))),
-          const SizedBox(height: 10),
-          Row(children: [
-            Flexible(
-                child: Text(
-              message,
-              textAlign: TextAlign.left,
-              style: const TextStyle(
-                  color: Colors.redAccent,
-                  fontFamily: 'Roboto',
-                  fontSize: 13,
-                  fontWeight: FontWeight.normal,
-                  height: 1),
-            ))
-          ]),
-          const SizedBox(height: 20),
-          isLoading
-              ? Center(
-                  child: SpinKitFadingCircle(
-                    color: tualeBlueDark.withOpacity(0.75),
+          const SizedBox(height: 25),
+          FirebasePhoneAuthHandler(
+            phoneNumber: finalPhone,
+            onLoginSuccess: (userCredential, autoVerified) async {
+              log(
+                'VerifyPhoneNumberScreen',
+                msg: autoVerified
+                    ? 'OTP was fetched automatically!'
+                    : 'OTP was verified manually!',
+              );
+
+              showSnackBar('Phone number verified successfully!');
+
+              log(
+                'VerifyPhoneNumberScreen',
+                msg: 'Login Success UID: ${userCredential.user?.uid}',
+              );
+            },
+            onLoginFailed: (authException) {
+              showSnackBar('Something went wrong!');
+              log('VerifyPhoneNumberScreen', error: authException.message);
+              // handle error further if needed
+            },
+            builder: (context, controller) {
+              return Column(children: [
+                if (controller.codeSent)
+                  TextButton(
+                    child: Text(
+                      controller.timerIsActive
+                          ? '${controller.timerCount.inSeconds}s'
+                          : 'Resend',
+                      style:
+                          const TextStyle(color: tualeBlueDark, fontSize: 18),
+                    ),
+                    onPressed: controller.timerIsActive
+                        ? null
+                        : () async {
+                            log('VerifyPhoneNumberScreen', msg: 'Resend OTP');
+                            await controller.sendOTP();
+                          },
                   ),
-                )
-              : ElevatedButton(
-                  onPressed: () {
-                    checkCode();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      primary: tualeBlueDark,
-                      minimumSize: const Size(double.infinity, 50),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
-                  child: const Text('Submit',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Poppins',
-                          fontSize: 15.5,
-                          fontWeight: FontWeight.bold,
-                          height: 1))),
+                controller.codeSent
+                    ? Column(
+                        children: [
+                          Row(children: const [
+                            Flexible(
+                                child: Text(
+                              'Enter the One Time Password that was sent to the phone number.',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  color: Color.fromRGBO(76, 76, 76, 1),
+                                  fontFamily: 'Lato',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                  height: 1.4375),
+                            ))
+                          ]),
+                          const SizedBox(height: 15),
+                          PinInputField(
+                            length: 6,
+                            onFocusChange: (hasFocus) async {
+                              if (hasFocus) {
+                                await _scrollToBottomOnKeyboardOpen();
+                              }
+                            },
+                            onSubmit: (enteredOTP) async {
+                              final isValidOTP = await controller.verifyOTP(
+                                otp: enteredOTP,
+                              );
+                              // Incorrect OTP
+                              if (!isValidOTP) {
+                                showSnackBar('The entered OTP is invalid!');
+                              } else {
+                                setState(() {
+                                  code.text = enteredOTP;
+                                });
+                                checkCode();
+                              }
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          Row(children: [
+                            Flexible(
+                                child: Text(
+                              message,
+                              textAlign: TextAlign.left,
+                              style: const TextStyle(
+                                  color: Colors.redAccent,
+                                  fontFamily: 'Roboto',
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.normal,
+                                  height: 1),
+                            ))
+                          ]),
+                          const SizedBox(height: 20),
+                          isLoading
+                              ? Center(
+                                  child: SpinKitFadingCircle(
+                                      color: tualeBlueDark.withOpacity(0.75)))
+                              : ElevatedButton(
+                                  onPressed: () {
+                                    checkCode();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      elevation: 0,
+                                      primary: tualeBlueDark,
+                                      minimumSize:
+                                          const Size(double.infinity, 50),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10))),
+                                  child: const Text('Submit',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'Poppins',
+                                          fontSize: 15.5,
+                                          fontWeight: FontWeight.bold,
+                                          height: 1))),
+                        ],
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 10),
+                          SpinKitFadingCircle(
+                              color: tualeBlueDark.withOpacity(0.75)),
+                          const SizedBox(height: 30),
+                          const Center(
+                            child: Text(
+                              'Sending OTP',
+                              style: TextStyle(fontSize: 25),
+                            ),
+                          ),
+                        ],
+                      ),
+              ]);
+            },
+          ),
           const Spacer(),
           SizedBox(
               width: 254,
@@ -1560,3 +1627,35 @@ class _VerifyCodeState extends State<VerifyCode> {
         ]);
   }
 }
+
+extension ExtendedString on String {
+  /// The string without any whitespace.
+  String removeAllWhitespace() {
+    // Remove all white space.
+    return replaceAll(RegExp(r"\s+"), "");
+  }
+}
+
+// Container(
+//     decoration: const BoxDecoration(boxShadow: [
+//       BoxShadow(color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
+//     ]),
+//     child: Material(
+//         color: Colors.white,
+//         elevation: 0,
+//         child: TextField(
+//             controller: code,
+//             decoration: InputDecoration(
+//                 border: InputBorder.none,
+//                 prefixIcon: SvgPicture.asset(
+//                   'assets/vectors/padlock.svg',
+//                   fit: BoxFit.scaleDown,
+//                 ),
+//                 hintText: 'XXXXXX',
+//                 hintStyle: const TextStyle(
+//                     color:
+//                         Color.fromRGBO(3, 42, 43, 0.5199999809265137),
+//                     fontFamily: 'Lato',
+//                     fontSize: 15,
+//                     fontWeight: FontWeight.normal,
+//                     height: 1))))),

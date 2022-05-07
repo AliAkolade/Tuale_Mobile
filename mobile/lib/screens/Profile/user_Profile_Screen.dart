@@ -2,16 +2,13 @@ import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
-import 'package:get/instance_manager.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/instance_manager.dart';
 import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Home/inprogress_screen.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
-import 'package:mobile/screens/Profile/controllers/userPostsController.dart';
 import 'package:mobile/screens/Profile/edit_profile.dart';
 import 'package:mobile/screens/Profile/starred_posts_screen.dart';
-
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/widgets/verifiedTag.dart';
 
@@ -19,6 +16,7 @@ class userProfile extends StatefulWidget {
   bool? isUser;
   String? username;
   ProfileController? profileController;
+
   // String? tag;
 
   userProfile({
@@ -26,6 +24,7 @@ class userProfile extends StatefulWidget {
     this.username,
     // this.tag,
   });
+
   State<userProfile> createState() => _ProfileState();
 }
 
@@ -127,7 +126,8 @@ class _ProfileState extends State<userProfile> with RouteAware {
                                           .flush();
                                       Navigator.of(context).pushAndRemoveUntil(
                                           MaterialPageRoute(
-                                              builder: (context) => Welcome()),
+                                              builder: (context) =>
+                                                  const Welcome()),
                                           (Route<dynamic> route) => false);
                                       // pushNewScreen(context,
                                       //     screen: Welcome(),
@@ -162,14 +162,18 @@ class _ProfileState extends State<userProfile> with RouteAware {
                                                 context: context,
                                                 builder: (context) =>
                                                     ReportWidget(
-                                                        parentcontext: context,
-                                                        username:
-                                                            widget.username!,
-                                                        id: text.profileInfo.value.id.toString(),
-                                                        name: text.profileInfo.value.name.toString(),
+                                                      parentcontext: context,
+                                                      username:
+                                                          widget.username!,
+                                                      id: text
+                                                          .profileInfo.value.id
+                                                          .toString(),
+                                                      name: text.profileInfo
+                                                          .value.name
+                                                          .toString(),
                                                     ));
                                           },
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.more_vert,
                                             color: Colors.black,
                                           )),
@@ -217,7 +221,7 @@ class _ProfileState extends State<userProfile> with RouteAware {
                         child: AbsorbPointer(
                           absorbing: isBlocked(text.profileInfo.value.id!),
                           child: NestedScrollView(
-                              physics: ClampingScrollPhysics(),
+                              physics: const ClampingScrollPhysics(),
                               headerSliverBuilder: (context, isScrolled) {
                                 return [
                                   SliverPersistentHeader(
@@ -342,8 +346,8 @@ class _ReportWidgetState extends State<ReportWidget> {
     bool isblocked = false;
     for (var i
         in Get.find<LoggedUserController>().loggedUser.value.blockedUsers!) {
-      print(i['user']);
-      print(id);
+      // print(i['user']);
+      // print(id);
       if (id == i['user']) {
         isblocked = true;
 
@@ -360,8 +364,8 @@ class _ReportWidgetState extends State<ReportWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
         height: 100,
         padding: const EdgeInsets.only(
@@ -385,19 +389,19 @@ class _ReportWidgetState extends State<ReportWidget> {
                     isScrollControlled: true,
                     enableDrag: true,
                     context: context,
-                    builder: (context) => Container(
+                    builder: (context) => SizedBox(
                         height: 500,
                         child: ReportList(
                           parentContext: context,
                           id: widget.id,
                         )));
               },
-              child: Text(
+              child: const Text(
                 "Report",
                 style: TextStyle(fontSize: 23, color: Colors.red),
               ),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             GestureDetector(
               onTap: () {
                 showDialog(
@@ -405,8 +409,7 @@ class _ReportWidgetState extends State<ReportWidget> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       //  title: Text('Welcome'),
-                      content: Text(isBlocked(
-                          widget.id)
+                      content: Text(isBlocked(widget.id)
                           ? 'Are you sure you want to unblock this account'
                           : 'Are you sure you want to block this user'),
                       actions: [
@@ -415,7 +418,7 @@ class _ReportWidgetState extends State<ReportWidget> {
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: Text('NO'),
+                          child: const Text('NO'),
                         ),
                         FlatButton(
                           textColor: Colors.black,
@@ -425,29 +428,23 @@ class _ReportWidgetState extends State<ReportWidget> {
                                 isAppbarOverlay: true,
                                 isBottomBarOverlay: false,
                                 progressIndicator: SpinKitFadingCircle(
-                                    color:
-                                    tualeOrange.withOpacity(0.75)),
-                                themeData: Theme.of(context).copyWith(
-                                    accentColor: Colors.black38),
+                                    color: tualeOrange.withOpacity(0.75)),
+                                themeData: Theme.of(context)
+                                    .copyWith(accentColor: Colors.black38),
                                 overlayColor: const Color(0x99E8EAF6));
-                            var result =
-                            isBlocked(widget.id)
-                                ? await Api().unblockUser(
-                                widget.id)
-                                : await Api().blockUser(
-                                widget.id);
+                            var result = isBlocked(widget.id)
+                                ? await Api().unblockUser(widget.id)
+                                : await Api().blockUser(widget.id);
                             if (result) {
-                              Get.find<LoggedUserController>()
-                                  .getLoggeduser();
+                              Get.find<LoggedUserController>().getLoggeduser();
                               Get.find<ProfileController>()
-                                  .getProfileInfo(
-                                  widget.name);
+                                  .getProfileInfo(widget.name);
                               print(result);
                               Loader.hide();
                               Navigator.pop(context);
                             } else {}
                           },
-                          child: Text('YES'),
+                          child: const Text('YES'),
                         ),
                       ],
                     );
@@ -455,10 +452,8 @@ class _ReportWidgetState extends State<ReportWidget> {
                 );
               },
               child: Text(
-                isBlocked(widget.id)
-                    ? "Unblock"
-                    : "Block",
-                style: TextStyle(fontSize: 23, color: Colors.black),
+                isBlocked(widget.id) ? "Unblock" : "Block",
+                style: const TextStyle(fontSize: 23, color: Colors.black),
               ),
             ),
           ],
@@ -469,10 +464,12 @@ class _ReportWidgetState extends State<ReportWidget> {
 }
 
 class ReportList extends StatefulWidget {
-  BuildContext parentContext;
-  String? username;
-  String? id;
-  ReportList({Key? key, required this.parentContext, this.username, this.id})
+  final BuildContext parentContext;
+  final String? username;
+  final String? id;
+
+  const ReportList(
+      {Key? key, required this.parentContext, this.username, this.id})
       : super(key: key);
 
   @override
@@ -481,16 +478,16 @@ class ReportList extends StatefulWidget {
 
 class _ReportListState extends State<ReportList> {
   int val = -1;
-  Api _api = Api();
+  final Api _api = Api();
   String reason = "";
 
   reportProfile(String id) async {
     if (val == 1) {
-      reason = "It's posting content that shouldn't be on tuale";
+      reason = "He/She is posting content that shouldn't be on Tuale";
     } else if (val == 2) {
-      reason = "It's pretending to be someone else";
+      reason = "He/She is pretending to be someone else";
     } else if (val == 3) {
-      reason = "It's posting bad comments";
+      reason = "He/She is posting bad comments";
     } else if (val == 4) {
       reason = "Other reasons";
     }
@@ -509,115 +506,113 @@ class _ReportListState extends State<ReportList> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        child: Container(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 5,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 5,
+            ),
+            const Text(
+              "Report",
+              style: TextStyle(
+                  fontSize: 23,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Divider(),
+            const Text(
+              "Why are you reporting this account",
+              style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const Text(
+              "Your report is anonymous, execept if you're reporting "
+              "an intellectual property infrigement. If someone is in immediate"
+              "danger, call the local emergency services - don't wait",
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.grey,
               ),
-              Text(
-                "Report",
-                style: TextStyle(
-                    fontSize: 23,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ListTile(
+              title: const Text(
+                  "He/She is posting content that shouldn't be on Tuale"),
+              leading: Radio(
+                value: 1,
+                groupValue: val,
+                onChanged: (int? value) {
+                  setState(() {
+                    val = value ?? -1;
+                  });
+                  reportProfile(widget.id!);
+                },
+                activeColor: Colors.orange,
               ),
-              SizedBox(
-                height: 10,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            ListTile(
+              title: const Text("He/She is pretending to be someone else"),
+              leading: Radio(
+                value: 2,
+                groupValue: val,
+                onChanged: (int? value) {
+                  setState(() {
+                    val = value ?? -1;
+                  });
+                  reportProfile(widget.id!);
+                },
+                activeColor: Colors.orange,
               ),
-              Divider(),
-              Text(
-                "Why are you reporting this account",
-                style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            ListTile(
+              title: const Text("He/She is posting bad comments"),
+              leading: Radio(
+                value: 3,
+                groupValue: val,
+                onChanged: (int? value) {
+                  setState(() {
+                    val = value ?? -1;
+                  });
+                  reportProfile(widget.id!);
+                },
+                activeColor: Colors.orange,
               ),
-              SizedBox(
-                height: 20,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            ListTile(
+              title: const Text("Other reasons"),
+              leading: Radio(
+                value: 4,
+                groupValue: val,
+                onChanged: (int? value) {
+                  setState(() {
+                    val = value ?? -1;
+                  });
+                  reportProfile(widget.id!);
+                },
+                activeColor: Colors.orange,
               ),
-              Text(
-                "Your report is anonymous, execept if you're reporting "
-                    "an intellectual property infrigement. If someone is in immediate"
-                    "danger, call the local emergency services - don't wait",
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.grey,
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              ListTile(
-                title: const Text(
-                    "It's posting content that shouldn't be on tuale"),
-                leading: Radio(
-                  value: 1,
-                  groupValue: val,
-                  onChanged: (int? value) {
-                    setState(() {
-                      val = value ?? -1;
-                    });
-                    reportProfile(widget.id!);
-                  },
-                  activeColor: Colors.orange,
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              ListTile(
-                title: const Text("It's pretending to be someone else"),
-                leading: Radio(
-                  value: 2,
-                  groupValue: val,
-                  onChanged: (int? value) {
-                    setState(() {
-                      val = value ?? -1;
-                    });
-                    reportProfile(widget.id!);
-                  },
-                  activeColor: Colors.orange,
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              ListTile(
-                title: const Text("It's posting bad comments"),
-                leading: Radio(
-                  value: 3,
-                  groupValue: val,
-                  onChanged: (int? value) {
-                    setState(() {
-                      val = value ?? -1;
-                    });
-                    reportProfile(widget.id!);
-                  },
-                  activeColor: Colors.orange,
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              ListTile(
-                title: const Text("Other reasons"),
-                leading: Radio(
-                  value: 4,
-                  groupValue: val,
-                  onChanged: (int? value) {
-                    setState(() {
-                      val = value ?? -1;
-                    });
-                    reportProfile(widget.id!);
-                  },
-                  activeColor: Colors.orange,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-        padding: EdgeInsets.only(left: 20, right: 20));
+        padding: const EdgeInsets.only(left: 20, right: 20));
   }
 }
 
@@ -628,6 +623,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   double get minExtent => 350;
+
   @override
   double get maxExtent => 350;
 
@@ -646,6 +642,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 class ProfileInfotwo extends StatelessWidget {
   bool? isUser;
   String? username;
+
   // String? tag;
 
   ProfileInfotwo({
@@ -700,7 +697,7 @@ class ProfileInfotwo extends StatelessWidget {
                         ),
                       ),
                       text.profileInfo.value.isVerified!
-                          ? verifiedTag()
+                          ? const verifiedTag()
                           : Container()
                     ],
                   );
@@ -713,7 +710,7 @@ class ProfileInfotwo extends StatelessWidget {
                 builder: (text) {
                   return Text(
                     text.profileInfo.value.location!,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.grey,
                         fontFamily: 'Poppins',
                         fontSize: 10,
@@ -744,7 +741,7 @@ class ProfileInfotwo extends StatelessWidget {
                                 height: 1),
                           );
                         }),
-                    Text(
+                    const Text(
                       "Fans",
                       style: TextStyle(
                           color: Colors.black54,
@@ -760,8 +757,8 @@ class ProfileInfotwo extends StatelessWidget {
                 Container(
                   // height: 50,
                   width: 100,
-                  margin: EdgeInsets.only(left: 20, right: 20),
-                  padding: EdgeInsets.only(left: 8, right: 8),
+                  margin: const EdgeInsets.only(left: 20, right: 20),
+                  padding: const EdgeInsets.only(left: 8, right: 8),
                   decoration: BoxDecoration(
                       //  color: Colors.black,
                       border: Border(
@@ -819,7 +816,7 @@ class ProfileInfotwo extends StatelessWidget {
                           );
                         }),
 
-                    Text(
+                    const Text(
                       "Tuales given",
                       style: TextStyle(
                           color: Colors.black54,
@@ -840,7 +837,7 @@ class ProfileInfotwo extends StatelessWidget {
                 builder: (text) {
                   return Text(
                     text.profileInfo.value.bio.toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.black,
                         fontFamily: 'Roboto',
                         fontSize: 14,
@@ -861,7 +858,7 @@ class ProfileInfotwo extends StatelessWidget {
                       ).profileInfo.value.id
                   ? Row(
                       children: [
-                        Spacer(
+                        const Spacer(
                           flex: 3,
                         ),
                         ElevatedButton(
@@ -870,7 +867,7 @@ class ProfileInfotwo extends StatelessWidget {
                                   context,
                                   PageTransition(
                                       type: PageTransitionType.fade,
-                                      child: EditProfile()));
+                                      child: const EditProfile()));
                             },
                             style: ElevatedButton.styleFrom(
                                 primary: tualeBlueDark,
@@ -885,7 +882,7 @@ class ProfileInfotwo extends StatelessWidget {
                                     fontSize: 15.5,
                                     fontWeight: FontWeight.bold,
                                     height: 1))),
-                        Spacer(
+                        const Spacer(
                           flex: 3,
                         ),
                         ElevatedButton(
@@ -902,7 +899,7 @@ class ProfileInfotwo extends StatelessWidget {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10))),
                             child: Row(children: [
-                              Text('Tuallet',
+                              const Text('Tuallet',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Color.fromRGBO(255, 255, 255, 1),
@@ -919,7 +916,7 @@ class ProfileInfotwo extends StatelessWidget {
                                   child: SvgPicture.asset(
                                       'assets/vectors/tualletWallet.svg'))
                             ])),
-                        Spacer(
+                        const Spacer(
                           flex: 3,
                         )
                       ],
@@ -933,7 +930,7 @@ class ProfileInfotwo extends StatelessWidget {
                       ).profileInfo.value.id,
                     ),
             ),
-            Spacer(
+            const Spacer(
               flex: 3,
             ),
           ],
@@ -945,7 +942,9 @@ class profileButton extends StatelessWidget {
   String? username;
   String? tag;
   String? userId;
+
   profileButton({this.username, this.tag, this.userId});
+
   @override
   Widget build(BuildContext context) {
     bool isFollowing() {
@@ -992,7 +991,7 @@ class profileButton extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10))),
             child: Text(isFollowing() ? 'Vibing' : 'vibe',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     color: Color.fromRGBO(255, 255, 255, 1),
                     fontFamily: 'Poppins',
                     fontSize: 15.5,
@@ -1005,7 +1004,7 @@ class profileButton extends StatelessWidget {
                   context,
                   PageTransition(
                       type: PageTransitionType.fade,
-                      child: InProgressScreen()));
+                      child: const InProgressScreen()));
             },
             style: ElevatedButton.styleFrom(
                 primary: const Color.fromRGBO(218, 65, 103, 1),
@@ -1067,7 +1066,7 @@ class ChangePassBtntwo extends StatelessWidget {
               builder: (BuildContext context) {
                 return Dialog(
                   insetPadding: const EdgeInsets.only(left: 30, right: 30),
-                  child: Container(
+                  child: SizedBox(
                     // width: 200,
                     height: 400,
                     child: Column(children: [
@@ -1089,7 +1088,7 @@ class ChangePassBtntwo extends StatelessWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      SaveBioBtntwo()
+                      const SaveBioBtntwo()
                     ]),
                   ),
                 );
@@ -1107,7 +1106,9 @@ class ChangePassBtntwo extends StatelessWidget {
 
 class TopBartwo extends StatelessWidget {
   String? barText;
+
   TopBartwo({this.barText});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -1187,6 +1188,7 @@ class BioFieldtwo extends StatelessWidget {
   double? fieldHeight;
 
   BioFieldtwo({this.infoString, this.fieldHeight});
+
   @override
   Widget build(BuildContext context) {
     return Padding(

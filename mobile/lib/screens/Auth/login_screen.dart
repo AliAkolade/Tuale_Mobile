@@ -30,6 +30,8 @@ class _LoginState extends State<Login> {
   // final pass = TextEditingController(text: 'testing');
   // final email = TextEditingController(text: 'clintonali127@gmail.com');
   // final pass = TextEditingController(text: 'Clinton01');
+  // final email = TextEditingController(text: 'barelysolution@gmail.com');
+  // final pass = TextEditingController(text: 'Abc123');
   String message = '';
   bool hidePass = true;
 
@@ -252,29 +254,29 @@ class _LoginState extends State<Login> {
                               color: Color.fromRGBO(135, 153, 153, 1),
                               thickness: 0.4000000059604645)),
                       const SizedBox(height: 20),
-                      SignInButton(Buttons.Google,
-                          elevation: 1,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(7))),
-                          onPressed: () {},
-                          text: 'Continue with Google'),
-                      const SizedBox(height: 5),
-                      SignInButton(Buttons.FacebookNew,
-                          elevation: 1,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(7))),
-                          onPressed: () {},
-                          text: 'Continue with Facebook'),
-                      const SizedBox(height: 5),
-                      SignInButton(Buttons.Apple,
-                          elevation: 1,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(7))),
-                          onPressed: () {},
-                          text: 'Continue with Apple'),
+                      // SignInButton(Buttons.Google,
+                      //     elevation: 1,
+                      //     shape: const RoundedRectangleBorder(
+                      //         borderRadius:
+                      //             BorderRadius.all(Radius.circular(7))),
+                      //     onPressed: () {},
+                      //     text: 'Continue with Google'),
+                      // const SizedBox(height: 5),
+                      // SignInButton(Buttons.FacebookNew,
+                      //     elevation: 1,
+                      //     shape: const RoundedRectangleBorder(
+                      //         borderRadius:
+                      //             BorderRadius.all(Radius.circular(7))),
+                      //     onPressed: () {},
+                      //     text: 'Continue with Facebook'),
+                      // const SizedBox(height: 5),
+                      // SignInButton(Buttons.Apple,
+                      //     elevation: 1,
+                      //     shape: const RoundedRectangleBorder(
+                      //         borderRadius:
+                      //             BorderRadius.all(Radius.circular(7))),
+                      //     onPressed: () {},
+                      //     text: 'Continue with Apple'),
                       const SizedBox(height: 20),
                       Transform.rotate(
                           angle: -2.4848083448933725e-17 * (math.pi / 180),

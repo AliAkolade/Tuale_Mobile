@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "980459314938",
+    "project_id": "tuale-2022",
+    "storage_bucket": "tuale-2022.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980459314938:android:dd63d03a8c7d4c0486f343",
+        "android_client_info": {
+          "package_name": "com.tuale.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "980459314938-hp5v1infp5ggg43lad4n5ur3se753jl4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn8Gws0uERjLnorNFqonKo7sHyw7sGxwQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "980459314938-hp5v1infp5ggg43lad4n5ur3se753jl4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
