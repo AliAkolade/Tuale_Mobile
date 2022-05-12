@@ -6,7 +6,6 @@ import 'package:mobile/screens/imports.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../imports.dart';
-import '../widgets/pin_input_field.dart';
 
 int viewNo = 0;
 String finalEmail = '';
@@ -1476,28 +1475,44 @@ class _VerifyCodeState extends State<VerifyCode> with WidgetsBindingObserver {
                             ))
                           ]),
                           const SizedBox(height: 15),
-                          PinInputField(
-                            length: 6,
-                            onFocusChange: (hasFocus) async {
-                              if (hasFocus) {
-                                await _scrollToBottomOnKeyboardOpen();
-                              }
-                            },
-                            onSubmit: (enteredOTP) async {
-                              final isValidOTP = await controller.verifyOTP(
-                                otp: enteredOTP,
-                              );
-                              // Incorrect OTP
-                              if (!isValidOTP) {
-                                showSnackBar('The entered OTP is invalid!');
-                              } else {
-                                setState(() {
-                                  code.text = enteredOTP;
-                                });
-                                checkCode();
-                              }
-                            },
-                          ),
+                          // PinInputField(
+                          //   length: 6,
+                          //   onFocusChange: (hasFocus) async {
+                          //     if (hasFocus) {
+                          //       await _scrollToBottomOnKeyboardOpen();
+                          //     }
+                          //   },
+                          //   onSubmit: (enteredOTP) async {
+                          //
+                          //   },
+                          // ),
+                          Container(
+                              decoration: const BoxDecoration(boxShadow: [
+                                BoxShadow(
+                                    color: Color.fromRGBO(4, 42, 43, 0.1),
+                                    blurRadius: 3)
+                              ]),
+                              child: Material(
+                                  color: Colors.white,
+                                  elevation: 0,
+                                  child: TextField(
+                                      controller: code,
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          contentPadding:
+                                              const EdgeInsets.all(5),
+                                          prefixIcon: SvgPicture.asset(
+                                            'assets/vectors/at.svg',
+                                            fit: BoxFit.scaleDown,
+                                          ),
+                                          labelText: 'Enter OTP',
+                                          labelStyle: const TextStyle(
+                                              color: Color.fromRGBO(3, 42, 43,
+                                                  0.5199999809265137),
+                                              fontFamily: 'Lato',
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.normal,
+                                              height: 1))))),
                           const SizedBox(height: 10),
                           Row(children: [
                             Flexible(
@@ -1518,8 +1533,21 @@ class _VerifyCodeState extends State<VerifyCode> with WidgetsBindingObserver {
                                   child: SpinKitFadingCircle(
                                       color: tualeBlueDark.withOpacity(0.75)))
                               : ElevatedButton(
-                                  onPressed: () {
-                                    checkCode();
+                                  onPressed: () async {
+                                    //
+
+                                    final isValidOTP =
+                                        await controller.verifyOTP(
+                                      otp: code.text,
+                                    );
+                                    // Incorrect OTP
+                                    if (!isValidOTP) {
+                                      showSnackBar(
+                                          'The entered OTP is invalid!');
+                                    } else {
+                                      checkCode();
+                                    }
+                                    //
                                   },
                                   style: ElevatedButton.styleFrom(
                                       elevation: 0,
