@@ -696,4 +696,55 @@ class Api {
 
     return [false, "Something got wrong"];
   }
+
+  checkAccountNumber(String accountNumber, String bankCode) async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio
+          .post(hostAPI + 'withdrawal/validate/account',
+          data: {
+            'account_number': accountNumber,
+            'bank_code': bankCode,
+          }
+      );
+
+      if (response.statusCode == 200) {
+        if (response.data['success']) {
+          return [response.data["success"], 'comment sent'];
+        } else {
+          return [response.data["succes"], 'failed to comment'];
+        }
+      }
+    } catch (e) {}
+  }
+
+  withdraw(String amount) async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio
+          .post(hostAPI + 'withdrawal/withdraw',
+          data: {
+            'amount': amount
+          }
+      );
+
+      if (response.statusCode == 200) {
+        if (response.data['success']) {
+          return [true, 'Your request has been validated'];
+        } else {
+          return [false, 'Something went wrong'];
+        }
+      }
+    } catch (e) {}
+  }
 }
