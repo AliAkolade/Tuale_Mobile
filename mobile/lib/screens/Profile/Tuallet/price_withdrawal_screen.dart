@@ -1,9 +1,8 @@
+import 'package:dropdown_plus/dropdown_plus.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 import 'package:mobile/screens/Profile/profile_screen.dart';
 import 'package:mobile/screens/imports.dart';
-import 'package:dropdown_plus/dropdown_plus.dart';
-import 'package:group_radio_button/group_radio_button.dart';
 
 class PriceWithdrawalScreen extends StatefulWidget {
   const PriceWithdrawalScreen({Key? key}) : super(key: key);

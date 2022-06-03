@@ -697,6 +697,55 @@ class Api {
     return [false, "Something got wrong"];
   }
 
+  checkWithdrawalAccount() async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio
+          .get(hostAPI + 'withdrawal/account',
+      );
+
+      if (response.statusCode == 200) {
+        if (response.data['success']) {
+          return [response.data["success"], 'comment sent'];
+        } else {
+          return [response.data["succes"], 'failed to comment'];
+        }
+      }
+    } catch (e) {}
+  }
+
+  createWithdrawalAccount(String name, String accountNumber, String bankCode) async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio
+          .post(hostAPI + 'withdrawal/account',
+          data: {
+            'name': name,
+            'accountNumber': accountNumber,
+            'bank_code': bankCode,
+          }
+      );
+
+      if (response.statusCode == 200) {
+        if (response.data['success']) {
+          return [response.data["success"], 'comment sent'];
+        } else {
+          return [response.data["succes"], 'failed to comment'];
+        }
+      }
+    } catch (e) {}
+  }
+
   checkAccountNumber(String accountNumber, String bankCode) async {
     try {
       Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -723,7 +772,7 @@ class Api {
     } catch (e) {}
   }
 
-  withdraw(String amount) async {
+  withdraw(double amount) async {
     try {
       Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       final SharedPreferences prefs = await _prefs;
