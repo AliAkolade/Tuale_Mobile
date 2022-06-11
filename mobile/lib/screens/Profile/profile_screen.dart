@@ -539,9 +539,10 @@ class TopBar extends StatelessWidget {
 class BioField extends StatelessWidget {
   String? infoString;
   double? fieldHeight;
+  var onChanged;
   TextEditingController? txtController;
 
-  BioField({this.infoString, this.fieldHeight, this.txtController});
+  BioField({this.infoString, this.fieldHeight, this.txtController, this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -557,6 +558,7 @@ class BioField extends StatelessWidget {
             width: 350,
             child: TextField(
               maxLines: 7,
+              onChanged: onChanged,
               controller: txtController,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.fromLTRB(5, 5, 5, 2),

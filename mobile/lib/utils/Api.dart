@@ -720,6 +720,7 @@ class Api {
   }
 
   createWithdrawalAccount(String name, String accountNumber, String bankCode) async {
+    print("name : $name - accountNumber : $accountNumber - bankCode : $bankCode");
     try {
       Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       final SharedPreferences prefs = await _prefs;
@@ -732,13 +733,15 @@ class Api {
           data: {
             'name': name,
             'accountNumber': accountNumber,
-            'bank_code': bankCode,
+            'bankCode': bankCode,
           }
       );
 
+      print("why ? :$response");
+
       if (response.statusCode == 200) {
         if (response.data['success']) {
-          return [response.data["success"], 'comment sent'];
+          return [response.data["success"], 'Bank Account Added Successfully'];
         } else {
           return [response.data["succes"], 'failed to comment'];
         }
@@ -747,6 +750,7 @@ class Api {
   }
 
   checkAccountNumber(String accountNumber, String bankCode) async {
+    print("why? : $accountNumber - $bankCode");
     try {
       Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       final SharedPreferences prefs = await _prefs;
@@ -764,9 +768,10 @@ class Api {
 
       if (response.statusCode == 200) {
         if (response.data['success']) {
-          return [response.data["success"], 'comment sent'];
+          print("account_name: ${response.data["account_name"]}");
+          return response.data["account_name"];
         } else {
-          return [response.data["succes"], 'failed to comment'];
+          return 'Check account number';
         }
       }
     } catch (e) {}
@@ -789,7 +794,53 @@ class Api {
 
       if (response.statusCode == 200) {
         if (response.data['success']) {
-          return [true, 'Your request has been validated'];
+          return [true, 'Withdrawn Successfully'];
+        } else {
+          return [false, response.data['message']];
+        }
+      }
+    } catch (e) {}
+  }
+
+  getWithdraw() async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio
+          .get(hostAPI + 'withdrawal/account');
+
+      var responseData = response.data;
+
+      if (response.statusCode == 200) {
+        if (responseData['success']) {
+          return responseData['withdrawalAccount'];
+        } else {
+          return 'Something went wrong';
+        }
+      }
+    } catch (e) {}
+  }
+
+  getListOfBank() async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio
+          .get(hostAPI + 'withdrawal/list/bank');
+
+      var responseData = response.data;
+
+      if (response.statusCode == 200) {
+        if (responseData['success']) {
+          return responseData['banks'];
         } else {
           return [false, 'Something went wrong'];
         }
