@@ -24,12 +24,11 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
 
   @override
   Widget build(BuildContext context) {
-ProfileController profileController = Get.put(ProfileController(
-    controllerusername:
-        Get.find<LoggedUserController>().loggedUser.value.currentUserUsername,
-  ));
-  
-   
+    ProfileController profileController = Get.put(ProfileController(
+      controllerusername:
+          Get.find<LoggedUserController>().loggedUser.value.currentUserUsername,
+    ));
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -50,21 +49,18 @@ ProfileController profileController = Get.put(ProfileController(
                 style: TextStyle(
                     color: Colors.black, fontFamily: "Poppins", fontSize: 20),
               ),
-           
-               
-                   Obx(() =>
-                     Text(
-                      nairaSign + profileController.profileInfo.value.withdrawalBalance!,
-                      style: TextStyle(
-                        color: tualeBlueDark,
-                        // fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                      ),
-                                   ),
-                   ),
-                 
-              
+              Obx(
+                () => Text(
+                  nairaSign +
+                      profileController.profileInfo.value.withdrawalBalance!,
+                  style: TextStyle(
+                    color: tualeBlueDark,
+                    // fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                  ),
+                ),
+              ),
               const SizedBox(
                 height: 30,
               ),
@@ -74,7 +70,7 @@ ProfileController profileController = Get.put(ProfileController(
                         context,
                         PageTransition(
                             type: PageTransitionType.fade,
-                            child: InProgressScreen()));
+                            child: PriceWithdrawalScreen()));
                   },
                   style: ElevatedButton.styleFrom(
                       primary: tualeBlueDark,

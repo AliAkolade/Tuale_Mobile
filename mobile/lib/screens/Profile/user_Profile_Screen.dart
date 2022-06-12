@@ -37,12 +37,10 @@ class _ProfileState extends State<userProfile> with RouteAware {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    routeObserver.subscribe(this, ModalRoute.of(context)!);
   }
 
   @override
   void dispose() {
-    routeObserver.unsubscribe(this);
     super.dispose();
 
     Get.delete<ProfileController>();

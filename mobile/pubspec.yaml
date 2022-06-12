@@ -74,6 +74,8 @@ dependencies:
   easy_container: ^1.0.3
   pinput: ^2.2.7
   country_picker: ^2.0.15
+  dropdown_plus: ^0.0.9
+  group_radio_button: ^1.2.0
 
 flutter_icons:
   android: "launcher_icon"

@@ -1,4 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -10,8 +12,10 @@ import 'package:mobile/utils/mixPanel.dart';
 import 'package:new_version/new_version.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-final RouteObserver<ModalRoute<void>> routeObserver =
-    RouteObserver<ModalRoute<void>>();
+// final RouteObserver<ModalRoute<void>> routeObserver =
+// RouteObserver<ModalRoute<void>>();
+// final RouteObserver<ModalRoute<void>> routeObserver =
+//     RouteObserver<ModalRoute<void>>();
 
 Future<void> main() async {
   try {
@@ -147,31 +151,29 @@ class _MyAppState extends State<MyApp> {
         builder: (context, AsyncSnapshot snapshot) {
           // Show splash screen while waiting for app resources to load:
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const FirebasePhoneAuthProvider(
-                child: MaterialApp(
-                    debugShowCheckedModeBanner: false, home: SplashScreen()));
+            return  MaterialApp(
+                debugShowCheckedModeBanner: false, home: SplashScreen());
           } else {
             return ScreenUtilInit(
                 designSize: const Size(428, 926),
                 minTextAdapt: true,
                 builder: () {
-                  return FirebasePhoneAuthProvider(
-                      child: GetMaterialApp(
-                          navigatorObservers: [routeObserver],
-                          builder: (context, widget) {
-                            ScreenUtil.setContext(context);
-                            return MediaQuery(
-                                data: MediaQuery.of(context)
-                                    .copyWith(textScaleFactor: 1.0),
-                                child: widget!);
-                          },
-                          debugShowCheckedModeBanner: false,
-                          title: 'Tuale',
-                          theme: ThemeData(
-                              primarySwatch: Palette.tualeSwatchLight),
-                          home: (widget.isLoggedIn)
-                              ? NavBar(index: 0)
-                              : const Welcome()));
+                  return GetMaterialApp(
+                      // navigatorObservers: [routeObserver],
+                      builder: (context, widget) {
+                        ScreenUtil.setContext(context);
+                        return MediaQuery(
+                            data: MediaQuery.of(context)
+                                .copyWith(textScaleFactor: 1.0),
+                            child: widget!);
+                      },
+                      debugShowCheckedModeBanner: false,
+                      title: 'Tuale',
+                      theme: ThemeData(primarySwatch: Palette.tualeSwatchLight),
+                      home: (widget.isLoggedIn)
+                          ? NavBar(index: 0)
+                          : const Welcome());
+                  // : const SignUp());
                 });
           }
         });
