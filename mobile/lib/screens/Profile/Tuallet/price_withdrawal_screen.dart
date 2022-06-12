@@ -1,5 +1,4 @@
 import 'package:dropdown_plus/dropdown_plus.dart';
-import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 import 'package:mobile/screens/Profile/profile_screen.dart';
 import 'package:mobile/screens/imports.dart';

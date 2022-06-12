@@ -141,13 +141,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.4"
-  easy_container:
-    dependency: "direct main"
-    description:
-      name: easy_container
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.3"
   dropdown_plus:
     dependency: "direct main"
     description:
@@ -155,6 +148,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.9"
+  easy_container:
+    dependency: "direct main"
+    description:
+      name: easy_container
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   email_auth:
     dependency: "direct main"
     description:
