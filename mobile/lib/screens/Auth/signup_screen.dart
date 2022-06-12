@@ -1,8 +1,8 @@
-import 'package:easy_container/easy_container.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mobile/screens/imports.dart';
+import 'package:mobile/screens/widgets/pin_input_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../imports.dart';
@@ -14,6 +14,7 @@ String finalDOB = '';
 String finalPassword = '';
 String finalUsername = '';
 String finalPhone = '';
+String finalCountry = '';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -28,7 +29,7 @@ class _SignUpState extends State<SignUp> {
     const ChooseSignUp(),
     const FillDetails(),
     const ChooseUsername(),
-    const InputPhone(),
+    // const InputPhone(),
     const VerifyCode(),
     // const VerifyEmail,
   ];
@@ -58,108 +59,113 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
         backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
         body: SafeArea(
-            child: Padding(
-                padding: const EdgeInsets.all(0),
-                child: Stack(children: [
-                  Align(
-                      alignment: AlignmentDirectional.bottomCenter,
-                      child: Padding(
-                          padding: const EdgeInsets.all(20),
+            child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Padding(
+                    padding: const EdgeInsets.all(0),
+                    child: Stack(children: [
+                      Align(
+                          alignment: AlignmentDirectional.bottomCenter,
+                          child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: SingleChildScrollView(
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                    const Spacer(),
+                                    Image.asset('assets/images/welcome.png'),
+                                    const Spacer(),
+                                    const Text('HELLO THERE',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontFamily: 'Poppins',
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            height: 1)),
+                                    const SizedBox(height: 10),
+                                    const Text(
+                                        'Welcome to Tuale,\n the fairest creator app in the world.',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(3, 43, 24, 1),
+                                            fontFamily: 'Lato',
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.normal,
+                                            height: 1)),
+                                    const Spacer(),
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              PageTransition(
+                                                  type: PageTransitionType.fade,
+                                                  child: const SignUp()));
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            minimumSize:
+                                                const Size(double.infinity, 50),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10))),
+                                        child: const Text('Get Started',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                                fontFamily: 'Poppins',
+                                                fontSize: 15.5,
+                                                fontWeight: FontWeight.bold,
+                                                height: 1))),
+                                    const SizedBox(height: 20),
+                                    InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType
+                                                  .bottomToTop,
+                                              child: const Login(),
+                                            ),
+                                          );
+                                        },
+                                        child: const Text(
+                                            'I already have an account',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    247, 135, 100, 1),
+                                                fontFamily: 'Poppins',
+                                                fontSize: 15.5,
+                                                fontWeight: FontWeight.w600,
+                                                height: 1))),
+                                    const SizedBox(height: 30)
+                                  ])))),
+                      Container(
+                          height: double.infinity,
+                          width: double.infinity,
+                          color: Colors.grey.withOpacity(0.3)),
+                      Align(
+                          alignment: AlignmentDirectional.topCenter,
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 const Spacer(),
-                                Image.asset('assets/images/welcome.png'),
-                                const Spacer(),
-                                const Text('HELLO THERE',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(0, 0, 0, 1),
-                                        fontFamily: 'Poppins',
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        height: 1)),
-                                const SizedBox(height: 10),
-                                const Text(
-                                    'Welcome to Tuale,\n the fairest creator app in the world.',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(3, 43, 24, 1),
-                                        fontFamily: 'Lato',
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.normal,
-                                        height: 1)),
-                                const Spacer(),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          PageTransition(
-                                              type: PageTransitionType.fade,
-                                              child: const SignUp()));
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        minimumSize:
-                                            const Size(double.infinity, 50),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10))),
-                                    child: const Text('Get Started',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 1),
-                                            fontFamily: 'Poppins',
-                                            fontSize: 15.5,
-                                            fontWeight: FontWeight.bold,
-                                            height: 1))),
-                                const SizedBox(height: 20),
-                                InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        PageTransition(
-                                          type: PageTransitionType.bottomToTop,
-                                          child: const Login(),
-                                        ),
-                                      );
-                                    },
-                                    child: const Text(
-                                        'I already have an account',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                247, 135, 100, 1),
-                                            fontFamily: 'Poppins',
-                                            fontSize: 15.5,
-                                            fontWeight: FontWeight.w600,
-                                            height: 1))),
-                                const SizedBox(height: 30)
-                              ]))),
-                  Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      color: Colors.grey.withOpacity(0.3)),
-                  Align(
-                      alignment: AlignmentDirectional.topCenter,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            const Spacer(),
-                            Container(
-                                decoration: const BoxDecoration(
-                                    color: Color.fromRGBO(250, 250, 250, 1),
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0))),
-                                height: 600,
-                                child: Padding(
-                                    padding: const EdgeInsets.all(20),
-                                    child: toView[columnNo]))
-                          ]))
-                ]))));
+                                Container(
+                                    decoration: const BoxDecoration(
+                                        color: Color.fromRGBO(250, 250, 250, 1),
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(30.0),
+                                            topRight: Radius.circular(30.0))),
+                                    height: 650,
+                                    child: Padding(
+                                        padding: const EdgeInsets.all(20),
+                                        child: toView[columnNo]))
+                              ]))
+                    ])))));
   }
 }
 
@@ -272,6 +278,7 @@ class _FillDetailsState extends State<FillDetails> {
   final name = TextEditingController(text: finalName);
   final date = TextEditingController(text: finalDOB);
   final email = TextEditingController(text: finalEmail);
+  final countryC = TextEditingController(text: finalCountry);
   final pass1 = TextEditingController(text: finalPassword);
   final pass2 = TextEditingController(text: '');
   String message = '';
@@ -474,6 +481,48 @@ class _FillDetailsState extends State<FillDetails> {
                   child: null,
                 ),
           const SizedBox(height: 20),
+          InkWell(
+              onTap: () {
+                showCountryPicker(
+                  context: context,
+                  showPhoneCode:
+                      true, // optional. Shows phone code before the country name.
+                  onSelect: (Country country) {
+                    debugPrint('Select country: ${country.displayName}');
+                    setState(() {
+                      finalCountry = country.displayNameNoCountryCode;
+                      countryC.text = country.displayNameNoCountryCode;
+                    });
+                  },
+                );
+              },
+              child: Container(
+                  decoration: const BoxDecoration(boxShadow: [
+                    BoxShadow(
+                        color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
+                  ]),
+                  child: Material(
+                      color: Colors.white,
+                      elevation: 0,
+                      child: TextField(
+                          enabled: false,
+                          controller: countryC,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.all(5),
+                              prefixIcon: SvgPicture.asset(
+                                'assets/vectors/calendar.svg',
+                                fit: BoxFit.scaleDown,
+                              ),
+                              labelText: 'Country',
+                              labelStyle: const TextStyle(
+                                  color: Color.fromRGBO(
+                                      3, 42, 43, 0.5199999809265137),
+                                  fontFamily: 'Lato',
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                  height: 1)))))),
+          const SizedBox(height: 20),
           Container(
               decoration: const BoxDecoration(boxShadow: [
                 BoxShadow(color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
@@ -550,20 +599,24 @@ class _FillDetailsState extends State<FillDetails> {
                               fontSize: 15,
                               fontWeight: FontWeight.normal,
                               height: 1))))),
-          const SizedBox(height: 15),
-          Row(children: [
-            Text(
-              message,
-              textAlign: TextAlign.left,
-              style: const TextStyle(
-                  color: Colors.redAccent,
-                  fontFamily: 'Lato',
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                  height: 1.4375),
-            )
-          ]),
-          const SizedBox(height: 4),
+          const SizedBox(height: 10),
+          message.isEmpty || message == ''
+              ? Container(child: null)
+              : Row(children: [
+                  Text(
+                    message,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                        color: Colors.redAccent,
+                        fontFamily: 'Lato',
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                        height: 1.4375),
+                  )
+                ]),
+          message.isEmpty || message == ''
+              ? Container(child: null)
+              : const SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -615,7 +668,7 @@ class _FillDetailsState extends State<FillDetails> {
                   })
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 5),
           if (checkCGU)
             ElevatedButton(
                 onPressed: () {
@@ -635,7 +688,6 @@ class _FillDetailsState extends State<FillDetails> {
                         fontSize: 15.5,
                         fontWeight: FontWeight.bold,
                         height: 1))),
-          const SizedBox(height: 3),
           const Spacer(),
           SizedBox(
               width: 254,
@@ -949,276 +1001,6 @@ class _ChooseUsernameState extends State<ChooseUsername> {
   }
 }
 
-class InputPhone extends StatefulWidget {
-  const InputPhone({Key? key}) : super(key: key);
-
-  @override
-  State<InputPhone> createState() => _InputPhoneState();
-}
-
-class _InputPhoneState extends State<InputPhone> {
-  final phoneNo = TextEditingController(text: finalPhone);
-  bool isLoading = false;
-  bool isError = false;
-  final _formKey = GlobalKey<FormState>();
-  String? phoneNumber;
-
-  String message =
-      'We will send an OTP to this number to confirm if it is yours';
-
-  // checkPhone() async {
-  //   setState(() {
-  //     isLoading = true;
-  //     isError = false;
-  //     message = 'We will send an OTP to this number to confirm if it is yours';
-  //   });
-  //   debugPrint(phoneNo.text);
-  //   if (phoneNo.text == '' ||
-  //       phoneNo.text.isEmpty ||
-  //       phoneNo.text.length < 11) {
-  //     setState(() {
-  //       message = 'Please enter a valid phone number to receive and OTP';
-  //       isError = true;
-  //     });
-  //     var snackBar = SnackBar(
-  //         content: Text(message, style: const TextStyle(color: Colors.white)),
-  //         backgroundColor: tualeOrange,
-  //         duration: const Duration(seconds: 5),
-  //         padding: const EdgeInsets.all(20));
-  //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  //   } else {
-  //     debugPrint('Sending');
-  //     TwilioPhoneVerify _twilioPhoneVerify;
-  //     _twilioPhoneVerify = TwilioPhoneVerify(
-  //         accountSid: accountSID, // replace with Account SID
-  //         authToken: twilioKey,
-  //         serviceSid: serviceID // replace with Service SID
-  //         );
-  //     String tempNo1 = phoneNo.text.trim();
-  //     String tempNo = tempNo1.removeAllWhitespace();
-  //     if (tempNo.substring(0, 1) == "0") {
-  //       tempNo = tempNo.replaceFirst("0", "+234");
-  //     }
-  //     if (tempNo.substring(0, 3) == "234") {
-  //       tempNo = tempNo.replaceFirst("234", "+234");
-  //     }
-  //     var twilioResponse = await _twilioPhoneVerify.sendSmsCode(tempNo);
-  //
-  //     if (twilioResponse.successful ?? false) {
-  //       //code sent
-  //       debugPrint('Sent');
-  //       setState(() {
-  //         finalPhone = tempNo;
-  //         viewNo += 1;
-  //       });
-  //     } else {
-  //       debugPrint(twilioResponse.errorMessage);
-  //       setState(() {
-  //         message = 'Invalid Number';
-  //         isError = true;
-  //       });
-  //       var snackBar = SnackBar(
-  //           content: Text(message, style: const TextStyle(color: Colors.white)),
-  //           backgroundColor: tualeOrange,
-  //           duration: const Duration(seconds: 5),
-  //           padding: const EdgeInsets.all(20));
-  //       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  //     }
-  //   }
-  //
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Stack(children: [
-            const Align(
-              child: Text('Add your phone number',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Color.fromRGBO(8, 61, 119, 1),
-                      fontFamily: 'Poppins',
-                      fontSize: 20,
-                      fontWeight: FontWeight.normal,
-                      height: 1)),
-              alignment: Alignment.center,
-            ),
-            Align(
-              child: IconButton(
-                  focusColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  hoverColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  alignment: Alignment.center,
-                  onPressed: () {
-                    setState(() {
-                      viewNo -= 1;
-                    });
-                  },
-                  icon: const Icon(Icons.chevron_left_rounded),
-                  color: Colors.grey,
-                  iconSize: 35),
-              alignment: Alignment.centerLeft,
-            )
-          ], alignment: AlignmentDirectional.center),
-          const SizedBox(height: 20),
-          Row(children: const [
-            Flexible(
-                child: Text(
-              'Input a phone number that you have access to for verification.',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                  color: Color.fromRGBO(76, 76, 76, 1),
-                  fontFamily: 'Lato',
-                  fontSize: 16,
-                  fontWeight: FontWeight.normal,
-                  height: 1.4375),
-            ))
-          ]),
-          const SizedBox(height: 10),
-          EasyContainer(
-            elevation: 0,
-            borderRadius: 10,
-            color: Colors.transparent,
-            child: Form(
-              key: _formKey,
-              child: IntlPhoneField(
-                autofocus: true,
-                invalidNumberMessage: 'Invalid Phone Number!',
-                textAlignVertical: TextAlignVertical.center,
-                style: const TextStyle(fontSize: 25),
-                onChanged: (phone) => phoneNumber = phone.completeNumber,
-                initialCountryCode: 'NG',
-                flagsButtonPadding: const EdgeInsets.only(right: 10),
-                showDropdownIcon: false,
-                keyboardType: TextInputType.phone,
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Row(children: [
-            Flexible(
-                child: Text(
-              message,
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                  color: isError ? Colors.redAccent : Colors.black,
-                  fontFamily: 'Roboto',
-                  fontSize: 13,
-                  fontWeight: FontWeight.normal,
-                  height: 1),
-            ))
-          ]),
-          const SizedBox(height: 20),
-          isLoading
-              ? Center(
-                  child: SpinKitFadingCircle(
-                    color: tualeBlueDark.withOpacity(0.75),
-                  ),
-                )
-              : ElevatedButton(
-                  onPressed: () async {
-                    if (isNullOrBlank(phoneNumber) ||
-                        !_formKey.currentState!.validate()) {
-                      showSnackBar('Please enter a valid phone number!');
-                    } else {
-                      setState(() {
-                        finalPhone = phoneNumber!;
-                        viewNo += 1;
-                      });
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      primary: tualeBlueDark,
-                      minimumSize: const Size(double.infinity, 50),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
-                  child: const Text('Submit',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Poppins',
-                          fontSize: 15.5,
-                          fontWeight: FontWeight.bold,
-                          height: 1))),
-          const Spacer(),
-          SizedBox(
-              width: 254,
-              height: 3,
-              child: Stack(children: <Widget>[
-                Positioned(
-                    top: 0,
-                    left: 0,
-                    child: Container(
-                        width: 56,
-                        height: 3,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
-                            topRight: Radius.circular(8),
-                            bottomLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ),
-                          color: Color.fromRGBO(10, 62, 120, 0.4),
-                        ))),
-                Positioned(
-                    top: 0,
-                    left: 66,
-                    child: Container(
-                        width: 56,
-                        height: 3,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
-                            topRight: Radius.circular(8),
-                            bottomLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ),
-                          color: Color.fromRGBO(10, 62, 120, 0.4),
-                        ))),
-                Positioned(
-                    top: 0,
-                    left: 132,
-                    child: Container(
-                        width: 56,
-                        height: 3,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
-                            topRight: Radius.circular(8),
-                            bottomLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ),
-                          color: Color.fromRGBO(8, 61, 119, 1),
-                        ))),
-                Positioned(
-                    top: 0,
-                    left: 198,
-                    child: Container(
-                        width: 56,
-                        height: 3,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
-                            topRight: Radius.circular(8),
-                            bottomLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ),
-                          color: Color.fromRGBO(8, 61, 119, 0.4),
-                        ))),
-              ]))
-        ]);
-  }
-}
-
 class VerifyCode extends StatefulWidget {
   const VerifyCode({Key? key}) : super(key: key);
 
@@ -1227,10 +1009,11 @@ class VerifyCode extends StatefulWidget {
 }
 
 class _VerifyCodeState extends State<VerifyCode> with WidgetsBindingObserver {
-  final code = TextEditingController(text: '');
   bool isLoading = false;
   String message = '';
+  String code = '';
   bool isKeyboardVisible = false;
+  bool codeSent = false;
 
   checkCode() async {
     setState(() {
@@ -1239,103 +1022,185 @@ class _VerifyCodeState extends State<VerifyCode> with WidgetsBindingObserver {
     setState(() {
       isLoading = true;
     });
-    debugPrint(code.text);
-    if (code.text == '' || code.text.isEmpty) {
+    debugPrint(code);
+    if (code == '') {
       setState(() {
         message = 'Please enter a code';
       });
     } else {
-      debugPrint('Phone number is approved');
-      debugPrint('Registering Now');
-      debugPrint(finalName);
-      debugPrint(finalDOB);
-      debugPrint(finalEmail);
-      debugPrint(finalPhone);
-      debugPrint(finalUsername);
-      debugPrint(finalPassword);
+      var snackBar = const SnackBar(
+          content: Text('Verifying', style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.greenAccent,
+          duration: Duration(seconds: 1),
+          padding: EdgeInsets.all(20));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
       Dio dio = Dio();
-      Response response = await dio.post(hostAPI + registerUserAPI, data: {
-        "name": finalName,
-        "dateOfBirth": finalDOB,
-        "email": finalEmail,
-        "phoneNumber": finalPhone,
-        "username": finalUsername,
-        "password": finalPassword
-      });
+      Response response =
+          await dio.post(hostAPI + checkOTP, data: {"otp": code.toString()});
       debugPrint(response.data.toString());
       var responseData = response.data;
       if (responseData['success'].toString() == 'true') {
-        MixPanelSingleton.instance.mixpanel
-            .getPeople()
-            .set("Email", finalEmail);
-        MixPanelSingleton.instance.mixpanel.getPeople().set("Name", finalName);
-        MixPanelSingleton.instance.mixpanel.track("SignUp");
-        Navigator.pushReplacement(
-            context,
-            PageTransition(
-                type: PageTransitionType.fade, child: const Welcome()));
-        showDialog(
-            context: context,
-            builder: (BuildContext context) => Dialog(
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                child: Container(
-                    padding: const EdgeInsets.all(30),
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset('assets/vectors/actionSuccess.svg'),
-                        const SizedBox(height: 25),
-                        const Text(
-                            'Details verified successfully.\nYou can now sign in.',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Color.fromRGBO(76, 76, 76, 1),
-                                fontFamily: 'Poppins',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w100,
-                                height: 1)),
-                        const SizedBox(height: 25),
-                        ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                              Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      type: PageTransitionType.bottomToTop,
-                                      child: const Login()));
-                            },
-                            style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                primary: tualeBlueDark,
-                                minimumSize: const Size(double.infinity, 50),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                            child: const Text('Go to  Sign In',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Poppins',
-                                    fontSize: 15.5,
-                                    fontWeight: FontWeight.bold,
-                                    height: 1)))
-                      ],
-                    ))));
+        var snackBar = const SnackBar(
+            content:
+                Text('Email Verified', style: TextStyle(color: Colors.white)),
+            backgroundColor: Colors.greenAccent,
+            duration: Duration(seconds: 5),
+            padding: EdgeInsets.all(20));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+        debugPrint('Email is approved');
+        debugPrint('Registering Now');
+        debugPrint(finalName);
+        debugPrint(finalDOB);
+        debugPrint(finalEmail);
+        debugPrint(finalPhone);
+        debugPrint(finalUsername);
+        debugPrint(finalPassword);
+        Dio dio1 = Dio();
+        Response response1 = await dio1.post(hostAPI + registerUserAPI, data: {
+          "name": finalName,
+          "dateOfBirth": finalDOB,
+          "email": finalEmail,
+          "phoneNumber": "01234567890",
+          "username": finalUsername,
+          "password": finalPassword,
+          "country": finalCountry
+        });
+        debugPrint(response1.data.toString());
+        // var
+        responseData = response1.data;
+        if (responseData['success'].toString() == 'true') {
+          MixPanelSingleton.instance.mixpanel
+              .getPeople()
+              .set("Email", finalEmail);
+          MixPanelSingleton.instance.mixpanel
+              .getPeople()
+              .set("Name", finalName);
+          MixPanelSingleton.instance.mixpanel.track("SignUp");
+          Navigator.pushReplacement(
+              context,
+              PageTransition(
+                  type: PageTransitionType.fade, child: const Welcome()));
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => Dialog(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  child: Container(
+                      padding: const EdgeInsets.all(30),
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset('assets/vectors/actionSuccess.svg'),
+                          const SizedBox(height: 25),
+                          const Text(
+                              'Details verified successfully.\nYou can now sign in.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Color.fromRGBO(76, 76, 76, 1),
+                                  fontFamily: 'Poppins',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w100,
+                                  height: 1)),
+                          const SizedBox(height: 25),
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                    context,
+                                    PageTransition(
+                                        type: PageTransitionType.bottomToTop,
+                                        child: const Login()));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  primary: tualeBlueDark,
+                                  minimumSize: const Size(double.infinity, 50),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                              child: const Text('Go to  Sign In',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15.5,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1)))
+                        ],
+                      ))));
+        } else {
+          setState(() {
+            message = responseData['message'].toString();
+          });
+          var snackBar = SnackBar(
+              content:
+                  Text(message, style: const TextStyle(color: Colors.white)),
+              backgroundColor: tualeOrange,
+              duration: const Duration(seconds: 5),
+              padding: const EdgeInsets.all(20));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
       } else {
+        var snackBar = const SnackBar(
+            content: Text('Error Verifying OTP',
+                style: TextStyle(color: Colors.white)),
+            backgroundColor: Colors.redAccent,
+            duration: Duration(seconds: 5),
+            padding: EdgeInsets.all(20));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        setState(() {
+          message = responseData['message'].toString();
+          isLoading = false;
+        });
+      }
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  sendCode() async {
+    setState(() {
+      message = '';
+    });
+    setState(() {
+      isLoading = true;
+    });
+    debugPrint(code);
+    {
+      debugPrint('Sending OTP');
+
+      Dio dio = Dio();
+      Response response =
+          await dio.post(hostAPI + getOTP, data: {"email": finalEmail});
+      debugPrint(response.data.toString());
+      var responseData = response.data;
+      if (responseData['success'].toString() == 'true') {
+        var snackBar = const SnackBar(
+            content: Text('OTP Sent', style: TextStyle(color: Colors.white)),
+            backgroundColor: Colors.greenAccent,
+            duration: Duration(seconds: 5),
+            padding: EdgeInsets.all(20));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        setState(() {
+          codeSent = true;
+        });
+      } else {
+        var snackBar = const SnackBar(
+            content: Text('Could not send OTP',
+                style: TextStyle(color: Colors.white)),
+            backgroundColor: Colors.redAccent,
+            duration: Duration(seconds: 5),
+            padding: EdgeInsets.all(20));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
         setState(() {
           message = responseData['message'].toString();
         });
-        var snackBar = SnackBar(
-            content: Text(message, style: const TextStyle(color: Colors.white)),
-            backgroundColor: tualeOrange,
-            duration: const Duration(seconds: 5),
-            padding: const EdgeInsets.all(20));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     }
     setState(() {
@@ -1349,6 +1214,7 @@ class _VerifyCodeState extends State<VerifyCode> with WidgetsBindingObserver {
   void initState() {
     scrollController = ScrollController();
     WidgetsBinding.instance?.addObserver(this);
+    sendCode();
     super.initState();
   }
 
@@ -1387,7 +1253,7 @@ class _VerifyCodeState extends State<VerifyCode> with WidgetsBindingObserver {
         children: [
           Stack(children: [
             const Align(
-              child: Text('Verify Phone Number',
+              child: Text('Verify Email',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Color.fromRGBO(8, 61, 119, 1),
@@ -1418,174 +1284,94 @@ class _VerifyCodeState extends State<VerifyCode> with WidgetsBindingObserver {
             )
           ], alignment: AlignmentDirectional.center),
           const SizedBox(height: 25),
-          FirebasePhoneAuthHandler(
-            phoneNumber: finalPhone,
-            onLoginSuccess: (userCredential, autoVerified) async {
-              log(
-                'VerifyPhoneNumberScreen',
-                msg: autoVerified
-                    ? 'OTP was fetched automatically!'
-                    : 'OTP was verified manually!',
-              );
-
-              showSnackBar('Phone number verified successfully!');
-
-              log(
-                'VerifyPhoneNumberScreen',
-                msg: 'Login Success UID: ${userCredential.user?.uid}',
-              );
-            },
-            onLoginFailed: (authException) {
-              showSnackBar('Something went wrong!');
-              log('VerifyPhoneNumberScreen', error: authException.message);
-              // handle error further if needed
-            },
-            builder: (context, controller) {
-              return Column(children: [
-                if (controller.codeSent)
-                  TextButton(
-                    child: Text(
-                      controller.timerIsActive
-                          ? '${controller.timerCount.inSeconds}s'
-                          : 'Resend',
-                      style:
-                          const TextStyle(color: tualeBlueDark, fontSize: 18),
-                    ),
-                    onPressed: controller.timerIsActive
-                        ? null
-                        : () async {
-                            log('VerifyPhoneNumberScreen', msg: 'Resend OTP');
-                            await controller.sendOTP();
-                          },
-                  ),
-                controller.codeSent
-                    ? Column(
-                        children: [
-                          Row(children: const [
-                            Flexible(
-                                child: Text(
-                              'Enter the One Time Password that was sent to the phone number.',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(76, 76, 76, 1),
-                                  fontFamily: 'Lato',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                  height: 1.4375),
-                            ))
-                          ]),
-                          const SizedBox(height: 15),
-                          // PinInputField(
-                          //   length: 6,
-                          //   onFocusChange: (hasFocus) async {
-                          //     if (hasFocus) {
-                          //       await _scrollToBottomOnKeyboardOpen();
-                          //     }
-                          //   },
-                          //   onSubmit: (enteredOTP) async {
-                          //
-                          //   },
-                          // ),
-                          Container(
-                              decoration: const BoxDecoration(boxShadow: [
-                                BoxShadow(
-                                    color: Color.fromRGBO(4, 42, 43, 0.1),
-                                    blurRadius: 3)
-                              ]),
-                              child: Material(
-                                  color: Colors.white,
-                                  elevation: 0,
-                                  child: TextField(
-                                      controller: code,
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          contentPadding:
-                                              const EdgeInsets.all(5),
-                                          prefixIcon: SvgPicture.asset(
-                                            'assets/vectors/at.svg',
-                                            fit: BoxFit.scaleDown,
-                                          ),
-                                          labelText: 'Enter OTP',
-                                          labelStyle: const TextStyle(
-                                              color: Color.fromRGBO(3, 42, 43,
-                                                  0.5199999809265137),
-                                              fontFamily: 'Lato',
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.normal,
-                                              height: 1))))),
-                          const SizedBox(height: 10),
-                          Row(children: [
-                            Flexible(
-                                child: Text(
-                              message,
-                              textAlign: TextAlign.left,
-                              style: const TextStyle(
-                                  color: Colors.redAccent,
-                                  fontFamily: 'Roboto',
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.normal,
-                                  height: 1),
-                            ))
-                          ]),
-                          const SizedBox(height: 20),
-                          isLoading
-                              ? Center(
-                                  child: SpinKitFadingCircle(
-                                      color: tualeBlueDark.withOpacity(0.75)))
-                              : ElevatedButton(
-                                  onPressed: () async {
-                                    //
-
-                                    final isValidOTP =
-                                        await controller.verifyOTP(
-                                      otp: code.text,
-                                    );
-                                    // Incorrect OTP
-                                    if (!isValidOTP) {
-                                      showSnackBar(
-                                          'The entered OTP is invalid!');
-                                    } else {
-                                      checkCode();
-                                    }
-                                    //
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      elevation: 0,
-                                      primary: tualeBlueDark,
-                                      minimumSize:
-                                          const Size(double.infinity, 50),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10))),
-                                  child: const Text('Submit',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'Poppins',
-                                          fontSize: 15.5,
-                                          fontWeight: FontWeight.bold,
-                                          height: 1))),
-                        ],
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const SizedBox(height: 10),
-                          SpinKitFadingCircle(
-                              color: tualeBlueDark.withOpacity(0.75)),
-                          const SizedBox(height: 30),
-                          const Center(
+          Column(children: [
+            codeSent
+                ? Column(
+                    children: [
+                      Row(children: const [
+                        Flexible(
                             child: Text(
-                              'Sending OTP',
-                              style: TextStyle(fontSize: 25),
-                            ),
-                          ),
-                        ],
+                          'Enter the One Time Password that was sent to your email.',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: Color.fromRGBO(76, 76, 76, 1),
+                              fontFamily: 'Lato',
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              height: 1.4375),
+                        ))
+                      ]),
+                      const SizedBox(height: 15),
+                      PinInputField(
+                        length: 5,
+                        onFocusChange: (hasFocus) async {
+                          if (hasFocus) {
+                            await _scrollToBottomOnKeyboardOpen();
+                          }
+                        },
+                        onSubmit: (enteredOTP) async {
+                          setState(() {
+                            code = enteredOTP;
+                          });
+                          checkCode();
+                        },
                       ),
-              ]);
-            },
-          ),
+                      const SizedBox(height: 10),
+                      Row(children: [
+                        Flexible(
+                            child: Text(
+                          message,
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(
+                              color: Colors.redAccent,
+                              fontFamily: 'Roboto',
+                              fontSize: 13,
+                              fontWeight: FontWeight.normal,
+                              height: 1),
+                        ))
+                      ]),
+                      const SizedBox(height: 20),
+                      isLoading
+                          ? Center(
+                              child: SpinKitFadingCircle(
+                                  color: tualeBlueDark.withOpacity(0.75)))
+                          : ElevatedButton(
+                              onPressed: () async {
+                                checkCode();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  primary: tualeBlueDark,
+                                  minimumSize: const Size(double.infinity, 50),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                              child: const Text('Submit',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15.5,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1))),
+                    ],
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 10),
+                      SpinKitFadingCircle(
+                          color: tualeBlueDark.withOpacity(0.75)),
+                      const SizedBox(height: 30),
+                      const Center(
+                        child: Text(
+                          'Sending OTP',
+                          style: TextStyle(fontSize: 25),
+                        ),
+                      ),
+                    ],
+                  ),
+          ]),
           const Spacer(),
           SizedBox(
               width: 254,
@@ -1663,27 +1449,3 @@ extension ExtendedString on String {
     return replaceAll(RegExp(r"\s+"), "");
   }
 }
-
-// Container(
-//     decoration: const BoxDecoration(boxShadow: [
-//       BoxShadow(color: Color.fromRGBO(4, 42, 43, 0.1), blurRadius: 3)
-//     ]),
-//     child: Material(
-//         color: Colors.white,
-//         elevation: 0,
-//         child: TextField(
-//             controller: code,
-//             decoration: InputDecoration(
-//                 border: InputBorder.none,
-//                 prefixIcon: SvgPicture.asset(
-//                   'assets/vectors/padlock.svg',
-//                   fit: BoxFit.scaleDown,
-//                 ),
-//                 hintText: 'XXXXXX',
-//                 hintStyle: const TextStyle(
-//                     color:
-//                         Color.fromRGBO(3, 42, 43, 0.5199999809265137),
-//                     fontFamily: 'Lato',
-//                     fontSize: 15,
-//                     fontWeight: FontWeight.normal,
-//                     height: 1))))),

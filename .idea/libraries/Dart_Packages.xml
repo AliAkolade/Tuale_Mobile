@@ -93,6 +93,13 @@
             </list>
           </value>
         </entry>
+        <entry key="country_picker">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/country_picker-2.0.15/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="cross_file">
           <value>
             <list>
@@ -998,6 +1005,7 @@
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/clock-1.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/cloudinary_public-0.11.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/country_picker-2.0.15/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/cross_file-0.3.2/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/crypto-3.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/csslib-0.17.1/lib" />
