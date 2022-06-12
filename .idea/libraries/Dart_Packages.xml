@@ -142,6 +142,13 @@
             </list>
           </value>
         </entry>
+        <entry key="dropdown_plus">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/dropdown_plus-0.0.9/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="easy_container">
           <value>
             <list>
@@ -328,6 +335,13 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/get-4.6.1/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="group_radio_button">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/group_radio_button-1.2.0/lib" />
             </list>
           </value>
         </entry>
@@ -1012,6 +1026,7 @@
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.4/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/custom_pop_up_menu-1.2.3+1/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/dio-4.0.4/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/dropdown_plus-0.0.9/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/easy_container-1.0.3/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/email_auth-1.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/fake_async-1.2.0/lib" />
@@ -1036,6 +1051,7 @@
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/flutter_svg-1.0.2/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/font_awesome_flutter-9.2.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/get-4.6.1/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/group_radio_button-1.2.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/html-0.15.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/http-0.13.4/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../../../Flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.0/lib" />
