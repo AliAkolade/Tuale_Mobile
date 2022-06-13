@@ -25,7 +25,7 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
   ];
 
   List history = [];
-
+  Future<List> getHist = Api().getWithdrawalHistory();
   @override
   void initState() {
     // TODO: implement initState
@@ -106,7 +106,7 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
           ),
         ),
         FutureBuilder<List>(
-            future: Api().getWithdrawalHistory(),
+            future: getHist,
             builder: (context, snapshot) {
               // print(snapshot.data);
               List? data = snapshot.data;
@@ -116,56 +116,65 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
                   child: CircularProgressIndicator(),
                 );
               } else if (ConnectionState.done == snapshot.connectionState) {
-                return data!.isEmpty ? Center( child: Text('No transaction record found') ) : Expanded(
-                  child: ListView.builder(
-                    itemCount: data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      Map prices = price[index];
-                      
-                      return Container(
-                        decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: Colors.grey.withOpacity(0.3)))),
-                        padding: const EdgeInsets.only(
-                            left: 10, right: 10, bottom: 10),
-                        width: MediaQuery.of(context).size.width,
-                        // color: Colors.black,
-                        height: 60,
-                        child: Row(
-                          // crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              data[index]['reference'],
-                              style: TextStyle(
-                                  fontSize: 17.5.sp,
-                                  fontFamily: 'Poppins',
-                                  color: Colors.black.withOpacity(0.8)),
-                            ),
-                            Text(
-                              nairaSign +
-                                  data[index]['amount'].toString(),
-                              style: TextStyle(
-                                color: Colors.black87.withOpacity(0.6),
-                                fontWeight: FontWeight.w400,
-                                fontSize: 20.sp,
-                                // fontFamily: 'Poppins'
+                return data!.isEmpty
+                    ? Center(child: Text('No transaction record found'))
+                    : Expanded(
+                        child: ListView.builder(
+                          itemCount: data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            // Map prices = price[index];
+
+                            return Container(
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color:
+                                              Colors.grey.withOpacity(0.3)))),
+                              padding: const EdgeInsets.only(
+                                  left: 10, right: 10, bottom: 10),
+                              width: MediaQuery.of(context).size.width,
+                              // color: Colors.black,
+                              height: 60,
+                              child: Row(
+                                // crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    data[index]['reference'],
+                                    style: TextStyle(
+                                        fontSize: 17.5.sp,
+                                        fontFamily: 'Poppins',
+                                        color: Colors.black.withOpacity(0.8)),
+                                  ),
+                                  Text(
+                                    nairaSign +
+                                        data[index]['amount'].toString(),
+                                    style: TextStyle(
+                                      color: Colors.black87.withOpacity(0.6),
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 20.sp,
+                                      // fontFamily: 'Poppins'
+                                    ),
+                                  ),
+                                  Text(
+                                    data[index]['pending'] == 'pending'
+                                        ? "Pending"
+                                        : 'Successful',
+                                    style: TextStyle(
+                                        fontSize: 17.5.sp,
+                                        fontFamily: 'Poppins',
+                                        color:
+                                            data[index]['pending'] == 'pending'
+                                                ? Colors.red
+                                                : Colors.green),
+                                  ),
+                                ],
                               ),
-                            ),
-                            Text(
-                             data[index]['pending'] == 'pending' ? "Pending" : 'Successful',
-                              style: TextStyle(
-                                  fontSize: 17.5.sp,
-                                  fontFamily: 'Poppins',
-                                  color:   data[index]['pending'] == 'pending' ?  Colors.red : Colors.green),
-                            ),
-                          ],
+                            );
+                          },
                         ),
                       );
-                    },
-                  ),
-                );
               }
               return Center(child: CircularProgressIndicator());
             })
