@@ -462,7 +462,7 @@ Column userInfoVibingWidget(BuildContext context, int index, List posts) {
                 children: [
                   SizedBox(
                     height: 60.h,
-                    width: 230.w,
+                    width: 280.w,
                     child: Text(
                       posts[index].postText.toString(),
                       maxLines: 4,
@@ -707,7 +707,7 @@ class __actionBarState extends State<_actionBar> {
                                       child: AlertDialog(
                                         // title: Text('Welcome'),
                                         content: Text(
-                                            'Not enought Tuallet points \n to give this tuale'),
+                                            'Not enought Tualle points \n to give this tuale'),
                                         actions: [
                                           GestureDetector(
                                             onTap: () async {

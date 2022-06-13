@@ -18,6 +18,7 @@ import 'package:mobile/screens/Profile/controllers/profileController.dart';
 //import 'package:mobile/screens/Home/models/postsetails.dart';
 import 'package:mobile/screens/Profile/models/UserPost.dart';
 import 'package:mobile/screens/Profile/models/starredPostmodel.dart';
+import 'package:mobile/screens/Profile/models/transactionHistoryModel.dart';
 import 'package:mobile/screens/imports.dart';
 
 class Api {
@@ -728,7 +729,7 @@ class Api {
     return false;
   }
 
-    Future<bool> unblockUser(String id) async {
+  Future<bool> unblockUser(String id) async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     String token = prefs.getString('token') ?? '';
@@ -751,8 +752,8 @@ class Api {
 
       Dio dio = Dio();
       dio.options.headers["Authorization"] = token;
-      Response response = await dio
-          .get(hostAPI + 'withdrawal/account',
+      Response response = await dio.get(
+        hostAPI + 'withdrawal/account',
       );
 
       if (response.statusCode == 200) {
@@ -765,8 +766,10 @@ class Api {
     } catch (e) {}
   }
 
-  createWithdrawalAccount(String name, String accountNumber, String bankCode) async {
-    print("name : $name - accountNumber : $accountNumber - bankCode : $bankCode");
+  createWithdrawalAccount(
+      String name, String accountNumber, String bankCode) async {
+    print(
+        "name : $name - accountNumber : $accountNumber - bankCode : $bankCode");
     try {
       Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       final SharedPreferences prefs = await _prefs;
@@ -774,14 +777,11 @@ class Api {
 
       Dio dio = Dio();
       dio.options.headers["Authorization"] = token;
-      Response response = await dio
-          .post(hostAPI + 'withdrawal/account',
-          data: {
-            'name': name,
-            'accountNumber': accountNumber,
-            'bankCode': bankCode,
-          }
-      );
+      Response response = await dio.post(hostAPI + 'withdrawal/account', data: {
+        'name': name,
+        'accountNumber': accountNumber,
+        'bankCode': bankCode,
+      });
 
       print("why ? :$response");
 
@@ -804,13 +804,11 @@ class Api {
 
       Dio dio = Dio();
       dio.options.headers["Authorization"] = token;
-      Response response = await dio
-          .post(hostAPI + 'withdrawal/validate/account',
-          data: {
-            'account_number': accountNumber,
-            'bank_code': bankCode,
-          }
-      );
+      Response response =
+          await dio.post(hostAPI + 'withdrawal/validate/account', data: {
+        'account_number': accountNumber,
+        'bank_code': bankCode,
+      });
 
       if (response.statusCode == 200) {
         if (response.data['success']) {
@@ -832,11 +830,7 @@ class Api {
       Dio dio = Dio();
       dio.options.headers["Authorization"] = token;
       Response response = await dio
-          .post(hostAPI + 'withdrawal/withdraw',
-          data: {
-            'amount': amount
-          }
-      );
+          .post(hostAPI + 'withdrawal/withdraw', data: {'amount': amount});
 
       if (response.statusCode == 200) {
         if (response.data['success']) {
@@ -856,8 +850,7 @@ class Api {
 
       Dio dio = Dio();
       dio.options.headers["Authorization"] = token;
-      Response response = await dio
-          .get(hostAPI + 'withdrawal/account');
+      Response response = await dio.get(hostAPI + 'withdrawal/account');
 
       var responseData = response.data;
 
@@ -879,8 +872,7 @@ class Api {
 
       Dio dio = Dio();
       dio.options.headers["Authorization"] = token;
-      Response response = await dio
-          .get(hostAPI + 'withdrawal/list/bank');
+      Response response = await dio.get(hostAPI + 'withdrawal/list/bank');
 
       var responseData = response.data;
 
@@ -892,5 +884,47 @@ class Api {
         }
       }
     } catch (e) {}
+  }
+
+ Future<List> getWithdrawalHistory() async {
+    List data = [];
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio.get(hostAPI + 'withdrawal/withdraw');
+
+      var responseData = response.data;
+
+      if (response.statusCode == 200) {
+        if (responseData['success']) {
+          data = responseData['history'];
+          print(responseData['history']);
+          // for (var i in responseData['history']) {
+          //   //
+          //   // print(i['_id']);
+          //   // print(i['withdrawal_status']);
+          //   // print(i['amount']);
+
+          //   // data.add(TransactionHistory(
+          //   //   date: i['reference'],
+          //   //   status: i['withdrawal_status'],
+          //   //   price: i['amount'],
+          //   // ));
+          // }
+          // print(data);
+          return data;
+          // return responseData['banks'];
+        } else {
+          return [false, 'Something went wrong'];
+        }
+      }
+      return data;
+    } catch (e) {}
+
+    return data;
   }
 }

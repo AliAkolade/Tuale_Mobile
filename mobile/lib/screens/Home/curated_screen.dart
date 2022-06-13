@@ -522,7 +522,7 @@ Widget userInfoWidget(BuildContext context, int index, List posts) {
                 children: [
                   SizedBox(
                     height: 60.h,
-                    width: 230.w,
+                    width: 280.w,
                     child: Text(
                       posts[index].postText.toString(),
                       maxLines: 5,
@@ -775,7 +775,7 @@ class _actionBarState extends State<actionBar> {
                                         child: AlertDialog(
                                           // title: Text('Welcome'),
                                           content: Text(
-                                              'Not enought Tuallet points \n to give this tuale'),
+                                              'Not enought Tualle points \n to give this tuale'),
                                           actions: [
                                             GestureDetector(
                                               onTap: () async {
@@ -840,7 +840,7 @@ class _actionBarState extends State<actionBar> {
                                                   width: double.infinity,
                                                   child: Center(
                                                     child: Text(
-                                                        'Buy more Tuallet points',
+                                                        'Buy more Tualle points',
                                                         style: TextStyle(
                                                           fontSize: 12,
                                                           color: Colors.white,

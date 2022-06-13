@@ -151,14 +151,14 @@ class _MyAppState extends State<MyApp> {
         builder: (context, AsyncSnapshot snapshot) {
           // Show splash screen while waiting for app resources to load:
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return  MaterialApp(
+            return MaterialApp(
                 debugShowCheckedModeBanner: false, home: SplashScreen());
           } else {
             return ScreenUtilInit(
                 designSize: const Size(428, 926),
                 minTextAdapt: true,
                 builder: () {
-                  return GetMaterialApp(
+                  return MaterialApp(
                       // navigatorObservers: [routeObserver],
                       builder: (context, widget) {
                         ScreenUtil.setContext(context);

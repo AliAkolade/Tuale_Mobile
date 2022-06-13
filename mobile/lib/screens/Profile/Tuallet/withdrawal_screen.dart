@@ -3,8 +3,10 @@ import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Home/inprogress_screen.dart';
 import 'package:mobile/screens/Profile/Tuallet/price_withdrawal_screen.dart';
 import 'package:mobile/screens/Profile/controllers/profileController.dart';
+import 'package:mobile/screens/Profile/models/transactionHistoryModel.dart';
 
 import 'package:mobile/screens/imports.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class WithdrawalScreen extends StatefulWidget {
   String? withdrawalBalance;
@@ -21,6 +23,13 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
     {26: "500.00"},
     {60: "500.00"}
   ];
+
+  List history = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,53 +105,70 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
                 color: Colors.grey, fontSize: 18.sp, fontFamily: 'Poppins'),
           ),
         ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: price.length,
-            itemBuilder: (BuildContext context, int index) {
-              Map prices = price[index];
-
-              return Container(
-                decoration: BoxDecoration(
-                    border: Border(
-                        bottom:
-                            BorderSide(color: Colors.grey.withOpacity(0.3)))),
-                padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                width: MediaQuery.of(context).size.width,
-                // color: Colors.black,
-                height: 60,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Withdrawal from tuallet",
-                      style: TextStyle(
-                          fontSize: 17.5.sp,
-                          fontFamily: 'Poppins',
-                          color: Colors.black.withOpacity(0.8)),
-                    ),
-                    const Spacer(
-                      flex: 5,
-                    ),
-                    Text(
-                      nairaSign +
-                          "${prices.values.toString().replaceAllMapped("(", (match) => '').replaceAllMapped(")", (match) => "")}",
-                      style: TextStyle(
-                        color: Colors.black87.withOpacity(0.6),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20.sp,
-                        // fontFamily: 'Poppins'
-                      ),
-                    ),
-                    const Spacer(
-                      flex: 1,
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        )
+        FutureBuilder<List>(
+            future: Api().getWithdrawalHistory(),
+            builder: (context, snapshot) {
+              // print(snapshot.data);
+              List? data = snapshot.data;
+              print('hreeee$data');
+              if (ConnectionState.waiting == snapshot.connectionState) {
+                Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (ConnectionState.done == snapshot.connectionState) {
+                return data!.isEmpty ? Center( child: Text('No transaction record found') ) : Expanded(
+                  child: ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      Map prices = price[index];
+                      
+                      return Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: Colors.grey.withOpacity(0.3)))),
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, bottom: 10),
+                        width: MediaQuery.of(context).size.width,
+                        // color: Colors.black,
+                        height: 60,
+                        child: Row(
+                          // crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              data[index]['reference'],
+                              style: TextStyle(
+                                  fontSize: 17.5.sp,
+                                  fontFamily: 'Poppins',
+                                  color: Colors.black.withOpacity(0.8)),
+                            ),
+                            Text(
+                              nairaSign +
+                                  data[index]['amount'].toString(),
+                              style: TextStyle(
+                                color: Colors.black87.withOpacity(0.6),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 20.sp,
+                                // fontFamily: 'Poppins'
+                              ),
+                            ),
+                            Text(
+                             data[index]['pending'] == 'pending' ? "Pending" : 'Successful',
+                              style: TextStyle(
+                                  fontSize: 17.5.sp,
+                                  fontFamily: 'Poppins',
+                                  color:   data[index]['pending'] == 'pending' ?  Colors.red : Colors.green),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }
+              return Center(child: CircularProgressIndicator());
+            })
       ],
     );
   }
