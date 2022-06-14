@@ -400,7 +400,7 @@ class _ReportWidgetState extends State<ReportWidget> {
               ),
             ),
             const SizedBox(height: 15),
-            GestureDetector(
+          Get.find<LoggedUserController>().loggedUser.value.currentuserid == widget.id ? Container() : GestureDetector(
               onTap: () {
                 showDialog(
                   context: widget.parentcontext,
