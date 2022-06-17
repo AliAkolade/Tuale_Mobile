@@ -157,24 +157,23 @@ class _MyAppState extends State<MyApp> {
             return ScreenUtilInit(
                 designSize: const Size(428, 926),
                 minTextAdapt: true,
-                builder: () {
-                  return MaterialApp(
-                      // navigatorObservers: [routeObserver],
-                      builder: (context, widget) {
-                        ScreenUtil.setContext(context);
-                        return MediaQuery(
-                            data: MediaQuery.of(context)
-                                .copyWith(textScaleFactor: 1.0),
-                            child: widget!);
-                      },
-                      debugShowCheckedModeBanner: false,
-                      title: 'Tuale',
-                      theme: ThemeData(primarySwatch: Palette.tualeSwatchLight),
-                      home: (widget.isLoggedIn)
-                          ? NavBar(index: 0)
-                          : const Welcome());
-                  // : const SignUp());
-                });
+                builder: (BuildContext context, child) => MaterialApp(
+                    // navigatorObservers: [routeObserver],
+                    builder: (context, widget) {
+                      ScreenUtil.init(context);
+                      return MediaQuery(
+                          data: MediaQuery.of(context)
+                              .copyWith(textScaleFactor: 1.0),
+                          child: widget!);
+                    },
+                    debugShowCheckedModeBanner: false,
+                    title: 'Tuale',
+                    theme: ThemeData(primarySwatch: Palette.tualeSwatchLight),
+                    home: (widget.isLoggedIn)
+                        ? NavBar(index: 0)
+                        : const Welcome())
+                // : const SignUp());
+                );
           }
         });
   }
