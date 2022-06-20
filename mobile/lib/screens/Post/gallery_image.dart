@@ -111,7 +111,7 @@ class AssetThumbnail extends StatelessWidget {
   Widget build(BuildContext context) {
     // We're using a FutureBuilder since thumbData is a future
     return FutureBuilder<Uint8List?>(
-      future: asset!.thumbData,
+      future: asset!.thumbnailData,
       builder: (_, snapshot) {
         final bytes = snapshot.data;
         // If we have no data, display a spinner

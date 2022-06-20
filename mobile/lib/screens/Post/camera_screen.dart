@@ -1,12 +1,14 @@
 import 'package:mobile/screens/imports.dart';
 
 class CameraApp extends StatefulWidget {
+  const CameraApp({Key? key}) : super(key: key);
+
   @override
   _CameraAppState createState() => _CameraAppState();
 }
 
 Future<void> getHey() async {
-  print("hey");
+  debugPrint("hey");
 }
 
 class _CameraAppState extends State<CameraApp> {
@@ -24,7 +26,7 @@ class _CameraAppState extends State<CameraApp> {
     // controller =
     //     CameraController(camera.cameras![0], ResolutionPreset.ultraHigh);
 
-   // initalizedController = controller!.initialize();
+    // initalizedController = controller!.initialize();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       Provider.of<camera>(context, listen: false).changeNav();
     });
@@ -132,30 +134,30 @@ class _CameraAppState extends State<CameraApp> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Spacer(),
+                            const Spacer(),
                             Column(
                               children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    final permitted =
-                                        await PhotoManager.requestPermission();
-                                    if (!permitted) return;
+                                    final permitted = await PhotoManager
+                                        .requestPermissionExtend();
+                                    if (permitted.isAuth) return;
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {
-                                      return galleryScreen();
+                                      return const galleryScreen();
                                     }));
                                   },
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.image,
                                     color: Colors.white,
                                   ),
                                 ),
-                                Text(
+                                const Text(
                                   "Gallery",
                                 )
                               ],
                             ),
-                            Spacer(
+                            const Spacer(
                               flex: 2,
                             ),
                             Column(
@@ -173,12 +175,12 @@ class _CameraAppState extends State<CameraApp> {
                                     size: 80,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 30,
                                 )
                               ],
                             ),
-                            Spacer(
+                            const Spacer(
                               flex: 4,
                             )
                           ],
@@ -201,7 +203,9 @@ class _CameraAppState extends State<CameraApp> {
 
 class _MediaSizeClipper extends CustomClipper<Rect> {
   final Size? mediaSize;
+
   const _MediaSizeClipper(this.mediaSize);
+
   @override
   Rect getClip(Size size) {
     return Rect.fromLTWH(0, 0, mediaSize!.width, mediaSize!.height);
