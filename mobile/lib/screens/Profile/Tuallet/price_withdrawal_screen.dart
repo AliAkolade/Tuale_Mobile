@@ -136,18 +136,18 @@ class _PriceWithdrawalScreenState extends State<PriceWithdrawalScreen> {
               ),
               child: ElevatedButton(
                   onPressed: () {
-                    Loader.show(context,
-                        isSafeAreaOverlay: false,
-                        isAppbarOverlay: true,
-                        isBottomBarOverlay: false,
-                        progressIndicator: SpinKitFadingCircle(
-                            color: tualeOrange.withOpacity(0.75)),
-                        themeData: Theme.of(context)
-                            .copyWith(accentColor: Colors.black38),
-                        overlayColor: const Color(0x99E8EAF6));
                     if (text == '' || int.parse(text!) < 500) {
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     } else {
+                      Loader.show(context,
+                          isSafeAreaOverlay: false,
+                          isAppbarOverlay: true,
+                          isBottomBarOverlay: false,
+                          progressIndicator: SpinKitFadingCircle(
+                              color: tualeOrange.withOpacity(0.75)),
+                          themeData: Theme.of(context)
+                              .copyWith(accentColor: Colors.black38),
+                          overlayColor: const Color(0x99E8EAF6));
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
