@@ -543,6 +543,28 @@ class Api {
     }
   }
 
+  deletePostCl(String publicId) async {
+    try {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      String token = prefs.getString('token') ?? '';
+
+      Dio dio = Dio();
+      dio.options.headers["Authorization"] = token;
+      Response response = await dio.delete(hostAPI + 'utils/cloudinary', data: {
+        'public_id': publicId
+      });
+      debugPrint("responseData : $response");
+      var responseData = response.data;
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+
   updateUserProfil(String username, String fullname, String bio,
       String publicId, String url) async {
     try {

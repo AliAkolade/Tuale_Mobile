@@ -1,4 +1,4 @@
-import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_core/firebase_core.dart';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -34,7 +34,7 @@ Future<void> main() async {
         systemNavigationBarIconBrightness: Brightness.dark,
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
-    await Firebase.initializeApp();
+    //await Firebase.initializeApp();
     runApp(MyApp(isLoggedIn: prefs.getBool('isLoggedIn') ?? false));
   } catch (err) {
     /// setMockInitialValues initiates shared preference
@@ -54,7 +54,7 @@ Future<void> main() async {
         systemNavigationBarIconBrightness: Brightness.dark,
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
-    await Firebase.initializeApp();
+    //await Firebase.initializeApp();
     runApp(MyApp(isLoggedIn: prefs.getBool('isLoggedIn') ?? false));
   }
 }
@@ -157,11 +157,11 @@ class _MyAppState extends State<MyApp> {
             return ScreenUtilInit(
                 designSize: const Size(428, 926),
                 minTextAdapt: true,
-                builder: () {
+                builder: (context , child) {
                   return MaterialApp(
                       // navigatorObservers: [routeObserver],
                       builder: (context, widget) {
-                        ScreenUtil.setContext(context);
+                        //ScreenUtil.setContext(context);
                         return MediaQuery(
                             data: MediaQuery.of(context)
                                 .copyWith(textScaleFactor: 1.0),

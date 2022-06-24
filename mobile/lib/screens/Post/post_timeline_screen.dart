@@ -101,8 +101,11 @@ class _PostTimelineState extends State<PostTimeline> {
             );
           });
           //Navigator.pop(context);
-        } else {
+        }
+        else {
           debugPrint("Err : " + result[1]);
+          var deletePic = await Api().deletePostCl(publicId);
+          debugPrint("deletePic : $deletePic");
           showSnackBar(result[1], result[0]);
         }
         pd.close();

@@ -248,14 +248,25 @@ class _SelectBankDialogState extends State<SelectBankDialog> {
                                     //       return AddBankDialog();
                                     //     });
                                   },
-                                  child: Text(
-                                    res["account_number"].toString() +
-                                        '-${res['bank_name']}',
-                                    style: TextStyle(
-                                      color: tualeBlueDark,
-                                      fontFamily: 'Poppins',
-                                      fontSize: 19.sp,
-                                    ),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        res["account_number"].toString(),
+                                        style: TextStyle(
+                                          color: tualeBlueDark,
+                                          fontFamily: 'Poppins',
+                                          fontSize: 19.sp,
+                                        ),
+                                      ),
+                                      Text(
+                                        res['bank_name'].toString(),
+                                        style: TextStyle(
+                                          color: tualeBlueDark,
+                                          fontFamily: 'Poppins',
+                                          fontSize: 19.sp,
+                                        ),
+                                      ),
+                                    ],
                                   )),
                               // SizedBox(width: 55),
                               Icon(
