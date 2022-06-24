@@ -5,7 +5,7 @@ export 'dart:io';
 export 'dart:typed_data';
 
 export 'package:flutter/material.dart';
-export 'package:firebase_phone_auth_handler/firebase_phone_auth_handler.dart';
+//export 'package:firebase_phone_auth_handler/firebase_phone_auth_handler.dart';
 export 'package:camera/camera.dart';
 export 'package:dio/dio.dart';
 export 'package:flutter/material.dart';

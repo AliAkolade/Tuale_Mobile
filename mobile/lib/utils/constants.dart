@@ -115,9 +115,9 @@ bool isNullOrBlank(String? data) => data?.trim().isEmpty ?? true;
 class Globals {
   const Globals._();
 
-  static final auth = FirebaseAuth.instance;
+  //static final auth = FirebaseAuth.instance;
 
-  static User? get firebaseUser => auth.currentUser;
+  //static User? get firebaseUser => auth.currentUser;
 
   static final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 }
