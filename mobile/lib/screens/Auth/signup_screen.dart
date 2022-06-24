@@ -41,10 +41,17 @@ class _SignUpState extends State<SignUp> {
   @override
   void initState() {
     super.initState();
-    MixPanelSingleton.instance.mixpanel.timeEvent("SignUp");
+    WidgetsBinding.instance!.addPostFrameCallback((_) => (){
+          MixPanelSingleton.instance.mixpanel.timeEvent("SignUp");
     Timer.periodic(const Duration(milliseconds: 100), (timer) {
       reconcile();
     });
+    }    
+);
+    // MixPanelSingleton.instance.mixpanel.timeEvent("SignUp");
+    // Timer.periodic(const Duration(milliseconds: 100), (timer) {
+    //   reconcile();
+    // });
   }
 
   @override
