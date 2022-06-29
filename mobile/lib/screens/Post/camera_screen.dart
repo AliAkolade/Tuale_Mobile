@@ -138,8 +138,8 @@ class _CameraAppState extends State<CameraApp> {
                                 GestureDetector(
                                   onTap: () async {
                                     final permitted =
-                                        await PhotoManager.requestPermission();
-                                    if (!permitted) return;
+                                        await PhotoManager.requestPermissionExtend();
+                                    if (!permitted.isAuth) return;
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {
                                       return galleryScreen();

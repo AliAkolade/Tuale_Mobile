@@ -48,7 +48,7 @@ dependencies:
   scrollable_positioned_list: ^0.2.3
   file_picker: ^4.3.3
   camera: ^0.9.4+9
-  photo_manager: ^1.3.10
+  photo_manager: ^2.1.4
   video_player: ^2.2.19
   provider: ^6.0.2
   numeric_keyboard: ^1.1.0
