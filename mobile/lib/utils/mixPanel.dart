@@ -14,7 +14,7 @@ class MixPanelSingleton {
 
   Future<void> initMixpanel() async {
     mixpanel = await Mixpanel.init(mixPanelToken, optOutTrackingDefault: false);
-    distinctId = await mixpanel.getDistinctId() ?? '';
+    distinctId = await mixpanel.getDistinctId();
     mixpanel.identify(distinctId);
   }
 }

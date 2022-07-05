@@ -24,8 +24,8 @@ class _CameraAppState extends State<CameraApp> {
     // controller =
     //     CameraController(camera.cameras![0], ResolutionPreset.ultraHigh);
 
-   // initalizedController = controller!.initialize();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    // initalizedController = controller!.initialize();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<camera>(context, listen: false).changeNav();
     });
 
@@ -137,8 +137,8 @@ class _CameraAppState extends State<CameraApp> {
                               children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    final permitted =
-                                        await PhotoManager.requestPermissionExtend();
+                                    final permitted = await PhotoManager
+                                        .requestPermissionExtend();
                                     if (!permitted.isAuth) return;
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {
@@ -201,7 +201,9 @@ class _CameraAppState extends State<CameraApp> {
 
 class _MediaSizeClipper extends CustomClipper<Rect> {
   final Size? mediaSize;
+
   const _MediaSizeClipper(this.mediaSize);
+
   @override
   Rect getClip(Size size) {
     return Rect.fromLTWH(0, 0, mediaSize!.width, mediaSize!.height);

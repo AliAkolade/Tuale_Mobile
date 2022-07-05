@@ -38,7 +38,7 @@ class _discoverScreenState extends State<discoverScreen> {
     }
 
     super.initState();
-    WidgetsBinding.instance!
+    WidgetsBinding.instance
         .addPostFrameCallback((_) => scrollToIndex(widget.index));
   }
 

@@ -29,7 +29,7 @@ class _ViewPostState extends State<ViewPost> {
     }
 
     super.initState();
-    WidgetsBinding.instance!
+    WidgetsBinding.instance
         .addPostFrameCallback((_) => scrollToIndex(widget.index));
   }
 

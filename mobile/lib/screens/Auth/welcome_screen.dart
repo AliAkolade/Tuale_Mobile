@@ -2,9 +2,7 @@ import 'package:mobile/screens/imports.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Welcome extends StatefulWidget {
-  const Welcome({
-    Key? key,
-  }) : super(key: key);
+  const Welcome({Key? key}) : super(key: key);
 
   @override
   State<Welcome> createState() => _WelcomeState();
@@ -75,53 +73,74 @@ class _WelcomeState extends State<Welcome> {
                                                                 text:
                                                                     'By signing up, you agree to our ',
                                                                 style: TextStyle(
-                                                                    color: Color.fromRGBO(
-                                                                        76, 76, 76, 1),
-                                                                    fontFamily: 'Poppins',
-                                                                    fontSize: 16,
+                                                                    color:
+                                                                        Color.fromRGBO(
+                                                                            76,
+                                                                            76,
+                                                                            76,
+                                                                            1),
+                                                                    fontFamily:
+                                                                        'Poppins',
+                                                                    fontSize:
+                                                                        16,
                                                                     fontWeight:
-                                                                    FontWeight.w100,
-                                                                    height: 1.5)),
+                                                                        FontWeight
+                                                                            .w100,
+                                                                    height:
+                                                                        1.5)),
                                                             TextSpan(
                                                               text:
                                                                   'Terms of Service\n\n',
                                                               style: TextStyle(
-                                                                  color: tualeOrange,
-                                                                  fontFamily: 'Poppins',
+                                                                  color:
+                                                                      tualeOrange,
+                                                                  fontFamily:
+                                                                      'Poppins',
                                                                   fontSize: 16,
                                                                   fontWeight:
-                                                                  FontWeight.w100,
+                                                                      FontWeight
+                                                                          .w100,
                                                                   height: 1.5),
                                                               /*recognizer:  DoubleTapGestureRecognizer()..onDoubleTap = () {
                             // Double tapped.
                           }*/
                                                             ),
-                                                                TextSpan(
+                                                            TextSpan(
                                                                 text:
                                                                     'View our ',
                                                                 style: TextStyle(
-                                                                    color: Color.fromRGBO(
-                                                                        76, 76, 76, 1),
-                                                                    fontFamily: 'Poppins',
-                                                                    fontSize: 16,
+                                                                    color:
+                                                                        Color.fromRGBO(
+                                                                            76,
+                                                                            76,
+                                                                            76,
+                                                                            1),
+                                                                    fontFamily:
+                                                                        'Poppins',
+                                                                    fontSize:
+                                                                        16,
                                                                     fontWeight:
-                                                                    FontWeight.w100,
-                                                                    height: 1.5)),
+                                                                        FontWeight
+                                                                            .w100,
+                                                                    height:
+                                                                        1.5)),
                                                             TextSpan(
                                                               text:
                                                                   'Privacy Policy',
                                                               style: TextStyle(
-                                                                  color: tualeOrange,
-                                                                  fontFamily: 'Poppins',
+                                                                  color:
+                                                                      tualeOrange,
+                                                                  fontFamily:
+                                                                      'Poppins',
                                                                   fontSize: 16,
                                                                   fontWeight:
-                                                                  FontWeight.w100,
+                                                                      FontWeight
+                                                                          .w100,
                                                                   height: 1.5),
                                                               /*recognizer:  DoubleTapGestureRecognizer()..onDoubleTap = () {
                             // Double tapped.
                           }*/
-                                                            ),
-
+                                                            )
                                                           ])),
                                                       onTap: () {
                                                         launch(
@@ -130,7 +149,7 @@ class _WelcomeState extends State<Welcome> {
                                                   const SizedBox(height: 25),
                                                   ElevatedButton(
                                                       onPressed: () {
-                                                        Navigator.pop(context);
+                                                        // Navigator.pop(context);
                                                         Navigator.push(
                                                             context,
                                                             PageTransition(
@@ -189,12 +208,10 @@ class _WelcomeState extends State<Welcome> {
                           InkWell(
                               onTap: () {
                                 Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.bottomToTop,
-                                    child: const Login(),
-                                  ),
-                                );
+                                    context,
+                                    PageTransition(
+                                        type: PageTransitionType.bottomToTop,
+                                        child: const Login()));
                               },
                               child: const Text('I already have an account',
                                   textAlign: TextAlign.center,

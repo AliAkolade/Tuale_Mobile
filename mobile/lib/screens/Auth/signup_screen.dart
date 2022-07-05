@@ -33,21 +33,21 @@ class _SignUpState extends State<SignUp> {
   ];
 
   reconcile() {
-    setState(() {
-      columnNo = viewNo;
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
+          columnNo = viewNo;
+        }));
   }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) => (){
+    WidgetsBinding.instance.addPostFrameCallback((_) => () {
           MixPanelSingleton.instance.mixpanel.timeEvent("SignUp");
-    Timer.periodic(const Duration(milliseconds: 100), (timer) {
-      reconcile();
-    });
-    }    
-);
+        });
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => Timer.periodic(const Duration(milliseconds: 100), (timer) {
+              reconcile();
+            }));
     // MixPanelSingleton.instance.mixpanel.timeEvent("SignUp");
     // Timer.periodic(const Duration(milliseconds: 100), (timer) {
     //   reconcile();
@@ -61,6 +61,7 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    // columnNo = viewNo;
     return Scaffold(
         backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
         body: SafeArea(
@@ -73,79 +74,85 @@ class _SignUpState extends State<SignUp> {
                           alignment: AlignmentDirectional.bottomCenter,
                           child: Padding(
                               padding: const EdgeInsets.all(20),
-                              child: SingleChildScrollView(
+                              child: SizedBox(
+                                  height: MediaQuery.of(context).size.height,
                                   child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                    const Spacer(),
-                                    Image.asset('assets/images/welcome.png'),
-                                    const Spacer(),
-                                    const Text('HELLO THERE',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Color.fromRGBO(0, 0, 0, 1),
-                                            fontFamily: 'Poppins',
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            height: 1)),
-                                    const SizedBox(height: 10),
-                                    const Text(
-                                        'Welcome to Tuale,\n the fairest creator app in the world.',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Color.fromRGBO(3, 43, 24, 1),
-                                            fontFamily: 'Lato',
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.normal,
-                                            height: 1)),
-                                    const Spacer(),
-                                    ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              PageTransition(
-                                                  type: PageTransitionType.fade,
-                                                  child: const SignUp()));
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            minimumSize:
-                                                const Size(double.infinity, 50),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10))),
-                                        child: const Text('Get Started',
+                                        const Spacer(),
+                                        Image.asset(
+                                            'assets/images/welcome.png'),
+                                        const Spacer(),
+                                        const Text('HELLO THERE',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                                color: Color.fromRGBO(
-                                                    255, 255, 255, 1),
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
                                                 fontFamily: 'Poppins',
-                                                fontSize: 15.5,
+                                                fontSize: 18,
                                                 fontWeight: FontWeight.bold,
-                                                height: 1))),
-                                    const SizedBox(height: 20),
-                                    InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              PageTransition(
-                                                  type: PageTransitionType
-                                                      .bottomToTop,
-                                                  child: const Login()));
-                                        },
-                                        child: const Text(
-                                            'I already have an account',
+                                                height: 1)),
+                                        const SizedBox(height: 10),
+                                        const Text(
+                                            'Welcome to Tuale,\n the fairest creator app in the world.',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 color: Color.fromRGBO(
-                                                    247, 135, 100, 1),
-                                                fontFamily: 'Poppins',
-                                                fontSize: 15.5,
-                                                fontWeight: FontWeight.w600,
-                                                height: 1))),
-                                    const SizedBox(height: 30)
-                                  ])))),
+                                                    3, 43, 24, 1),
+                                                fontFamily: 'Lato',
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.normal,
+                                                height: 1)),
+                                        const Spacer(),
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  PageTransition(
+                                                      type: PageTransitionType
+                                                          .fade,
+                                                      child: const SignUp()));
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                                minimumSize: const Size(
+                                                    double.infinity, 50),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10))),
+                                            child: const Text('Get Started',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                    fontFamily: 'Poppins',
+                                                    fontSize: 15.5,
+                                                    fontWeight: FontWeight.bold,
+                                                    height: 1))),
+                                        const SizedBox(height: 20),
+                                        InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  PageTransition(
+                                                      type: PageTransitionType
+                                                          .bottomToTop,
+                                                      child: const Login()));
+                                            },
+                                            child: const Text(
+                                                'I already have an account',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        247, 135, 100, 1),
+                                                    fontFamily: 'Poppins',
+                                                    fontSize: 15.5,
+                                                    fontWeight: FontWeight.w600,
+                                                    height: 1))),
+                                        const SizedBox(height: 30)
+                                      ])))),
                       Container(
                           height: double.infinity,
                           width: double.infinity,
@@ -220,9 +227,10 @@ class _ChooseSignUpState extends State<ChooseSignUp> {
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(7))),
               onPressed: () {
-            setState(() {
-              viewNo = 1;
-            });
+            WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
+                  viewNo += 1;
+                }));
+            // viewNo += 1;
           }, text: 'Sign up with Email'),
           const SizedBox(height: 10),
           // SignInButton(Buttons.Google,
@@ -1311,21 +1319,21 @@ class _VerifyCodeState extends State<VerifyCode> with WidgetsBindingObserver {
   @override
   void initState() {
     scrollController = ScrollController();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     sendCode();
     super.initState();
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     scrollController.dispose();
     super.dispose();
   }
 
   @override
   void didChangeMetrics() {
-    final bottomViewInsets = WidgetsBinding.instance!.window.viewInsets.bottom;
+    final bottomViewInsets = WidgetsBinding.instance.window.viewInsets.bottom;
     isKeyboardVisible = bottomViewInsets > 0;
   }
 
