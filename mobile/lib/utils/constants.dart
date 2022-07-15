@@ -62,6 +62,7 @@ const String notifications = 'notifications';
 const String vibing = 'vibe/';
 const String unvibing = 'unvibe/';
 const String addTuale = 'post/tuale/';
+const String deleteUser = 'me/delete';
 String currentUsername = '';
 int curatedPageNo = 1;
 int vibingPageNo = 1;

@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="31b73fd2-3a6d-4d7f-959c-6d17638313fb" name="Changes" comment="90percent">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+    <list default="true" id="31b73fd2-3a6d-4d7f-959c-6d17638313fb" name="Changes" comment="Add Delete Account">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/android/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/lib/screens/Auth/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/lib/screens/Auth/login_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/lib/screens/Profile/user_Profile_Screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/lib/screens/Profile/user_Profile_Screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/lib/utils/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/lib/utils/constants.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mobile/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -91,7 +90,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657000467420</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="New Stable">
+      <created>1657037474341</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1657037474341</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -108,6 +114,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="90percent" />
-    <option name="LAST_COMMIT_MESSAGE" value="90percent" />
+    <MESSAGE value="New Stable" />
+    <MESSAGE value="Add Delete Account" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Delete Account" />
   </component>
 </project>

@@ -23,13 +23,14 @@ class _LoginState extends State<Login> {
 
   final email = TextEditingController(text: '');
   final pass = TextEditingController(text: '');
-  //
+
   // final email = TextEditingController(text: 'tulenoreply@gmail.com');
   // final pass = TextEditingController(text: 'Azerty');
   // final email = TextEditingController(text: 'afolabiogunbanwo@gmail.com');
   // final pass = TextEditingController(text: 'testing');
   // final email = TextEditingController(text: 'clintonali127@gmail.com');
   // final pass = TextEditingController(text: 'Clinton01');
+
   // final email = TextEditingController(text: 'barelysolution@gmail.com');
   // final pass = TextEditingController(text: 'Abc123');
   String message = '';
@@ -48,7 +49,7 @@ class _LoginState extends State<Login> {
         data: {"email": email.text.trim(), "password": pass.text.trim()});
     debugPrint(response.data.toString());
     var responseData = response.data;
-
+    debugPrint(responseData.toString());
     if (responseData['success'].toString() == 'true') {
       // MixPanelSingleton.instance.mixpanel.timeEvent("Image Upload");
       // MixPanelSingleton.instance.mixpanel.track("Image Upload");
@@ -78,6 +79,13 @@ class _LoginState extends State<Login> {
     } else {
       setState(() {
         message = responseData['message'];
+        var snackBar = SnackBar(
+            content: Text(responseData['message'].toString(),
+                style: const TextStyle(color: Colors.white)),
+            backgroundColor: tualeOrange,
+            duration: const Duration(seconds: 5),
+            padding: const EdgeInsets.all(20));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       });
     }
 
