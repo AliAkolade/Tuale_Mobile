@@ -81,6 +81,7 @@ dependencies:
   dropdown_plus: ^0.0.9
   group_radio_button: ^1.2.0
   sn_progress_dialog: ^1.0.8
+  uni_links: ^0.5.1
 
 flutter_icons:
   android: "launcher_icon"
