@@ -31,6 +31,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with https://YOUR_HOST -->
+<!--                android:pathPrefix="/post/"-->
                 <data
                     android:scheme="https"
                     android:host="tuale.app" />
