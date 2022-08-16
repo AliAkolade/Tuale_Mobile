@@ -366,10 +366,7 @@ class _CuratedState extends State<Curated> {
   }
 }
 
-Widget _commentsectionModal(
-  BuildContext context,
-  int index,
-) {
+Widget _commentsectionModal(BuildContext context, int index) {
   return GestureDetector(
     onTap: () {
       showModalBottomSheet(

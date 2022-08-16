@@ -1,15 +1,15 @@
 //import 'package:firebase_core/firebase_core.dart';
-import 'dart:developer';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:mobile/screens/Auth/welcome_screen.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/splash_screen.dart';
 import 'package:mobile/utils/constants.dart';
 import 'package:mobile/utils/mixPanel.dart';
 import 'package:new_version/new_version.dart';
+import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // final RouteObserver<ModalRoute<void>> routeObserver =
@@ -74,11 +74,69 @@ class _MyAppState extends State<MyApp> {
   var appStoreLink = "";
   bool canUpdate = true;
 
+  // Future<void> initUniLinks() async {
+  //   // Platform messages may fail, so we use a try/catch PlatformException.
+  //   try {
+  //     final initialLink = await getInitialLink();
+  //     log(initialLink.toString());
+  //     // Parse the link and warn the user, if it is not correct,
+  //     // but keep in mind it could be `null`.
+  //   } on PlatformException {
+  //     // Handle exception by warning the user their action did not succeed
+  //     // return?
+  //   }
+  // }
+
+  StreamSubscription? _sub;
+
+  goToPage(String id, path) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+    if (isLoggedIn) {
+      debugPrint("URL is for a $path");
+      debugPrint("ID - $id");
+    }
+  }
+
+  Future<void> initUniLinks() async {
+    // ... check initialLink
+
+    // try {
+    //   final initialLink = await getInitialLink();
+    //   // Parse the link and warn the user, if it is not correct,
+    //   // but keep in mind it could be `null`.
+    // } on PlatformException {
+    //   // Handle exception by warning the user their action did not succeed
+    //   // return?
+    // }
+
+    // Attach a listener to the stream
+    _sub = linkStream.listen((String? link) {
+      // Parse the link and warn the user, if it is not correct
+      if (link != null) {
+        var uri = Uri.parse(link);
+        // log(uri.toString()); //URL
+        if (uri.queryParameters['id'] != null) {
+          // log(uri.queryParameters['id'].toString()); //ID
+          // log(uri.path.replaceAll('/', 'replace')); //PATH
+          goToPage(uri.queryParameters['id'].toString(),
+              uri.path.replaceAll('/', 'replace'));
+        }
+      }
+    }, onError: (err) {
+      // Handle exception by warning the user their action did not succeed
+    });
+
+    // NOTE: Don't forget to call _sub.cancel() in dispose()
+  }
+
   @override
   void initState() {
     super.initState();
     MixPanelSingleton.instance.initMixpanel();
     displayDialog();
+    initUniLinks();
   }
 
   Future<void> displayDialog() async {
@@ -157,7 +215,7 @@ class _MyAppState extends State<MyApp> {
             return ScreenUtilInit(
                 designSize: const Size(428, 926),
                 minTextAdapt: true,
-                builder: (context , child) {
+                builder: (context, child) {
                   return MaterialApp(
                       // navigatorObservers: [routeObserver],
                       builder: (context, widget) {
@@ -177,5 +235,11 @@ class _MyAppState extends State<MyApp> {
                 });
           }
         });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _sub?.cancel();
   }
 }
