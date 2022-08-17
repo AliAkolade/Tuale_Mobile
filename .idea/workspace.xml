@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="31b73fd2-3a6d-4d7f-959c-6d17638313fb" name="Changes" comment="uni_link done for android">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="31b73fd2-3a6d-4d7f-959c-6d17638313fb" name="Changes" comment="add navigation">
       <change beforePath="$PROJECT_DIR$/mobile/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -125,7 +123,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660671192107</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="add navigation">
+      <created>1660735569421</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1660735569422</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -147,7 +152,8 @@
     <MESSAGE value="add uni_link" />
     <MESSAGE value="uni_link works" />
     <MESSAGE value="uni_link done for android" />
-    <option name="LAST_COMMIT_MESSAGE" value="uni_link done for android" />
+    <MESSAGE value="add navigation" />
+    <option name="LAST_COMMIT_MESSAGE" value="add navigation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
