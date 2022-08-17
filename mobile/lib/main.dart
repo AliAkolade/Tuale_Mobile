@@ -96,6 +96,12 @@ class _MyAppState extends State<MyApp> {
     if (isLoggedIn) {
       debugPrint("URL is for a $path");
       debugPrint("ID - $id");
+      //Navigate to the required page
+    } else {
+      Navigator.push(
+          context,
+          PageTransition(
+              type: PageTransitionType.topToBottom, child: const Login()));
     }
   }
 
@@ -121,7 +127,7 @@ class _MyAppState extends State<MyApp> {
           // log(uri.queryParameters['id'].toString()); //ID
           // log(uri.path.replaceAll('/', 'replace')); //PATH
           goToPage(uri.queryParameters['id'].toString(),
-              uri.path.replaceAll('/', 'replace'));
+              uri.path.replaceAll('/', ''));
         }
       }
     }, onError: (err) {
