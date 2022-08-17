@@ -96,7 +96,12 @@ class _MyAppState extends State<MyApp> {
     if (isLoggedIn) {
       debugPrint("URL is for a $path");
       debugPrint("ID - $id");
-      //Navigate to the required page
+      if (path == "post") {
+        //Navigate to post page
+      }
+      if (path == "user") {
+        //Navigate to user page
+      }
     } else {
       Navigator.push(
           context,
