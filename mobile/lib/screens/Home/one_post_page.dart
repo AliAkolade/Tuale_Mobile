@@ -439,9 +439,10 @@ class _actionBarState extends State<_actionBar> {
 
   List<ItemModel> checkUserPost(BuildContext context, String postUserId) {
     print('userid${postUserId}');
-     print('userID${currentUserID}');
+    print('userID${currentUserID}');
     List<ItemModel> menuItems = [];
-    if (postUserId == Get.find<LoggedUserController>().loggedUser.value.currentuserid) {
+    if (postUserId ==
+        Get.find<LoggedUserController>().loggedUser.value.currentuserid) {
       menuItems = [
         ItemModel('Share', Icons.send),
         ItemModel('Copy Link', Icons.content_copy),
@@ -1043,8 +1044,8 @@ class _commentModalState extends State<_commentModal> {
                       _focusNode.unfocus();
                       String comment = myController.text;
                       myController.clear();
-                      List result = await Api()
-                          .commentOnAPost(widget.posts!.id, myController.text);
+                      List result =
+                          await Api().commentOnAPost(widget.posts!.id, comment);
 
                       if (result[0]) {
                         Loader.hide();

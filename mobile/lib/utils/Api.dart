@@ -551,9 +551,8 @@ class Api {
 
       Dio dio = Dio();
       dio.options.headers["Authorization"] = token;
-      Response response = await dio.delete(hostAPI + 'utils/cloudinary', data: {
-        'public_id': publicId
-      });
+      Response response = await dio
+          .delete(hostAPI + 'utils/cloudinary', data: {'public_id': publicId});
       debugPrint("responseData : $response");
       var responseData = response.data;
       if (response.statusCode == 200) {
@@ -563,7 +562,6 @@ class Api {
       return false;
     }
   }
-
 
   updateUserProfil(String username, String fullname, String bio,
       String publicId, String url) async {
@@ -665,7 +663,7 @@ class Api {
       dio.options.headers["Authorization"] = token;
       Response response = await dio
           .post(hostAPI + 'post/comment/' + postId, data: {'text': comment});
-
+      print('doneCommmeeeeeeeeentinnnnnnnnnnnnnngg');
       if (response.statusCode == 200) {
         if (response.data['success']) {
           return [response.data["success"], 'comment sent'];
@@ -673,7 +671,9 @@ class Api {
           return [response.data["succes"], 'failed to comment'];
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 
   whichController() {
@@ -908,7 +908,7 @@ class Api {
     } catch (e) {}
   }
 
- Future<List> getWithdrawalHistory() async {
+  Future<List> getWithdrawalHistory() async {
     List data = [];
     try {
       Future<SharedPreferences> _prefs = SharedPreferences.getInstance();

@@ -140,18 +140,16 @@ class _LeaderboardState extends State<Leaderboard> {
                                     width: 12.w,
                                   ),
                                   SizedBox(
-                      height: 48.h,
-                      width: 48.h,
-                      child: CircleAvatar(
-                        backgroundImage: Image.network(
-                          leaderboard
-                                                          .leaderboard
-                                                          .value[index]
-                                                          .avatar,
-                          fit: BoxFit.fitHeight,
-                        ).image,
-                      ),
-                    ),
+                                    height: 48.h,
+                                    width: 48.h,
+                                    child: CircleAvatar(
+                                      backgroundImage: Image.network(
+                                        leaderboard
+                                            .leaderboard.value[index].avatar,
+                                        fit: BoxFit.fitHeight,
+                                      ).image,
+                                    ),
+                                  ),
                                   Container(
                                     //  color: Colors.blue,
                                     width: 5,
@@ -207,12 +205,13 @@ class _LeaderboardState extends State<Leaderboard> {
                                     flex: 2,
                                   ),
                                   SizedBox(
-                                    height: 26.h,
-                                    width: 26.h,
+                                    height: 36.h,
+                                    width: 46.h,
                                     child: Text(
                                       leaderboard
                                           .leaderboard.value[index].noTuales
                                           .toString(),
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         color: tualeBlueDark,
                                         fontFamily: 'Poppins',
