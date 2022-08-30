@@ -4,6 +4,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/screens/Auth/welcome_screen.dart';
+import 'package:mobile/screens/Home/models/postsetails.dart';
+import 'package:mobile/screens/Home/one_post_page.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/splash_screen.dart';
 import 'package:mobile/utils/constants.dart';
@@ -97,10 +99,26 @@ class _MyAppState extends State<MyApp> {
       debugPrint("URL is for a $path");
       debugPrint("ID - $id");
       if (path == "post") {
+        PostDetails postDetails = await Api().getOnePost(id);
         //Navigate to post page
+        PageTransition(
+            type: PageTransitionType.topToBottom,
+            child: OnePost(
+              id: id,
+              mediaType: postDetails.mediaType,
+              postMedia: postDetails.postMedia,
+            ));
       }
       if (path == "user") {
         //Navigate to user page
+        //Todo extract username for profilePage
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.topToBottom, child: userProfile(
+                  username: id,
+                  isUser: false,
+                )));
       }
     } else {
       Navigator.push(
@@ -131,6 +149,7 @@ class _MyAppState extends State<MyApp> {
         if (uri.queryParameters['id'] != null) {
           // log(uri.queryParameters['id'].toString()); //ID
           // log(uri.path.replaceAll('/', 'replace')); //PATH
+
           goToPage(uri.queryParameters['id'].toString(),
               uri.path.replaceAll('/', ''));
         }
