@@ -115,7 +115,8 @@ class _MyAppState extends State<MyApp> {
         Navigator.push(
             context,
             PageTransition(
-                type: PageTransitionType.topToBottom, child: userProfile(
+                type: PageTransitionType.topToBottom,
+                child: userProfile(
                   username: id,
                   isUser: false,
                 )));
