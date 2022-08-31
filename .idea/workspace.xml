@@ -1,176 +1,194 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="NONE" />
-  </component>
-  <component name="ChangeListManager">
-    <list default="true" id="31b73fd2-3a6d-4d7f-959c-6d17638313fb" name="Changes" comment="add navigation">
-      <change beforePath="$PROJECT_DIR$/mobile/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/lib/main.dart" afterDir="false" />
-    </list>
-    <option name="SHOW_DIALOG" value="false" />
-    <option name="HIGHLIGHT_CONFLICTS" value="true" />
-    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
-    <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RESET_MODE" value="HARD" />
-  </component>
-  <component name="GitToolBoxStore">
-    <option name="projectConfigVersion" value="5" />
-  </component>
-  <component name="ProjectId" id="2BUp7MGIZDwg5z5neBn4WAYLIns" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="cidr.known.project.marker" value="true" />
-    <property name="com.android.tools.idea.emulator.frame.visible" value="false" />
-    <property name="com.android.tools.idea.emulator.zoom.toolbar.visible" value="false" />
-    <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/mobile" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="dart.settings" />
-    <property name="show.migrate.to.gradle.popup" value="false" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\ALI\Desktop\CLINTON\Work\Tuale\Tuale_Mobile\mobile\android" />
-    </key>
-  </component>
-  <component name="RunManager">
-    <configuration name="Tuale" type="FlutterRunConfigurationType" factoryName="Flutter">
-      <option name="filePath" value="$PROJECT_DIR$/mobile/lib/main.dart" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="mobile_android" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="mobile_android" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="31b73fd2-3a6d-4d7f-959c-6d17638313fb" name="Changes" comment="" />
-      <created>1656970354911</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1656970354911</updated>
-    </task>
-    <task id="LOCAL-00001" summary="90percent">
-      <created>1657000021462</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1657000021462</updated>
-    </task>
-    <task id="LOCAL-00002" summary="90percent">
-      <created>1657000467420</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1657000467420</updated>
-    </task>
-    <task id="LOCAL-00003" summary="New Stable">
-      <created>1657037474341</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1657037474341</updated>
-    </task>
-    <task id="LOCAL-00004" summary="add uni_link">
-      <created>1660238920794</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1660238920794</updated>
-    </task>
-    <task id="LOCAL-00005" summary="uni_link works">
-      <created>1660584747456</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1660584747456</updated>
-    </task>
-    <task id="LOCAL-00006" summary="uni_link works">
-      <created>1660584904492</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1660584904492</updated>
-    </task>
-    <task id="LOCAL-00007" summary="uni_link done for android">
-      <created>1660671192106</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1660671192107</updated>
-    </task>
-    <task id="LOCAL-00008" summary="add navigation">
-      <created>1660735569421</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1660735569422</updated>
-    </task>
-    <task id="LOCAL-00009" summary="add navigation">
-      <created>1660735619712</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1660735619712</updated>
-    </task>
-    <option name="localTasksCounter" value="10" />
-    <servers />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="90percent" />
-    <MESSAGE value="New Stable" />
-    <MESSAGE value="Add Delete Account" />
-    <MESSAGE value="add uni_link" />
-    <MESSAGE value="uni_link works" />
-    <MESSAGE value="uni_link done for android" />
-    <MESSAGE value="add navigation" />
-    <option name="LAST_COMMIT_MESSAGE" value="add navigation" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/mobile/lib/screens/Auth/login_screen.dart</url>
-          <line>62</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
+    <component name="AutoImportSettings">
+        <option name="autoReloadType" value="NONE" />
+    </component>
+    <component name="ChangeListManager">
+        <list name="Changes" comment="Add Delete Account" default="true"
+            id="31b73fd2-3a6d-4d7f-959c-6d17638313fb">
+            <change afterDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml"
+                beforeDir="false" beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" />
+            <change afterDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml"
+                beforeDir="false" beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" />
+            <change afterDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml"
+                beforeDir="false" beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" />
+            <change afterDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml"
+                beforeDir="false" beforePath="$PROJECT_DIR$/.idea/workspace.xml" />
+            <change afterDir="false" afterPath="$PROJECT_DIR$/mobile/lib/main.dart"
+                beforeDir="false" beforePath="$PROJECT_DIR$/mobile/lib/main.dart" />
+            <change afterDir="false"
+                afterPath="$PROJECT_DIR$/mobile/lib/screens/Auth/login_screen.dart"
+                beforeDir="false"
+                beforePath="$PROJECT_DIR$/mobile/lib/screens/Auth/login_screen.dart" />
+            <change afterDir="false" afterPath="$PROJECT_DIR$/mobile/pubspec.yaml"
+                beforeDir="false" beforePath="$PROJECT_DIR$/mobile/pubspec.yaml" />
+        </list>
+        <option name="SHOW_DIALOG" value="false" />
+        <option name="HIGHLIGHT_CONFLICTS" value="true" />
+        <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+        <option name="LAST_RESOLUTION" value="IGNORE" />
+    </component>
+    <component name="Git.Settings">
+        <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+        <option name="RESET_MODE" value="HARD" />
+    </component>
+    <component name="GitToolBoxStore">
+        <option name="projectConfigVersion" value="5" />
+    </component>
+    <component name="ProjectId" id="2BUp7MGIZDwg5z5neBn4WAYLIns" />
+    <component name="ProjectViewState">
+        <option name="hideEmptyMiddlePackages" value="true" />
+        <option name="showLibraryContents" value="true" />
+    </component>
+    <component name="PropertiesComponent">
+        <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+        <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+        <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+        <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+        <property name="cidr.known.project.marker" value="true" />
+        <property name="com.android.tools.idea.emulator.frame.visible" value="false" />
+        <property name="com.android.tools.idea.emulator.zoom.toolbar.visible" value="false" />
+        <property name="dart.analysis.tool.window.visible" value="false" />
+        <property name="io.flutter.reload.alreadyRun" value="true" />
+        <property name="last_opened_file_path" value="$PROJECT_DIR$/mobile" />
+        <property name="project.structure.last.edited" value="Modules" />
+        <property name="project.structure.proportion" value="0.15" />
+        <property name="project.structure.side.proportion" value="0.2" />
+        <property name="settings.editor.selected.configurable" value="dart.settings" />
+        <property name="show.migrate.to.gradle.popup" value="false" />
+    </component>
+    <component name="RecentsManager">
+        <key name="CopyFile.RECENT_KEYS">
+            <recent name="C:\Users\ALI\Desktop\CLINTON\Work\Tuale\Tuale_Mobile\mobile\android" />
+        </key>
+    </component>
+    <component name="RunManager">
+        <configuration name="Tuale" factoryName="Flutter" type="FlutterRunConfigurationType">
+            <option name="filePath" value="$PROJECT_DIR$/mobile/lib/main.dart" />
+            <method v="2" />
+        </configuration>
+        <configuration default="true" type="JetRunConfigurationType">
+            <module name="mobile_android" />
+            <method v="2">
+                <option name="Make" enabled="true" />
+            </method>
+        </configuration>
+        <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+            <module name="mobile_android" />
+            <option name="filePath" />
+            <method v="2">
+                <option name="Make" enabled="true" />
+            </method>
+        </configuration>
+    </component>
+    <component name="SpellCheckerSettings" CustomDictionaries="0" DefaultDictionary="application-level"
+        Folders="0" RuntimeDictionaries="0" UseSingleDictionary="true"
+        transferred="true" />
+    <component name="TaskManager">
+        <task active="true" id="Default" summary="Default task">
+            <changelist name="Changes" comment="" id="31b73fd2-3a6d-4d7f-959c-6d17638313fb" />
+            <created>1656970354911</created>
+            <option name="number" value="Default" />
+            <option name="presentableId" value="Default" />
+            <updated>1656970354911</updated>
+        </task>
+        <task id="LOCAL-00001" summary="90percent">
+            <created>1657000021462</created>
+            <option name="number" value="00001" />
+            <option name="presentableId" value="LOCAL-00001" />
+            <option name="project" value="LOCAL" />
+            <updated>1657000021462</updated>
+        </task>
+        <task id="LOCAL-00002" summary="90percent">
+            <created>1657000467420</created>
+            <option name="number" value="00002" />
+            <option name="presentableId" value="LOCAL-00002" />
+            <option name="project" value="LOCAL" />
+            <updated>1657000467420</updated>
+        </task>
+        <task id="LOCAL-00003" summary="New Stable">
+            <created>1657037474341</created>
+            <option name="number" value="00003" />
+            <option name="presentableId" value="LOCAL-00003" />
+            <option name="project" value="LOCAL" />
+            <updated>1657037474341</updated>
+        </task>
+        <task id="LOCAL-00004" summary="add uni_link">
+            <created>1660238920794</created>
+            <option name="number" value="00004" />
+            <option name="presentableId" value="LOCAL-00004" />
+            <option name="project" value="LOCAL" />
+            <updated>1660238920794</updated>
+        </task>
+        <task id="LOCAL-00005" summary="uni_link works">
+            <created>1660584747456</created>
+            <option name="number" value="00005" />
+            <option name="presentableId" value="LOCAL-00005" />
+            <option name="project" value="LOCAL" />
+            <updated>1660584747456</updated>
+        </task>
+        <task id="LOCAL-00006" summary="uni_link works">
+            <created>1660584904492</created>
+            <option name="number" value="00006" />
+            <option name="presentableId" value="LOCAL-00006" />
+            <option name="project" value="LOCAL" />
+            <updated>1660584904492</updated>
+        </task>
+        <task id="LOCAL-00007" summary="uni_link done for android">
+            <created>1660671192106</created>
+            <option name="number" value="00007" />
+            <option name="presentableId" value="LOCAL-00007" />
+            <option name="project" value="LOCAL" />
+            <updated>1660671192107</updated>
+        </task>
+        <task id="LOCAL-00008" summary="add navigation">
+            <created>1660735569421</created>
+            <option name="number" value="00008" />
+            <option name="presentableId" value="LOCAL-00008" />
+            <option name="project" value="LOCAL" />
+            <updated>1660735569422</updated>
+        </task>
+        <task id="LOCAL-00009" summary="add navigation">
+            <created>1660735619712</created>
+            <option name="number" value="00009" />
+            <option name="presentableId" value="LOCAL-00009" />
+            <option name="project" value="LOCAL" />
+            <updated>1660735619712</updated>
+        </task>
+        <option name="localTasksCounter" value="10" />
+        <servers />
+    </component>
+    <component name="Vcs.Log.Tabs.Properties">
+        <option name="TAB_STATES">
+            <map>
+                <entry key="MAIN">
+                    <value>
+                        <State />
+                    </value>
+                </entry>
+            </map>
+        </option>
+        <option name="oldMeFiltersMigrated" value="true" />
+    </component>
+    <component name="VcsManagerConfiguration">
+        <MESSAGE value="90percent" />
+        <MESSAGE value="New Stable" />
+        <MESSAGE value="Add Delete Account" />
+        <MESSAGE value="add uni_link" />
+        <MESSAGE value="uni_link works" />
+        <MESSAGE value="uni_link done for android" />
+        <MESSAGE value="add navigation" />
+        <option name="LAST_COMMIT_MESSAGE" value="add navigation" />
+    </component>
+    <component name="XDebuggerManager">
+        <breakpoint-manager>
+            <breakpoints>
+                <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+                    <url>file://$PROJECT_DIR$/mobile/lib/screens/Auth/login_screen.dart</url>
+                    <line>63</line>
+                    <option name="timeStamp" value="1" />
+                </line-breakpoint>
+            </breakpoints>
+        </breakpoint-manager>
+    </component>
 </project>
