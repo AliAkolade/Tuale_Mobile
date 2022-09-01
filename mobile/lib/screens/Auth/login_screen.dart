@@ -21,11 +21,11 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
-  // final email = TextEditingController(text: '');
-  // final pass = TextEditingController(text: '');
+  final email = TextEditingController(text: '');
+  final pass = TextEditingController(text: '');
 
-  final email = TextEditingController(text: 'tulenoreply@gmail.com');
-  final pass = TextEditingController(text: 'Azerty');
+  // final email = TextEditingController(text: 'tulenoreply@gmail.com');
+  // final pass = TextEditingController(text: 'Azerty');
 
   // final email = TextEditingController(text: 'afolabiogunbanwo@gmail.com');
   // final pass = TextEditingController(text: 'testing');
@@ -76,7 +76,12 @@ class _LoginState extends State<Login> {
       Navigator.push(
           context,
           PageTransition(
-              type: PageTransitionType.topToBottom, child: NavBar(index: 0)));
+              type: PageTransitionType.topToBottom,
+              child: NavBar(
+                  index: 0,
+                  deepLinkPath: '',
+                  deepLink: false,
+                  deepLinkId: '')));
     } else {
       setState(() {
         message = responseData['message'];

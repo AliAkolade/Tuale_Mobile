@@ -1,16 +1,14 @@
-import 'dart:math';
-
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile/controller/loggedUserController.dart';
-import 'package:mobile/screens/Home/controllers/notificationsController.dart';
-import 'package:mobile/models/currentUserdetails.dart';
 import 'package:mobile/screens/Discover/searchPage.dart';
-import 'package:mobile/screens/Profile/controllers/profileController.dart';
+import 'package:mobile/screens/Home/controllers/notificationsController.dart';
 import 'package:mobile/screens/imports.dart';
-import 'package:image_picker/image_picker.dart';
+
+import 'Home/models/postsetails.dart';
+import 'Home/one_post_page.dart';
 import 'imports.dart';
 
 //context for current scene
@@ -19,12 +17,19 @@ BuildContext? selectedTabContext;
 class NavBar extends StatefulWidget {
   int index;
   int initIndex;
+  String deepLinkPath;
+  String deepLinkId;
+  bool deepLink;
 
   NavBar({
     Key? key,
     required this.index,
+    required this.deepLink,
+    required this.deepLinkPath,
+    required this.deepLinkId,
     this.initIndex = 1,
   }) : super(key: key);
+
   @override
   State<NavBar> createState() => _NavBarState();
 }
@@ -39,13 +44,13 @@ class _NavBarState extends State<NavBar> {
       Home(
         initialIndex: widget.initIndex,
       ),
-      SearchScreen(),
+      const SearchScreen(),
       PostTimeline(
         fileContent: File(""),
         filePath: "",
         mediaType: "image",
       ),
-      Leaderboard(),
+      const Leaderboard(),
       Obx(
         () => userProfile(
           isUser: true,
@@ -64,6 +69,26 @@ class _NavBarState extends State<NavBar> {
 
   late List<Widget> _children = [];
 
+  deepLinkNav() async {
+    if (widget.deepLink) {
+      if (widget.deepLinkPath == "post") {
+        PostDetails postDetails = await Api().getOnePost(widget.deepLinkId);
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.topToBottom,
+                child: OnePost(
+                    id: widget.deepLinkId,
+                    mediaType: postDetails.mediaType,
+                    postMedia: postDetails.postMedia)));
+      } else if (widget.deepLinkPath == "user") {
+        Navigator.of(context).push(PageTransition(
+            type: PageTransitionType.topToBottom,
+            child: userProfile(username: widget.deepLinkId, isUser: false)));
+      }
+    }
+  }
+
   @override
   void initState() {
     Get.put(NotificationsController());
@@ -78,13 +103,13 @@ class _NavBarState extends State<NavBar> {
       Home(
         initialIndex: widget.initIndex,
       ),
-      SearchScreen(),
+      const SearchScreen(),
       PostTimeline(
         fileContent: File(""),
         filePath: "",
         mediaType: "image",
       ),
-      Leaderboard(),
+      const Leaderboard(),
       Obx(
         () => userProfile(
           isUser: true,
@@ -96,6 +121,7 @@ class _NavBarState extends State<NavBar> {
         ),
       )
     ];
+    WidgetsBinding.instance.addPostFrameCallback((_) => deepLinkNav());
   }
 
   onTabTapped(int index) {
@@ -115,9 +141,10 @@ class _NavBarState extends State<NavBar> {
       body: _children[_currentIndex],
       bottomNavigationBar: Container(
         //height: 85.h,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
-              topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+              topRight: const Radius.circular(30),
+              topLeft: const Radius.circular(30)),
         ),
         child: BottomNavigationBar(
           unselectedItemColor: Colors.black,
@@ -157,7 +184,7 @@ class _NavBarState extends State<NavBar> {
                   size: iconSize,
                 )),
             BottomNavigationBarItem(
-                icon: Icon(
+                icon: const Icon(
                   Icons.add_circle,
                   color: tualeBlueDark,
                   size: 40,
@@ -205,7 +232,7 @@ Future pickMedia(ImageSource source, String type) async {
   String filePath;
   if (type == "image") {
     MixPanelSingleton.instance.mixpanel.timeEvent("PostImage");
-    asset = await ImagePicker().pickImage(source: source,imageQuality: 50);
+    asset = await ImagePicker().pickImage(source: source, imageQuality: 50);
     if (asset != null) {
       file = File(asset.path);
       filePath = asset.path;
@@ -248,7 +275,7 @@ Future cameraSelect(text) async {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Create"),
+                  const Text("Create"),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(

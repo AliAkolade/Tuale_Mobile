@@ -4,8 +4,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/screens/Auth/welcome_screen.dart';
-import 'package:mobile/screens/Home/models/postsetails.dart';
-import 'package:mobile/screens/Home/one_post_page.dart';
 import 'package:mobile/screens/imports.dart';
 import 'package:mobile/screens/splash_screen.dart';
 import 'package:mobile/utils/constants.dart';
@@ -75,88 +73,43 @@ class _MyAppState extends State<MyApp> {
   var storeVersion = "0.0.0";
   var appStoreLink = "";
   bool canUpdate = true;
-
-  // Future<void> initUniLinks() async {
-  //   // Platform messages may fail, so we use a try/catch PlatformException.
-  //   try {
-  //     final initialLink = await getInitialLink();
-  //     log(initialLink.toString());
-  //     // Parse the link and warn the user, if it is not correct,
-  //     // but keep in mind it could be `null`.
-  //   } on PlatformException {
-  //     // Handle exception by warning the user their action did not succeed
-  //     // return?
-  //   }
-  // }
+  String screenPath = "";
+  String screenPathId = "";
+  bool redirect = false;
 
   StreamSubscription? _sub;
 
-  goToPage(String id, path) async {
+  Future<void> initUniLinks() async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-    if (isLoggedIn) {
-      debugPrint("URL is for a $path");
-      debugPrint("ID - $id");
-      if (path == "post") {
-        PostDetails postDetails = await Api().getOnePost(id);
-        //Navigate to post page
-        PageTransition(
-            type: PageTransitionType.topToBottom,
-            child: OnePost(
-              id: id,
-              mediaType: postDetails.mediaType,
-              postMedia: postDetails.postMedia,
-            ));
-      }
-      if (path == "user") {
-        //Navigate to user page
-        //Todo extract username for profilePage
-        Navigator.push(
-            context,
-            PageTransition(
-                type: PageTransitionType.topToBottom,
-                child: userProfile(
-                  username: id,
-                  isUser: false,
-                )));
-      }
-    } else {
-      Navigator.push(
-          context,
-          PageTransition(
-              type: PageTransitionType.topToBottom, child: const Login()));
-    }
-  }
 
-  Future<void> initUniLinks() async {
-    // ... check initialLink
-
-    // try {
-    //   final initialLink = await getInitialLink();
-    //   // Parse the link and warn the user, if it is not correct,
-    //   // but keep in mind it could be `null`.
-    // } on PlatformException {
-    //   // Handle exception by warning the user their action did not succeed
-    //   // return?
-    // }
-
-    // Attach a listener to the stream
     _sub = linkStream.listen((String? link) {
-      // Parse the link and warn the user, if it is not correct
       if (link != null) {
         var uri = Uri.parse(link);
-        // log(uri.toString()); //URL
-        if (uri.queryParameters['id'] != null) {
-          // log(uri.queryParameters['id'].toString()); //ID
-          // log(uri.path.replaceAll('/', 'replace')); //PATH
-
-          goToPage(uri.queryParameters['id'].toString(),
-              uri.path.replaceAll('/', ''));
+        log(uri.toString()); //URL
+        log(uri.path);
+        log(uri.fragment);
+        log(uri.query);
+        log(uri.pathSegments.toString());
+        if (isLoggedIn) {
+          if (uri.path.split('/')[1] == "post") {
+            setState(() {
+              screenPath = "post";
+              screenPathId = uri.pathSegments[1];
+              redirect = true;
+            });
+          } else {
+            setState(() {
+              screenPath = "user";
+              screenPathId = uri.path.replaceAll('/', '');
+              redirect = true;
+            });
+          }
         }
       }
     }, onError: (err) {
-      // Handle exception by warning the user their action did not succeed
+      log(err);
     });
 
     // NOTE: Don't forget to call _sub.cancel() in dispose()
@@ -165,9 +118,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => initUniLinks());
     MixPanelSingleton.instance.initMixpanel();
     displayDialog();
-    initUniLinks();
   }
 
   Future<void> displayDialog() async {
@@ -183,7 +136,7 @@ class _MyAppState extends State<MyApp> {
           barrierDismissible: canCancel, // user must tap button!
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Update'),
+              title: const Text('Update'),
               content: SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
@@ -194,7 +147,7 @@ class _MyAppState extends State<MyApp> {
               ),
               actions: <Widget>[
                 TextButton(
-                    child: Text("Yes, for sure"),
+                    child: const Text("Yes, for sure"),
                     onPressed: () async {
                       if (!await launch(appStoreLink))
                         throw 'Could not launch $appStoreLink';
@@ -230,7 +183,9 @@ class _MyAppState extends State<MyApp> {
       } catch (err) {
         debugPrint("Err getVersionStatus");
       }
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   @override
@@ -240,7 +195,7 @@ class _MyAppState extends State<MyApp> {
         builder: (context, AsyncSnapshot snapshot) {
           // Show splash screen while waiting for app resources to load:
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return MaterialApp(
+            return const MaterialApp(
                 debugShowCheckedModeBanner: false, home: SplashScreen());
           } else {
             return ScreenUtilInit(
@@ -260,7 +215,11 @@ class _MyAppState extends State<MyApp> {
                       title: 'Tuale',
                       theme: ThemeData(primarySwatch: Palette.tualeSwatchLight),
                       home: (widget.isLoggedIn)
-                          ? NavBar(index: 0)
+                          ? NavBar(
+                              index: 0,
+                              deepLink: redirect,
+                              deepLinkId: screenPathId,
+                              deepLinkPath: screenPath)
                           : const Welcome());
                   // : const SignUp());
                 });

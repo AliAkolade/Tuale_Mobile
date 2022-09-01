@@ -47,262 +47,203 @@ class _OnePostState extends State<OnePost> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Material(
-          child: Obx(
-        () => post.isLoading.value
-            ? Center(
-                child:
-                    SpinKitFadingCircle(color: tualeOrange.withOpacity(0.75)),
-              )
-            : widget.mediaType != "image"
-                ? Container(
-                    color: Colors.black,
-                    child: Stack(
-                      children: [
-                        Icon(Icons.linked_camera_sharp),
-                        VideoPlayerScreen(
-                            videoUrl: widget.postMedia!,
-                            enablePlayBtn: true,
-                            cbController: (VideoPlayerController vc) {
-                              currentVideoPlayer = vc;
-                              debugPrint("-here vc-");
-                            }),
-                        // Back button
-                        Align(
-                          // heightFactor: 1.0,
-                          // widthFactor: 12.0,
-                          alignment: Alignment(0.9, -0.95),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: Container(
-                              height: 50,
-                              width: 50,
-                              color: Colors.white70,
-                              child: GestureDetector(
-                                onTap: () {
-                                  //Navigator.pop(context);
-                                  widget.pageType
-                                      ? Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Home()),
-                                        )
-                                      : Navigator.pop(
-                                          context,
-                                        );
-                                },
-                                child: Icon(
-                                  Icons.fullscreen_exit_rounded,
-                                  color: Colors.black,
-                                  size: 30,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        //Add this CustomPaint widget to the Widget Tre                                //Add this CustomPaint widget to the Widget Tree
-                        Align(
-                            widthFactor: 5,
-                            alignment: const Alignment(1.08, 0.6),
-                            child: Obx(
-                              () => _actionBar(
-                                mediaType: widget.mediaType,
-                                posts: Get.find<OnePostController>()
-                                    .postdetails
-                                    .value,
-                              ),
-                            )),
-                        Userinfo(context, widget.mediaType!)
-                      ],
-                    ),
-                  )
-                : Container(
-                    child: Stack(
-                      children: [
-                        Align(
-                          // heightFactor: 1.0,
-                          // widthFactor: 12.0,
-                          alignment: Alignment(0.9, -0.94),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: Container(
-                              height: 50,
-                              width: 50,
-                              color: Colors.white70,
-                              child: GestureDetector(
-                                onTap: () {
-                                  widget.pageType
-                                      ? Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Home()),
-                                        )
-                                      : Navigator.pop(
-                                          context,
-                                        );
-                                },
-                                child: Icon(
-                                  Icons.fullscreen_exit_rounded,
-                                  color: Colors.black,
-                                  size: 30,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        // widget to the Widget Tre                                //Add this CustomPaint widget to the Widget Tree
-                        Align(
-                            widthFactor: 5,
-                            alignment: const Alignment(1.08, 0.6),
-                            child: Obx(
-                              () => _actionBar(
-                                mediaType: widget.mediaType,
-                                posts: Get.find<OnePostController>()
-                                    .postdetails
-                                    .value,
-                              ),
-                            )),
-                        //user post info
-                        Userinfo(context, widget.mediaType!)
-                      ],
-                    ),
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
+        child: Material(
+            child: Obx(() => post.isLoading.value
+                ? Center(
+                    child: SpinKitFadingCircle(
+                        color: tualeOrange.withOpacity(0.75)))
+                : widget.mediaType != "image"
+                    ? Container(
                         color: Colors.black,
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                                post.postdetails.value.postMedia))),
-                  ),
-      )),
-    );
+                        child: Stack(children: [
+                          Icon(Icons.linked_camera_sharp),
+                          VideoPlayerScreen(
+                              videoUrl: widget.postMedia!,
+                              enablePlayBtn: true,
+                              cbController: (VideoPlayerController vc) {
+                                currentVideoPlayer = vc;
+                                debugPrint("-here vc-");
+                              }),
+                          // Back button
+                          Align(
+                              // heightFactor: 1.0,
+                              // widthFactor: 12.0,
+                              alignment: Alignment(0.9, -0.95),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Container(
+                                      height: 50,
+                                      width: 50,
+                                      color: Colors.white70,
+                                      child: GestureDetector(
+                                          onTap: () {
+                                            //Navigator.pop(context);
+                                            widget.pageType
+                                                ? Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const Home()))
+                                                : Navigator.pop(context);
+                                          },
+                                          child: Icon(
+                                              Icons.fullscreen_exit_rounded,
+                                              color: Colors.black,
+                                              size: 30))))),
+                          //Add this CustomPaint widget to the Widget Tre                                //Add this CustomPaint widget to the Widget Tree
+                          Align(
+                              widthFactor: 5,
+                              alignment: const Alignment(1.08, 0.6),
+                              child: Obx(() => _actionBar(
+                                  mediaType: widget.mediaType,
+                                  posts: Get.find<OnePostController>()
+                                      .postdetails
+                                      .value))),
+                          Userinfo(context, widget.mediaType!)
+                        ]))
+                    : Container(
+                        child: Stack(children: [
+                          Align(
+                              // heightFactor: 1.0,
+                              // widthFactor: 12.0,
+                              alignment: Alignment(0.9, -0.94),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Container(
+                                      height: 50,
+                                      width: 50,
+                                      color: Colors.white70,
+                                      child: GestureDetector(
+                                          onTap: () {
+                                            widget.pageType
+                                                ? Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const Home()))
+                                                : Navigator.pop(context);
+                                          },
+                                          child: Icon(
+                                              Icons.fullscreen_exit_rounded,
+                                              color: Colors.black,
+                                              size: 30))))),
+                          // widget to the Widget Tre                                //Add this CustomPaint widget to the Widget Tree
+                          Align(
+                              widthFactor: 5,
+                              alignment: const Alignment(1.08, 0.6),
+                              child: Obx(() => _actionBar(
+                                  mediaType: widget.mediaType,
+                                  posts: Get.find<OnePostController>()
+                                      .postdetails
+                                      .value))),
+                          //user post info
+                          Userinfo(context, widget.mediaType!)
+                        ]),
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.black,
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                    post.postdetails.value.postMedia)))))));
   }
 
   Column Userinfo(BuildContext context, String mediaType) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-            margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-            child: Column(
-              children: [
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+              margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+              child: Column(children: [
                 GestureDetector(
-                  onTap: () async {
-                    final res = await Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      currentVideoPlayer.pause();
-                      return userProfile(
-                        isUser: false,
-                        username: post.postdetails.value.username.toString(),
-                        //tag: "yourprofile",
-                      );
-                    }));
-                    if (res == 200) {
-                      currentVideoPlayer.play();
-                    }
+                    onTap: () async {
+                      final res = await Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        currentVideoPlayer.pause();
+                        return userProfile(
+                          isUser: false,
+                          username: post.postdetails.value.username.toString(),
+                          //tag: "yourprofile"
+                        );
+                      }));
+                      if (res == 200) {
+                        currentVideoPlayer.play();
+                      }
 
-                    // Navigator.push(context,
-                    //     MaterialPageRoute(builder: (context) {
-                    //   return userProfile(
-                    //     isUser: false,
-                    //     username: post.postdetails.value.username.toString(),
-                    //     //  tag: "yourprofile",
-                    //   );
-                    // }));
-                  },
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 50.h,
-                        width: 50.w,
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              post.postdetails.value.userProfilePic),
-                        ),
-                      ),
-                      const Spacer(
-                        flex: 1,
-                      ),
-                      Text(
-                        post.postdetails.value.username,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Poppins',
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                            height: 1),
-                      ),
-                      const Spacer(
-                        flex: 1,
-                      ),
-                      post.postdetails.value.isVerified
-                          ? Container(
-                              height: 17.h,
-                              width: 17.h,
-                              decoration: BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  Icons.check,
-                                  size: 12.sp,
+                      // Navigator.push(context,
+                      //     MaterialPageRoute(builder: (context) {
+                      //   return userProfile(
+                      //     isUser: false,
+                      //     username: post.postdetails.value.username.toString(),
+                      //     //  tag: "yourprofile",
+                      //   );
+                      // }));
+                    },
+                    child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                              height: 50.h,
+                              width: 50.w,
+                              child: CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                      post.postdetails.value.userProfilePic))),
+                          const Spacer(flex: 1),
+                          Text(post.postdetails.value.username,
+                              style: TextStyle(
                                   color: Colors.white,
-                                ),
-                              ),
-                            )
-                          : Container(),
-                      /*Text(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
+                                  height: 1)),
+                          const Spacer(flex: 1),
+                          post.postdetails.value.isVerified
+                              ? Container(
+                                  height: 17.h,
+                                  width: 17.h,
+                                  decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.circular(18)),
+                                  child: Center(
+                                      child: Icon(Icons.check,
+                                          size: 12.sp, color: Colors.white)))
+                              : Container(),
+                          /*Text(
                                           "1 day ago",
                                           style: TextStyle(
                                               color: Colors.white70,
                                               fontFamily: 'Poppins',
                                               fontSize: 12.sp,
-                                              height: 1),
-                                        ),*/
-                      const Spacer(
-                        flex: 15,
-                      ),
-                    ],
-                  ),
-                ),
+                                              height: 1)),*/
+                          const Spacer(flex: 15)
+                        ])),
                 SizedBox(height: 10),
                 Container(
                     // color: Colors.white70,
                     height: 55.h,
                     width: 950.w,
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          post.postdetails.value.postText,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: Colors.white70,
-                            // fontFamily: 'Poppins',
-                            fontSize: 15.sp,
-                            height: 1,
-                          ),
-                        ),
-                        Spacer(),
-                        /*Icon(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(post.postdetails.value.postText,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  color: Colors.white70,
+                                  // fontFamily: 'Poppins',
+                                  fontSize: 15.sp,
+                                  height: 1)),
+                          Spacer(),
+                          /*Icon(
                           Icons.volume_down_rounded,
                           size: 35.sp,
-                          color: Colors.white,
-                        )*/
-                      ],
-                    )),
-              ],
-            ))
-      ],
-    );
+                          color: Colors.white)*/
+                        ]))
+              ]))
+        ]);
   }
 }
 
@@ -360,13 +301,14 @@ class _actionBarState extends State<_actionBar> {
     }
   }
 
-  share() {
-    Share.share('Get Tuale!\nVisit https://www.tuale.app',
+  share(String postId) {
+    Share.share('Get Tuale!\nVisit https://tuale.app/post/$postId',
         subject: 'Install Tuale');
   }
 
-  copy() async {
-    await Clipboard.setData(const ClipboardData(text: "https://www.tuale.app"));
+  copy(String postId) async {
+    await Clipboard.setData(
+        ClipboardData(text: "https://tuale.app/post/$postId"));
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('Copied to clipboard')));
   }
@@ -396,7 +338,9 @@ class _actionBarState extends State<_actionBar> {
       // Navigator.pop(context);
 
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => NavBar(index: 1)),
+          MaterialPageRoute(
+              builder: (context) => NavBar(
+                  index: 1, deepLinkId: '', deepLinkPath: '', deepLink: false)),
           (Route<dynamic> route) => false);
       // pushNewScreen(context,
       //     screen: NavBar(index: 0),
@@ -452,7 +396,7 @@ class _actionBarState extends State<_actionBar> {
       menuItems = [
         // ItemModel('Follow', Icons.add),
         ItemModel('Share', Icons.send),
-        ItemModel('Copy Link', Icons.content_copy),
+        ItemModel('Copy Link', Icons.content_copy)
       ];
     }
     return menuItems;
@@ -461,359 +405,340 @@ class _actionBarState extends State<_actionBar> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 400.h,
-      width: 100.w,
-      // color: Colors.white,
-      child: CustomPaint(
-        size: Size(100, (100 * 3.536842105263158).toDouble()),
-        painter: CuratedLikeWidget(),
-        child: Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center,
+        height: 400.h,
+        width: 100.w,
+        // color: Colors.white,
+        child: CustomPaint(
+            size: Size(100, (100 * 3.536842105263158).toDouble()),
+            painter: CuratedLikeWidget(),
+            child: Center(
+                child: Column(mainAxisAlignment: MainAxisAlignment.center,
 
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  // decoration: const BoxDecoration(boxShadow:  [BoxShadow(color: Colors.grey, blurRadius: 50)]),
-                  margin: const EdgeInsets.only(top: 12, bottom: 12),
-                  child: Column(
+                    // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      AnimatedCrossFade(
-                        duration: const Duration(milliseconds: 20),
-                        crossFadeState: isTualed
-                            ? CrossFadeState.showSecond
-                            : CrossFadeState.showFirst,
-                        secondChild: GestureDetector(
-                          onTap: () async {
-                            // debugPrint("tuales : ${widget.post?.tuales}");
-                            // debugPrint("testme : $alreadyGiveTuale");
+                  Container(
+                      // decoration: const BoxDecoration(boxShadow:  [BoxShadow(color: Colors.grey, blurRadius: 50)]),
+                      margin: const EdgeInsets.only(top: 12, bottom: 12),
+                      child: Column(children: [
+                        AnimatedCrossFade(
+                            duration: const Duration(milliseconds: 20),
+                            crossFadeState: isTualed
+                                ? CrossFadeState.showSecond
+                                : CrossFadeState.showFirst,
+                            secondChild: GestureDetector(
+                                onTap: () async {
+                                  // debugPrint("tuales : ${widget.post?.tuales}");
+                                  // debugPrint("testme : $alreadyGiveTuale");
 
-                            if (widget.posts!.isTualed) {
-                              //"61e327db86dcaee74311fa14"
-                              debugPrint("User already give a tuale");
-                            } else {
-                              // var result = await Api()
-                              //     .addTuale(posts[index].id ?? " ");
-                              // if (result[0]) {
-                              //   control.getCuratedPosts();
-                              // } else {
-                              //   // TODO : display message
-                              //   debugPrint(result[1]);
-                              // }
-                            }
-                          },
-                          child: Icon(
-                            TualeIcons.tualeactive,
-                            color: Colors.yellow,
-                            size: 40.sp,
-                          ),
-                        ),
-                        firstChild: GestureDetector(
-                          onTap: () async {
-                            if (widget.posts!.isTualed) {
-                              //"61e327db86dcaee74311fa14"
-                              debugPrint("User already give a tuale");
-                            } else {
-                              if (Get.find<LoggedUserController>()
-                                      .loggedUser
-                                      .value
-                                      .noTuales! <
-                                  2) {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return Container(
-                                      height: 40.h,
-                                      width: 100.h,
-                                      child: AlertDialog(
-                                        // title: Text('Welcome'),
-                                        content: Text(
-                                            'Not enought Tuallet points \n to give this tuale'),
-                                        actions: [
-                                          GestureDetector(
-                                            onTap: () async {
-                                              widget.mediaType == 'video'
-                                                  ? currentVideoPlayer.pause()
-                                                  : print('hi');
-                                              final result =
-                                                  await Navigator.push(
-                                                      context,
-                                                      PageTransition(
-                                                          type:
-                                                              PageTransitionType
-                                                                  .fade,
-                                                          child:
-                                                              TualletHome()));
-                                              if (result == 200 &&
-                                                  widget.mediaType == 'video')
-                                                currentVideoPlayer.play();
-                                            },
-                                            child: Container(
-                                                height: 30,
-                                                width: double.infinity,
-                                                child: Center(
-                                                  child: Text(
-                                                      'Buy more Tuallet points',
-                                                      style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.white,
-                                                      )),
-                                                ),
-                                                decoration: BoxDecoration(
-                                                    color: tualeBlueDark,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            9))),
-                                          ),
-                                          // FlatButton(
-                                          //   textColor: Colors.black,
-                                          //   onPressed: () async {
-                                          //     final result =
-                                          //         await Navigator.push(
-                                          //             context,
-                                          //             PageTransition(
-                                          //                 type:
-                                          //                     PageTransitionType
-                                          //                         .fade,
-                                          //                 child:
-                                          //                     TualletHome()));
-                                          //   },
-                                          //   child: Text('ACCEPT'),
-                                          // ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
-                              } else {
-                                setState(() {
-                                  isTualed = true;
-                                  noTuales = noTuales + 1;
-                                });
-                                var result =
-                                    await Api().addTuale(widget.posts!.id);
-                                if (result[0]) {
-                                  Get.find<OnePostController>()
-                                      .getOnePost(widget.posts!.id);
-                                  Future<SharedPreferences> _prefs =
-                                      SharedPreferences.getInstance();
-                                  final SharedPreferences prefs = await _prefs;
-                                  MixPanelSingleton.instance.mixpanel
-                                      .track("GiveTuale", properties: {
-                                    'User': prefs.getString('username') ?? ''
-                                  });
-                                  MixPanelSingleton.instance.mixpanel.flush();
-                                } else {
-                                  setState(() {
-                                    isTualed = false;
-                                    noTuales = noTuales - 1;
-                                  });
-                                  debugPrint(result[1]);
-                                  Get.find<OnePostController>()
-                                      .getOnePost(widget.posts!.id);
-                                }
-                              }
-                            }
-                          },
-                          child: Icon(
-                            TualeIcons.tuale,
-                            color: Colors.white,
-                            size: 43.sp,
-                          ),
-                        ),
-                      ),
-                      Text(noTuales.toString(),
-                          style: const TextStyle(color: Colors.white))
-                    ],
-                  ),
-                ),
-                Container(
-                  decoration: const BoxDecoration(boxShadow: [
-                    BoxShadow(color: Colors.grey, blurRadius: 40)
-                  ]),
-                  margin: const EdgeInsets.only(top: 8, bottom: 12),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      AnimatedCrossFade(
-                        duration: const Duration(milliseconds: 20),
-                        crossFadeState: isStarred
-                            ? CrossFadeState.showSecond
-                            : CrossFadeState.showFirst,
-                        secondChild: GestureDetector(
-                          onTap: () async {
-                            //when button is white on tap should make it yellow, isStarred ==true
-                            if (isStarred) {
-                              setState(() {
-                                isStarred = false;
-                                noStars = noStars - 1;
-                              });
-                              //checks if api response is ok to keep or discard local variable
-                              var result =
-                                  await Api().unStartPost(widget.posts!.id);
-                              if (result[0] == true) {
-                                debugPrint(result[1]);
-                                Get.find<OnePostController>()
-                                    .getOnePost(widget.posts!.id);
-                              } else {
-                                setState(() {
-                                  isStarred = true;
-                                  noStars = noStars + 1;
-                                  print('post got restarredddd whyyy');
-                                });
-                                debugPrint(result[1]);
+                                  if (widget.posts!.isTualed) {
+                                    //"61e327db86dcaee74311fa14"
+                                    debugPrint("User already give a tuale");
+                                  } else {
+                                    // var result = await Api()
+                                    //     .addTuale(posts[index].id ?? " ");
+                                    // if (result[0]) {
+                                    //   control.getCuratedPosts();
+                                    // } else {
+                                    //   // TODO : display message
+                                    //   debugPrint(result[1]);
+                                    // }
+                                  }
+                                },
+                                child: Icon(TualeIcons.tualeactive,
+                                    color: Colors.yellow, size: 40.sp)),
+                            firstChild: GestureDetector(
+                                onTap: () async {
+                                  if (widget.posts!.isTualed) {
+                                    //"61e327db86dcaee74311fa14"
+                                    debugPrint("User already give a tuale");
+                                  } else {
+                                    if (Get.find<LoggedUserController>()
+                                            .loggedUser
+                                            .value
+                                            .noTuales! <
+                                        2) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return Container(
+                                                height: 40.h,
+                                                width: 100.h,
+                                                child: AlertDialog(
+                                                    // title: Text('Welcome'),
+                                                    content: Text(
+                                                        'Not enought Tuallet points \n to give this tuale'),
+                                                    actions: [
+                                                      GestureDetector(
+                                                          onTap: () async {
+                                                            widget.mediaType ==
+                                                                    'video'
+                                                                ? currentVideoPlayer
+                                                                    .pause()
+                                                                : print('hi');
+                                                            final result = await Navigator.push(
+                                                                context,
+                                                                PageTransition(
+                                                                    type: PageTransitionType
+                                                                        .fade,
+                                                                    child:
+                                                                        TualletHome()));
+                                                            if (result == 200 &&
+                                                                widget.mediaType ==
+                                                                    'video')
+                                                              currentVideoPlayer
+                                                                  .play();
+                                                          },
+                                                          child: Container(
+                                                              height: 30,
+                                                              width: double
+                                                                  .infinity,
+                                                              child: Center(
+                                                                  child: Text(
+                                                                      'Buy more Tuallet points',
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color: Colors
+                                                                              .white))),
+                                                              decoration: BoxDecoration(
+                                                                  color:
+                                                                      tualeBlueDark,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              9)))),
+                                                      // FlatButton(
+                                                      //   textColor: Colors.black,
+                                                      //   onPressed: () async {
+                                                      //     final result =
+                                                      //         await Navigator.push(
+                                                      //             context,
+                                                      //             PageTransition(
+                                                      //                 type:
+                                                      //                     PageTransitionType
+                                                      //                         .fade,
+                                                      //                 child:
+                                                      //                     TualletHome()));
+                                                      //   },
+                                                      //   child: Text('ACCEPT'),
+                                                      // )
+                                                    ]));
+                                          });
+                                    } else {
+                                      setState(() {
+                                        isTualed = true;
+                                        noTuales = noTuales + 1;
+                                      });
+                                      var result = await Api()
+                                          .addTuale(widget.posts!.id);
+                                      if (result[0]) {
+                                        Get.find<OnePostController>()
+                                            .getOnePost(widget.posts!.id);
+                                        Future<SharedPreferences> _prefs =
+                                            SharedPreferences.getInstance();
+                                        final SharedPreferences prefs =
+                                            await _prefs;
+                                        MixPanelSingleton.instance.mixpanel
+                                            .track("GiveTuale", properties: {
+                                          'User':
+                                              prefs.getString('username') ?? ''
+                                        });
+                                        MixPanelSingleton.instance.mixpanel
+                                            .flush();
+                                      } else {
+                                        setState(() {
+                                          isTualed = false;
+                                          noTuales = noTuales - 1;
+                                        });
+                                        debugPrint(result[1]);
+                                        Get.find<OnePostController>()
+                                            .getOnePost(widget.posts!.id);
+                                      }
+                                    }
+                                  }
+                                },
+                                child: Icon(TualeIcons.tuale,
+                                    color: Colors.white, size: 43.sp))),
+                        Text(noTuales.toString(),
+                            style: const TextStyle(color: Colors.white))
+                      ])),
+                  Container(
+                      decoration: const BoxDecoration(boxShadow: [
+                        BoxShadow(color: Colors.grey, blurRadius: 40)
+                      ]),
+                      margin: const EdgeInsets.only(top: 8, bottom: 12),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            AnimatedCrossFade(
+                                duration: const Duration(milliseconds: 20),
+                                crossFadeState: isStarred
+                                    ? CrossFadeState.showSecond
+                                    : CrossFadeState.showFirst,
+                                secondChild: GestureDetector(
+                                    onTap: () async {
+                                      //when button is white on tap should make it yellow, isStarred ==true
+                                      if (isStarred) {
+                                        setState(() {
+                                          isStarred = false;
+                                          noStars = noStars - 1;
+                                        });
+                                        //checks if api response is ok to keep or discard local variable
+                                        var result = await Api()
+                                            .unStartPost(widget.posts!.id);
+                                        if (result[0] == true) {
+                                          debugPrint(result[1]);
+                                          Get.find<OnePostController>()
+                                              .getOnePost(widget.posts!.id);
+                                        } else {
+                                          setState(() {
+                                            isStarred = true;
+                                            noStars = noStars + 1;
+                                            print(
+                                                'post got restarredddd whyyy');
+                                          });
+                                          debugPrint(result[1]);
 
-                                Get.find<OnePostController>()
-                                    .getOnePost(widget.posts!.id);
+                                          Get.find<OnePostController>()
+                                              .getOnePost(widget.posts!.id);
 
-                                ;
-                              }
-                            } else {
-                              debugPrint("User already unstar a post");
-                            }
-                          },
-                          child: Icon(
-                            TualeIcons.star,
-                            color: tualeOrange,
-                            size: 33.sp,
-                          ),
-                        ),
-                        firstChild: GestureDetector(
-                          onTap: () async {
-                            if (isStarred) {
-                              debugPrint("User already star a post");
-                            } else {
-                              setState(() {
-                                print("meant to set state");
-                                isStarred = true;
-                                noStars = noStars + 1;
-                              });
-                              var result =
-                                  await Api().startPost(widget.posts!.id);
-                              if (result[0] == true) {
-                                Get.find<OnePostController>()
-                                    .getOnePost(widget.posts!.id);
-                              } else {
-                                setState(() {
-                                  isStarred = false;
-                                  noStars = noStars - 1;
-                                });
-                                debugPrint(result[1]);
-                                Get.find<OnePostController>()
-                                    .getOnePost(widget.posts!.id);
-                                debugPrint('herrre${result[1]}');
-                              }
-                            }
-                          },
-                          child: Icon(
-                            TualeIcons.star,
-                            color: Colors.white,
-                            size: 37.sp,
-                          ),
-                        ),
-                      ),
-                      Text(noStars.toString(),
-                          style: const TextStyle(color: Colors.white))
-                    ],
-                  ),
-                ),
-                _commentsectionModal(
-                  context,
-                ),
-                CustomPopupMenu(
-                    arrowColor: const Color.fromRGBO(250, 250, 250, 1),
-                    menuBuilder: () => ClipRRect(
+                                          ;
+                                        }
+                                      } else {
+                                        debugPrint(
+                                            "User already unstar a post");
+                                      }
+                                    },
+                                    child: Icon(TualeIcons.star,
+                                        color: tualeOrange, size: 33.sp)),
+                                firstChild: GestureDetector(
+                                    onTap: () async {
+                                      if (isStarred) {
+                                        debugPrint("User already star a post");
+                                      } else {
+                                        setState(() {
+                                          print("meant to set state");
+                                          isStarred = true;
+                                          noStars = noStars + 1;
+                                        });
+                                        var result = await Api()
+                                            .startPost(widget.posts!.id);
+                                        if (result[0] == true) {
+                                          Get.find<OnePostController>()
+                                              .getOnePost(widget.posts!.id);
+                                        } else {
+                                          setState(() {
+                                            isStarred = false;
+                                            noStars = noStars - 1;
+                                          });
+                                          debugPrint(result[1]);
+                                          Get.find<OnePostController>()
+                                              .getOnePost(widget.posts!.id);
+                                          debugPrint('herrre${result[1]}');
+                                        }
+                                      }
+                                    },
+                                    child: Icon(TualeIcons.star,
+                                        color: Colors.white, size: 37.sp))),
+                            Text(noStars.toString(),
+                                style: const TextStyle(color: Colors.white))
+                          ])),
+                  _commentsectionModal(context),
+                  CustomPopupMenu(
+                      arrowColor: const Color.fromRGBO(250, 250, 250, 1),
+                      menuBuilder: () => ClipRRect(
                           borderRadius: BorderRadius.circular(5),
                           child: Container(
-                            color: const Color.fromRGBO(250, 250, 250, 1),
-                            child: IntrinsicWidth(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: checkUserPost(
-                                        context, widget.posts!.userId)
-                                    .map(
-                                      (item) => GestureDetector(
-                                        behavior: HitTestBehavior.translucent,
-                                        onTap: () {
-                                          switch (item.title) {
-                                            case "Follow":
-                                              {
-                                                var id = widget.posts!.userId;
-                                                follow(id, context);
-                                              }
-                                              break;
+                              color: const Color.fromRGBO(250, 250, 250, 1),
+                              child: IntrinsicWidth(
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: checkUserPost(
+                                              context, widget.posts!.userId)
+                                          .map((item) => GestureDetector(
+                                              behavior:
+                                                  HitTestBehavior.translucent,
+                                              onTap: () {
+                                                switch (item.title) {
+                                                  case "Follow":
+                                                    {
+                                                      var id =
+                                                          widget.posts!.userId;
+                                                      follow(id, context);
+                                                    }
+                                                    break;
 
-                                            case "Share":
-                                              {
-                                                share();
-                                              }
-                                              break;
-                                            case "Copy Link":
-                                              {
-                                                copy();
-                                              }
-                                              break;
-                                            case "Delete":
-                                              {
-                                                var id = widget.posts!.id;
-                                                delete(id, context);
-                                              }
-                                              break;
-                                          }
-                                          setState(() {
-                                            _controller.hideMenu();
-                                          });
-                                        },
-                                        child: Container(
-                                          height: 40,
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Icon(
-                                                item.icon,
-                                                size: 15,
-                                                color: Color.fromRGBO(
-                                                    76, 76, 76, 1),
-                                              ),
-                                              Expanded(
-                                                child: Container(
-                                                  margin: const EdgeInsets.only(
-                                                      left: 10),
+                                                  case "Share":
+                                                    {
+                                                      var id = widget.posts!.id;
+                                                      share(id);
+                                                    }
+                                                    break;
+                                                  case "Copy Link":
+                                                    {
+                                                      var id = widget.posts!.id;
+                                                      copy(id);
+                                                    }
+                                                    break;
+                                                  case "Delete":
+                                                    {
+                                                      var id = widget.posts!.id;
+                                                      delete(id, context);
+                                                    }
+                                                    break;
+                                                }
+                                                setState(() {
+                                                  _controller.hideMenu();
+                                                });
+                                              },
+                                              child: Container(
+                                                  height: 40,
                                                   padding: const EdgeInsets
-                                                      .symmetric(vertical: 10),
-                                                  child: Text(
-                                                    item.title,
-                                                    style: const TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          76, 76, 76, 1),
-                                                      fontSize: 12,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                            ),
-                          ),
-                        ),
-                    pressType: PressType.singleClick,
-                    verticalMargin: -10,
-                    controller: _controller,
-                    child: Container(
-                        decoration: const BoxDecoration(boxShadow: [
-                          BoxShadow(color: Colors.grey, blurRadius: 25)
-                        ]),
-                        margin: const EdgeInsets.only(
-                            top: 0, bottom: 12, right: 13),
-                        child: Icon(TualeIcons.elipsis,
-                            color: Colors.white, size: 25.sp))),
-                /*Container(
+                                                          .symmetric(
+                                                      horizontal: 20),
+                                                  child: Row(children: <Widget>[
+                                                    Icon(item.icon,
+                                                        size: 15,
+                                                        color: Color.fromRGBO(
+                                                            76, 76, 76, 1)),
+                                                    Expanded(
+                                                        child: Container(
+                                                            margin:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 10),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        10),
+                                                            child: Text(
+                                                                item.title,
+                                                                style: const TextStyle(
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            76,
+                                                                            76,
+                                                                            76,
+                                                                            1),
+                                                                    fontSize:
+                                                                        12))))
+                                                  ]))))
+                                          .toList())))),
+                      pressType: PressType.singleClick,
+                      verticalMargin: -10,
+                      controller: _controller,
+                      child: Container(
+                          decoration: const BoxDecoration(boxShadow: [
+                            BoxShadow(color: Colors.grey, blurRadius: 25)
+                          ]),
+                          margin: const EdgeInsets.only(
+                              top: 0, bottom: 12, right: 13),
+                          child: Icon(TualeIcons.elipsis,
+                              color: Colors.white, size: 25.sp))),
+                  /*Container(
                   decoration: const BoxDecoration(boxShadow: [
                     BoxShadow(color: Colors.grey, blurRadius: 25)
                   ]),
@@ -826,70 +751,47 @@ class _actionBarState extends State<_actionBar> {
                     child: Icon(
                       TualeIcons.elipsis,
                       color: Colors.white,
-                      size: 25.sp,
-                    ),
-                  ),
-                )*/
-              ]),
-        ),
-      ),
-    );
+                      size: 25.sp)))*/
+                ]))));
   }
 }
 
-Widget _commentsectionModal(
-  BuildContext context,
-) {
+Widget _commentsectionModal(BuildContext context) {
   return GestureDetector(
-    onTap: () {
-      showModalBottomSheet(
-          shape: const RoundedRectangleBorder(
-              side: BorderSide(),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15), topRight: Radius.circular(15))),
-          useRootNavigator: true,
-          isScrollControlled: true,
-          enableDrag: true,
-          context: context,
-          builder: (_) => Obx(
-                () => _commentModal(
-                  posts: Get.find<OnePostController>().postdetails.value,
-                ),
-              ));
-    },
-    child: Container(
-      decoration: const BoxDecoration(
-          boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 25)]),
-      margin: const EdgeInsets.only(top: 10, bottom: 10),
-      child: Column(
-        children: [
-          Icon(
-            TualeIcons.comment,
-            color: Colors.white,
-            size: 29.sp,
-          ),
-          Obx(
-            () => Text(
-              Get.find<OnePostController>()
-                  .postdetails
-                  .value
-                  .noComment
-                  .toString(),
-              style: TextStyle(color: Colors.white),
-            ),
-          )
-        ],
-      ),
-    ),
-  );
+      onTap: () {
+        showModalBottomSheet(
+            shape: const RoundedRectangleBorder(
+                side: BorderSide(),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15))),
+            useRootNavigator: true,
+            isScrollControlled: true,
+            enableDrag: true,
+            context: context,
+            builder: (_) => Obx(() => _commentModal(
+                posts: Get.find<OnePostController>().postdetails.value)));
+      },
+      child: Container(
+          decoration: const BoxDecoration(
+              boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 25)]),
+          margin: const EdgeInsets.only(top: 10, bottom: 10),
+          child: Column(children: [
+            Icon(TualeIcons.comment, color: Colors.white, size: 29.sp),
+            Obx(() => Text(
+                Get.find<OnePostController>()
+                    .postdetails
+                    .value
+                    .noComment
+                    .toString(),
+                style: TextStyle(color: Colors.white)))
+          ])));
 }
 
 class _commentModal extends StatefulWidget {
   PostDetails? posts;
 
-  _commentModal({
-    this.posts,
-  });
+  _commentModal({this.posts});
 
   @override
   State<_commentModal> createState() => _commentModalState();
@@ -916,172 +818,151 @@ class _commentModalState extends State<_commentModal> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.55,
-        padding: EdgeInsets.only(
-          left: 15,
-          right: 15,
-          top: 15,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text("Comments"),
-            SizedBox(
-              height: 370.h,
-              child: widget.posts!.comment!.isEmpty
-                  ? Center(child: Text('no comment'))
-                  : ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: widget.posts!.comment!.length,
-                      itemBuilder: (BuildContext context, int commentIndex) {
-                        return Container(
-                          //  color: Colors.blue,
-                          margin: EdgeInsetsDirectional.only(top: 5),
-                          // color: Colors.black,
-                          height: 70.h,
-                          width: ScreenUtil().screenWidth,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 35.h,
-                                width: 35.h,
-                                child: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      widget.posts!.comment![commentIndex]
-                                          ['user']['avatar']['url']),
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    widget.posts!.comment![commentIndex]['user']
-                                        ['username'],
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: 'Poppins',
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  FittedBox(
-                                    child: SizedBox(
-                                      height: 50.h,
-                                      width: 250.w,
-                                      child: Text(
-                                        widget.posts!.comment![commentIndex]
-                                            ['text'],
-                                        maxLines: 6,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 15.sp),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-            ),
-            Container(
-              height: 80,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    height: 45.h,
-                    width: 45.h,
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          Get.find<LoggedUserController>()
-                              .loggedUser
-                              .value
-                              .currentuserAvatarUrl!),
-                    ),
-                  ),
-                  SizedBox(
-                      width: 280.w,
-                      height: 50.h,
-                      child: TextField(
-                        focusNode: _focusNode,
-                        controller: myController,
-                        maxLines: 7,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.grey.shade50,
-                          contentPadding: const EdgeInsets.fromLTRB(5, 5, 5, 2),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                style: BorderStyle.solid,
-                                color: Colors.grey.shade300),
-                            borderRadius: BorderRadius.circular(7),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                style: BorderStyle.solid, color: Colors.grey),
-                            borderRadius: BorderRadius.circular(7),
-                          ),
-                        ),
-                      )),
-                  GestureDetector(
-                    onTap: () async {
-                      Loader.show(context,
-                          isSafeAreaOverlay: false,
-                          isAppbarOverlay: true,
-                          isBottomBarOverlay: false,
-                          progressIndicator: SpinKitFadingCircle(
-                              color: tualeOrange.withOpacity(0.75)),
-                          themeData: Theme.of(context)
-                              .copyWith(accentColor: Colors.black38),
-                          overlayColor: const Color(0x99E8EAF6));
-                      _focusNode.unfocus();
-                      String comment = myController.text;
-                      myController.clear();
-                      List result =
-                          await Api().commentOnAPost(widget.posts!.id, comment);
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Container(
+            height: MediaQuery.of(context).size.height * 0.55,
+            padding: EdgeInsets.only(left: 15, right: 15, top: 15),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Text("Comments"),
+              SizedBox(
+                  height: 370.h,
+                  child: widget.posts!.comment!.isEmpty
+                      ? Center(child: Text('no comment'))
+                      : ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: widget.posts!.comment!.length,
+                          itemBuilder:
+                              (BuildContext context, int commentIndex) {
+                            return Container(
+                                //  color: Colors.blue,
+                                margin: EdgeInsetsDirectional.only(top: 5),
+                                // color: Colors.black,
+                                height: 70.h,
+                                width: ScreenUtil().screenWidth,
+                                child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                          height: 35.h,
+                                          width: 35.h,
+                                          child: CircleAvatar(
+                                              backgroundImage: NetworkImage(
+                                                  widget.posts!.comment![
+                                                          commentIndex]['user']
+                                                      ['avatar']['url']))),
+                                      SizedBox(width: 10),
+                                      Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                widget.posts!
+                                                        .comment![commentIndex]
+                                                    ['user']['username'],
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily: 'Poppins',
+                                                    fontSize: 13.sp,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            FittedBox(
+                                                child: SizedBox(
+                                                    height: 50.h,
+                                                    width: 250.w,
+                                                    child: Text(
+                                                        widget.posts!.comment![
+                                                                commentIndex]
+                                                            ['text'],
+                                                        maxLines: 6,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                            fontSize: 15.sp))))
+                                          ])
+                                    ]));
+                          })),
+              Container(
+                  height: 80,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                            height: 45.h,
+                            width: 45.h,
+                            child: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    Get.find<LoggedUserController>()
+                                        .loggedUser
+                                        .value
+                                        .currentuserAvatarUrl!))),
+                        SizedBox(
+                            width: 280.w,
+                            height: 50.h,
+                            child: TextField(
+                                focusNode: _focusNode,
+                                controller: myController,
+                                maxLines: 7,
+                                decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.grey.shade50,
+                                    contentPadding:
+                                        const EdgeInsets.fromLTRB(5, 5, 5, 2),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            style: BorderStyle.solid,
+                                            color: Colors.grey.shade300),
+                                        borderRadius: BorderRadius.circular(7)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            style: BorderStyle.solid,
+                                            color: Colors.grey),
+                                        borderRadius:
+                                            BorderRadius.circular(7))))),
+                        GestureDetector(
+                            onTap: () async {
+                              Loader.show(context,
+                                  isSafeAreaOverlay: false,
+                                  isAppbarOverlay: true,
+                                  isBottomBarOverlay: false,
+                                  progressIndicator: SpinKitFadingCircle(
+                                      color: tualeOrange.withOpacity(0.75)),
+                                  themeData: Theme.of(context)
+                                      .copyWith(accentColor: Colors.black38),
+                                  overlayColor: const Color(0x99E8EAF6));
+                              _focusNode.unfocus();
+                              String comment = myController.text;
+                              myController.clear();
+                              List result = await Api()
+                                  .commentOnAPost(widget.posts!.id, comment);
 
-                      if (result[0]) {
-                        Loader.hide();
-                        Get.find<OnePostController>()
-                            .getOnePost(widget.posts!.id);
-                      } else {
-                        Loader.hide();
-                        Get.snackbar("Error", result[1],
-                            duration: Duration(seconds: 4),
-                            isDismissible: true,
-                            snackPosition: SnackPosition.BOTTOM,
-                            colorText: Colors.black,
-                            backgroundColor: Colors.white);
-                      }
-                    },
-                    child: SizedBox(
-                      height: 43.h,
-                      width: 43.h,
-                      child: CircleAvatar(
-                          backgroundColor: tualeBlueDark,
-                          child: Transform.rotate(
-                            angle: -pi / 7,
-                            child: const Icon(
-                              Icons.send,
-                              color: Colors.white,
-                            ),
-                          )),
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+                              if (result[0]) {
+                                Loader.hide();
+                                Get.find<OnePostController>()
+                                    .getOnePost(widget.posts!.id);
+                              } else {
+                                Loader.hide();
+                                Get.snackbar("Error", result[1],
+                                    duration: Duration(seconds: 4),
+                                    isDismissible: true,
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    colorText: Colors.black,
+                                    backgroundColor: Colors.white);
+                              }
+                            },
+                            child: SizedBox(
+                                height: 43.h,
+                                width: 43.h,
+                                child: CircleAvatar(
+                                    backgroundColor: tualeBlueDark,
+                                    child: Transform.rotate(
+                                        angle: -pi / 7,
+                                        child: const Icon(Icons.send,
+                                            color: Colors.white)))))
+                      ]))
+            ])));
   }
 }
 

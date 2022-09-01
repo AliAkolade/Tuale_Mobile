@@ -12,9 +12,9 @@ class PostTimeline extends StatefulWidget {
 
   PostTimeline(
       {Key? key,
-        required this.fileContent,
-        required this.filePath,
-        required this.mediaType})
+      required this.fileContent,
+      required this.filePath,
+      required this.mediaType})
       : super(key: key);
 
   @override
@@ -26,8 +26,7 @@ class _PostTimelineState extends State<PostTimeline> {
   late TextEditingController description;
   MediaInfo? mediainfo;
   bool playVideo = false;
-  final cloudinary =
-  CloudinaryPublic(cloudName, uploadPreset, cache: false);
+  final cloudinary = CloudinaryPublic(cloudName, uploadPreset, cache: false);
   double uploadingPercentage = 0;
 
   @override
@@ -51,7 +50,10 @@ class _PostTimelineState extends State<PostTimeline> {
     ProgressDialog pd = ProgressDialog(context: context);
 
     try {
-      pd.show(max: 100, msg: 'Loading ...',);
+      pd.show(
+        max: 100,
+        msg: 'Loading ...',
+      );
       pd.update(value: 0);
       if (widget.mediaType != 'image') {
         mediainfo = await VideoCompress.compressVideo(widget.filePath,
@@ -61,19 +63,19 @@ class _PostTimelineState extends State<PostTimeline> {
       CloudinaryResponse response = await cloudinary.uploadFile(
           widget.mediaType == "image"
               ? CloudinaryFile.fromFile(widget.filePath,
-              folder: "Tuale posts",
-              resourceType: CloudinaryResourceType.Image)
+                  folder: "Tuale posts",
+                  resourceType: CloudinaryResourceType.Image)
               : CloudinaryFile.fromFile(mediainfo!.path!,
-              folder: "Tuale posts",
-              resourceType: CloudinaryResourceType.Video),
+                  folder: "Tuale posts",
+                  resourceType: CloudinaryResourceType.Video),
           onProgress: (count, total) {
-            setState(() {
-              uploadingPercentage = (count / total) * 100;
-              pd.update(value: uploadingPercentage.toInt());
-              debugPrint("uploadingPercentage : $uploadingPercentage");
-            });
-            // TODO : try  to display loader percentage
-          });
+        setState(() {
+          uploadingPercentage = (count / total) * 100;
+          pd.update(value: uploadingPercentage.toInt());
+          debugPrint("uploadingPercentage : $uploadingPercentage");
+        });
+        // TODO : try  to display loader percentage
+      });
 
       debugPrint("Cloudres : " + response.toString());
 
@@ -95,14 +97,15 @@ class _PostTimelineState extends State<PostTimeline> {
               context,
               MaterialPageRoute(
                   builder: (context) => NavBar(
-                    index: 0,
-                    initIndex: 0,
-                  )),
+                      index: 0,
+                      initIndex: 0,
+                      deepLinkPath: '',
+                      deepLinkId: '',
+                      deepLink: false)),
             );
           });
           //Navigator.pop(context);
-        }
-        else {
+        } else {
           debugPrint("Err : " + result[1]);
           var deletePic = await Api().deletePostCl(publicId);
           debugPrint("deletePic : $deletePic");
@@ -149,9 +152,11 @@ class _PostTimelineState extends State<PostTimeline> {
               context,
               MaterialPageRoute(
                   builder: (context) => NavBar(
-                    index: 0,
-                    initIndex: 1,
-                  )),
+                      index: 0,
+                      initIndex: 1,
+                      deepLinkPath: '',
+                      deepLinkId: '',
+                      deepLink: false)),
             );
           },
           child: const Icon(
@@ -191,49 +196,49 @@ class _PostTimelineState extends State<PostTimeline> {
                       bottom: BorderSide(color: Colors.grey.withOpacity(0.9)))),
               child: widget.mediaType == "image"
                   ? SizedBox(
-                height: double.infinity,
-                width: double.infinity,
-                child: widget.filePath != ""
-                    ? Image.file(widget.fileContent)
-                    : const Image(
-                    fit: BoxFit.cover,
-                    image: AssetImage("assets/images/demoPost.png")),
-              )
+                      height: double.infinity,
+                      width: double.infinity,
+                      child: widget.filePath != ""
+                          ? Image.file(widget.fileContent)
+                          : const Image(
+                              fit: BoxFit.cover,
+                              image: AssetImage("assets/images/demoPost.png")),
+                    )
                   : Stack(
-                children: [
-                  SizedBox(
-                    height: double.infinity,
-                    width: double.infinity,
-                    child: GestureDetector(
-                      child: VideoPlayer(videoController),
-                      onTap: () {
-                        if (playVideo == false) {
-                          videoController.play();
-                        } else {
-                          videoController.pause();
-                        }
-                        if (mounted) {
-                          setState(() {
-                            playVideo = !playVideo;
-                          });
-                        }
-                      },
-                    ),
-                  ),
-                  if (widget.mediaType != "image")
-                    Visibility(
-                      visible: !playVideo,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.play_circle_outline,
-                          size: 30,
-                          color: Colors.white,
+                      children: [
+                        SizedBox(
+                          height: double.infinity,
+                          width: double.infinity,
+                          child: GestureDetector(
+                            child: VideoPlayer(videoController),
+                            onTap: () {
+                              if (playVideo == false) {
+                                videoController.play();
+                              } else {
+                                videoController.pause();
+                              }
+                              if (mounted) {
+                                setState(() {
+                                  playVideo = !playVideo;
+                                });
+                              }
+                            },
+                          ),
                         ),
-                      ),
+                        if (widget.mediaType != "image")
+                          Visibility(
+                            visible: !playVideo,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Icon(
+                                Icons.play_circle_outline,
+                                size: 30,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
-                ],
-              ),
             ),
             Container(
               margin: const EdgeInsets.only(left: 15, right: 15),
@@ -306,16 +311,18 @@ class _PostTimelineState extends State<PostTimeline> {
             Container(
               margin: const EdgeInsets.only(left: 15, right: 15),
               width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.only(top: 10,bottom: 10,left: 5, right: 5),
+              padding:
+                  const EdgeInsets.only(top: 10, bottom: 10, left: 5, right: 5),
               decoration: BoxDecoration(
                   border: Border(
-                    top: BorderSide(color: Colors.grey),
-                    bottom: BorderSide(color: Colors.grey),
-                  )
-              ),
+                top: BorderSide(color: Colors.grey),
+                bottom: BorderSide(color: Colors.grey),
+              )),
               child: Text(
                 "Dear User, We can only support portrait photos with an aspect ratio of 2:3 fro now. We are working hard to fix this. We appreciate your understanding.",
-                style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),),
+                style:
+                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+              ),
             ),
 
             /*Container(
@@ -364,4 +371,3 @@ class _PostTimelineState extends State<PostTimeline> {
     );
   }
 }
-
