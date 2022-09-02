@@ -109,17 +109,9 @@ class _starredPostsState extends State<starredPosts> {
                                                   .starredPosts![index]
                                                   .mediaType !=
                                               'image'
-                                          ? Container(
-                                            color: Colors.black,
-                                              height: 100.h,
-                                              width: 100.h,
-                                              child: Center(
-                                                child: Icon(
-                                                    Icons.play_arrow_outlined,
-                                                    color: Colors.white,
-                                                    ),
-                                              ),
-                                            )
+                                         ? VideoThumbnailWidget(
+                                        controller: text.profileInfo.value.starredPosts![index].url,
+                                      )
                                           : Container(
                                       child:  Container(
                                               height: 100.h,

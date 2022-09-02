@@ -807,14 +807,14 @@ class _ReportWidgetState extends State<ReportWidget> {
                                       ? 'Are you sure you want to unblock this account'
                                       : 'Are you sure you want to block this user'),
                                   actions: [
-                                    FlatButton(
-                                        textColor: Colors.black,
+                                    TextButton(
+                                      
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
-                                        child: const Text('NO')),
-                                    FlatButton(
-                                        textColor: Colors.black,
+                                        child: const Text('NO', style: TextStyle(color: Colors.black))),
+                                    TextButton(
+                                       
                                         onPressed: () async {
                                           Loader.show(context,
                                               isSafeAreaOverlay: false,
@@ -847,7 +847,7 @@ class _ReportWidgetState extends State<ReportWidget> {
                                             Navigator.pop(context);
                                           } else {}
                                         },
-                                        child: const Text('YES'))
+                                        child: const Text('YES',style: TextStyle(color: Colors.black)))
                                   ]);
                             });
                       },

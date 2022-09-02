@@ -1,8 +1,6 @@
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:mobile/screens/Home/one_post_page.dart';
 import 'package:mobile/screens/Profile/controllers/userPostsController.dart';
 import 'package:mobile/screens/imports.dart';
@@ -75,6 +73,7 @@ class _AllPostsState extends State<AllPosts> {
                           delegate: SliverChildBuilderDelegate(
                             (BuildContext context, int index) {
                               if (text.posts[index].mediaType != 'image') {}
+
                               return GestureDetector(
                                 onTap: () {
                                   Navigator.push(
@@ -92,8 +91,8 @@ class _AllPostsState extends State<AllPosts> {
                                 },
                                 child: text.posts[index].mediaType != 'image'
                                     ? VideoThumbnailWidget(
-                                      controller: text.posts[index].postMedia,
-                                    )
+                                        controller: text.posts[index].postMedia,
+                                      )
                                     : Container(
                                         child: Container(
                                           height: 100.h,
@@ -132,34 +131,38 @@ class _AllPostsState extends State<AllPosts> {
   }
 }
 
-class VideoThumbnailWidget extends StatelessWidget {
+class VideoThumbnailWidget extends StatefulWidget {
   String? controller;
 
   VideoThumbnailWidget({this.controller});
 
-  String? fileName;
+  @override
+  State<VideoThumbnailWidget> createState() => _VideoThumbnailWidgetState();
+}
 
-  Future<String> getThumbnail() async {
-    fileName = await VideoThumbnail.thumbnailFile(
-      video: controller!,
-      // thumbnailPath: (await getTemporaryDirectory()).path,
-      imageFormat: ImageFormat.WEBP,
-      maxHeight:
-          64, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
-      quality: 75,
-    );
-    print(fileName);
-    return fileName!;
+class _VideoThumbnailWidgetState extends State<VideoThumbnailWidget> {
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    getThumbnail();
     return Container(
-        margin: EdgeInsets.fromLTRB(2, 2, 2, 2),
-        height: 100.h,
-        width: 100.h,
-        color: Colors.black,
-        child: Icon(Icons.play_arrow_outlined, color: Colors.white));
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.black,
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: NetworkImage(widget.controller!.replaceAll('.mp4', '.jpg')),
+          )),
+      child: Icon(Icons.play_arrow_outlined, color: Colors.white),
+
+      margin: EdgeInsets.fromLTRB(2, 2, 2, 2),
+      height: 100.h,
+      width: 100.h,
+
+      // child: Icon(Icons.play_arrow_outlined, color: Colors.white)
+    );
   }
 }

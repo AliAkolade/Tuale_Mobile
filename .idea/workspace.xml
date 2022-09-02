@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="31b73fd2-3a6d-4d7f-959c-6d17638313fb" name="Changes" comment="add navigation">
-      <change beforePath="$PROJECT_DIR$/mobile/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/lib/main.dart" afterDir="false" />
-    </list>
+    <list default="true" id="31b73fd2-3a6d-4d7f-959c-6d17638313fb" name="Changes" comment="complete deep linking" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -137,7 +135,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660735619712</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="complete deep linking">
+      <created>1662038577370</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1662038577370</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -160,17 +165,7 @@
     <MESSAGE value="uni_link works" />
     <MESSAGE value="uni_link done for android" />
     <MESSAGE value="add navigation" />
-    <option name="LAST_COMMIT_MESSAGE" value="add navigation" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/mobile/lib/screens/Auth/login_screen.dart</url>
-          <line>62</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="complete deep linking" />
+    <option name="LAST_COMMIT_MESSAGE" value="complete deep linking" />
   </component>
 </project>

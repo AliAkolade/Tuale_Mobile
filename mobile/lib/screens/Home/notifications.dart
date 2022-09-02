@@ -1,10 +1,8 @@
-import 'package:flutter/gestures.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:mobile/controller/loggedUserController.dart';
 import 'package:mobile/screens/Home/controllers/notificationsController.dart';
-import 'package:mobile/screens/Home/models/notificationsModel.dart';
 import 'package:mobile/screens/Home/models/notificationsModel.dart';
 import 'package:mobile/screens/Home/one_post_page.dart';
 import 'package:mobile/screens/imports.dart';
@@ -33,7 +31,12 @@ class _NotificationsState extends State<Notifications> {
             Get.find<LoggedUserController>().getLoggeduser();
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) {
-              return NavBar(index: 0);
+              return NavBar(
+                index: 0,
+                deepLinkPath: '',
+                deepLink: false,
+                deepLinkId: '',
+              );
             }));
           },
           child: const Icon(
@@ -174,7 +177,9 @@ class _NotificationsState extends State<Notifications> {
 class newFan extends StatelessWidget {
   String? username;
   String? id;
+
   newFan({this.username, this.id});
+
   @override
   Widget build(BuildContext context) {
     bool isFollowing() {
