@@ -143,8 +143,8 @@ class _NavBarState extends State<NavBar> {
         //height: 85.h,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
-              topRight: const Radius.circular(30),
-              topLeft: const Radius.circular(30)),
+              topRight: Radius.circular(30),
+              topLeft: Radius.circular(30)),
         ),
         child: BottomNavigationBar(
           unselectedItemColor: Colors.black,

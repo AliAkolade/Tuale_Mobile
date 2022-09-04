@@ -1,3 +1,4 @@
+import 'package:get/get.dart' as get_x;
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:mobile/screens/imports.dart';
@@ -10,6 +11,7 @@ class CuratedPostController extends GetxController {
   var isCommentLoading = false.obs;
   int curatedNo = 2;
   List more = [];
+
   onInit() {
     getCuratedPosts();
     super.onInit();
@@ -28,13 +30,48 @@ class CuratedPostController extends GetxController {
   //   } catch (e) {}
   // }
 
+  login() async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    String username = prefs.getString("username") ?? "";
+    String password = prefs.getString("password") ?? "";
+
+    Dio dio = Dio();
+    Response response = await dio.post(hostAPI + loginUserAPI,
+        data: {"email": username, "password": password});
+    debugPrint(response.data.toString());
+    var responseData = response.data;
+    debugPrint(responseData.toString());
+    if (responseData['success'].toString() == 'true') {
+      // MixPanelSingleton.instance.mixpanel.timeEvent("Image Upload");
+      // MixPanelSingleton.instance.mixpanel.track("Image Upload");
+      MixPanelSingleton.instance.mixpanel
+          .track('Login', properties: {'User': username});
+      MixPanelSingleton.instance.mixpanel.getPeople().set("Email", username);
+      MixPanelSingleton.instance.mixpanel
+          .getPeople()
+          .set("Name", responseData['name'].toString());
+      MixPanelSingleton.instance.mixpanel.flush();
+
+      debugPrint('Login Successful');
+
+      prefs.setString('token', responseData['token'].toString());
+
+      prefs.setBool('isLoggedIn', true);
+      onInit();
+    } else {
+      prefs.setBool('isLoggedIn', false);
+      get_x.Get.to(const Login());
+    }
+  }
+
   Future getCuratedPosts() async {
     try {
       isCommentLoading.value = true;
       // var pageNum = 1;
       if (curatedPageNo == 1) {
         curatedPost.value = await _api.getCuratedPost(curatedPageNo);
-       // curatedPageNo = curatedPageNo + 1;
+        // curatedPageNo = curatedPageNo + 1;
       } else {
         curatedPost.value.clear();
         for (int i = 1; i <= curatedPageNo; i++) {
@@ -49,13 +86,28 @@ class CuratedPostController extends GetxController {
       //  print(curatedPost.value[0]);
       update();
     } catch (e) {
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      prefs.setBool('isLoggedIn', false);
+
+      debugPrint("Got Errors!");
+      debugPrint("Got Errors!");
+      debugPrint("Got Errors!");
+      debugPrint("Got Errors!");
+      debugPrint("Got Errors!");
+      debugPrint("Got Errors!");
+      debugPrint("Got Errors!");
+      debugPrint("Got Errors!");
+      debugPrint("Got Errors!");
+      debugPrint("Got Errors!");
+      debugPrint("Got Errors!");
     } finally {
       isCommentLoading.value = false;
     }
   }
 
   Future getMoreCuratedPosts() async {
-   curatedPageNo = curatedPageNo + 1;
+    curatedPageNo = curatedPageNo + 1;
     print('currentpageNoooooooooo${curatedPageNo}');
     isLoading.value = true;
     try {
@@ -66,7 +118,7 @@ class CuratedPostController extends GetxController {
         curatedPageNo = curatedPageNo - 1;
         print('currentpageNoooooooooo${curatedPageNo}');
       } else {
-         // curatedPageNo = curatedPageNo + 1;
+        // curatedPageNo = curatedPageNo + 1;
         print("addition");
         print(more.length);
         for (var i in more) {
