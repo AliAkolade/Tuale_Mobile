@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="31b73fd2-3a6d-4d7f-959c-6d17638313fb" name="Changes" comment="updates">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/lib/screens/Auth/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/lib/screens/Auth/login_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/lib/screens/Home/controllers/getCuratedPost.dart" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/lib/screens/Home/controllers/getCuratedPost.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/lib/screens/Profile/user_Profile_Screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/lib/screens/Profile/user_Profile_Screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/lib/screens/nav_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/lib/screens/nav_bar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/pubspec.lock" afterDir="false" />
-    </list>
+    <list default="true" id="31b73fd2-3a6d-4d7f-959c-6d17638313fb" name="Changes" comment="fix jwt error" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -153,7 +142,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662038577370</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="fix jwt error">
+      <created>1662292496494</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1662292496494</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -177,6 +173,7 @@
     <MESSAGE value="uni_link done for android" />
     <MESSAGE value="add navigation" />
     <MESSAGE value="complete deep linking" />
-    <option name="LAST_COMMIT_MESSAGE" value="complete deep linking" />
+    <MESSAGE value="fix jwt error" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix jwt error" />
   </component>
 </project>
